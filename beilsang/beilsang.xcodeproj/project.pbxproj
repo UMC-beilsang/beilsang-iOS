@@ -15,6 +15,15 @@
 		2F0838972B564086002E2551 /* beilsangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838962B564086002E2551 /* beilsangTests.swift */; };
 		2F0838A12B564086002E2551 /* beilsangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A02B564086002E2551 /* beilsangUITests.swift */; };
 		2F0838A32B564086002E2551 /* beilsangUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */; };
+		2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */; };
+		2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */; };
+		2F48E0962B5BB44C002F3D4A /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */; };
+		2F48E0992B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08E2B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf */; };
+		2F48E09A2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */; };
+		2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */; };
+		2F48E09E2B5BB45E002F3D4A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2F48E09D2B5BB45E002F3D4A /* SnapKit */; };
+		2F48E0A02B5BB45E002F3D4A /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2F48E09F2B5BB45E002F3D4A /* SnapKit-Dynamic */; };
+		2F48E0A32B5BB46B002F3D4A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2F48E0A22B5BB46B002F3D4A /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +56,12 @@
 		2F08389C2B564086002E2551 /* beilsangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = beilsangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F0838A02B564086002E2551 /* beilsangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITests.swift; sourceTree = "<group>"; };
 		2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
+		2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.ttf"; sourceTree = "<group>"; };
+		2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
+		2F48E08E2B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-SemiBold.ttf"; sourceTree = "<group>"; };
+		2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.ttf"; sourceTree = "<group>"; };
+		2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +69,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F48E0A32B5BB46B002F3D4A /* Alamofire in Frameworks */,
+				2F48E09E2B5BB45E002F3D4A /* SnapKit in Frameworks */,
+				2F48E0A02B5BB45E002F3D4A /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,12 +115,11 @@
 		2F08387E2B564085002E2551 /* beilsang */ = {
 			isa = PBXGroup;
 			children = (
-				2F08387F2B564085002E2551 /* AppDelegate.swift */,
-				2F0838812B564085002E2551 /* SceneDelegate.swift */,
-				2F0838832B564085002E2551 /* ViewController.swift */,
-				2F0838882B564086002E2551 /* Assets.xcassets */,
-				2F08388A2B564086002E2551 /* LaunchScreen.storyboard */,
 				2F08388D2B564086002E2551 /* Info.plist */,
+				2F0838882B564086002E2551 /* Assets.xcassets */,
+				2FC63CD82B5BB3A50050139A /* Model */,
+				2FC63CD62B5BB3990050139A /* View */,
+				2FC63CD72B5BB39C0050139A /* Controller */,
 			);
 			path = beilsang;
 			sourceTree = "<group>";
@@ -124,6 +141,45 @@
 			path = beilsangUITests;
 			sourceTree = "<group>";
 		};
+		2F48E0852B5BB3D5002F3D4A /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */,
+				2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */,
+				2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */,
+				2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */,
+				2F48E08E2B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf */,
+				2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		2FC63CD62B5BB3990050139A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2F08388A2B564086002E2551 /* LaunchScreen.storyboard */,
+				2F0838812B564085002E2551 /* SceneDelegate.swift */,
+				2F08387F2B564085002E2551 /* AppDelegate.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2FC63CD72B5BB39C0050139A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2F0838832B564085002E2551 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2FC63CD82B5BB3A50050139A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2F48E0852B5BB3D5002F3D4A /* Font */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,6 +196,11 @@
 			dependencies = (
 			);
 			name = beilsang;
+			packageProductDependencies = (
+				2F48E09D2B5BB45E002F3D4A /* SnapKit */,
+				2F48E09F2B5BB45E002F3D4A /* SnapKit-Dynamic */,
+				2F48E0A22B5BB46B002F3D4A /* Alamofire */,
+			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
 			productType = "com.apple.product-type.application";
@@ -212,6 +273,10 @@
 				Base,
 			);
 			mainGroup = 2F0838732B564085002E2551;
+			packageReferences = (
+				2F48E09C2B5BB45E002F3D4A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				2F48E0A12B5BB46B002F3D4A /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -228,8 +293,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F48E0992B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf in Resources */,
+				2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */,
 				2F08388C2B564086002E2551 /* LaunchScreen.storyboard in Resources */,
+				2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */,
+				2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */,
 				2F0838892B564086002E2551 /* Assets.xcassets in Resources */,
+				2F48E09A2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf in Resources */,
+				2F48E0962B5BB44C002F3D4A /* NotoSansKR-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,6 +658,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2F48E09C2B5BB45E002F3D4A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.0;
+			};
+		};
+		2F48E0A12B5BB46B002F3D4A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2F48E09D2B5BB45E002F3D4A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F48E09C2B5BB45E002F3D4A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		2F48E09F2B5BB45E002F3D4A /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F48E09C2B5BB45E002F3D4A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		2F48E0A22B5BB46B002F3D4A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F48E0A12B5BB46B002F3D4A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2F0838742B564085002E2551 /* Project object */;
 }
