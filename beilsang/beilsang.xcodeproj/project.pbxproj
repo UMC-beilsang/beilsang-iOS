@@ -24,6 +24,7 @@
 		2F48E09E2B5BB45E002F3D4A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2F48E09D2B5BB45E002F3D4A /* SnapKit */; };
 		2F48E0A02B5BB45E002F3D4A /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2F48E09F2B5BB45E002F3D4A /* SnapKit-Dynamic */; };
 		2F48E0A32B5BB46B002F3D4A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2F48E0A22B5BB46B002F3D4A /* Alamofire */; };
+		2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B0D2B5BBB59007FD879 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		2F48E08E2B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-SemiBold.ttf"; sourceTree = "<group>"; };
 		2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.ttf"; sourceTree = "<group>"; };
 		2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
+		2FC53B0D2B5BBB59007FD879 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			children = (
 				2F08388A2B564086002E2551 /* LaunchScreen.storyboard */,
 				2F0838812B564085002E2551 /* SceneDelegate.swift */,
+				2FC53B0D2B5BBB59007FD879 /* LoginViewController.swift */,
 				2F08387F2B564085002E2551 /* AppDelegate.swift */,
 			);
 			path = View;
@@ -325,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,

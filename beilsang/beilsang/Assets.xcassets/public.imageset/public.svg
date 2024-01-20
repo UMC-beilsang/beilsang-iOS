@@ -1,0 +1,14 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon_bus">
+<g id="Group 1000002717">
+<rect id="Rectangle 34624370" x="9.6" y="8.6" width="36.8" height="36.8" rx="2.4" fill="white" stroke="#7B87DB" stroke-width="3.2" stroke-linejoin="round"/>
+<path id="Rectangle 34624372" d="M9.6 24.6H46.4V43C46.4 44.3255 45.3255 45.4 44 45.4H12C10.6745 45.4 9.6 44.3255 9.6 43V24.6Z" fill="#BEC8FF" stroke="#7B87DB" stroke-width="3.2" stroke-linejoin="round"/>
+<path id="Line 1054" d="M5 26L5 21" stroke="#7B87DB" stroke-width="3.2" stroke-linecap="round"/>
+<path id="Line 1055" d="M51 26L51 21" stroke="#7B87DB" stroke-width="3.2" stroke-linecap="round"/>
+<circle id="Ellipse 1699" cx="17" cy="37" r="2" fill="#7B87DB"/>
+<circle id="Ellipse 1700" cx="39" cy="37" r="2" fill="#7B87DB"/>
+<circle id="Ellipse 1701" cx="17" cy="47" r="2" fill="#7B87DB"/>
+<circle id="Ellipse 1702" cx="39" cy="47" r="2" fill="#7B87DB"/>
+</g>
+</g>
+</svg>
