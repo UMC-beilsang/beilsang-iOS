@@ -35,19 +35,35 @@ class JoinCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    override var isSelected: Bool {
+            didSet{
+                if isSelected {
+                    keywordView.backgroundColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 0.3)
+                    keywordView.layer.borderColor = UIColor(red: 0.75, green: 0.78, blue: 1, alpha: 1).cgColor
+                    
+                }
+                else {
+                    keywordView.backgroundColor = .clear
+                    keywordView.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1).cgColor
+                }
+            }
+        }
+    
+    //사용자가 선택한 셀에 따라 POST
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setJoinLayout()
+        setKeywordLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setJoinLayout()
+        setKeywordLayout()
     }
 }
 
 extension JoinCollectionViewCell {
-    func setJoinLayout() {
+    func setKeywordLayout() {
         addSubview(keywordView)
         keywordView.addSubview(keywordImage)
         keywordView.addSubview(keywordLabel)

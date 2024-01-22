@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
     lazy var appleButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = UIColor(red: 0.99, green: 0.99, blue: 0.99, alpha: 1)
-        view.setTitle("Apple로 시작하기", for: .normal)
+        view.setTitle("Apple로 계속하기", for: .normal)
         view.setTitleColor(UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1), for: .normal)
         view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.layer.borderWidth = 1

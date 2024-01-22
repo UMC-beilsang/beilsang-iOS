@@ -8,72 +8,28 @@
 import UIKit
 import SnapKit
 
-class JoinViewController: UIViewController {
+class KeywordViewController: UIViewController {
     
     let dataList = Keyword.data
     let width = UIScreen.main.bounds.width
+    let colorView = UIView()
     
     lazy var joinCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    lazy var progressView: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .horizontal
-        view.alignment = .fill
-        view.distribution = .equalSpacing
-        view.spacing = 12
-        return view
-    }()
-    
-    lazy var currentProgress: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 1)
-        view.layer.cornerRadius = 6
-        
-        return view
-        
-    }()
-    
-    lazy var smallProgress1: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1)
-        view.layer.cornerRadius = 6
+    lazy var progressView: UIProgressView = {
+        let view = UIProgressView()
+        view.trackTintColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        view.progressTintColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 1)
+        view.progress = 0.25
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 4
         
         return view
     }()
-   
-    lazy var smallProgress2: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1)
-        view.layer.cornerRadius = 6
-        
-        return view
-    }()
-   
-    lazy var smallProgress3: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1)
-        view.layer.cornerRadius = 6
-        
-        return view
-    }()
-    
-    
-    //lazy var progressView: UIProgressView = {
-    //    let view = UIProgressView()
-    //    view.trackTintColor = .lightGray
-    //    view.progressTintColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 1)
-    //    view.progress = 0.25
-    //    return view
-    //}()
     
     lazy var joinLabel: UILabel = {
         let view = UILabel()
-        view.text = "앤님의 비일상 키워드를 한 가지 선택해주세요"
+        view.text = "비일상 키워드를\n한 가지 선택해주세요"
         view.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         view.numberOfLines = 2
         view.textColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1)
@@ -95,6 +51,8 @@ class JoinViewController: UIViewController {
         return view
     }()
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,34 +65,16 @@ class JoinViewController: UIViewController {
         view.addSubview(joinLabel)
         view.addSubview(nextButton)
         view.addSubview(joinCollectionView)
-        
-        progressView.addArrangedSubview(currentProgress)
-        progressView.addArrangedSubview(smallProgress1)
-        progressView.addArrangedSubview(smallProgress2)
-        progressView.addArrangedSubview(smallProgress3)
+
        
         
         progressView.snp.makeConstraints{ make in
             make.top.equalToSuperview().offset(84)
             make.leading.equalToSuperview().offset(16)
-            make.height.equalTo(12)
+            make.width.equalTo(192)
+            make.height.equalTo(8)
         }
         
-        currentProgress.snp.makeConstraints{ make in
-            make.width.equalTo(48)
-        }
-        
-        smallProgress1.snp.makeConstraints{ make in
-            make.width.equalTo(12)
-        }
-        
-        smallProgress2.snp.makeConstraints{ make in
-            make.width.equalTo(12)
-        }
-        
-        smallProgress3.snp.makeConstraints{ make in
-            make.width.equalTo(12)
-        }
         
         joinLabel.snp.makeConstraints{ make in
             make.leading.equalToSuperview().offset(16)
@@ -159,7 +99,7 @@ class JoinViewController: UIViewController {
     }
 }
 
-extension JoinViewController: UICollectionViewDataSource {
+extension KeywordViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataList.count
@@ -185,10 +125,10 @@ extension JoinViewController: UICollectionViewDataSource {
     
 
         
-extension JoinViewController: UICollectionViewDelegateFlowLayout {
+extension KeywordViewController: UICollectionViewDelegateFlowLayout {
     //셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 110 , height: 110)
     }
 }
-    
+
