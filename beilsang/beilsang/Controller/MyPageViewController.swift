@@ -20,7 +20,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var myPageTitle: UILabel = {
         let label = UILabel()
         label.text = "마이페이지"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 22)
         
         return label
@@ -64,7 +64,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         let label = UILabel()
         var name = "앤"
         label.text = "안녕하세요, " + name + "님"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 18)
         return label
     }()
@@ -98,7 +98,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var feed: UILabel = {
         let label = UILabel()
         label.text = "피드"
-        label.textColor = UIColor(red: 0.424, green: 0.424, blue: 0.424, alpha: 1)
+        label.textColor = UIColor(named: "feedLabel")
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         label.textAlignment = .center
         return label
@@ -106,7 +106,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var goal: UILabel = {
         let label = UILabel()
         label.text = "달성"
-        label.textColor = UIColor(red: 0.424, green: 0.424, blue: 0.424, alpha: 1)
+        label.textColor = UIColor(named: "feedLabel")
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         label.textAlignment = .center
         return label
@@ -114,7 +114,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var fail: UILabel = {
         let label = UILabel()
         label.text = "실패"
-        label.textColor = UIColor(red: 0.424, green: 0.424, blue: 0.424, alpha: 1)
+        label.textColor = UIColor(named: "feedLabel")
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         label.textAlignment = .center
         return label
@@ -123,7 +123,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var feedCount : UILabel = {
         let label = UILabel()
         label.text = "20"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
@@ -131,7 +131,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var goalCount : UILabel = {
         let label = UILabel()
         label.text = "18"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
@@ -139,7 +139,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var failCount : UILabel = {
         let label = UILabel()
         label.text = "13"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
@@ -147,7 +147,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
 
     lazy var commentBox: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
+        view.layer.backgroundColor = UIColor(.white).cgColor
         view.layer.cornerRadius = 10
         return view
     }()
@@ -156,7 +156,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         let label = UILabel()
         var comment = "일상생활 속 꾸준하게 실천하는"
         label.text = "🙌  " + comment
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
 
         return label
@@ -165,7 +165,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "나의 챌린지"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 18)
         
         return label
@@ -174,7 +174,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeBox: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
-        view.backgroundColor = UIColor(red: 0.973, green: 0.973, blue: 0.973, alpha: 1)
+        view.backgroundColor = UIColor(named: "challengeBox")
         return view
     }()
     
@@ -202,7 +202,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var checkLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "참여 중"
         return label
@@ -210,7 +210,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var starLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "찜"
         return label
@@ -218,7 +218,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var pointLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "포인트"
         return label
@@ -226,7 +226,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var badgeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "업적"
         return label
@@ -262,22 +262,22 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var line1 : UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1)
+        view.backgroundColor = UIColor(named: "challengeLine")
         return view
     }()
     lazy var line2 : UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1)
+        view.backgroundColor = UIColor(named: "challengeLine")
         return view
     }()
     lazy var line3 : UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1)
+        view.backgroundColor = UIColor(named: "challengeLine")
         return view
     }()
     lazy var myChallengeUnderBar: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 0.973, green: 0.973, blue: 0.973, alpha: 1)
+        view.backgroundColor = UIColor(named: "challengeBox")
         return view
     }()
     lazy var checkButton: UIButton = {
@@ -304,20 +304,20 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var myChallengeFeedLabel: UILabel = {
         let label = UILabel()
         label.text = "나의 챌린지 피드"
-        label.textColor = UIColor(red: 0.133, green: 0.133, blue: 0.133, alpha: 1)
+        label.textColor = UIColor(.black)
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 18)
         return label
     }()
     lazy var showAllChallengeFeedView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 9
-        view.backgroundColor = UIColor(red: 0.973, green: 0.973, blue: 0.973, alpha: 1)
+        view.backgroundColor = UIColor(named: "challengeBox")
         return view
     }()
     lazy var showAllChallengeFeedLabel: UILabel = {
         let label = UILabel()
         label.text = "전체 보기"
-        label.textColor = UIColor(red: 0.361, green: 0.408, blue: 0.596, alpha: 1)
+        label.textColor = UIColor(named: "showAllFeedLabel")
         label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
         return label
     }()
