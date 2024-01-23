@@ -1,0 +1,18 @@
+<svg width="99" height="118" viewBox="0 0 99 118" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Logo_app">
+<g id="Logo">
+<path id="Union" fill-rule="evenodd" clip-rule="evenodd" d="M4.07932 0.000244141C1.82637 0.000244141 0 1.82662 0 4.07956V48.0002H7.01398e-05V87.1208C7.01398e-05 89.3737 1.82645 91.2001 4.07939 91.2001H48.0001C61.2549 91.2001 72.0001 80.4549 72.0001 67.2001C72.0001 57.7004 66.4808 49.4899 58.4741 45.6001C66.4808 41.7104 72 33.4998 72 24.0002C72 10.7454 61.2548 0.000244141 48 0.000244141H4.07932Z" fill="url(#paint0_linear_500_4397)" fill-opacity="0.5"/>
+<circle id="Ellipse 1698" cx="62.3989" cy="81.6006" r="36" fill="url(#paint1_linear_500_4397)" fill-opacity="0.5"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_500_4397" x1="72" y1="91.2002" x2="4.21441" y2="24.798" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A9B5FF"/>
+<stop offset="1" stop-color="#A9DEE2"/>
+</linearGradient>
+<linearGradient id="paint1_linear_500_4397" x1="62.3989" y1="45.6006" x2="62.3989" y2="117.601" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A9B5FF"/>
+<stop offset="1" stop-color="#A9DEE2"/>
+</linearGradient>
+</defs>
+</svg>
