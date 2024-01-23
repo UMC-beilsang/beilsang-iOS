@@ -32,6 +32,7 @@
 		2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C252B5EC56C0022C4F3 /* SnapKit */; };
 		2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
+		2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinKeyword.swift; sourceTree = "<group>"; };
 		2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordViewController.swift; sourceTree = "<group>"; };
 		2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */,
 				2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */,
 				2FC4CA5C2B5E757700C0DB84 /* RouteViewController.swift */,
+				2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */,
 				2F0838832B564085002E2551 /* ViewController.swift */,
 			);
 			path = Controller;
@@ -354,6 +357,7 @@
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
+				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,

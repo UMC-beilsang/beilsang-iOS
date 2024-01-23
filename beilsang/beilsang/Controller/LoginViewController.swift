@@ -10,7 +10,8 @@ import SnapKit
 
 class LoginViewController: UIViewController {
     
-    // 로고
+    //MARK: - Properties
+    
     lazy var logoColorImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "Logo_app_color")
@@ -19,7 +20,6 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    // 카카오 로그인 버튼
     lazy var kakaoButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = UIColor(red: 1, green: 0.95, blue: 0.3, alpha: 1)
@@ -31,16 +31,13 @@ class LoginViewController: UIViewController {
         view.layer.cornerRadius = 10
         if let kakaoIcon = UIImage(named: "Kakao_logo") {
             view.setImage(kakaoIcon, for: .normal)
-            //수정 필요!
             view.imageEdgeInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
            }
-        //constraints를 cumtom으로 설정
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
     
-    // 애플 로그인 버튼
     lazy var appleButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = UIColor(red: 0.99, green: 0.99, blue: 0.99, alpha: 1)
@@ -52,35 +49,31 @@ class LoginViewController: UIViewController {
         view.layer.cornerRadius = 10
         if let appleIcon = UIImage(named: "Apple_logo") {
             view.setImage(appleIcon, for: .normal)
-            //수정 필요!
             view.imageEdgeInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
            }
-        //constraints를 cumtom으로 설정
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
     
+    //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        
-        setLayout()
-
-        // Do any additional setup after loading the view.
+        setupUI()
+        setupLayout()
     }
-
-}
-
-
-extension LoginViewController{
-    func setLayout(){
+    
+    //MARK: - UI Setup
+    
+    private func setupUI() {
+        view.backgroundColor = .white
         view.addSubview(logoColorImage)
         view.addSubview(kakaoButton)
         view.addSubview(appleButton)
-        
+    }
+    
+    private func setupLayout() {
         logoColorImage.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
             make.top.equalTo(256)
@@ -104,4 +97,3 @@ extension LoginViewController{
         }
     }
 }
-
