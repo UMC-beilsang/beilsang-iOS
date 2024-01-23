@@ -11,18 +11,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
+    // MARK: - mypage 화면 보기 위한 설정
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+            
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
-        let mainViewController = HomeMainViewController() // 맨 처음 보여줄 ViewController
 
-        window?.rootViewController = mainViewController
+        window = UIWindow(windowScene: windowScene)
+        // 여기서 화면 변경
+        window?.rootViewController = UIViewController()
+        window?.backgroundColor = .systemBackground
         window?.makeKeyAndVisible()
     }
+
+//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+//        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
+//        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+//        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
+//        let mainViewController = ViewController() // 맨 처음 보여줄 ViewController
+//
+//        window?.rootViewController = mainViewController
+//        window?.makeKeyAndVisible()
+//    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
