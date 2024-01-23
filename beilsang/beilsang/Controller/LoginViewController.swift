@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
         let view = UIButton()
         view.backgroundColor = UIColor(red: 1, green: 0.95, blue: 0.3, alpha: 1)
         view.setTitle("카카오톡으로 로그인하기", for: .normal)
-        view.setTitleColor(UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1), for: .normal)
+        view.setTitleColor(.beTextDef, for: .normal)
         view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor(red: 1, green: 0.93, blue: 0, alpha: 1).cgColor
@@ -40,12 +40,12 @@ class LoginViewController: UIViewController {
     
     lazy var appleButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = UIColor(red: 0.99, green: 0.99, blue: 0.99, alpha: 1)
+        view.backgroundColor = .beBgCard
         view.setTitle("Apple로 계속하기", for: .normal)
-        view.setTitleColor(UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1), for: .normal)
+        view.setTitleColor(.beTextDef, for: .normal)
         view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1).cgColor
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
         view.layer.cornerRadius = 10
         if let appleIcon = UIImage(named: "Apple_logo") {
             view.setImage(appleIcon, for: .normal)

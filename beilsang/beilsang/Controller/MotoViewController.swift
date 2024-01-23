@@ -19,18 +19,17 @@ class MotoViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MotoCollectionViewCell.self, forCellWithReuseIdentifier: MotoCollectionViewCell.identifier)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .beBgDef
         return collectionView
     }()
     
     lazy var progressView: UIProgressView = {
         let view = UIProgressView()
-        view.trackTintColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        view.progressTintColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 1)
+        view.trackTintColor = .beBgDiv
+        view.progressTintColor = .bePrPurple500
         view.progress = 0.5
         view.clipsToBounds = true
         view.layer.cornerRadius = 4
-        
         return view
     }()
     
@@ -39,7 +38,7 @@ class MotoViewController: UIViewController {
         view.text = "비일상을 통해 이루고 싶은 다짐을 입력해 주세요!"
         view.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         view.numberOfLines = 2
-        view.textColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1)
+        view.textColor = .beTextDef
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
         
@@ -47,16 +46,17 @@ class MotoViewController: UIViewController {
     }()
     
     lazy var nextButton: UIButton = {
-        let view = UIButton()
-        view.backgroundColor = UIColor(red: 0.75, green: 0.78, blue: 1, alpha: 1)
-        view.setTitle("다음으로", for: .normal)
-        view.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isEnabled = false
-        view.addTarget(self, action: #selector(nextAction), for: .touchDown)
-        return view
+        let button = UIButton()
+        button.backgroundColor = .beScPurple400
+        button.setTitle("다음으로", for: .normal)
+        button.setTitleColor(.beTextWhite, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(nextAction), for: .touchDown)
+        
+        return button
     }()
     
     //MARK: - Lifecycle
@@ -71,7 +71,7 @@ class MotoViewController: UIViewController {
     
     private func setupUI() {
         navigationBarHidden()
-        view.backgroundColor = .white
+        view.backgroundColor = .beBgDef
         view.addSubview(progressView)
         view.addSubview(joinmotoLabel)
         view.addSubview(nextButton)
@@ -118,20 +118,16 @@ class MotoViewController: UIViewController {
     // MARK: - Button Disabled
     
     private func selectedMoto(for cell: MotoCollectionViewCell) {
-        var check = true
+        let check = cell.isSelected
         
-        if cell.isSelected == false {
-            check = false
-        }
         if check {
             nextButton.isEnabled = true
-            nextButton.backgroundColor = UIColor(red: 0.48, green: 0.53, blue: 0.86, alpha: 1)
+            nextButton.backgroundColor = .beScPurple600
         } else {
             nextButton.isEnabled = false
-            nextButton.backgroundColor = UIColor(red: 0.75, green: 0.78, blue: 1, alpha: 1)
-            // check 변수 사용 또는 반환 등을 진행
+            nextButton.backgroundColor = .beScPurple400
+            // 필요한 경우 check 변수 사용 또는 반환 등을 진행
         }
-        
     }
     
     // MARK: - Actions
@@ -167,7 +163,7 @@ extension MotoViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.motoLabel.text = target.title
         cell.motoImage.text = target.image
         
-        cell.backgroundColor = .white
+        cell.backgroundColor = .beBgDef
         
         
         return cell
