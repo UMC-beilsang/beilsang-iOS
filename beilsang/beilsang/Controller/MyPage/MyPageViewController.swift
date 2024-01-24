@@ -642,6 +642,3 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     
     
 }
-
-
-
