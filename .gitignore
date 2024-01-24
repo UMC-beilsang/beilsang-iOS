@@ -52,6 +52,6 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # Delegate 
-/beilsang/beilsang/View/SceneDelegate.swift
-/beilsang/beilsang/View/AppDelegate.swift
+/**/**/SceneDelegate.swift
+/**/**/AppDelegate.swift
 # End of https://www.toptal.com/developers/gitignore/api/macos,xcode
