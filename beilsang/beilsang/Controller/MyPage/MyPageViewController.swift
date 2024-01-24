@@ -193,11 +193,6 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         view.image = UIImage(named: "icon-point")
         return view
     }()
-    lazy var badgeImage: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "icon-badge")
-        return view
-    }()
     
     lazy var checkLabel: UILabel = {
         let label = UILabel()
@@ -223,14 +218,6 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.text = "포인트"
         return label
     }()
-    lazy var badgeLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor(.black)
-        label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        label.text = "업적"
-        return label
-    }()
     lazy var checkCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -252,25 +239,12 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.text = "916"
         return label
     }()
-
-    lazy var badgeCount: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = UIFont(name: "NotoSansKR-Regular", size: 14)
-        label.text = "2"
-        return label
-    }()
     lazy var line1 : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "challengeLine")
         return view
     }()
     lazy var line2 : UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "challengeLine")
-        return view
-    }()
-    lazy var line3 : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "challengeLine")
         return view
@@ -291,11 +265,6 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     lazy var pointButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        return button
-    }()
-    lazy var badgeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
         return button
@@ -387,7 +356,7 @@ extension MyPageViewController {
         //상단부
         [myPageTitle, firstBar, notificationButton, rectangleBox, nameLabel, profileShadowView, settingBackground, feed, goal, fail, feedCount, goalCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
         //중앙부
-        [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, badgeImage, checkLabel, starLabel, pointLabel,badgeLabel, checkCount, starCount, pointCount, badgeCount, line1, line2, line3, myChallengeUnderBar, checkButton, starButton, pointButton, badgeButton].forEach{view in fullContentView.addSubview(view)}
+        [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, checkLabel, starLabel, pointLabel, checkCount, starCount, pointCount, line1, line2, myChallengeUnderBar, checkButton, starButton, pointButton].forEach{view in fullContentView.addSubview(view)}
         
         //하단부
         [myChallengeFeedLabel, showAllChallengeFeedView, showAllChallengeFeedLabel, showAllChallengeFeedButton, myChallengeCollectionView].forEach{view in fullContentView.addSubview(view)}
@@ -497,23 +466,18 @@ extension MyPageViewController {
         checkImage.snp.makeConstraints { make in
             make.width.equalTo(35)
             make.height.equalTo(35)
-            make.leading.equalTo(challengeBox.snp.leading).offset(28)
+            make.leading.equalTo(challengeBox.snp.leading).offset(45)
             make.top.equalTo(challengeBox.snp.top).offset(19)
         }
         starImage.snp.makeConstraints { make in
             make.size.equalTo(checkImage)
             make.centerY.equalTo(checkImage)
-            make.leading.equalTo(checkImage.snp.trailing).offset(55)
+            make.leading.equalTo(checkImage.snp.trailing).offset(82)
         }
         pointImage.snp.makeConstraints { make in
             make.size.equalTo(checkImage)
             make.centerY.equalTo(checkImage)
-            make.leading.equalTo(starImage.snp.trailing).offset(55)
-        }
-        badgeImage.snp.makeConstraints { make in
-            make.size.equalTo(checkImage)
-            make.centerY.equalTo(checkImage)
-            make.leading.equalTo(pointImage.snp.trailing).offset(55)
+            make.leading.equalTo(starImage.snp.trailing).offset(79)
         }
         checkLabel.snp.makeConstraints { make in
             make.top.equalTo(challengeBox.snp.top).offset(62)
@@ -527,10 +491,6 @@ extension MyPageViewController {
             make.centerY.equalTo(checkLabel)
             make.centerX.equalTo(pointImage)
         }
-        badgeLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(checkLabel)
-            make.centerX.equalTo(badgeImage)
-        }
         checkCount.snp.makeConstraints { make in
             make.top.equalTo(challengeBox.snp.top).offset(86)
             make.centerX.equalTo(checkImage)
@@ -543,18 +503,15 @@ extension MyPageViewController {
             make.centerY.equalTo(checkCount)
             make.centerX.equalTo(pointImage)
         }
-        badgeCount.snp.makeConstraints { make in
-            make.centerY.equalTo(checkCount)
-            make.centerX.equalTo(badgeImage)
-        }
         checkButton.snp.makeConstraints { make in
-            make.width.equalTo(90)
+            make.width.equalTo(122)
             make.height.equalTo(challengeBox)
             make.leading.equalTo(challengeBox)
             make.top.equalTo(challengeBox.snp.top)
         }
         starButton.snp.makeConstraints { make in
-            make.size.equalTo(checkButton)
+            make.width.equalTo(114)
+            make.height.equalTo(checkButton)
             make.leading.equalTo(line1.snp.trailing)
             make.top.equalTo(challengeBox.snp.top)
         }
@@ -563,26 +520,16 @@ extension MyPageViewController {
             make.leading.equalTo(line2.snp.trailing)
             make.top.equalTo(challengeBox.snp.top)
         }
-        badgeButton.snp.makeConstraints { make in
-            make.size.equalTo(checkButton)
-            make.leading.equalTo(line3.snp.trailing)
-            make.top.equalTo(challengeBox.snp.top)
-        }
         line1.snp.makeConstraints { make in
             make.width.equalTo(1)
             make.height.equalTo(100)
             make.top.equalTo(challengeBox).offset(12)
-            make.leading.equalTo(challengeBox).offset(90)
+            make.leading.equalTo(challengeBox).offset(122)
         }
         line2.snp.makeConstraints { make in
             make.size.equalTo(line1)
             make.top.equalTo(challengeBox).offset(12)
-            make.leading.equalTo(line1).offset(90)
-        }
-        line3.snp.makeConstraints { make in
-            make.size.equalTo(line1)
-            make.top.equalTo(challengeBox).offset(12)
-            make.leading.equalTo(line2).offset(90)
+            make.leading.equalTo(line1).offset(114)
         }
         myChallengeUnderBar.snp.makeConstraints { make in
             make.width.equalToSuperview()
