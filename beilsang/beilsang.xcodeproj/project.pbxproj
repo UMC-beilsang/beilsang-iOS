@@ -60,7 +60,7 @@
 		2F08387F2B564085002E2551 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F0838812B564085002E2551 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2F0838832B564085002E2551 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2F0838882B564086002E2551 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2F0838882B564086002E2551 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Model/Assets.xcassets; sourceTree = "<group>"; };
 		2F08388B2B564086002E2551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2F08388D2B564086002E2551 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F0838922B564086002E2551 /* beilsangTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = beilsangTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,7 +84,7 @@
 		2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordViewController.swift; sourceTree = "<group>"; };
 		2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
-		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyChallengeFeedCollectionViewCell.swift; path = ../../../../../MyChallengeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyChallengeFeedCollectionViewCell.swift; path = "/Users/seyoung/Coding/Project/Git/Beilsang_git/beilsang-iOS/beilsang/beilsang/View/MyPage/MyChallengeFeedCollectionViewCell.swift"; sourceTree = "<absolute>"; };
 		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				2F08388D2B564086002E2551 /* Info.plist */,
+				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2FC63CD82B5BB3A50050139A /* Model */,
 				2FC63CD62B5BB3990050139A /* View */,
 				2FC63CD72B5BB39C0050139A /* Controller */,
@@ -217,7 +218,6 @@
 			children = (
 				2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */,
 				2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */,
-				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2F69039A2B60427100A7716D /* Utility */,
 				2F48E0852B5BB3D5002F3D4A /* Font */,
 			);
