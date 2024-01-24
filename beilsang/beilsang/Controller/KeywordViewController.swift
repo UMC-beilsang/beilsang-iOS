@@ -19,14 +19,14 @@ class KeywordViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(JoinCollectionViewCell.self, forCellWithReuseIdentifier: JoinCollectionViewCell.identifier)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .beBgDef
         return collectionView
     }()
     
     lazy var progressView: UIProgressView = {
         let view = UIProgressView()
-        view.trackTintColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        view.progressTintColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 1)
+        view.trackTintColor = .beBgDiv
+        view.progressTintColor = .bePrPurple500
         view.progress = 0.25
         view.clipsToBounds = true
         view.layer.cornerRadius = 4
@@ -38,7 +38,7 @@ class KeywordViewController: UIViewController {
         label.text = "비일상 키워드를\n한 가지 선택해주세요"
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         label.numberOfLines = 2
-        label.textColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1)
+        label.textColor = .beTextDef
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         return label
@@ -46,14 +46,15 @@ class KeywordViewController: UIViewController {
     
     lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(red: 0.75, green: 0.78, blue: 1, alpha: 1)
+        button.backgroundColor = .beScPurple400
         button.setTitle("다음으로", for: .normal)
-        button.setTitleColor(UIColor(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.setTitleColor(.beTextWhite, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = false
         button.addTarget(self, action: #selector(nextAction), for: .touchDown)
+        
         return button
     }()
     
@@ -69,7 +70,7 @@ class KeywordViewController: UIViewController {
     
     private func setupUI() {
         navigationBarHidden()
-        view.backgroundColor = .white
+        view.backgroundColor = .beBgDef
         view.addSubview(progressView)
         view.addSubview(joinLabel)
         view.addSubview(nextButton)
@@ -115,17 +116,17 @@ class KeywordViewController: UIViewController {
     // MARK: - Button Disabled
     
     private func selectedKeyword(for cell: JoinCollectionViewCell) {
-            let check = cell.isSelected
-
-            if check {
-                nextButton.isEnabled = true
-                nextButton.backgroundColor = UIColor(red: 0.48, green: 0.53, blue: 0.86, alpha: 1)
-            } else {
-                nextButton.isEnabled = false
-                nextButton.backgroundColor = UIColor(red: 0.75, green: 0.78, blue: 1, alpha: 1)
-                // 필요한 경우 check 변수 사용 또는 반환 등을 진행
-            }
+        let check = cell.isSelected
+        
+        if check {
+            nextButton.isEnabled = true
+            nextButton.backgroundColor = .beScPurple600
+        } else {
+            nextButton.isEnabled = false
+            nextButton.backgroundColor = .beScPurple400
+            // 필요한 경우 check 변수 사용 또는 반환 등을 진행
         }
+    }
     
     // MARK: - Actions
     
@@ -152,7 +153,7 @@ extension KeywordViewController: UICollectionViewDataSource, UICollectionViewDel
         let img = UIImage(named: "\(target.image).svg")
         cell.keywordImage.image = img
         cell.keywordLabel.text = target.title
-        cell.backgroundColor = .white
+        cell.backgroundColor = .beBgDef
         return cell
     }
     
