@@ -13,6 +13,8 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
+    var gender = ["남성", "여성"]
+    
     
     lazy var profileImage: UIImageView = {
         let image = UIImageView()
@@ -55,6 +57,12 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         return label
+    }()
+    lazy var nickNameCircle: UIView = {
+        let view = UIView()
+        view.backgroundColor = .errorRed
+        view.layer.cornerRadius = 2
+        return view
     }()
     lazy var nicknameTextField: UITextField = {
         let textField = UITextField()
@@ -104,10 +112,16 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         return label
     }()
+    lazy var birthCircle: UIView = {
+        let view = UIView()
+        view.backgroundColor = .errorRed
+        view.layer.cornerRadius = 2
+        return view
+    }()
     lazy var birthTextField: UITextField = {
         let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.textColor = .black
+        textField.delegate = self
+        textFieldNormal(textField)
         textField.leftPadding()
         textField.text = dateFormat(date: Date())
         textField.font = UIFont(name: "NotoSansKR-Medium", size: 14)
@@ -115,6 +129,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         textField.autocorrectionType = .no
         // 맞춤법 검사 활성화 여부
         textField.spellCheckingType = .no
+        textField.autocapitalizationType = .none
         
         return textField
     }()
@@ -127,7 +142,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         // 값이 변할 때마다 dateChange 실행
         view.addTarget(self, action: #selector(dateChange), for: .valueChanged)
         // Done 버튼 추가
-        setupToolBar()
+        setupBirthToolBar()
         return view
     }()
     lazy var genderLabel: UILabel = {
@@ -137,39 +152,52 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 16)
         return label
     }()
-    lazy var genderButton: UIButton = {
-        // button 커스텀을 위한 configuration
-        var configuration = UIButton.Configuration.plain()
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 24, bottom: 14, trailing: 100)
-        var titleContainer = AttributeContainer()
-        titleContainer.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        configuration.attributedTitle = AttributedString("성별을 선택해주세요", attributes: titleContainer)
-
-        configuration.baseForegroundColor = .beilsang694
-        
-        // 설정한 configuration를 담은 button
-        let button = UIButton(configuration: configuration, primaryAction: nil)
-        button.layer.borderColor = UIColor.beilsang902.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 8
-        button.contentHorizontalAlignment = .left        
-        
-        //   pop-up button 설정
-        button.menu = UIMenu(title: "성별", children: [
-            UIAction(title: "남자", handler: { _ in self.genderPick(gender: "남자")}),
-            UIAction(title: "여자", handler: { _ in self.genderPick(gender: "여자")}),
-        ])
-        
-        button.showsMenuAsPrimaryAction = true
-        return button
+    lazy var genderCircle: UIView = {
+        let view = UIView()
+        view.backgroundColor = .errorRed
+        view.layer.cornerRadius = 2
+        return view
     }()
-    
+    lazy var genderTextField: UITextField = {
+        let view = UITextField()
+        view.delegate = self
+        view.layer.cornerRadius = 8
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.beilsang902.cgColor
+        view.autocorrectionType = .no
+        view.spellCheckingType = .no
+        view.autocapitalizationType = .none
+        view.clearButtonMode = .whileEditing
+        view.clearsOnBeginEditing = false
+        view.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 19.0, height: 0.0))
+        view.leftViewMode = .always
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 14)
+        ]
+        view.attributedPlaceholder = NSAttributedString(string: "성별을 입력해주세요.", attributes: attributes)
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        
+        return view
+    }()
+    lazy var genderPickerView : UIPickerView = {
+        let view = UIPickerView()
+        // Done 버튼 추가
+        setupGenderToolBar()
+        return view
+    }()
+
     lazy var addressLabel : UILabel = {
         let label = UILabel()
         label.text = "주소"
         label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         return label
+    }()
+    lazy var addressCircle: UIView = {
+        let view = UIView()
+        view.backgroundColor = .errorRed
+        view.layer.cornerRadius = 2
+        return view
     }()
     lazy var postCodeTextField: UITextField = {
         let textField = UITextField()
@@ -222,8 +250,10 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         textField.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         textField.placeholder = "상세 주소 입력하기"
         textField.leftPadding()
+        textField.delegate = self
         return textField
     }()
+    
     lazy var line: UIView = {
         let view = UIView()
         view.backgroundColor = .beilsang973
@@ -252,14 +282,14 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var privacyPolicy: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("개인정보처리방침", for: .normal)
         button.setTitleColor(.beilsang694, for: .normal)
         return button
     }()
     lazy var termsOfUse: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("이용약관", for: .normal)
         button.setTitleColor(.beilsang694, for: .normal)
         return button
@@ -276,6 +306,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         setupAttribute()
         viewConstraint()
         setNavigationBar()
+        createPickerView()
     }
 }
 
@@ -311,10 +342,14 @@ extension AccountInfoViewController {
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
-        [profileShadowView, editProfileImageView, editProfileImageLabel, editProfileImageButton, nicknameLabel, nicknameTextField, dupCheckButton, birthLabel, birthTextField, genderLabel, genderButton, addressLabel, postCodeTextField, postCodeButton, systemLabel, systemImage, addressBox1, addressBox2, line, logoutButton, withdrawButton, greyBox, privacyPolicy, termsOfUse, bottomBar].forEach{view in fullContentView.addSubview(view)}
+        [profileShadowView, editProfileImageView, editProfileImageLabel, editProfileImageButton, nicknameLabel, nicknameTextField, dupCheckButton, birthLabel, birthTextField, genderLabel, genderTextField, addressLabel, postCodeTextField, postCodeButton, systemLabel, systemImage, addressBox1, addressBox2, line, logoutButton, withdrawButton, greyBox, privacyPolicy, termsOfUse, bottomBar, nickNameCircle, birthCircle, genderCircle, addressCircle].forEach{view in fullContentView.addSubview(view)}
         
         profileShadowView.addSubview(profileImage)
+        // 텍스트필드 입력 수단 연결
         birthTextField.inputView = birthPicker
+        genderTextField.inputView = genderPickerView
+        
+        
     }
     // MARK: - 전체 오토레이아웃 관리
     func viewConstraint(){
@@ -386,14 +421,14 @@ extension AccountInfoViewController {
             make.top.equalTo(birthTextField.snp.bottom).offset(24)
             make.leading.equalTo(nicknameLabel)
         }
-        genderButton.snp.makeConstraints { make in
+        genderTextField.snp.makeConstraints { make in
             make.width.equalTo(358)
             make.height.equalTo(48)
             make.top.equalTo(genderLabel.snp.bottom).offset(12)
             make.leading.equalTo(nicknameLabel)
-        }
+        }        
         addressLabel.snp.makeConstraints { make in
-            make.top.equalTo(genderButton.snp.bottom).offset(24)
+            make.top.equalTo(genderTextField.snp.bottom).offset(24)
             make.leading.equalTo(nicknameLabel)
         }
         postCodeTextField.snp.makeConstraints { make in
@@ -454,6 +489,30 @@ extension AccountInfoViewController {
             make.leading.equalTo(bottomBar.snp.trailing).offset(20)
             make.centerY.equalTo(privacyPolicy)
         }
+        nickNameCircle.snp.makeConstraints { make in
+            make.height.equalTo(4)
+            make.width.equalTo(4)
+            make.leading.equalTo(nicknameLabel.snp.trailing).offset(2)
+            make.top.equalTo(nicknameLabel.snp.top)
+        }
+        birthCircle.snp.makeConstraints { make in
+            make.height.equalTo(4)
+            make.width.equalTo(4)
+            make.leading.equalTo(birthLabel.snp.trailing).offset(2)
+            make.top.equalTo(birthLabel.snp.top)
+        }
+        genderCircle.snp.makeConstraints { make in
+            make.height.equalTo(4)
+            make.width.equalTo(4)
+            make.leading.equalTo(genderLabel.snp.trailing).offset(2)
+            make.top.equalTo(genderLabel.snp.top)
+        }
+        addressCircle.snp.makeConstraints { make in
+            make.height.equalTo(4)
+            make.width.equalTo(4)
+            make.leading.equalTo(addressLabel.snp.trailing).offset(2)
+            make.top.equalTo(addressLabel.snp.top)
+        }
     }
 // MARK: - 함수
     @objc func dateChange(_ sender: UIDatePicker) {
@@ -466,81 +525,61 @@ extension AccountInfoViewController {
         
         return formatter.string(from: date)
     }
-    private func setupToolBar() {
+    private func setupBirthToolBar() {
         
         let toolBar = UIToolbar()
         toolBar.updateConstraintsIfNeeded()
         // flexibleSpace: done 버튼을 맨 끝으로 보내기 위한 item
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonHandeler))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(birthDoneButtonHandeler))
         toolBar.items = [flexibleSpace, doneButton]
+            
         // 적절한 사이즈로 toolBar의 크기를 만들어 줍니다.
         toolBar.sizeToFit()
-
         // textField의 경우 클릭 시 키보드 위에 AccessoryView가 표시된다고 합니다.
         // 현재 inputView를 datePicker로 만들어 줬으니 datePicker위에 표시되겠죠?
         birthTextField.inputAccessoryView = toolBar
     }
-    @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
+    private func setupGenderToolBar() {
         
+        let toolBar = UIToolbar()
+        toolBar.updateConstraintsIfNeeded()
+        // flexibleSpace: done 버튼을 맨 끝으로 보내기 위한 item
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(genderDoneButtonHandeler))
+        toolBar.items = [flexibleSpace, doneButton]
+        // 적절한 사이즈로 toolBar의 크기를 만들어 줍니다.
+        toolBar.sizeToFit()
+        // textField의 경우 클릭 시 키보드 위에 AccessoryView가 표시된다고 합니다.
+        // 현재 inputView를 datePicker로 만들어 줬으니 datePicker위에 표시되겠죠?
+        genderTextField.inputAccessoryView = toolBar
+    }
+    @objc func birthDoneButtonHandeler(_ sender: UIBarButtonItem) {
         birthTextField.text = dateFormat(date: birthPicker.date)
         // 키보드 내리기
         birthTextField.resignFirstResponder()
     }
-    func genderPick(gender:String) {
-        print(gender)
-        var titleContainer = AttributeContainer()
-        titleContainer.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        genderButton.configuration?.baseForegroundColor = .black
-        genderButton.configuration?.attributedTitle = AttributedString(gender, attributes: titleContainer)
+    @objc func genderDoneButtonHandeler(_ sender: UIBarButtonItem) {
+        // 키보드 내리기
+        genderTextField.resignFirstResponder()
     }
     @objc private func duplicateCheck() -> Bool {
         print("duplicate button tapped")
         nicknameSuccess("사용 가능한 닉네임입니다.")
         return true
     }
-    func nicknameError(_ message: String) {
-        // 에러 메세지 출력
-        systemLabel.isHidden = false
-        systemImage.isHidden = false
-        systemLabel.text = message
-        systemLabel.textColor = UIColor(named: "error-red")
-        systemImage.image = UIImage(named: "icon-attention")
-        systemImage.tintColor = UIColor(named: "error-red")
-        
-        // textField 빨갛게
-        nicknameTextField.layer.borderColor = UIColor.errorRed.cgColor
-        nicknameTextField.layer.borderWidth = 1
-        nicknameTextField.layer.cornerRadius = 8
-        nicknameTextField.backgroundColor = .errorLightred
-        nicknameTextField.textColor = .errorRed
-        
-        // 중복 체크 버튼 비활성화
-        dupCheckButton.isEnabled = false
-        dupCheckButton.setTitleColor(.beilsang694, for: .disabled)
-        dupCheckButton.backgroundColor = .beilsang902
-    }
-    func nicknameSelected(){
+    func buttonFieldSelected(_ button: UIButton){
         // textField 파랗게
-        nicknameTextField.layer.borderColor = UIColor.enabledBlue.cgColor
-        nicknameTextField.layer.borderWidth = 1
-        nicknameTextField.layer.cornerRadius = 8
-        nicknameTextField.backgroundColor = .enabledLightblue
-        nicknameTextField.textColor = .enabledBlue
-        
-        // 중복 체크 버튼 활성화
-        dupCheckButton.isEnabled = true
-        dupCheckButton.setTitleColor(.white, for: .normal)
-        dupCheckButton.backgroundColor = .enabledPurple
+        button.layer.borderColor = UIColor.enabledBlue.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.backgroundColor = .enabledLightblue
+        button.titleLabel?.textColor = .enabledBlue
     }
-    func nicknameSuccess(_ message: String){
-        // 성공 메세지 출력
-        systemLabel.isHidden = false
-        systemImage.isHidden = false
-        systemLabel.text = message
-        systemLabel.textColor = .enabledBlue
-        systemImage.image = .iconCheck
-        systemImage.tintColor = .enabledBlue
+    func selectingNickname(){
+        setButton(dupCheckButton, true)
+        systemImage.isHidden = true
+        systemLabel.isHidden = true
     }
     @objc func logout(){
         printContent("로그아웃")
@@ -549,6 +588,15 @@ extension AccountInfoViewController {
     @objc func withdraw(){
         printContent("회원 탈퇴")
         
+    }
+// MARK: - PickerView
+    
+    private func createPickerView() {
+        /// 피커 세팅
+        genderPickerView.delegate = self
+        genderPickerView.dataSource = self
+        genderTextField.tintColor = .clear
+            
     }
 }
 
@@ -603,7 +651,8 @@ extension AccountInfoViewController{
 extension AccountInfoViewController: UITextFieldDelegate {
     // 엔터키가 눌러졌을때 호출 (동작할지 말지 물어보는 것)
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            textField.resignFirstResponder()
+        // 키보드 내리기
+        textField.resignFirstResponder()
             return true
         }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -611,37 +660,118 @@ extension AccountInfoViewController: UITextFieldDelegate {
         }
     // 글자수 검사 & 유효성 검사
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // 백스페이스 실행가능하게 하게하기
-        if let char = string.cString(using: String.Encoding.utf8) {
-            let isBackSpace = strcmp(char, "\\b")
-            if (isBackSpace == -92) {
-                return true
+        if textField == nicknameTextField{
+            // 백스페이스 실행가능하게 하게하기
+            if let char = string.cString(using: String.Encoding.utf8) {
+                let isBackSpace = strcmp(char, "\\b")
+                if (isBackSpace == -92) {
+                    selectingNickname()
+                    textFieldSelected(textField)
+                    return true
+                }
             }
+            guard textField.text!.count <= 8 else {
+                nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
+                return false
+            }
+            guard string.hasCharacters() else {
+                nicknameError("닉네임은 한글, 영어 대소문자, 숫자만 가능합니다.")
+                return false
+            }
+            selectingNickname()
+            textFieldSelected(textField)
         }
-        guard textField.text!.count <= 8 else {
-            nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
-            return false
-        }
-        guard string.hasCharacters() else {
-            nicknameError("닉네임은 한글, 영어 대소문자, 숫자만 가능합니다.")
-            return false
-        }
-            
         return true
     }
-    // 입력이 끝날 떄
+    // 입력을 시작할 때 호출
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == nicknameTextField {
+            setButton(dupCheckButton, true)
+        }
+        textFieldSelected(textField)
+
+        // 선택된 textField를 제외한 나머지 Normal 처리
+        [self.nicknameTextField, self.birthTextField, self.genderTextField, self.addressBox2].forEach{ view in
+            if textField != view {
+                textFieldNormal(view)
+            }
+        }
+
+        systemImage.isHidden = true
+        systemLabel.isHidden = true
+        return true
+    }
+    // 입력이 끝날 때 호출, 닉네임 길이 확인
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         
-        if nicknameTextField.text!.count <= 1 {
-            nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
-            return false
+        if textField == nicknameTextField {
+            if nicknameTextField.text!.count <= 1 {
+                nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
+                textFieldNormal(birthTextField)
+                textFieldNormal(genderTextField)
+                return false
+            }
         }
-        else{
-            nicknameSelected()
-            systemImage.isHidden = true
-            systemLabel.isHidden = true
-            return true
+        return true
+    }
+    func nicknameError(_ message: String) {
+        // 에러 메세지 출력
+        systemLabel.isHidden = false
+        systemImage.isHidden = false
+        systemLabel.text = message
+        systemLabel.textColor = UIColor(named: "error-red")
+        systemImage.image = UIImage(named: "icon-attention")
+        systemImage.tintColor = UIColor(named: "error-red")
+        
+        // textField 빨갛게
+        nicknameTextField.layer.borderColor = UIColor.errorRed.cgColor
+        nicknameTextField.layer.borderWidth = 1
+        nicknameTextField.layer.cornerRadius = 8
+        nicknameTextField.backgroundColor = .errorLightred
+        nicknameTextField.textColor = .errorRed
+        
+        setButton(dupCheckButton, false)
+    }
+    func textFieldSelected(_ textField: UITextField){
+        // textField 파랗게
+        textField.layer.borderColor = UIColor.enabledBlue.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 8
+        textField.backgroundColor = .enabledLightblue
+        textField.textColor = .enabledBlue
+    }
+    func textFieldNormal(_ textField: UITextField){
+        // textField 베이지색
+        textField.layer.borderColor = UIColor.beilsang902.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 8
+        textField.backgroundColor = .white
+        textField.textColor = .black
+        if textField == nicknameTextField {
+            setButton(dupCheckButton, false)
         }
+    }
+    func setButton(_ button: UIButton, _ enabled: Bool){
+        if enabled{
+            // 중복 체크 버튼 활성화
+            dupCheckButton.isEnabled = true
+            dupCheckButton.setTitleColor(.white, for: .normal)
+            dupCheckButton.backgroundColor = .enabledPurple
+        }else{
+            // 중복 체크 버튼 비활성화
+            dupCheckButton.isEnabled = false
+            dupCheckButton.setTitleColor(.beilsang694, for: .disabled)
+            dupCheckButton.backgroundColor = .beilsang902
+        }
+    }
+    func nicknameSuccess(_ message: String){
+        // 성공 메세지 출력
+        systemLabel.isHidden = false
+        systemImage.isHidden = false
+        systemLabel.text = message
+        systemLabel.textColor = .enabledBlue
+        systemImage.image = .iconCheck
+        systemImage.tintColor = .enabledBlue
     }
 }
 extension String{
@@ -657,5 +787,20 @@ extension String{
             return false
         }
         return false
+    }
+}
+extension AccountInfoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1 /// 년, 월 두 가지 선택하는 피커뷰
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 2
+    }
+    
+    /// 표출할 텍스트 (2020년, 2021년 / 1월, 2월, 3월, 4월 ... )
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        genderTextField.text = gender[row]
+        return gender[row]
     }
 }
