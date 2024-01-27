@@ -33,7 +33,8 @@ extension UIColor {
     
     static let bePrPurple500 = UIColor(hex: "#A9B5FF")
     static let beScPurple300 = UIColor(hex: "#CBD4FF")
-    static let beScPurple400 = UIColor(hex: "#BEC8FF")
+    static let beScPurple400 = UIColor(hex: "#BEC8FF") 
+    static let beScPurple500 = UIColor(hex: "#3070F8")
     static let beScPurple600 = UIColor(hex: "#7B87DB")
     static let beScPurple700 = UIColor(hex: "#5560B7")
     
@@ -53,7 +54,8 @@ extension UIColor {
     static let beMint500 = UIColor(hex: "#A9DEE2")
     static let beMint600 = UIColor(hex: "#7BB7C2")
     static let beNavy500 = UIColor(hex: "#5C6898")
-    
+    static let beRed100 = UIColor(hex: "#FFE6DD")
+    static let beRed500 = UIColor(hex: "#FF5664")
     
     //MARK: - Text Color
     
@@ -80,5 +82,10 @@ extension UIColor {
     
     static let beIconDis = UIColor(hex: "#D5D5D5")
     static let beIconDef = UIColor(hex: "#464646")
+    
+    // MARK: - Button Color
+    
+    static let beButtonNavi = UIColor(hex: "#5C6898")
+    
 }
 
