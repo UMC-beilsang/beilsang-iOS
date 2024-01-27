@@ -36,13 +36,13 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     lazy var editProfileImageView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 9
-        view.backgroundColor = .beilsang973
+        view.backgroundColor = .beBgSub
         return view
     }()
     lazy var editProfileImageLabel: UILabel = {
         let label = UILabel()
         label.text = "수정"
-        label.textColor = .showAllFeedLabel
+        label.textColor = .beButtonNavi
         label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
         return label
     }()
@@ -60,7 +60,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var nickNameCircle: UIView = {
         let view = UIView()
-        view.backgroundColor = .errorRed
+        view.backgroundColor = .beWnRed500
         view.layer.cornerRadius = 2
         return view
     }()
@@ -86,8 +86,8 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.layer.cornerRadius = 8
         // 비활성화 상태일 때
         button.isEnabled = false
-        button.setTitleColor(.beilsang694, for: .disabled)
-        button.backgroundColor = .beilsang902
+        button.setTitleColor(.beBgSub, for: .disabled)
+        button.backgroundColor = .beBgDiv
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -114,7 +114,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var birthCircle: UIView = {
         let view = UIView()
-        view.backgroundColor = .errorRed
+        view.backgroundColor = .beWnRed500
         view.layer.cornerRadius = 2
         return view
     }()
@@ -154,7 +154,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var genderCircle: UIView = {
         let view = UIView()
-        view.backgroundColor = .errorRed
+        view.backgroundColor = .beWnRed500
         view.layer.cornerRadius = 2
         return view
     }()
@@ -163,7 +163,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         view.delegate = self
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.beilsang902.cgColor
+        view.layer.borderColor = UIColor.beBgDiv.cgColor
         view.autocorrectionType = .no
         view.spellCheckingType = .no
         view.autocapitalizationType = .none
@@ -195,7 +195,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var addressCircle: UIView = {
         let view = UIView()
-        view.backgroundColor = .errorRed
+        view.backgroundColor = .beWnRed500
         view.layer.cornerRadius = 2
         return view
     }()
@@ -220,7 +220,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.isEnabled = false
         button.setTitle("우편번호 검색", for: .normal)
         button.setTitleColor(UIColor(named: "disabled-grey"), for: .disabled)
-        button.backgroundColor = .beilsang902
+        button.backgroundColor = .beBgDiv
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -256,7 +256,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     
     lazy var line: UIView = {
         let view = UIView()
-        view.backgroundColor = .beilsang973
+        view.backgroundColor = .beBgSub
         return view
     }()
     lazy var logoutButton: UIButton = {
@@ -270,33 +270,33 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     lazy var withdrawButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원탈퇴", for: .normal)
-        button.setTitleColor(.beilsang694, for: .normal)
+        button.setTitleColor(.beBgSub, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 16)
         button.addTarget(self, action: #selector(withdraw), for: .touchDown)
         return button
     }()
     lazy var greyBox: UIView = {
         let view = UIView()
-        view.backgroundColor = .beilsang973
+        view.backgroundColor = .beBgSub
         return view
     }()
     lazy var privacyPolicy: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("개인정보처리방침", for: .normal)
-        button.setTitleColor(.beilsang694, for: .normal)
+        button.setTitleColor(.beBgSub, for: .normal)
         return button
     }()
     lazy var termsOfUse: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("이용약관", for: .normal)
-        button.setTitleColor(.beilsang694, for: .normal)
+        button.setTitleColor(.beBgSub, for: .normal)
         return button
     }()
     lazy var bottomBar: UIView = {
         let view = UIView()
-        view.backgroundColor = .beilsang694
+        view.backgroundColor = .beBgSub
         return view
     }()
     // MARK: - Lifecycle
@@ -570,11 +570,11 @@ extension AccountInfoViewController {
     }
     func buttonFieldSelected(_ button: UIButton){
         // textField 파랗게
-        button.layer.borderColor = UIColor.enabledBlue.cgColor
+        button.layer.borderColor = UIColor.bePsBlue500.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
-        button.backgroundColor = .enabledLightblue
-        button.titleLabel?.textColor = .enabledBlue
+        button.backgroundColor = .bePsBlue100
+        button.titleLabel?.textColor = .bePsBlue500
     }
     func selectingNickname(){
         setButton(dupCheckButton, true)
@@ -719,30 +719,30 @@ extension AccountInfoViewController: UITextFieldDelegate {
         systemLabel.isHidden = false
         systemImage.isHidden = false
         systemLabel.text = message
-        systemLabel.textColor = UIColor(named: "error-red")
+        systemLabel.textColor = .beWnRed500
         systemImage.image = UIImage(named: "icon-attention")
-        systemImage.tintColor = UIColor(named: "error-red")
+        systemImage.tintColor = .beWnRed500
         
         // textField 빨갛게
-        nicknameTextField.layer.borderColor = UIColor.errorRed.cgColor
+        nicknameTextField.layer.borderColor = UIColor.beWnRed500.cgColor
         nicknameTextField.layer.borderWidth = 1
         nicknameTextField.layer.cornerRadius = 8
-        nicknameTextField.backgroundColor = .errorLightred
-        nicknameTextField.textColor = .errorRed
+        nicknameTextField.backgroundColor = .beWnRed100
+        nicknameTextField.textColor = .beWnRed500
         
         setButton(dupCheckButton, false)
     }
     func textFieldSelected(_ textField: UITextField){
         // textField 파랗게
-        textField.layer.borderColor = UIColor.enabledBlue.cgColor
+        textField.layer.borderColor = UIColor.beScPurple500.cgColor
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 8
-        textField.backgroundColor = .enabledLightblue
-        textField.textColor = .enabledBlue
+        textField.backgroundColor = .bePsBlue100
+        textField.textColor = .beScPurple500
     }
     func textFieldNormal(_ textField: UITextField){
         // textField 베이지색
-        textField.layer.borderColor = UIColor.beilsang902.cgColor
+        textField.layer.borderColor = UIColor.beBgDiv.cgColor
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 8
         textField.backgroundColor = .white
@@ -756,12 +756,12 @@ extension AccountInfoViewController: UITextFieldDelegate {
             // 중복 체크 버튼 활성화
             dupCheckButton.isEnabled = true
             dupCheckButton.setTitleColor(.white, for: .normal)
-            dupCheckButton.backgroundColor = .enabledPurple
+            dupCheckButton.backgroundColor = .beScPurple600
         }else{
             // 중복 체크 버튼 비활성화
             dupCheckButton.isEnabled = false
-            dupCheckButton.setTitleColor(.beilsang694, for: .disabled)
-            dupCheckButton.backgroundColor = .beilsang902
+            dupCheckButton.setTitleColor(.beBgSub, for: .disabled)
+            dupCheckButton.backgroundColor = .beBgDiv
         }
     }
     func nicknameSuccess(_ message: String){
@@ -769,9 +769,9 @@ extension AccountInfoViewController: UITextFieldDelegate {
         systemLabel.isHidden = false
         systemImage.isHidden = false
         systemLabel.text = message
-        systemLabel.textColor = .enabledBlue
+        systemLabel.textColor = .beScPurple500
         systemImage.image = .iconCheck
-        systemImage.tintColor = .enabledBlue
+        systemImage.tintColor = .beScPurple500
     }
 }
 extension String{

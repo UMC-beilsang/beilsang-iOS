@@ -20,7 +20,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var settingBackground: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 14
-        view.backgroundColor = UIColor(red: 0.66, green: 0.71, blue: 1, alpha: 1)
+        view.backgroundColor = .bePrPurple500
         return view
     }()
     lazy var settingButton: UIButton = {
@@ -31,7 +31,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     
     lazy var rectangleBox: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = UIColor(red: 0.796, green: 0.831, blue: 1, alpha: 1).cgColor
+        view.layer.backgroundColor = UIColor.beScPurple300.cgColor
         view.layer.cornerRadius = 8
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
         return view
@@ -41,7 +41,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         let label = UILabel()
         var name = "앤"
         label.text = "안녕하세요, " + name + "님"
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 18)
         return label
     }()
@@ -75,7 +75,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var feed: UILabel = {
         let label = UILabel()
         label.text = "피드"
-        label.textColor = .beilsang424
+        label.textColor = .beTextInfo
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         label.textAlignment = .center
         return label
@@ -83,7 +83,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var goal: UILabel = {
         let label = UILabel()
         label.text = "달성"
-        label.textColor = .beilsang424
+        label.textColor = .beTextInfo
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         label.textAlignment = .center
         return label
@@ -91,7 +91,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var fail: UILabel = {
         let label = UILabel()
         label.text = "실패"
-        label.textColor = .beilsang424
+        label.textColor = .beTextInfo
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         label.textAlignment = .center
         return label
@@ -100,7 +100,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var feedCount : UILabel = {
         let label = UILabel()
         label.text = "20"
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
@@ -108,7 +108,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var goalCount : UILabel = {
         let label = UILabel()
         label.text = "18"
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
@@ -116,7 +116,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var failCount : UILabel = {
         let label = UILabel()
         label.text = "13"
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
@@ -133,7 +133,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         let label = UILabel()
         var comment = "일상생활 속 꾸준하게 실천하는"
         label.text = "🙌  " + comment
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
 
         return label
@@ -142,7 +142,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "나의 챌린지"
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 18)
         
         return label
@@ -151,7 +151,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeBox: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
-        view.backgroundColor = .beilsang973
+        view.backgroundColor = .beBgSub
         return view
     }()
     
@@ -174,7 +174,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var checkLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "참여 중"
         return label
@@ -182,7 +182,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var starLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "찜"
         return label
@@ -190,7 +190,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var pointLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "포인트"
         return label
@@ -218,17 +218,17 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var line1 : UIView = {
         let view = UIView()
-        view.backgroundColor = .beilsang902
+        view.backgroundColor = .beBgDiv
         return view
     }()
     lazy var line2 : UIView = {
         let view = UIView()
-        view.backgroundColor = .beilsang902
+        view.backgroundColor = .beBgDiv
         return view
     }()
     lazy var myChallengeUnderBar: UIView = {
         let view = UIView()
-        view.backgroundColor = .beilsang973
+        view.backgroundColor = .beBgSub
         return view
     }()
     lazy var checkButton: UIButton = {
@@ -250,20 +250,20 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var myChallengeFeedLabel: UILabel = {
         let label = UILabel()
         label.text = "나의 챌린지 피드"
-        label.textColor = UIColor(.black)
+        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 18)
         return label
     }()
     lazy var showAllChallengeFeedView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 9
-        view.backgroundColor = .beilsang973
+        view.backgroundColor = .beBgSub
         return view
     }()
     lazy var showAllChallengeFeedLabel: UILabel = {
         let label = UILabel()
         label.text = "전체 보기"
-        label.textColor = UIColor(named: "showAllFeedLabel")
+        label.textColor = .beButtonNavi
         label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
         return label
     }()
