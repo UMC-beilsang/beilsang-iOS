@@ -16,6 +16,29 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     let fullContentView = UIView()
 
     //상단부
+    // 마이페이지 - "마이페이지" UILabel
+    lazy var myPageTitle: UILabel = {
+        let label = UILabel()
+        label.text = "마이페이지"
+        label.textColor = UIColor(.black)
+        label.font = UIFont(name: "NotoSansKR-SemiBold", size: 22)
+        
+        return label
+    }()
+    
+    // 마이페이지 - 최상단 바
+    lazy var firstBar: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    // 알림 버튼
+    lazy var notificationButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "iconamoon_notification-bold"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
     // 세팅 버튼
     lazy var settingBackground: UIView = {
         let view = UIView()
@@ -280,16 +303,15 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     
     
     // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        setupAttribute()
-        viewConstraint()
-        collectionviewSet()
-        setNavigationBar()
-    }
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            view.backgroundColor = .white
+            setupAttribute()
+            viewConstraint()
+            collectionviewSet()
+        }
 
-}
+    }
 
 extension MyPageViewController {
     
@@ -332,7 +354,7 @@ extension MyPageViewController {
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
         //상단부
-        [rectangleBox, nameLabel, profileShadowView, settingBackground, feed, goal, fail, feedCount, goalCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
+        [myPageTitle, firstBar, notificationButton, rectangleBox, nameLabel, profileShadowView, settingBackground, feed, goal, fail, feedCount, goalCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
         //중앙부
         [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, checkLabel, starLabel, pointLabel, checkCount, starCount, pointCount, line1, line2, myChallengeUnderBar, checkButton, starButton, pointButton].forEach{view in fullContentView.addSubview(view)}
         
@@ -346,6 +368,19 @@ extension MyPageViewController {
     // MARK: - 전체 오토레이아웃 관리
         // MARK: - 상단부
     func viewConstraint(){
+        
+        myPageTitle.snp.makeConstraints { make in
+            make.height.equalTo(32)
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(8)
+        }
+        
+        notificationButton.snp.makeConstraints { make in
+            make.width.equalTo(24)
+            make.height.equalTo(24)
+            make.trailing.equalToSuperview().offset(-20)
+            make.centerY.equalTo(myPageTitle)
+        }
         
         settingBackground.snp.makeConstraints { make in
             make.width.equalTo(28)
@@ -363,12 +398,12 @@ extension MyPageViewController {
         rectangleBox.snp.makeConstraints { make in
             make.height.equalTo(274)
             make.width.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(48)
             make.leading.equalToSuperview()
         }
         nameLabel.snp.makeConstraints { make in
             make.height.equalTo(26)
-            make.top.equalTo(rectangleBox.snp.top).offset(24)
+            make.top.equalTo(myPageTitle.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(16)
         }
         profileImage.snp.makeConstraints { make in
@@ -551,35 +586,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         let height: CGFloat = 140
         return CGSize(width: width, height: height)
     }
-}
-// MARK: - 네비게이션 바 커스텀
-extension MyPageViewController{
-    private func setNavigationBar() {
-        self.navigationItem.titleView = attributeTitleView()
-        setBackButton()
-        
-    }
-    private func attributeTitleView() -> UIView {
-        // 네비게이션 바에 타이틀을 왼쪽으로 옮기기 위해 커스텀 뷰 생성
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44))
-
-        // 커스텀 뷰 내에 타이틀 레이블 추가
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44))
-        titleLabel.text = "마이페이지"
-        titleLabel.textAlignment = .left
-        titleLabel.font = UIFont(name: "NotoSansKR-SemiBold", size: 22)
-        view.addSubview(titleLabel)
-          
-        return view
-    }
-    // 백버튼 커스텀
-    func setBackButton() {
-        let notiButton = UIBarButtonItem(image: UIImage(named: "iconamoon_notification-bold"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
-        notiButton.tintColor = .black
-        self.navigationItem.rightBarButtonItem = notiButton
-    }
-    // 백버튼 액션
-    @objc func tabBarButtonTapped() {
-            print("알림버튼")
-    }
+    
+    
 }
