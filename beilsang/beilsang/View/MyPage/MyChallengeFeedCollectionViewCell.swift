@@ -14,7 +14,7 @@ class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
         let feedButton = UIButton()
         feedButton.setImage(UIImage(named: "Mask group"), for: .normal)
         feedButton.layer.borderWidth = 1
-        feedButton.layer.borderColor = UIColor(named: "challengeLine")?.cgColor
+        feedButton.layer.borderColor = UIColor.beBorderDis.cgColor
         feedButton.layer.cornerRadius = 10
         feedButton.backgroundColor = .white
         return feedButton

@@ -44,6 +44,7 @@
 		AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */; };
 		AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */; };
 		AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */; };
+		89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,9 +93,7 @@
 		2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordViewController.swift; sourceTree = "<group>"; };
 		2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
-		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyChallengeFeedCollectionViewCell.swift; path = "/Users/potato/Desktop/beilsang-iOS/beilsang/beilsang/View/MyPage/MyChallengeFeedCollectionViewCell.swift"; sourceTree = "<absolute>"; };
-		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
+    AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
 		AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403362B63E06F006B68FE /* HomeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainViewController.swift; sourceTree = "<group>"; };
 		AF4403382B63E0E3006B68FE /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +101,9 @@
 		AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAfterViewController.swift; sourceTree = "<group>"; };
 		AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListViewController.swift; sourceTree = "<group>"; };
+		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyChallengeFeedCollectionViewCell.swift; path = /Users/heejin/Desktop/xxx/beilsang/beilsang/View/MyPage/MyChallengeFeedCollectionViewCell.swift; sourceTree = "<absolute>"; };
+		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +256,7 @@
 		894A113D2B609AD5002A9A32 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */,
 				894A11482B60A68C002A9A32 /* MyPageViewController.swift */,
 			);
 			path = MyPage;
@@ -435,6 +438,7 @@
 			files = (
 				2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */,
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
+				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
