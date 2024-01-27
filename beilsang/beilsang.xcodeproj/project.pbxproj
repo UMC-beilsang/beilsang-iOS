@@ -42,6 +42,8 @@
 		AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403382B63E0E3006B68FE /* PageViewController.swift */; };
 		AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44033A2B63E116006B68FE /* MainBeforeViewController.swift */; };
 		AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */; };
+		AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */; };
+		AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,8 @@
 		AF4403382B63E0E3006B68FE /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		AF44033A2B63E116006B68FE /* MainBeforeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBeforeViewController.swift; sourceTree = "<group>"; };
 		AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAfterViewController.swift; sourceTree = "<group>"; };
+		AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListCollectionViewCell.swift; sourceTree = "<group>"; };
+		AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */,
+				AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				AF4403382B63E0E3006B68FE /* PageViewController.swift */,
 				AF44033A2B63E116006B68FE /* MainBeforeViewController.swift */,
 				AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */,
+				AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -431,6 +437,7 @@
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
+				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
@@ -447,6 +454,7 @@
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
 				AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */,
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,
+				AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
