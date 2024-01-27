@@ -35,6 +35,7 @@ class MainAfterViewController: UIViewController {
         view.titleLabel?.font = UIFont(name: "Noto Sans KR", size: 12)
         view.contentHorizontalAlignment = .center
         view.layer.cornerRadius = 10
+        view.addTarget(self, action: #selector(viewAllButtonClicked), for: .touchUpInside)
         
         return view
     }()
@@ -72,6 +73,17 @@ class MainAfterViewController: UIViewController {
         super.viewDidLoad()
         
         setLayout()
+    }
+    
+    // MARK: - actions
+    // 챌린지 리스트 화면 - 전체
+    @objc func viewAllButtonClicked() {
+        print("전체 보기")
+        
+        let labelText = "전체"
+        let challengeListVC = ChallengeListViewController()
+        challengeListVC.categoryLabelText = labelText
+        navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }
 

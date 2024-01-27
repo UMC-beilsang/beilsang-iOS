@@ -46,20 +46,16 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // topview - plus
-    lazy var plusButton: UIButton = {
-        let view = UIButton()
-        
-        view.setImage(UIImage(named: "icon-plus"), for: .normal)
+    lazy var plusButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(image: UIImage(named: "icon_plus"), style: .plain, target: self, action: #selector(plusButtonClicked))
         view.tintColor = .beIconDef
         
         return view
     }()
     
     // topview - search
-    lazy var searchButton: UIButton = {
-        let view = UIButton()
-        
-        view.setImage(UIImage(named: "icon-search"), for: .normal)
+    lazy var searchButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(image: UIImage(named: "icon-search"), style: .plain, target: self, action: #selector(searchButtonClicked))
         view.tintColor = .beIconDef
         
         return view
@@ -128,6 +124,14 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
         print("뒤로 가기")
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc func plusButtonClicked() {
+        print("플러스 버튼")
+    }
+    
+    @objc func searchButtonClicked() {
+        print("검색")
+    }
 }
 
 // MARK: - Layout
@@ -147,6 +151,7 @@ extension ChallengeListViewController {
     func setNavigationBar() {
         navigationItem.titleView = topView
         navigationItem.leftBarButtonItem = navigationButton
+        navigationItem.rightBarButtonItems = [plusButton, searchButton]
     }
     
     func setLayout() {
@@ -165,24 +170,10 @@ extension ChallengeListViewController {
         }
 
         topView.addSubview(categoryLabel)
-        topView.addSubview(plusButton)
-        topView.addSubview(searchButton)
         
         categoryLabel.snp.makeConstraints { make in
             make.centerX.equalTo(topView.snp.centerX)
             make.centerY.equalTo(topView.snp.centerY)
-        }
-        
-        plusButton.snp.makeConstraints { make in
-            make.centerY.equalTo(topView.snp.centerY)
-            make.width.height.equalTo(24)
-            make.leading.equalTo(categoryLabel.snp.trailing).offset(75)
-        }
-        
-        searchButton.snp.makeConstraints { make in
-            make.centerY.equalTo(topView.snp.centerY)
-            make.width.height.equalTo(24)
-            make.leading.equalTo(plusButton.snp.trailing).offset(16)
         }
         
         fullScrollView.addSubview(fullContentView)

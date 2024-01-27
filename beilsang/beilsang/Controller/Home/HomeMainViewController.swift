@@ -78,7 +78,7 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    // categoriesView
+    // categoriesView - 셀
     let categoryDataList = CategoryKeyword.data
     lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -225,14 +225,14 @@ extension HomeMainViewController {
         }
         
         categoryCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(pageViewController.view.snp.bottom).offset(24)
+            make.top.equalTo(pageViewController.view.snp.bottom).offset(20)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
+            make.trailing.equalTo(fullScrollView.snp.trailing).offset(-16)
             make.height.equalTo(168)
-            make.width.equalTo(fullScrollView.snp.width)
         }
         
         borderline.snp.makeConstraints { make in
-            make.top.equalTo(categoryCollectionView.snp.bottom).offset(24)
+            make.top.equalTo(categoryCollectionView.snp.bottom).offset(32)
             make.width.equalTo(fullScrollView.snp.width)
             make.height.equalTo(8)
         }

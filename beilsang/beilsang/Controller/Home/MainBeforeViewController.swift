@@ -35,6 +35,7 @@ class MainBeforeViewController: UIViewController {
         view.titleLabel?.font = UIFont(name: "Noto Sans KR", size: 12)
         view.contentHorizontalAlignment = .center
         view.layer.cornerRadius = 10
+        view.addTarget(self, action: #selector(challengeButtonClicked), for: .touchUpInside)
         
         return view
     }()
@@ -62,6 +63,7 @@ class MainBeforeViewController: UIViewController {
         view.titleLabel?.font = UIFont(name: "Noto Sans KR", size: 14)
         view.contentHorizontalAlignment = .center
         view.layer.cornerRadius = 20
+        view.addTarget(self, action: #selector(challengeButtonClicked), for: .touchUpInside)
         
         return view
     }()
@@ -71,6 +73,17 @@ class MainBeforeViewController: UIViewController {
         super.viewDidLoad()
         
         setLayout()
+    }
+    
+    // MARK: - actions
+    // 챌린지 리스트 화면 - 전체
+    @objc func challengeButtonClicked() {
+        print("챌린지 참여하러 가기")
+        
+        let labelText = "전체"
+        let challengeListVC = ChallengeListViewController()
+        challengeListVC.categoryLabelText = labelText
+        navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }
 
