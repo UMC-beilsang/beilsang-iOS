@@ -247,22 +247,26 @@ extension HomeMainViewController {
             make.top.equalTo(mainBeforeVC.view.snp.bottom)
             make.width.equalTo(fullScrollView.snp.width)
             make.height.equalTo(456)
+            make.bottom.equalToSuperview()
         }
     }
 }
 
-    // MARK: - collectionView setting(카테고리)
+// MARK: - collectionView setting(카테고리)
 extension HomeMainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    // collectionView, delegate, datasorce 설정
     func setCollectionView() {
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         categoryCollectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
     }
     
+    // cell 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryDataList.count
     }
     
+    // cell 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as?
                 CategoryCollectionViewCell else {
@@ -275,9 +279,21 @@ extension HomeMainViewController: UICollectionViewDataSource, UICollectionViewDe
         
         return cell
     }
+    
+    // cell 선택시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+        
+        let labelText = cell.keywordLabel.text
+        let challengeListVC = ChallengeListViewController()
+        challengeListVC.categoryLabelText = labelText
+        
+        // ChallengeListViewController를 푸시합니다.
+        navigationController?.pushViewController(challengeListVC, animated: true)
+    }
 }
 
-    // MARK: - PageViewController
+// MARK: - PageViewController
 extension HomeMainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     // 이전 뷰컨트롤러를 리턴 (우측 -> 좌측 슬라이드 제스쳐)
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
