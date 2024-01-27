@@ -270,7 +270,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     lazy var withdrawButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원탈퇴", for: .normal)
-        button.setTitleColor(.beBgSub, for: .normal)
+        button.setTitleColor(.beTextEx, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 16)
         button.addTarget(self, action: #selector(withdraw), for: .touchDown)
         return button
@@ -284,19 +284,19 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("개인정보처리방침", for: .normal)
-        button.setTitleColor(.beBgSub, for: .normal)
+        button.setTitleColor(.beTextEx, for: .normal)
         return button
     }()
     lazy var termsOfUse: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("이용약관", for: .normal)
-        button.setTitleColor(.beBgSub, for: .normal)
+        button.setTitleColor(.beTextEx, for: .normal)
         return button
     }()
     lazy var bottomBar: UIView = {
         let view = UIView()
-        view.backgroundColor = .beBgSub
+        view.backgroundColor = .beTextEx
         return view
     }()
     // MARK: - Lifecycle
@@ -582,11 +582,11 @@ extension AccountInfoViewController {
         systemLabel.isHidden = true
     }
     @objc func logout(){
-        printContent("로그아웃")
+        print("로그아웃")
         
     }
     @objc func withdraw(){
-        printContent("회원 탈퇴")
+        print("회원 탈퇴")
         
     }
 // MARK: - PickerView
