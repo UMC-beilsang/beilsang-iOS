@@ -112,6 +112,7 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        self.navigationItem.hidesBackButton = true
         
         setupAttribute()
         setCollectionView()
