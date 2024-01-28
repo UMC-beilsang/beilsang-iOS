@@ -303,15 +303,15 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     
     
     // MARK: - Lifecycle
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            view.backgroundColor = .white
-            setupAttribute()
-            viewConstraint()
-            collectionviewSet()
-        }
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        setupAttribute()
+        viewConstraint()
+        collectionviewSet()
     }
+
+}
 
 extension MyPageViewController {
     
@@ -325,6 +325,8 @@ extension MyPageViewController {
         fullScrollView.showsVerticalScrollIndicator = true
         fullScrollView.delegate = self
         
+        //스크롤 안보이게 설정
+        fullScrollView.showsVerticalScrollIndicator = false
     }
 
     func setLayout() {
@@ -561,7 +563,6 @@ extension MyPageViewController {
             make.height.equalTo(292)
             make.top.equalTo(myChallengeFeedLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
-//            make.edges.equalTo(UIEdgeInsets(top: 553, left: 16, bottom: 188, right: 16))
         }
     }
 }

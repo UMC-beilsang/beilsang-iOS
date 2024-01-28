@@ -322,6 +322,8 @@ extension AccountInfoViewController {
         fullScrollView.showsVerticalScrollIndicator = true
         fullScrollView.delegate = self
         
+        //스크롤 안보이게 설정
+        fullScrollView.showsVerticalScrollIndicator = false
     }
     
     func setLayout() {
