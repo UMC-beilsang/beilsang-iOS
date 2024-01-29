@@ -22,6 +22,13 @@
 		2F48E09A2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */; };
 		2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */; };
 		2F69039C2B60429700A7716D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F69039B2B60429700A7716D /* Color+.swift */; };
+		2F8E0DA12B6775BE000924DA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2F8E0DA02B6775BE000924DA /* SnapKit */; };
+		2F8E0DA32B6775BE000924DA /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2F8E0DA22B6775BE000924DA /* SnapKit-Dynamic */; settings = {ATTRIBUTES = (Required, ); }; };
+		2F8E0DA82B677889000924DA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8E0DA72B677889000924DA /* WebKit.framework */; };
+		2F8E0DAA2B6778AF000924DA /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0DA92B6778AF000924DA /* UserInfoViewController.swift */; };
+		2F8E0DAC2B67790E000924DA /* KakaoPostCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0DAB2B67790E000924DA /* KakaoPostCodeViewController.swift */; };
+		2F8E0DAE2B677947000924DA /* PlaceHolder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0DAD2B677947000924DA /* PlaceHolder+.swift */; };
+		2F8E0DB02B677959000924DA /* InfoCircle+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0DAF2B677959000924DA /* InfoCircle+.swift */; };
 		2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */; };
 		2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */; };
 		2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA522B5E532100C0DB84 /* MotoCollectionViewCell.swift */; };
@@ -30,8 +37,6 @@
 		2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */; };
 		2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */; };
 		2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */; };
-		2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C252B5EC56C0022C4F3 /* SnapKit */; };
-		2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
 		2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +58,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2F8E0DA52B677606000924DA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2F08387C2B564085002E2551 /* beilsang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beilsang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F08387F2B564085002E2551 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +91,11 @@
 		2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.ttf"; sourceTree = "<group>"; };
 		2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
 		2F69039B2B60429700A7716D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		2F8E0DA72B677889000924DA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		2F8E0DA92B6778AF000924DA /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		2F8E0DAB2B67790E000924DA /* KakaoPostCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoPostCodeViewController.swift; sourceTree = "<group>"; };
+		2F8E0DAD2B677947000924DA /* PlaceHolder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceHolder+.swift"; sourceTree = "<group>"; };
+		2F8E0DAF2B677959000924DA /* InfoCircle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoCircle+.swift"; sourceTree = "<group>"; };
 		2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoViewController.swift; sourceTree = "<group>"; };
 		2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMoto.swift; sourceTree = "<group>"; };
 		2FC4CA522B5E532100C0DB84 /* MotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -90,8 +113,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */,
-				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
-				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
+				2F8E0DA12B6775BE000924DA /* SnapKit in Frameworks */,
+				2F8E0DA82B677889000924DA /* WebKit.framework in Frameworks */,
+				2F8E0DA32B6775BE000924DA /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +143,7 @@
 				2F0838952B564086002E2551 /* beilsangTests */,
 				2F08389F2B564086002E2551 /* beilsangUITests */,
 				2F08387D2B564085002E2551 /* Products */,
+				2F8E0DA62B677889000924DA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -177,8 +202,18 @@
 			isa = PBXGroup;
 			children = (
 				2F69039B2B60429700A7716D /* Color+.swift */,
+				2F8E0DAD2B677947000924DA /* PlaceHolder+.swift */,
+				2F8E0DAF2B677959000924DA /* InfoCircle+.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		2F8E0DA62B677889000924DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F8E0DA72B677889000924DA /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2FC63CD62B5BB3990050139A /* View */ = {
@@ -199,8 +234,10 @@
 				2FC53B0D2B5BBB59007FD879 /* LoginViewController.swift */,
 				2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */,
 				2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */,
+				2F8E0DA92B6778AF000924DA /* UserInfoViewController.swift */,
 				2FC4CA5C2B5E757700C0DB84 /* RouteViewController.swift */,
 				2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */,
+				2F8E0DAB2B67790E000924DA /* KakaoPostCodeViewController.swift */,
 				2F0838832B564085002E2551 /* ViewController.swift */,
 			);
 			path = Controller;
@@ -228,6 +265,7 @@
 				2F0838782B564085002E2551 /* Sources */,
 				2F0838792B564085002E2551 /* Frameworks */,
 				2F08387A2B564085002E2551 /* Resources */,
+				2F8E0DA52B677606000924DA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -235,9 +273,9 @@
 			);
 			name = beilsang;
 			packageProductDependencies = (
-				2FE57C252B5EC56C0022C4F3 /* SnapKit */,
-				2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */,
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
+				2F8E0DA02B6775BE000924DA /* SnapKit */,
+				2F8E0DA22B6775BE000924DA /* SnapKit-Dynamic */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -312,8 +350,8 @@
 			);
 			mainGroup = 2F0838732B564085002E2551;
 			packageReferences = (
-				2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				2F8E0D9F2B6775BE000924DA /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -364,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */,
+				2F8E0DAA2B6778AF000924DA /* UserInfoViewController.swift in Sources */,
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
@@ -371,11 +410,14 @@
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
+				2F8E0DAC2B67790E000924DA /* KakaoPostCodeViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
+				2F8E0DAE2B677947000924DA /* PlaceHolder+.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,
+				2F8E0DB02B677959000924DA /* InfoCircle+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +591,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M2666QDLXK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -575,6 +618,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M2666QDLXK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -708,7 +752,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		2F8E0D9F2B6775BE000924DA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -727,14 +771,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2FE57C252B5EC56C0022C4F3 /* SnapKit */ = {
+		2F8E0DA02B6775BE000924DA /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 2F8E0D9F2B6775BE000924DA /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */ = {
+		2F8E0DA22B6775BE000924DA /* SnapKit-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 2F8E0D9F2B6775BE000924DA /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
 		};
 		2FE57C2A2B5EC5890022C4F3 /* Alamofire */ = {
