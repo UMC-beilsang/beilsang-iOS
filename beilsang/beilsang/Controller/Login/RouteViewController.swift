@@ -149,6 +149,8 @@ class RouteViewController: UIViewController {
     //MARK: - UI Setup
     
     private func setupUI() {
+        routeField.delegate = self
+        
         view.backgroundColor = .beBgDef
         view.addSubview(joinRouteLabel)
         view.addSubview(joinRouteSmallLabel)
@@ -266,6 +268,27 @@ class RouteViewController: UIViewController {
      routeField.setTitle(selectedItem, for: .normal)
      }
      */
+}
+
+extension RouteViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        routeField.layer.borderColor = UIColor.bePsBlue500.cgColor
+        routeField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
+        routeField.textColor = UIColor.bePsBlue500
+        routeField.setPlaceholderColor(.bePsBlue500)
+        
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        routeField.layer.borderColor = UIColor.beBorderDis.cgColor
+        routeField.layer.backgroundColor = UIColor.clear.cgColor
+        routeField.textColor = UIColor.beTextDef
+        routeField.setPlaceholderColor(.beTextEx)
+        
+        return true
+    }
 }
 
 extension RouteViewController: UIPickerViewDelegate, UIPickerViewDataSource {

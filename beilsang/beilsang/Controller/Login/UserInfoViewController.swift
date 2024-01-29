@@ -21,14 +21,17 @@ class UserInfoViewController: UIViewController {
     var nickName: String?
     let kakaoZipCodeVC = KakaoPostCodeViewController()
     
+    let agreeImage = UIImage(named: "agree")
+    let disagreeImage = UIImage(named: "disagree")
+    
     private var isProgressBarVisible = true
     private var lastContentOffset: CGFloat = 0
     
     lazy var headerView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .clear
-            return view
-        }()
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
     
     lazy var infoLabel: UILabel = {
         let view = UILabel()
@@ -283,11 +286,194 @@ class UserInfoViewController: UIViewController {
         view.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: attributes)
         view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         
-        //키보드 관련 설정
         view.returnKeyType = .done
         view.keyboardType = UIKeyboardType.namePhonePad
         view.resignFirstResponder()
         
+        
+        return view
+    }()
+    
+    lazy var divider: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgSub
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    // 이용약관 동의
+    
+    lazy var agreeTitleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "이용약관 동의"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    let agreerCircle = CircleView()
+    
+    lazy var agreeAllButton: UIButton = {
+        let button = UIButton()
+        button.setImage(disagreeImage, for: .normal)
+        button.addTarget(self, action: #selector(agreeAllButtonHandelr), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var agreeAllLabel: UILabel = {
+        let view = UILabel()
+        view.text = "약관 전체 동의"
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var agreeAllButtonArea: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(agreeAllButtonHandelr), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBorderDis
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    lazy var agreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(disagreeImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(agreeButtonHandelr), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var needAgreeLabel: UILabel = {
+        let view = UILabel()
+        view.text = "(필수)"
+        view.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beScPurple600
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var agreeLabel: UILabel = {
+        let view = UILabel()
+        view.text = "이용약관 동의"
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var agreeButtonArea: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(agreeButtonHandelr), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var agreeSection: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgCard
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 8
+        view.clipsToBounds  = true
+        
+        return view
+    }()
+    
+    lazy var agreeText: UILabel = {
+        let view = UILabel()
+        view.text = "제1조 목적 \n 본 이용약관은 '비일상'의 서비스의 이용조건과 운영에 관한 제반사항 규정을 목적으로 합니다. \n \n 제2조 용어의 정의 \n 본 약관에서 사용되는 주요한 용어의 정의는 다음과 같습니다.\n ① 회원 : 본 사이트의 약관에 동의하고 개인정보를 제공하여 회원등록을 한 자로서, 사이트와의 이용계약을 체결하고 사이트를 이용하는 이용자를 말합니다.\n ② 이용계약 : 본 사이트 이용과 관련하여 사이트와 회원간에 체결 하는 계약을 말합니다."
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.numberOfLines = 10
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var privacyAgreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(disagreeImage, for: .normal)
+        button.addTarget(self, action: #selector(privacyButtonHandelr), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var needPrivacyLabel: UILabel = {
+        let view = UILabel()
+        view.text = "(필수)"
+        view.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beScPurple600
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var privacyLabel: UILabel = {
+        let view = UILabel()
+        view.text = "개인정보 수집 및 이용동의"
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var privacyButtonArea: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(privacyButtonHandelr), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var privacySection: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgCard
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 8
+        view.clipsToBounds  = true
+        
+        return view
+    }()
+    
+    lazy var privacyText: UILabel = {
+        let view = UILabel()
+        view.text = "제1조 목적 \n 본 이용약관은 '비일상'의 서비스의 이용조건과 운영에 관한 제반사항 규정을 목적으로 합니다. \n \n 제2조 용어의 정의 \n 본 약관에서 사용되는 주요한 용어의 정의는 다음과 같습니다.\n ① 회원 : 본 사이트의 약관에 동의하고 개인정보를 제공하여 회원등록을 한 자로서, 사이트와의 이용계약을 체결하고 사이트를 이용하는 이용자를 말합니다.\n ② 이용계약 : 본 사이트 이용과 관련하여 사이트와 회원간에 체결 하는 계약을 말합니다."
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.numberOfLines = 10
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
         
         return view
     }()
@@ -340,18 +526,47 @@ class UserInfoViewController: UIViewController {
         verticalContentView.addSubview(nameCircle)
         verticalContentView.addSubview(nameField)
         verticalContentView.addSubview(nameDuplicateButton)
+        
         verticalContentView.addSubview(birthLabel)
         verticalContentView.addSubview(birthCircle)
         verticalContentView.addSubview(birthField)
+        
         verticalContentView.addSubview(genderLabel)
         verticalContentView.addSubview(genderCircle)
         verticalContentView.addSubview(genderField)
+        
         verticalContentView.addSubview(addressLabel)
         verticalContentView.addSubview(zipCodeField)
         verticalContentView.addSubview(zipCodeSearchButton)
         verticalContentView.addSubview(addressField)
         verticalContentView.addSubview(addressDetailField)
+        
+        verticalContentView.addSubview(divider)
+        
+        verticalContentView.addSubview(agreeTitleLabel)
+        verticalContentView.addSubview(agreerCircle)
+        verticalContentView.addSubview(agreeAllButton)
+        verticalContentView.addSubview(agreeAllLabel)
+        verticalContentView.addSubview(agreeAllButtonArea)
+        
+        verticalContentView.addSubview(lineView)
+        
+        verticalContentView.addSubview(agreeButton)
+        verticalContentView.addSubview(needAgreeLabel)
+        verticalContentView.addSubview(agreeLabel)
+        verticalContentView.addSubview(agreeButtonArea)
+        verticalContentView.addSubview(agreeSection)
+        
+        verticalContentView.addSubview(privacyAgreeButton)
+        verticalContentView.addSubview(needPrivacyLabel)
+        verticalContentView.addSubview(privacyLabel)
+        verticalContentView.addSubview(privacyButtonArea)
+        verticalContentView.addSubview(privacySection)
+        
         verticalContentView.addSubview(nextButton)
+        
+        agreeSection.addSubview(agreeText)
+        privacySection.addSubview(privacyText)
     }
     
     private func setupLayout() {
@@ -367,12 +582,12 @@ class UserInfoViewController: UIViewController {
             make.bottom.leading.trailing.equalToSuperview()
         }
         
-        let height = UIScreen.main.bounds.height
+        //let height = UIScreen.main.bounds.height
         
         verticalContentView.snp.makeConstraints { make in
             make.edges.equalTo(verticalScrollView.contentLayoutGuide)
             make.width.equalTo(verticalScrollView.frameLayoutGuide)
-            make.height.equalTo(height * 3)
+            make.height.equalTo(1481)
         }
         
         infoLabel.snp.makeConstraints{ make in
@@ -474,20 +689,134 @@ class UserInfoViewController: UIViewController {
             make.height.equalTo(48)
         }
         
+        divider.snp.makeConstraints{ make in
+            make.top.equalTo(addressDetailField.snp.bottom).offset(24)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(8)
+        }
+        
+        agreeTitleLabel.snp.makeConstraints{ make in
+            make.top.equalTo(divider.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(16)
+        }
+        
+        agreerCircle.snp.makeConstraints{ make in
+            make.top.equalTo(agreeTitleLabel)
+            make.leading.equalTo(agreeTitleLabel.snp.trailing).offset(2)
+            make.width.height.equalTo(4)
+        }
+        
+        agreeAllButton.snp.makeConstraints{ make in
+            make.top.equalTo(agreeTitleLabel.snp.bottom).offset(12)
+            make.leading.equalToSuperview().offset(16)
+            make.height.width.equalTo(28)
+        }
+        
+        agreeAllLabel.snp.makeConstraints{ make in
+            make.centerY.equalTo(agreeAllButton)
+            make.leading.equalTo(agreeAllButton.snp.trailing).offset(8)
+        }
+        
+        agreeAllButtonArea.snp.makeConstraints{ make in
+            make.leading.equalTo(agreeAllButton.snp.trailing)
+            make.trailing.equalToSuperview()
+            make.top.equalTo(agreeTitleLabel.snp.bottom)
+            make.height.equalTo(56)
+        }
+        
+        lineView.snp.makeConstraints{ make in
+            make.top.equalTo(agreeAllButton.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(0.75)
+        }
+        
+        agreeButton.snp.makeConstraints{ make in
+            make.top.equalTo(lineView.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+            make.height.width.equalTo(28)
+        }
+        
+        needAgreeLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(agreeButton.snp.trailing).offset(8)
+            make.centerY.equalTo(agreeButton)
+        }
+        
+        agreeLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(needAgreeLabel.snp.trailing).offset(4)
+            make.centerY.equalTo(agreeButton)
+        }
+        
+        agreeButtonArea.snp.makeConstraints{ make in
+            make.leading.equalTo(agreeButton.snp.trailing)
+            make.trailing.equalToSuperview()
+            make.top.equalTo(lineView.snp.bottom)
+            make.height.equalTo(56)
+        }
+        
+        agreeSection.snp.makeConstraints{ make in
+            make.top.equalTo(agreeButton.snp.bottom).offset(12)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(128)
+        }
+        
+        agreeText.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(14)
+            make.leading.equalToSuperview().offset(19)
+            make.trailing.equalToSuperview().offset(-19)
+        }
+        
+        privacyAgreeButton.snp.makeConstraints{ make in
+            make.top.equalTo(agreeSection.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(16)
+            make.height.width.equalTo(28)
+        }
+        
+        needPrivacyLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(privacyAgreeButton.snp.trailing).offset(8)
+            make.centerY.equalTo(privacyAgreeButton)
+        }
+        
+        privacyLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(needPrivacyLabel.snp.trailing).offset(8)
+            make.centerY.equalTo(privacyAgreeButton)
+        }
+        
+        privacyButtonArea.snp.makeConstraints{ make in
+            make.leading.equalTo(privacyAgreeButton.snp.trailing)
+            make.trailing.equalToSuperview()
+            make.top.equalTo(agreeSection.snp.bottom)
+            make.height.equalTo(56)
+        }
+        
+        privacySection.snp.makeConstraints{ make in
+            make.top.equalTo(privacyAgreeButton.snp.bottom).offset(12)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(128)
+        }
+        
+        privacyText.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(14)
+            make.leading.equalToSuperview().offset(19)
+            make.trailing.equalToSuperview().offset(-19)
+        }
+        
         nextButton.snp.makeConstraints{ make in
-            make.bottom.equalToSuperview().offset(-100)
+            make.top.equalTo(privacySection.snp.bottom).offset(76)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(56)
         }
+        
     }
     
     // MARK: - Navigation Bar
     
     private func showNavigationBarOnDisappear() {
-            navigationController?.setNavigationBarHidden(false, animated: true)
-            navigationController?.hidesBarsOnSwipe = false
-        }
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.hidesBarsOnSwipe = false
+    }
     
     private func setNavigationBar() {
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -502,7 +831,7 @@ class UserInfoViewController: UIViewController {
         verticalScrollView.delegate = self
     }
     
-    // MARK: - textField
+    // MARK: - TextField
     
     private func setTextField() {
         
@@ -523,7 +852,7 @@ class UserInfoViewController: UIViewController {
         pickerView.delegate = self
         pickerView.dataSource = self
         genderField.tintColor = .clear
-            
+        
         /// 텍스트필드 입력 수단 연결
         genderField.inputView = pickerView
     }
@@ -557,14 +886,14 @@ class UserInfoViewController: UIViewController {
     private func setupToolBar() {
         
         let toolBar = UIToolbar()
-
+        
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonHandeler))
-
+        
         toolBar.items = [flexibleSpace, doneButton]
         // 적절한 사이즈로 toolBar의 크기를 만들어 줍니다.
         toolBar.sizeToFit()
-
+        
         birthField.inputAccessoryView = toolBar
         genderField.inputAccessoryView = toolBar
     }
@@ -592,13 +921,13 @@ class UserInfoViewController: UIViewController {
         
         self.navigationController?.pushViewController(routeViewController, animated: true)
         /*
-        UIView.transition(with: self.view.window!,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.navigationController?.pushViewController(routeViewController, animated: false)
-        },
-                          completion: nil)
+         UIView.transition(with: self.view.window!,
+         duration: 0.5,
+         options: .transitionCrossDissolve,
+         animations: {
+         self.navigationController?.pushViewController(routeViewController, animated: false)
+         },
+         completion: nil)
          */
     }
     
@@ -618,12 +947,12 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc private func zipCodeFieldTapped() {
-            zipCodeSearch()
-        }
+        zipCodeSearch()
+    }
     
     @objc private func addressFieldTapped() {
-            zipCodeSearch()
-        }
+        zipCodeSearch()
+    }
     
     @objc func dateChange(_ sender: UIDatePicker) {
         // 값이 변하면 UIDatePicker에서 날자를 받아와 형식을 변형해서 textField에 넣어줍니다.
@@ -638,13 +967,49 @@ class UserInfoViewController: UIViewController {
         birthField.resignFirstResponder()
         genderField.resignFirstResponder()
     }
+    
+    @objc func agreeAllButtonHandelr(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
+        // 버튼이 클릭될 때마다, 버튼 이미지를 변환
+        if sender.isSelected {
+            agreeAllButton.setImage(agreeImage, for: .normal)
+            agreeButton.setImage(agreeImage, for: .normal)
+            privacyAgreeButton.setImage(agreeImage, for: .normal)
+        } else {
+            agreeAllButton.setImage(disagreeImage, for: .normal)
+            agreeButton.setImage(disagreeImage, for: .normal)
+            privacyAgreeButton.setImage(disagreeImage, for: .normal)
+        }
+    }
+    
+    @objc func agreeButtonHandelr(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
+        // 버튼이 클릭될 때마다, 버튼 이미지를 변환
+        if sender.isSelected {
+            agreeButton.setImage(agreeImage, for: .normal)
+        } else {
+            agreeButton.setImage(disagreeImage, for: .normal)
+        }
+    }
+    
+    @objc func privacyButtonHandelr(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
+        // 버튼이 클릭될 때마다, 버튼 이미지를 변환
+        if sender.isSelected {
+            privacyAgreeButton.setImage(agreeImage, for: .normal)
+        } else {
+            privacyAgreeButton.setImage(disagreeImage, for: .normal)
+        }
+    }
 }
 
 extension UserInfoViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         
-        // 맨 위로 스크롤될 때 네비게이션 바를 다시 표시
         if offsetY <= 0 {
             navigationController?.setNavigationBarHidden(false, animated: true)
             navigationController?.hidesBarsOnSwipe = false

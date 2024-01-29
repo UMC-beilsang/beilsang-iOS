@@ -161,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				2F08388D2B564086002E2551 /* Info.plist */,
+				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2FC63CD82B5BB3A50050139A /* Model */,
 				2FC63CD62B5BB3990050139A /* View */,
 				2FC63CD72B5BB39C0050139A /* Controller */,
@@ -216,6 +217,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F8E0DB12B681B47000924DA /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				2FC53B0D2B5BBB59007FD879 /* LoginViewController.swift */,
+				2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */,
+				2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */,
+				2F8E0DA92B6778AF000924DA /* UserInfoViewController.swift */,
+				2FC4CA5C2B5E757700C0DB84 /* RouteViewController.swift */,
+				2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */,
+				2F8E0DAB2B67790E000924DA /* KakaoPostCodeViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		2FC63CD62B5BB3990050139A /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,13 +246,7 @@
 		2FC63CD72B5BB39C0050139A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2FC53B0D2B5BBB59007FD879 /* LoginViewController.swift */,
-				2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */,
-				2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */,
-				2F8E0DA92B6778AF000924DA /* UserInfoViewController.swift */,
-				2FC4CA5C2B5E757700C0DB84 /* RouteViewController.swift */,
-				2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */,
-				2F8E0DAB2B67790E000924DA /* KakaoPostCodeViewController.swift */,
+				2F8E0DB12B681B47000924DA /* Login */,
 				2F0838832B564085002E2551 /* ViewController.swift */,
 			);
 			path = Controller;
@@ -248,7 +257,6 @@
 			children = (
 				2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */,
 				2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */,
-				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2F69039A2B60427100A7716D /* Utility */,
 				2F48E0852B5BB3D5002F3D4A /* Font */,
 			);

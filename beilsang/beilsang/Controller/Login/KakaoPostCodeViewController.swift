@@ -69,7 +69,6 @@ class KakaoPostCodeViewController: UIViewController {
     }
     
     @objc private func dismissKakaoZipCode() {
-        // 여기서 데이터 전달 등 필요한 작업 수행 후
         dismiss(animated: true, completion: nil)
     }
 }
@@ -81,11 +80,9 @@ extension KakaoPostCodeViewController: WKScriptMessageHandler {
             zipCode = data["zonecode"] as? String ?? ""
         }
         
-        // 이 부분에서 기존의 UserInfoViewController에 데이터를 전달
         userInfoVC?.addressField.text = address
         userInfoVC?.zipCodeField.text = zipCode
         
-        // KakaoZipCodeViewController를 dismiss
         dismiss(animated: true, completion: nil)
     }
 }
