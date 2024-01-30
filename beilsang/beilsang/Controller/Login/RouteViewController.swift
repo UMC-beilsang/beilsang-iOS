@@ -17,27 +17,6 @@ class RouteViewController: UIViewController {
     let imageContainer = UIView()
     let arrowImageView = UIImageView(image: UIImage(named: "arrow_gray"))
     var selectedRoute: String?
- 
-    /*
-     
-     lazy var menuItems: [UIAction] = {
-     return [
-     UIAction(title: "지인 추천", handler: { _ in self.handleMenuSelection("지인 추천") }),
-     UIAction(title: "직접 검색", handler: { _ in self.handleMenuSelection("직접 검색") }),
-     UIAction(title: "인스타그램", handler: { _ in self.handleMenuSelection("인스타그램") }),
-     UIAction(title: "에브리타임", handler: { _ in self.handleMenuSelection("에브리타임") }),
-     UIAction(title: "기타", handler: { _ in self.handleMenuSelection("기타") })
-     ]
-     }()
-     
-     lazy var menu: UIMenu = {
-     return UIMenu(
-     title: "",
-     options: [],
-     children: menuItems
-     )
-     }()
-     */
     
     lazy var joinRouteLabel: UILabel = {
         let view = UILabel()
@@ -98,30 +77,6 @@ class RouteViewController: UIViewController {
         
         return view
     }()
-    /*
-     lazy var routeButton: UIButton = {
-     let view = UIButton()
-     let img = UIImage(named: "arrow_gray")
-     view.backgroundColor = .beBgCard
-     view.setTitle("알게된 경로 선택하기", for: .normal)
-     view.setTitleColor(.beTextEx, for: .normal)
-     view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
-     view.titleLabel?.textAlignment = .left
-     view.layer.borderWidth = 1
-     view.layer.borderColor = UIColor.beBorderDis.cgColor
-     view.layer.cornerRadius = 8
-     view.imageEdgeInsets = UIEdgeInsets(top: 21, left: 318, bottom: 21, right: 22)
-     view.titleEdgeInsets = UIEdgeInsets(top: 14, left: 0, bottom: 14, right: 200)
-     //엣지 조정 필요
-     view.setImage(img, for: .normal)
-     view.translatesAutoresizingMaskIntoConstraints = false
-     view.adjustsImageWhenHighlighted = false
-     view.menu = menu
-     view.showsMenuAsPrimaryAction = true
-     
-     return view
-     }()
-     */
     
     lazy var nextButton: UIButton = {
         let view = UIButton()
@@ -257,17 +212,8 @@ class RouteViewController: UIViewController {
     }
     
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
-        //birthField.text = dateFormat(date: datePicker.date)
-        // 키보드 내리기
         routeField.resignFirstResponder()
     }
-    //모달로 바뀔듯, 바뀌면 수정
-    /*
-     private func handleMenuSelection(_ selectedItem: String) {
-     // 여기에서 UILabel의 text를 변경
-     routeField.setTitle(selectedItem, for: .normal)
-     }
-     */
 }
 
 extension RouteViewController: UITextFieldDelegate {

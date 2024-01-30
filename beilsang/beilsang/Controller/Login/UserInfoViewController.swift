@@ -918,17 +918,7 @@ class UserInfoViewController: UIViewController {
     
     @objc private func nextAction() {
         let routeViewController = RouteViewController()
-        
         self.navigationController?.pushViewController(routeViewController, animated: true)
-        /*
-         UIView.transition(with: self.view.window!,
-         duration: 0.5,
-         options: .transitionCrossDissolve,
-         animations: {
-         self.navigationController?.pushViewController(routeViewController, animated: false)
-         },
-         completion: nil)
-         */
     }
     
     @objc private func handleTap() {

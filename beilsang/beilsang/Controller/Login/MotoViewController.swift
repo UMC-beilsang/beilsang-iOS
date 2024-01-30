@@ -118,16 +118,6 @@ class MotoViewController: UIViewController {
     @objc private func nextAction() {
         let userInfoController = UserInfoViewController()
         self.navigationController?.pushViewController(userInfoController, animated: true)
-        /*
-        
-        UIView.transition(with: self.view.window!,
-                          duration: 0.7,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.navigationController?.pushViewController(userInfoController, animated: false)
-        },
-                          completion: nil)
-         */
     }
 }
 

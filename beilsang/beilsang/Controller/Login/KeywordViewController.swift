@@ -137,15 +137,6 @@ class KeywordViewController: UIViewController {
         let motoViewController = MotoViewController()
         self.navigationController?.pushViewController(motoViewController, animated: true)
         
-        /*
-        UIView.transition(with: self.view.window!,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.navigationController?.pushViewController(motoViewController, animated: false)
-        },
-                          completion: nil)
-         */
     }
 }
 
