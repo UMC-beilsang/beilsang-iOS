@@ -982,6 +982,16 @@ class UserInfoViewController: UIViewController {
         } else {
             agreeButton.setImage(disagreeImage, for: .normal)
         }
+        
+        agreeAllButton.isSelected = sender.isSelected && privacyAgreeButton.isSelected
+        
+        if agreeAllButton.isSelected {
+            agreeAllButton.setImage(agreeImage, for: .normal)
+        }
+        
+        else {
+            agreeAllButton.setImage(disagreeImage, for: .normal)
+        }
     }
     
     @objc func privacyButtonHandelr(_ sender: UIButton) {
@@ -992,6 +1002,16 @@ class UserInfoViewController: UIViewController {
             privacyAgreeButton.setImage(agreeImage, for: .normal)
         } else {
             privacyAgreeButton.setImage(disagreeImage, for: .normal)
+        }
+        
+        agreeAllButton.isSelected = sender.isSelected && agreeButton.isSelected
+        
+        if agreeAllButton.isSelected {
+            agreeAllButton.setImage(agreeImage, for: .normal)
+        }
+        
+        else {
+            agreeAllButton.setImage(disagreeImage, for: .normal)
         }
     }
 }
