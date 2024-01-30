@@ -27,7 +27,6 @@ class KeywordViewController: UIViewController {
         let view = UIProgressView()
         view.trackTintColor = .beBgDiv
         view.progressTintColor = .bePrPurple500
-        view.progress = 0.25
         view.clipsToBounds = true
         view.layer.cornerRadius = 4
         return view
@@ -62,6 +61,7 @@ class KeywordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationBarSetup()
         setupUI()
         setupLayout()
     }
@@ -69,9 +69,8 @@ class KeywordViewController: UIViewController {
     // MARK: - UI Setup
     
     private func setupUI() {
-        navigationBarHidden()
+        //navigationBarHidden()
         view.backgroundColor = .beBgDef
-        view.addSubview(progressView)
         view.addSubview(joinLabel)
         view.addSubview(nextButton)
         view.addSubview(joinCollectionView)
@@ -79,7 +78,7 @@ class KeywordViewController: UIViewController {
     
     private func setupLayout() {
         progressView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(84)
+            make.top.equalToSuperview().offset(38)
             make.leading.equalToSuperview().offset(16)
             make.width.equalTo(192)
             make.height.equalTo(8)
@@ -88,7 +87,7 @@ class KeywordViewController: UIViewController {
         joinLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.width.equalTo(200)
-            make.top.equalTo(progressView.snp.bottom).offset(32)
+            make.top.equalToSuperview().offset(116)
         }
 
         joinCollectionView.snp.makeConstraints { make in
@@ -108,9 +107,13 @@ class KeywordViewController: UIViewController {
     
     // MARK: - Navigation Bar
     
-    private func navigationBarHidden() {
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    private func navigationBarSetup() {
+        navigationController?.navigationBar.addSubview(progressView)
+        navigationController?.delegate = self
+        
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
     }
     
     // MARK: - Button Disabled
@@ -132,7 +135,8 @@ class KeywordViewController: UIViewController {
     
     @objc private func nextAction() {
         let motoViewController = MotoViewController()
-        navigationController?.pushViewController(motoViewController, animated: true)
+        self.navigationController?.pushViewController(motoViewController, animated: true)
+        
     }
 }
 
@@ -166,5 +170,16 @@ extension KeywordViewController: UICollectionViewDataSource, UICollectionViewDel
             return
         }
         selectedKeyword(for: cell)
+    }
+}
+
+extension KeywordViewController: UINavigationBarDelegate, UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        let progressArray: [Float] = [0.25, 0.5, 0.75, 0.75, 0]
+        if let currentIndex = navigationController.viewControllers.firstIndex(of: viewController) {
+            let progress = progressArray[currentIndex]
+            progressView.setProgress(progress, animated: true)
+        }
     }
 }
