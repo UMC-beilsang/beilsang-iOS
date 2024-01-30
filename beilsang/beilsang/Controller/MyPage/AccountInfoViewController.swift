@@ -620,7 +620,6 @@ extension UITextField{
 extension AccountInfoViewController{
     private func setNavigationBar() {
         self.navigationItem.titleView = attributeTitleView()
-//        navigationController?.navigationBar.shadowImage = UIImage()
         setBackButton()
         
     }
