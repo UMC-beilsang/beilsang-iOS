@@ -327,6 +327,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.backgroundColor = .beBgSub
         button.setTitleColor(.beBorderDef, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.setTitle("취소", for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
@@ -337,6 +338,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.backgroundColor = .beScPurple600
         button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.setTitle("로그아웃하기", for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(logout), for: .touchUpInside)
@@ -402,6 +404,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.backgroundColor = .beBgSub
         button.setTitleColor(.beBorderDef, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.setTitle("취소", for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
@@ -411,6 +414,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.backgroundColor = .beScPurple600
         button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.setTitle("탈퇴하기", for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(withdraw), for: .touchUpInside)
@@ -472,6 +476,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.backgroundColor = .beBgSub
         button.setTitleColor(.beBorderDef, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.setTitle("닫기", for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
@@ -480,6 +485,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     lazy var activeSaveButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .beScPurple600
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.setTitleColor(.white, for: .normal)
         button.setTitle("나가기", for: .normal)
         button.layer.cornerRadius = 10
