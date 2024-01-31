@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F0418CA2B6A329B001816B5 /* HomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0418C92B6A329B001816B5 /* HomeDetailViewController.swift */; };
 		2F0838802B564085002E2551 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08387F2B564085002E2551 /* AppDelegate.swift */; };
 		2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838812B564085002E2551 /* SceneDelegate.swift */; };
 		2F0838842B564085002E2551 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838832B564085002E2551 /* ViewController.swift */; };
@@ -70,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F0418C92B6A329B001816B5 /* HomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailViewController.swift; sourceTree = "<group>"; };
 		2F08387C2B564085002E2551 /* beilsang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beilsang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F08387F2B564085002E2551 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F0838812B564085002E2551 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 			children = (
 				AF4403362B63E06F006B68FE /* HomeMainViewController.swift */,
 				AF4403382B63E0E3006B68FE /* PageViewController.swift */,
+				2F0418C92B6A329B001816B5 /* HomeDetailViewController.swift */,
 				AF44033A2B63E116006B68FE /* MainBeforeViewController.swift */,
 				AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */,
 				AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */,
@@ -484,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F0418CA2B6A329B001816B5 /* HomeDetailViewController.swift in Sources */,
 				2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */,
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
