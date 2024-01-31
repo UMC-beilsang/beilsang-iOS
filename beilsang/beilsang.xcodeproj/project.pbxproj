@@ -34,6 +34,7 @@
 		2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
 		2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */; };
+		8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = 8948F8692B69D99500393D35 /* SCLAlertView */; };
 		894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */; };
 		894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A11482B60A68C002A9A32 /* MyPageViewController.swift */; };
 		896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */; };
@@ -122,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */,
+				8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
 			);
@@ -151,6 +153,7 @@
 				2F0838952B564086002E2551 /* beilsangTests */,
 				2F08389F2B564086002E2551 /* beilsangUITests */,
 				2F08387D2B564085002E2551 /* Products */,
+				8948F8702B6A1EDE00393D35 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,6 +258,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8948F8702B6A1EDE00393D35 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		894A113C2B609ACE002A9A32 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +336,7 @@
 				2FE57C252B5EC56C0022C4F3 /* SnapKit */,
 				2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */,
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
+				8948F8692B69D99500393D35 /* SCLAlertView */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -402,6 +413,7 @@
 			packageReferences = (
 				2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -828,6 +840,14 @@
 				minimumVersion = 5.8.1;
 			};
 		};
+		8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vikmeup/SCLAlertView-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -845,6 +865,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		8948F8692B69D99500393D35 /* SCLAlertView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */;
+			productName = SCLAlertView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

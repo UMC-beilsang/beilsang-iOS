@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SCLAlertView
 
 class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -14,7 +15,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
     var gender = ["남성", "여성"]
-    
+    var alertViewResponder: SCLAlertViewResponder? = nil
     
     lazy var profileImage: UIImageView = {
         let image = UIImageView()
@@ -264,7 +265,80 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.setTitle("로그아웃", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        button.addTarget(self, action: #selector(logout), for: .touchDown)
+        button.addTarget(self, action: #selector(tapLogoutButton), for: .touchDown)
+        return button
+    }()
+    lazy var logoutAlert: SCLAlertView = {
+        
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 272,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            kTextFont: UIFont(name: "NotoSansKR-Regular", size: 14)!,
+            kButtonFont: UIFont(name: "NotoSansKR-Medium", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    lazy var logoutSubview : UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    lazy var logoutPopUpContent: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "로그아웃을 진행할까요?\n 앱 내 계정 정보는 사라지지 않아요 👀"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    // 로그아웃일 때, email 박스
+    lazy var emailBox: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgSub
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
+    lazy var emailLabel1: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.text = "현재 로그인된 계정"
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.textColor = .beTextInfo
+        return label
+    }()
+    lazy var emailLabel2: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        label.text = "email"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    lazy var cancelLogoutButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beBorderDef, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+
+        return button
+    }()
+    lazy var activeLogoutButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("로그아웃하기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(logout), for: .touchUpInside)
         return button
     }()
     lazy var withdrawButton: UIButton = {
@@ -272,7 +346,73 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.setTitle("회원탈퇴", for: .normal)
         button.setTitleColor(.beTextEx, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 16)
-        button.addTarget(self, action: #selector(withdraw), for: .touchDown)
+        button.addTarget(self, action: #selector(tapWithdrawButton), for: .touchDown)
+        return button
+    }()
+    lazy var withDrawAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 272,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            kTextFont: UIFont(name: "NotoSansKR-Regular", size: 14)!,
+            kButtonFont: UIFont(name: "NotoSansKR-Medium", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    lazy var withDrawSubview: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    lazy var withDrawPopUpContent: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "정말 탈퇴하시나요?\n 지금 탈퇴하면 챌린지 업적은 복구되지 않아요"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    let textViewPlaceHolder = "탈퇴 사유를 입력해 주세요"
+    //탈퇴사유 입력 textField
+    lazy var withDrawTextView: UITextView = {
+        let view = UITextView()
+        view.layer.borderColor = UIColor.beBgCard.cgColor
+        view.layer.borderWidth = 1
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.layer.cornerRadius = 8
+        view.textColor = .beTextEx
+        // 자동 수정 활성화 여부
+        view.autocorrectionType = .no
+        // 맞춤법 검사 활성화 여부
+        view.spellCheckingType = .no
+        // 대문자부터 시작 활성화 여부
+        view.autocapitalizationType = .none
+        view.delegate = self
+        view.text = textViewPlaceHolder
+        return view
+    }()
+    lazy var cancelWithDrawButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beBorderDef, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        return button
+    }()
+    lazy var activeWithDrawButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("로그아웃하기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(withdraw), for: .touchUpInside)
         return button
     }()
     lazy var greyBox: UIView = {
@@ -299,6 +439,53 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .beTextEx
         return view
     }()
+    lazy var saveAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 272,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            kTextFont: UIFont(name: "NotoSansKR-Regular", size: 14)!,
+            kButtonFont: UIFont(name: "NotoSansKR-Medium", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    lazy var saveSubview: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    lazy var savePopUpContent: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    lazy var cancelSaveButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beBorderDef, for: .normal)
+        button.setTitle("닫기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        return button
+    }()
+    lazy var activeSaveButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("나가기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -350,8 +537,12 @@ extension AccountInfoViewController {
         // 텍스트필드 입력 수단 연결
         birthTextField.inputView = birthPicker
         genderTextField.inputView = genderPickerView
-        
-        
+        logoutAlert.customSubview = logoutSubview
+        [logoutPopUpContent, cancelLogoutButton, activeLogoutButton, emailBox, emailLabel1, emailLabel2].forEach{view in logoutSubview.addSubview(view)}
+        withDrawAlert.customSubview = withDrawSubview
+        [withDrawPopUpContent, cancelWithDrawButton, activeWithDrawButton, withDrawTextView].forEach{view in withDrawSubview.addSubview(view)}
+        saveAlert.customSubview = saveSubview
+        [savePopUpContent, cancelSaveButton, activeSaveButton].forEach{view in saveSubview.addSubview(view)}
     }
     // MARK: - 전체 오토레이아웃 관리
     func viewConstraint(){
@@ -515,6 +706,8 @@ extension AccountInfoViewController {
             make.leading.equalTo(addressLabel.snp.trailing).offset(2)
             make.top.equalTo(addressLabel.snp.top)
         }
+        
+        alertLayout()
     }
 // MARK: - 함수
     @objc func dateChange(_ sender: UIDatePicker) {
@@ -543,7 +736,6 @@ extension AccountInfoViewController {
         birthTextField.inputAccessoryView = toolBar
     }
     private func setupGenderToolBar() {
-        
         let toolBar = UIToolbar()
         toolBar.updateConstraintsIfNeeded()
         // flexibleSpace: done 버튼을 맨 끝으로 보내기 위한 item
@@ -583,13 +775,26 @@ extension AccountInfoViewController {
         systemImage.isHidden = true
         systemLabel.isHidden = true
     }
-    @objc func logout(){
+    @objc func tapLogoutButton(){
         print("로그아웃")
-        
+        alertViewResponder = logoutAlert.showInfo("계정 로그아웃")
+
+    }
+    @objc func tapWithdrawButton(){
+        print("회원 탈퇴")
+        alertViewResponder = withDrawAlert.showInfo("회원 탈퇴")
+    }
+    @objc func logout(){
+        alertViewResponder?.close()
     }
     @objc func withdraw(){
-        print("회원 탈퇴")
-        
+        alertViewResponder?.close()
+    }
+    @objc func close(){
+        alertViewResponder?.close()
+    }
+    @objc func cancel(){
+        alertViewResponder?.close()
     }
 // MARK: - PickerView
     
@@ -645,7 +850,8 @@ extension AccountInfoViewController{
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
-            print("뒤로 가기")
+        print("뒤로 가기")
+        alertViewResponder = saveAlert.showInfo("저장되지 않은 내용이 있어요!", subTitle: "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀")
     }
 }
 // MARK: - UITextFieldDelegate
@@ -803,5 +1009,110 @@ extension AccountInfoViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         genderTextField.text = gender[row]
         return gender[row]
+    }
+}
+
+// MARK: - Alert
+extension AccountInfoViewController {
+    func alertLayout() {
+        // 로그아웃 알림창
+        logoutSubview.snp.makeConstraints { make in
+            make.width.equalTo(316)
+            make.bottom.equalTo(cancelLogoutButton).offset(12)
+        }
+        emailBox.snp.makeConstraints { make in
+            make.width.equalTo(280)
+            make.height.equalTo(64)
+            make.centerX.equalTo(logoutSubview.snp.centerX)
+            make.top.equalToSuperview()
+        }
+        emailLabel1.snp.makeConstraints { make in
+            make.top.equalTo(emailBox.snp.top).offset(14)
+            make.centerX.equalToSuperview()
+        }
+        emailLabel2.snp.makeConstraints { make in
+            make.top.equalTo(emailLabel1.snp.bottom)
+            make.centerX.equalToSuperview()
+        }
+        logoutPopUpContent.snp.makeConstraints { make in
+            make.top.equalTo(emailBox.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        cancelLogoutButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.trailing.equalTo(logoutSubview.snp.centerX).offset(-3)
+            make.top.equalTo(logoutPopUpContent.snp.bottom).offset(28)
+        }
+        activeLogoutButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.leading.equalTo(logoutSubview.snp.centerX).offset(3)
+            make.centerY.equalTo(cancelLogoutButton)
+        }
+        // 회원 탈퇴 알림창
+        withDrawSubview.snp.makeConstraints { make in
+            make.width.equalTo(316)
+            make.bottom.equalTo(cancelWithDrawButton).offset(12)
+        }
+        withDrawPopUpContent.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        withDrawTextView.snp.makeConstraints { make in
+            make.width.equalTo(285)
+            make.height.equalTo(140)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(withDrawPopUpContent.snp.bottom).offset(20)
+        }
+        cancelWithDrawButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.trailing.equalTo(withDrawSubview.snp.centerX).offset(-3)
+            make.top.equalTo(withDrawTextView.snp.bottom).offset(28)
+        }
+        activeWithDrawButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.leading.equalTo(withDrawSubview.snp.centerX).offset(3)
+            make.centerY.equalTo(cancelWithDrawButton)
+        }
+        // 저장되지 않은 내용이 있어요! 알림창
+        saveSubview.snp.makeConstraints { make in
+            make.width.equalTo(316)
+            make.bottom.equalTo(cancelSaveButton).offset(12)
+        }
+        savePopUpContent.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        cancelSaveButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.trailing.equalTo(saveSubview.snp.centerX).offset(-3)
+            make.top.equalTo(savePopUpContent.snp.bottom).offset(28)
+        }
+        activeSaveButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.leading.equalTo(saveSubview.snp.centerX).offset(3)
+            make.centerY.equalTo(cancelSaveButton)
+        }
+    }
+}
+extension AccountInfoViewController: UITextViewDelegate {
+//    focus를 얻는 경우: text가 placeholder로 그대로 남아 있다면, 입력을 준비하기 위해서 text를 nil, color를 input색상으로 변경
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+//    focus를 읽는 경우: text가 비어있다면 text를 placeholder로 하고 color도 placeholder 색상으로 변경
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .beTextEx
+        }
     }
 }

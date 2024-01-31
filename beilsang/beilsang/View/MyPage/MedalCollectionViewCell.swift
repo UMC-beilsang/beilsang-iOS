@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SwiftUI
 
 class MedalCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "medalCollectionViewCell"
 
+    static let identifier = "medalCollectionViewCell"
+    var delegate: CustomCellDelegate?
+    
     // 달성 메달 셀 전체 뷰
     lazy var medalView: UIView = {
         let view = UIView()
@@ -37,37 +39,51 @@ class MedalCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 10
         return view
     }()
+            
     // 달성 메달 이미지(총 5개)
     lazy var medal1: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
+        button.setTitle("10", for: .normal)
+        button.setTitleColor(.clear, for: .normal)
+        button.setImage(UIImage(named: "Group 1000002757"), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     lazy var medal2: UIButton = {
         let button = UIButton()
+        button.setTitle("20", for: .normal)
+        button.setTitleColor(.clear, for: .normal)
         button.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
-
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
     lazy var medal3: UIButton = {
         let button = UIButton()
+        button.setTitle("30", for: .normal)
+        button.setTitleColor(.clear, for: .normal)
         button.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
-
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
     lazy var medal4: UIButton = {
         let button = UIButton()
+        button.setTitle("40", for: .normal)
+        button.setTitleColor(.clear, for: .normal)
         button.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
-
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
     lazy var medal5: UIButton = {
         let button = UIButton()
+        button.setTitle("50", for: .normal)
+        button.setTitleColor(.clear, for: .normal)
         button.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
-
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
+    
+
     //사용자가 선택한 셀에 따라 POST
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -133,7 +149,28 @@ extension MedalCollectionViewCell {
 }
 // MARK: - function
 extension MedalCollectionViewCell {
-    @objc func buttonTapped() {
-       
+    @objc func buttonTapped(_ sender: UIButton) {
+        if sender.isEnabled {
+            delegate?.didTapButton(in: self, button: sender)
+        }
     }
+    
+}
+private struct FloatingView: View {
+  var body: some View {
+    HStack {
+      Spacer()
+      Text("This is Floating")
+        .font(.headline)
+        .padding(.vertical, 10)
+      Spacer()
+    }
+    .background(Color.white)
+    .cornerRadius(20)
+    .padding(.horizontal, 20)
+  }
+}
+
+protocol CustomCellDelegate: AnyObject {
+    func didTapButton(in cell: UICollectionViewCell, button: UIButton)
 }

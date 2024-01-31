@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import SwiftUI
+import SnapKit
+
 
 class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -57,7 +60,16 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
         let view = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
         return view
     }()
-
+    lazy var toastLabel : UILabel = {
+        let toastLabel = UILabel()
+        toastLabel.text = "🏅 챌린지 30회 참여시 획득할 수 있어요"
+        toastLabel.textColor = .white
+        toastLabel.font = UIFont(name: "NotoSansKR-Regular", size: 20)
+        toastLabel.layer.cornerRadius = 20
+        toastLabel.backgroundColor = .beTextDef.withAlphaComponent(0.8)
+        toastLabel.isHidden = true
+        return toastLabel
+    }()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -106,7 +118,7 @@ extension MyChallengeViewController {
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
         //상단부
-        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeBoxCollectionView].forEach{ view in fullContentView.addSubview(view)}
+        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeBoxCollectionView, toastLabel].forEach{ view in fullContentView.addSubview(view)}
         
     }
     
@@ -141,6 +153,13 @@ extension MyChallengeViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
+        }
+        toastLabel.snp.makeConstraints { make in
+            make.width.equalTo(332)
+            make.height.equalTo(43)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(challengeBoxCollectionView.snp.top).offset(330)
+//            make.bottom.equalTo(UIScreen.main.bounds.height).offset(-20)
         }
     }
 }
@@ -177,7 +196,7 @@ extension MyChallengeViewController{
     }
 }
 // MARK: - collectionView setting(카테고리)
-extension MyChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MyChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate, CustomCellDelegate {
     // collectionView, delegate, datasorce 설정
     func setCollectionView() {
         [menuCollectionView, categoryCollectionView, challengeBoxCollectionView].forEach { view in
@@ -245,6 +264,7 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MedalCollectionViewCell.identifier, for: indexPath) as?
                         MedalCollectionViewCell else {
                     return UICollectionViewCell() }
+                cell.delegate = self
                 return cell
             }
             else if indexPath.section == 1{
@@ -296,7 +316,6 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         categoryCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
         challengeBoxCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom)
     }
-    
     
     // 섹션 별 크기 설정을 위한 함수
     // challengeBoxCollectionView layout 커스텀
@@ -364,4 +383,27 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             return section
         }
     }
+    // 델리게이트 메서드 구현
+    func didTapButton(in cell: UICollectionViewCell, button : UIButton) {
+        showToast(message: button.titleLabel?.text ?? "")
+    }
+    func showToast(message : String) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 166, y: self.view.frame.size.height-100, width: 332, height: 43))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = .white
+        toastLabel.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        toastLabel.textAlignment = .center
+        toastLabel.text = "🏅 챌린지 \(message)회 참여시 획득할 수 있어요"
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.layer.cornerRadius = 20
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 5, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
 }
+
