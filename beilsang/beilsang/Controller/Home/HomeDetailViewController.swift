@@ -114,6 +114,18 @@ class HomeDetailViewController: UIViewController {
         
         return view
     }()
+    
+    lazy var startDateLabel: UILabel = {
+        let view = UILabel()
+        view.text = "01. 11 (목)"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beTextEx
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -201,12 +213,12 @@ class HomeDetailViewController: UIViewController {
         }
         
         categoryIcon.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(8)
+            make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(20)
         }
         
         categoryLabel.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(8)
+            make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().offset(-20)
         }
         
