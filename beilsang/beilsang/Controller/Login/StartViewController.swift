@@ -11,6 +11,9 @@ import SnapKit
 class StartViewController: UIViewController {
     
     //MARK: - Properties
+    
+    var attributedStr: NSMutableAttributedString!
+    
     lazy var characterImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "characterlogo")
@@ -36,6 +39,33 @@ class StartViewController: UIViewController {
         return view
     }()
     
+    lazy var bubbleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "🌱 가입 축하 +1000P 받고 시작하기!"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var bubbleView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgDef
+        view.layer.cornerRadius = 15
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.16
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 2, height: 2)
+        view.layer.shadowPath = nil
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     lazy var nextButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = .beScPurple600
@@ -52,9 +82,9 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAttributedStr()
         setupUI()
         setupLayout()
-
 
     }
     
@@ -65,7 +95,10 @@ class StartViewController: UIViewController {
         view.backgroundColor = .beBgDef
         view.addSubview(characterImage)
         view.addSubview(startLabel)
+        view.addSubview(bubbleView)
         view.addSubview(nextButton)
+        
+        bubbleView.addSubview(bubbleLabel)
     }
     
     private func setupLayout() {
@@ -78,6 +111,18 @@ class StartViewController: UIViewController {
         startLabel.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
             make.top.equalTo(characterImage.snp.bottom).offset(24)
+        }
+        
+        bubbleView.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(67)
+            make.trailing.equalToSuperview().offset(-67)
+            make.bottom.equalToSuperview().offset(-180)
+            make.height.equalTo(32)
+        }
+        
+        bubbleLabel.snp.makeConstraints{ make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints{ make in
@@ -94,6 +139,18 @@ class StartViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
+    
+    //MARK: - setupAttributeStr
+    
+    func setupAttributedStr() {
+        attributedStr = NSMutableAttributedString(string: bubbleLabel.text!)
+
+        attributedStr.addAttribute(.foregroundColor, value: UIColor.beCta , range: (bubbleLabel.text! as NSString).range(of: "1000P"))
+
+        bubbleLabel.attributedText = attributedStr
+    }
+    
+    // MARK: - Actions
     
     @objc private func nextAction() {
         print("Next button tapped")
