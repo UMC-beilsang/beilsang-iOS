@@ -14,7 +14,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
-    var gender = ["남성", "여성"]
+    var gender = ["남성", "여성", "기타"]
     var alertViewResponder: SCLAlertViewResponder? = nil
     
     lazy var profileImage: UIImageView = {
@@ -88,6 +88,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         // 비활성화 상태일 때
         button.isEnabled = false
         button.setTitleColor(.beBgSub, for: .disabled)
+        button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .beBgDiv
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         
@@ -225,7 +226,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
-                button.addTarget(self, action: #selector(duplicateCheck), for: .touchDown)
+                button.addTarget(self, action: #selector(postCode), for: .touchDown)
                 
         return button
     }()
@@ -485,7 +486,22 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         return button
     }()
-    
+    // 네비게이션 오른쪽 BarItem - 변경사항 저장
+    lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("저장하기", for: .normal)
+        button.layer.cornerRadius = 8
+        // 비활성화 상태일 때
+        button.isEnabled = false
+        button.setTitleColor(.white, for: .disabled)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .beScPurple400
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(save), for: .touchDown)
+        return button
+    }()
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -706,7 +722,10 @@ extension AccountInfoViewController {
             make.leading.equalTo(addressLabel.snp.trailing).offset(2)
             make.top.equalTo(addressLabel.snp.top)
         }
-        
+        saveButton.snp.makeConstraints { make in
+            make.height.equalTo(36)
+            make.width.equalTo(72)
+        }
         alertLayout()
     }
 // MARK: - 함수
@@ -760,7 +779,15 @@ extension AccountInfoViewController {
     @objc private func duplicateCheck() -> Bool {
         print("duplicate button tapped")
         nicknameSuccess("사용 가능한 닉네임입니다.")
+        setButton(saveButton, true)
         return true
+    }
+    @objc private func postCode() {
+        print("우편번호")
+    }
+    @objc private func save() {
+        print("변경 사항 저장")
+        setButton(saveButton, false)
     }
     func buttonFieldSelected(_ button: UIButton){
         // textField 파랗게
@@ -825,7 +852,7 @@ extension UITextField{
 extension AccountInfoViewController{
     private func setNavigationBar() {
         self.navigationItem.titleView = attributeTitleView()
-        setBackButton()
+        setBarButton()
         
     }
     private func attributeTitleView() -> UIView {
@@ -842,16 +869,23 @@ extension AccountInfoViewController{
         return label
     }
     // 백버튼 커스텀
-    func setBackButton() {
+    func setBarButton() {
         let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         // 기존 barbutton이미지 이용할 때 -> (barButtonSystemItem: ., target: self, action: #selector(tabBarButtonTapped))
         leftBarButton.tintColor = .black
+        
+        
+        let rightBarButton: UIBarButtonItem = UIBarButtonItem(customView: saveButton)
+        
         self.navigationItem.leftBarButtonItem = leftBarButton
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
         print("뒤로 가기")
-        alertViewResponder = saveAlert.showInfo("저장되지 않은 내용이 있어요!", subTitle: "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀")
+        if saveButton.isEnabled {
+            alertViewResponder = saveAlert.showInfo("저장되지 않은 내용이 있어요!", subTitle: "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀")
+        }
     }
 }
 // MARK: - UITextFieldDelegate
@@ -894,6 +928,8 @@ extension AccountInfoViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == nicknameTextField {
             setButton(dupCheckButton, true)
+        } else {
+            setButton(saveButton, true)
         }
         textFieldSelected(textField)
 
@@ -959,16 +995,28 @@ extension AccountInfoViewController: UITextFieldDelegate {
         }
     }
     func setButton(_ button: UIButton, _ enabled: Bool){
-        if enabled{
-            // 중복 체크 버튼 활성화
-            dupCheckButton.isEnabled = true
-            dupCheckButton.setTitleColor(.white, for: .normal)
-            dupCheckButton.backgroundColor = .beScPurple600
-        }else{
-            // 중복 체크 버튼 비활성화
-            dupCheckButton.isEnabled = false
-            dupCheckButton.setTitleColor(.beBgSub, for: .disabled)
-            dupCheckButton.backgroundColor = .beBgDiv
+        if button == saveButton {
+            if enabled{
+                // 버튼 활성화
+                button.isEnabled = true
+                button.backgroundColor = .beScPurple600
+            }else{
+                // 버튼 비활성화
+                button.isEnabled = false
+                button.backgroundColor = .beScPurple400
+            }
+        } else {
+            if enabled{
+                // 버튼 활성화
+                button.isEnabled = true
+//                button.setTitleColor(.white, for: .normal)
+                button.backgroundColor = .beScPurple600
+            }else{
+                // 버튼 비활성화
+                button.isEnabled = false
+//                button.setTitleColor(.beBgSub, for: .disabled)
+                button.backgroundColor = .beBgDiv
+            }
         }
     }
     func nicknameSuccess(_ message: String){
@@ -1002,7 +1050,7 @@ extension AccountInfoViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
+        return gender.count
     }
     
     /// 표출할 텍스트 (2020년, 2021년 / 1월, 2월, 3월, 4월 ... )
