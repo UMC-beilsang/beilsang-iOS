@@ -410,7 +410,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.backgroundColor = .beScPurple600
         button.setTitleColor(.white, for: .normal)
-        button.setTitle("로그아웃하기", for: .normal)
+        button.setTitle("탈퇴하기", for: .normal)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(withdraw), for: .touchUpInside)
         return button
