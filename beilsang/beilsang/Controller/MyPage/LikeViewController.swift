@@ -1,23 +1,20 @@
 //
-//  MyChallengeFeedViewController.swift
+//  LikeViewController.swift
 //  beilsang
 //
 //  Created by 강희진 on 2/1/24.
 //
 
 import UIKit
-import SwiftUI
-import SnapKit
 
+class LikeViewController: UIViewController, UIScrollViewDelegate {
 
-class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     
     // 전체 화면 scrollview
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
     let menuList = ["참여중", "등록한", "완료됨"]
-    var imageList = ["image 8", "image 9"]
     
     lazy var menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -36,7 +33,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // categoriesView - 셀
-    let categoryDataList = CategoryKeyword.data
+    let categoryDataList = CategoryKeyword.data[1...]
     lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -55,24 +52,17 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .beBgSub
         return view
     }()
-    
-    lazy var challengeFeedBoxCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: 173, height: 140)
-        layout.minimumInteritemSpacing = 12
-        layout.minimumLineSpacing = 12
-        
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.isScrollEnabled = true
-        return view
-    }()
-    lazy var challengeFeedLabel : UILabel = {
+    lazy var challengeLabel: UILabel = {
         let label = UILabel()
-        label.text = "나의 챌린지 피드"
-        label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        label.textColor = .black
+        label.text = "다회용기 챌린지"
         return label
+    }()
+    
+    lazy var challengeBoxCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+        return view
     }()
 
     // MARK: - Lifecycle
@@ -86,7 +76,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
 
 }
-extension MyChallengeFeedViewController {
+extension LikeViewController {
     
     func setupAttribute() {
         setFullScrollView()
@@ -120,8 +110,7 @@ extension MyChallengeFeedViewController {
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
-        //상단부
-        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeFeedBoxCollectionView, challengeFeedLabel].forEach{ view in fullContentView.addSubview(view)}
+        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeLabel, challengeBoxCollectionView].forEach{ view in fullContentView.addSubview(view)}
         
     }
     
@@ -151,20 +140,21 @@ extension MyChallengeFeedViewController {
             make.top.equalTo(categoryCollectionView.snp.bottom).offset(24)
             make.leading.equalToSuperview()
         }
-        challengeFeedLabel.snp.makeConstraints { make in
+        challengeLabel.snp.makeConstraints { make in
             make.top.equalTo(categoryUnderLine.snp.bottom).offset(28)
             make.leading.equalToSuperview().offset(16)
         }
-        challengeFeedBoxCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(challengeFeedLabel.snp.bottom).offset(12)
-            make.leading.equalTo(challengeFeedLabel)
-            make.trailing.equalToSuperview().offset(-16)
+        challengeBoxCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(challengeLabel.snp.bottom).offset(12)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
         }
+        
     }
 }
 // MARK: - 네비게이션 바 커스텀
-extension MyChallengeFeedViewController{
+extension LikeViewController{
     private func setNavigationBar() {
         self.navigationItem.titleView = attributeTitleView()
         
@@ -175,7 +165,7 @@ extension MyChallengeFeedViewController{
         // title 설정
         let label = UILabel()
         let lightText: NSMutableAttributedString =
-            NSMutableAttributedString(string: "나의 챌린지",attributes: [
+            NSMutableAttributedString(string: "찜",attributes: [
             .foregroundColor: UIColor.black,
             .font: UIFont(name: "NotoSansKR-SemiBold", size: 20)!])
         let naviTitle: NSMutableAttributedString
@@ -196,10 +186,10 @@ extension MyChallengeFeedViewController{
     }
 }
 // MARK: - collectionView setting(카테고리)
-extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate{
+extension LikeViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     // collectionView, delegate, datasorce 설정
     func setCollectionView() {
-        [menuCollectionView, categoryCollectionView, challengeFeedBoxCollectionView].forEach { view in
+        [menuCollectionView, categoryCollectionView, challengeBoxCollectionView].forEach { view in
             view.delegate = self
             view.dataSource = self
         }
@@ -207,10 +197,12 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
         //Cell 등록
         menuCollectionView.register(ChallengeMenuCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeMenuCollectionViewCell.identifier)
         categoryCollectionView.register(MyPageCategoryCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCategoryCollectionViewCell.identifier)
-        challengeFeedBoxCollectionView.register(MyChallengeFeedCollectionViewCell.self, forCellWithReuseIdentifier: MyChallengeFeedCollectionViewCell.identifier)
+        challengeBoxCollectionView.register(ChallengeListCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeListCollectionViewCell.identifier)
+        
         // 컬렉션 뷰 첫 화면 선택
         setFirstIndexIsSelected()
         
+        // 스크롤 감추기
         categoryCollectionView.showsHorizontalScrollIndicator = false
     }
     // section 개수 설정
@@ -224,8 +216,8 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             return menuList.count
         case categoryCollectionView:
             return categoryDataList.count
-        case challengeFeedBoxCollectionView:
-            return 2
+        case challengeBoxCollectionView:
+            return 5
         default:
             return 0
         }
@@ -248,18 +240,17 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
                     MyPageCategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let target = categoryDataList[indexPath.row]
+            
+            let target = categoryDataList[indexPath.row+1]
             let img = UIImage(named: "\(target.image).svg")
             cell.keywordImage.image = img
             cell.keywordLabel.text = target.title
             
             return cell
-        case challengeFeedBoxCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChallengeFeedCollectionViewCell.identifier, for: indexPath) as?
-                    MyChallengeFeedCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            cell.challengeFeed.setImage(UIImage(named: imageList[indexPath.row]), for: .normal)
+        case challengeBoxCollectionView:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeListCollectionViewCell.identifier, for: indexPath) as?
+                    ChallengeListCollectionViewCell else {
+                return UICollectionViewCell() }
             return cell
         default:
             return UICollectionViewCell()
@@ -275,18 +266,52 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             let labelText = cell.menuLabel.text
             let challengeListVC = ChallengeListViewController()
             challengeListVC.categoryLabelText = labelText
-        case challengeFeedBoxCollectionView:
-            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+        case categoryCollectionView:
+            let cell = categoryCollectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
+            
+            challengeLabel.text = "\(cell.keywordLabel.text!) 챌린지"
         default:
             return
         }
     }
-    
     // collectionCell 첫 화면 설정
     func setFirstIndexIsSelected() {
         let selectedIndexPath = IndexPath(item: 0, section: 0)
         menuCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
         categoryCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
     }
+    
+    // 섹션 별 크기 설정을 위한 함수
+    // challengeBoxCollectionView layout 커스텀
+    private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { section, ev -> NSCollectionLayoutSection? in
+            
+            makeChallengeSectionLayout()
+        }
+        func makeChallengeSectionLayout() -> NSCollectionLayoutSection? {
+            // item
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            /// 아이템들이 들어갈 Group 설정
+            /// groupSize 설정
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(140))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+            // section
+            let section = NSCollectionLayoutSection(group: group)
+//            section.orthogonalScrollingBehavior = .continuous // 섹션 내 가로 스크롤
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 16,
+                bottom: 0,
+                trailing: 16)
+            
+            return section
+        }
+    }
 }
-

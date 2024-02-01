@@ -10,7 +10,6 @@ import UIKit
 class ChallengeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "challengeCollectionViewCell"
-    var delegate: CustomChallengeCellDelegate?
     // 달성 메달 셀 전체 뷰
     lazy var challengeView: UIView = {
         let view = UIView()
@@ -39,21 +38,18 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    
     //사용자가 선택한 셀에 따라 POST
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
         setCollectionView()
-        delegate?.setContentHeight(count: 5)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setLayout()
         setCollectionView()
-        delegate?.setContentHeight(count: 5)
     }
 }
 
@@ -109,7 +105,4 @@ extension ChallengeCollectionViewCell: UICollectionViewDataSource, UICollectionV
         
         return CGSize(width: width , height: 140)
     }
-}
-protocol CustomChallengeCellDelegate: AnyObject {
-    func setContentHeight(count: Int)
 }

@@ -113,7 +113,6 @@ extension MyChallengeViewController {
             make.height.equalTo(1056)
         }
     }
-    
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
@@ -196,7 +195,7 @@ extension MyChallengeViewController{
     }
 }
 // MARK: - collectionView setting(카테고리)
-extension MyChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate, CustomCellDelegate {
+extension MyChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate, CustomMedalCellDelegate {
     // collectionView, delegate, datasorce 설정
     func setCollectionView() {
         [menuCollectionView, categoryCollectionView, challengeBoxCollectionView].forEach { view in
@@ -271,6 +270,7 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeCollectionViewCell.identifier, for: indexPath) as?
                         ChallengeCollectionViewCell else {
                     return UICollectionViewCell()    }
+                
                 return cell
             }
             return UICollectionViewCell()
@@ -278,7 +278,6 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             return UICollectionViewCell()
         }
     }
-    
     
     // cell 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -368,8 +368,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var withDrawSubview: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        
+        view.backgroundColor = .white     
         return view
     }()
     lazy var withDrawPopUpContent: UILabel = {
@@ -912,14 +911,14 @@ extension AccountInfoViewController: UITextFieldDelegate {
             if let char = string.cString(using: String.Encoding.utf8) {
                 let isBackSpace = strcmp(char, "\\b")
                 if (isBackSpace == -92) {
-                    selectingNickname()
-                    textFieldSelected(textField)
+                    selectingNickname() // <- 버튼 다시 파란색
+                    textFieldSelected(textField) // <- 백스페이스 하면 색깔 다시 파란색으로 해주겠다는 뜻
                     return true
                 }
             }
             guard textField.text!.count <= 8 else {
                 nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
-                return false
+                return false // <- 이거 false로 하면 유효성 검사에서 걸리면 입력 자체가 안됨 true로 하는게 나을려나?
             }
             guard string.hasCharacters() else {
                 nicknameError("닉네임은 한글, 영어 대소문자, 숫자만 가능합니다.")
@@ -960,9 +959,37 @@ extension AccountInfoViewController: UITextFieldDelegate {
                 textFieldNormal(genderTextField)
                 return false
             }
+            nicknameTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            nicknameTextField.layer.backgroundColor = UIColor.clear.cgColor
+            nicknameTextField.textColor = UIColor.beTextDef
+            nicknameTextField.setPlaceholderColor(.beTextEx)
+            
+            dupCheckButton.isEnabled = true
+            dupCheckButton.setTitleColor(.beTextWhite, for: .normal)
+            dupCheckButton.backgroundColor = .beScPurple600
+        }
+        else if textField == birthTextField {
+            birthTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            birthTextField.layer.backgroundColor = UIColor.clear.cgColor
+            birthTextField.textColor = UIColor.beTextDef
+            birthTextField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == genderTextField {
+            genderTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            genderTextField.layer.backgroundColor = UIColor.clear.cgColor
+            genderTextField.textColor = UIColor.beTextDef
+            genderTextField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == postCodeTextField {
+            postCodeTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            postCodeTextField.layer.backgroundColor = UIColor.clear.cgColor
+            postCodeTextField.textColor = UIColor.beTextDef
+            postCodeTextField.setPlaceholderColor(.beTextEx)
         }
         return true
     }
+    
+        
     func nicknameError(_ message: String) {
         // 에러 메세지 출력
         systemLabel.isHidden = false

@@ -38,8 +38,6 @@ class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
         challengeFeed.translatesAutoresizingMaskIntoConstraints = false
         challengeFeed.snp.makeConstraints({ make in
             make.size.edges.equalToSuperview()
-//            make.width.equalTo(173)
-//            make.height.equalTo(140)
         })
     }
 }

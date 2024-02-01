@@ -47,7 +47,7 @@ class MedalCollectionViewCell: UICollectionViewCell {
         button.setTitleColor(.clear, for: .normal)
         button.setImage(UIImage(named: "Group 1000002757"), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.isEnabled = false
+        button.isUserInteractionEnabled = false
         return button
     }()
     lazy var medal2: UIButton = {
@@ -150,7 +150,7 @@ extension MedalCollectionViewCell {
 // MARK: - function
 extension MedalCollectionViewCell {
     @objc func buttonTapped(_ sender: UIButton) {
-        if sender.isEnabled {
+        if sender.isUserInteractionEnabled {
             delegate?.didTapButton(in: self, button: sender)
         }
     }
