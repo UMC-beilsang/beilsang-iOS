@@ -1,17 +1,15 @@
 //
-//  CategoryCollectionViewCell.swift
+//  MyPageCategoryCollectionViewCell.swift
 //  beilsang
 //
-//  Created by 곽은채 on 1/26/24.
+//  Created by 강희진 on 1/28/24.
 //
 
-import SnapKit
 import UIKit
 
-// [홈] 메인화면
-// 카테고리 뷰 셀
-class CategoryCollectionViewCell: UICollectionViewCell {
-    
+// CategoryCollectionViewCell과 다른점 : 폰트, didSet 부분(선택할 때 색상 변경)
+class MyPageCategoryCollectionViewCell: UICollectionViewCell {
+        
     static let identifier = "categoryViewCell"
     
     // 카테고리 셀 전체 뷰
@@ -29,7 +27,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     // 카테고리 텍스트 레이블
     lazy var keywordLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
         view.numberOfLines = 0
         view.textColor = .beTextInfo
         view.textAlignment = .center
@@ -49,11 +47,20 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         setKeywordLayout()
     }
     
-    
+    override var isSelected: Bool {
+            didSet{
+                if isSelected {
+                    keywordView.backgroundColor = .bePrPurple30Per.withAlphaComponent(0.3)
+                }
+                else {
+                    keywordView.backgroundColor = .beBgSub
+                }
+            }
+        }
 }
 
 // MARK: - layout setting
-extension CategoryCollectionViewCell {
+extension MyPageCategoryCollectionViewCell {
     func setKeywordLayout() {
         addSubview(keywordView)
         keywordView.addSubview(keywordImage)
