@@ -35,6 +35,8 @@
 		2FC6F6672B6AD50900F49E7E /* RecommendChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F6662B6AD50900F49E7E /* RecommendChallenge.swift */; };
 		2FC6F6692B6B7E9600F49E7E /* CautionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F6682B6B7E9600F49E7E /* CautionCollectionViewCell.swift */; };
 		2FC6F66D2B6B891700F49E7E /* CautionChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F66C2B6B891700F49E7E /* CautionChallenge.swift */; };
+		2FC6F6702B6B95DD00F49E7E /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = 2FC6F66F2B6B95DD00F49E7E /* SCLAlertView */; };
+		2FC6F6722B6C074300F49E7E /* JoinChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F6712B6C074300F49E7E /* JoinChallengeViewController.swift */; };
 		2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C252B5EC56C0022C4F3 /* SnapKit */; };
 		2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
@@ -107,6 +109,7 @@
 		2FC6F6662B6AD50900F49E7E /* RecommendChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendChallenge.swift; sourceTree = "<group>"; };
 		2FC6F6682B6B7E9600F49E7E /* CautionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FC6F66C2B6B891700F49E7E /* CautionChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionChallenge.swift; sourceTree = "<group>"; };
+		2FC6F6712B6C074300F49E7E /* JoinChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinChallengeViewController.swift; sourceTree = "<group>"; };
 		2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2FF55CA32B684C92004EDB39 /* PlaceHolder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceHolder+.swift"; sourceTree = "<group>"; };
 		2FF55CA72B684CAF004EDB39 /* InfoCircle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoCircle+.swift"; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 				2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
+				2FC6F6702B6B95DD00F49E7E /* SCLAlertView in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +354,7 @@
 				AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */,
 				AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */,
 				2F0418C92B6A329B001816B5 /* ChallengeDetailViewController.swift */,
+				2FC6F6712B6C074300F49E7E /* JoinChallengeViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				2FE57C252B5EC56C0022C4F3 /* SnapKit */,
 				2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */,
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
+				2FC6F66F2B6B95DD00F49E7E /* SCLAlertView */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -450,6 +456,7 @@
 			packageReferences = (
 				2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				2FC6F66E2B6B95DD00F49E7E /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -523,6 +530,7 @@
 				2FC6F6692B6B7E9600F49E7E /* CautionCollectionViewCell.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
+				2FC6F6722B6C074300F49E7E /* JoinChallengeViewController.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
 				2FF55CAD2B684D3A004EDB39 /* KakaoPostCodeViewController.swift in Sources */,
@@ -731,6 +739,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RC5FY8NJN7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -742,7 +751,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "-0.beilsang";
+				PRODUCT_BUNDLE_IDENTIFIER = com.beilsang.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -864,6 +873,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2FC6F66E2B6B95DD00F49E7E /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vikmeup/SCLAlertView-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.2;
+			};
+		};
 		2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -883,6 +900,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2FC6F66F2B6B95DD00F49E7E /* SCLAlertView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FC6F66E2B6B95DD00F49E7E /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */;
+			productName = SCLAlertView;
+		};
 		2FE57C252B5EC56C0022C4F3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */;

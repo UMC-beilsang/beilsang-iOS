@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import SCLAlertView
+import SafariServices
 
 class ChallengeDetailViewController: UIViewController {
     
@@ -17,9 +19,208 @@ class ChallengeDetailViewController: UIViewController {
     
     let recommendDataList = RecommendChallenge.data
     let cautionDataList = CautionChallenge.data
-    
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     
+    var alertViewResponder: SCLAlertViewResponder? = nil
+    
+    // 신고하기 팝업
+    lazy var testbutton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .black
+        view.addTarget(self, action: #selector(testButtonTapped), for: .touchUpInside)
+        
+        return view
+    }()
+    
+    lazy var reportAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 184,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    
+    lazy var reportSubView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    
+    lazy var reportLabel: UILabel = {
+        let view = UILabel()
+        view.text = "해당 챌린지의 신고 사유가 무엇인가요? \n 하단 링크를 통해 알려 주세요!"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 2
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
+        
+        return view
+    }()
+    
+    lazy var reportCancelButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beTextEx, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var reportButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("신고하기", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    // 참여하기 팝업
+    
+    lazy var joinAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 321,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    
+    lazy var joinSubView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    
+    lazy var popUpSubView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgSub
+        
+        return view
+    }()
+    
+    lazy var popLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBorderDis
+        
+        return view
+    }()
+    
+    lazy var popPointMinTitleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "챌린지 최소 참여 포인트"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beTextSub
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var popPeriodTitleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "챌린지 실천 기간"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beTextSub
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var popPointLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "NotoSansKR-SemiBold", size:14)
+        view.numberOfLines = 0
+        view.textColor = .beCta
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var popPeriodLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var popLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.text = "해당 챌린지를 참여할까요? 👀"
+        view.numberOfLines = 0
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var popCancelButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beTextEx, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var popJoinButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("참여하기", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(popJoinButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    //토스트 팝업
+    
+    lazy var toastLabel : UILabel = {
+        let view = UILabel()
+        view.text = "🌱 함께 참여하고 친환경 일상을 만들어요!"
+        view.textColor = .white
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 20
+        view.textAlignment = .center
+        view.backgroundColor = .beTextDef.withAlphaComponent(0.8)
+        view.isHidden = false
+        
+        return view
+    }()
+    
+    //컬렉션뷰
     
     lazy var recommendCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -408,7 +609,7 @@ class ChallengeDetailViewController: UIViewController {
         view.layer.masksToBounds = false
         view.layer.shadowOffset = CGSize(width: 4, height: 4)
         view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -458,8 +659,10 @@ class ChallengeDetailViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupLayout()
-        
+        showPromoToast()
         updateChallengeLabelText()
+        updatePopPeriodLabelText()
+        updatePopPointLabelText()
     }
     
     //MARK: - UI Setup
@@ -469,6 +672,7 @@ class ChallengeDetailViewController: UIViewController {
         view.backgroundColor = .beBgDef
         view.addSubview(verticalScrollView)
         view.addSubview(bottomView)
+        view.addSubview(toastLabel)
         
         verticalScrollView.addSubview(verticalContentView)
         verticalContentView.addSubview(representImageView)
@@ -496,8 +700,26 @@ class ChallengeDetailViewController: UIViewController {
         verticalContentView.addSubview(pointExpView)
         verticalContentView.addSubview(divider3)
         verticalContentView.addSubview(recommendTitleLabel)
-
         verticalContentView.addSubview(recommendCollectionView)
+        
+        verticalContentView.addSubview(testbutton)//업애야해
+        
+        joinAlert.customSubview = joinSubView
+        joinSubView.addSubview(popUpSubView)
+        joinSubView.addSubview(popLabel)
+        joinSubView.addSubview(popCancelButton)
+        joinSubView.addSubview(popJoinButton)
+        
+        reportAlert.customSubview = reportSubView
+        reportSubView.addSubview(reportLabel)
+        reportSubView.addSubview(reportCancelButton)
+        reportSubView.addSubview(reportButton)
+        
+        popUpSubView.addSubview(popPointMinTitleLabel)
+        popUpSubView.addSubview(popPeriodTitleLabel)
+        popUpSubView.addSubview(popPointLabel)
+        popUpSubView.addSubview(popPeriodLabel)
+        popUpSubView.addSubview(popLineView)
         
         categoryView.addSubview(categoryIcon)
         categoryView.addSubview(categoryLabel)
@@ -735,13 +957,13 @@ class ChallengeDetailViewController: UIViewController {
         
         recommendTitleLabel.snp.makeConstraints{ make in
             make.top.equalTo(divider3.snp.bottom).offset(28)
-            make.leading.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(24)
         }
         
         recommendCollectionView.snp.makeConstraints{ make in
             make.top.equalTo(recommendTitleLabel.snp.bottom).offset(16)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalTo(verticalContentView.snp.bottom)
         }
         
@@ -753,7 +975,7 @@ class ChallengeDetailViewController: UIViewController {
         
         bookMarkButton.snp.makeConstraints{ make in
             make.top.equalToSuperview().offset(15)
-            make.leading.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(28)
             make.height.width.equalTo(30)
         }
         
@@ -763,13 +985,111 @@ class ChallengeDetailViewController: UIViewController {
         }
         
         joinButton.snp.makeConstraints{ make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-22)
+            make.top.equalToSuperview().offset(14)
+            make.trailing.equalToSuperview().offset(-28)
             make.width.equalTo(140)
             make.height.equalTo(52)
         }
+        
+        toastLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(bottomView.snp.top).offset(12)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.height.equalTo(44)
+        }
+        
+        // 신고하기 팝업
+        
+        testbutton.snp.makeConstraints{ make in
+            make.centerX.centerY.equalToSuperview()
+        }
+        
+        reportSubView.snp.makeConstraints{ make in
+            make.width.equalTo(318)
+            make.height.equalTo(120)
+        }
+        
+        reportCancelButton.snp.makeConstraints{ make in
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.trailing.equalTo(reportSubView.snp.centerX).offset(-3)
+        }
+        
+        reportButton.snp.makeConstraints{ make in
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.leading.equalTo(reportSubView.snp.centerX).offset(3)
+        }
+        
+        reportLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(reportCancelButton.snp.top).offset(-28)
+            make.centerX.equalToSuperview()
+        }
+        
+        // 참여하기 팝업
+        
+        joinSubView.snp.makeConstraints{ make in
+            make.width.equalTo(318)
+            make.height.equalTo(240)
+        }
+        
+        popUpSubView.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalToSuperview()
+            make.height.equalTo(130)
+        }
+        
+        popLabel.snp.makeConstraints{ make in
+            make.top.equalTo(popUpSubView.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        
+        popCancelButton.snp.makeConstraints{ make in
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.trailing.equalTo(joinSubView.snp.centerX).offset(-3)
+        }
+        
+        popJoinButton.snp.makeConstraints{ make in
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.leading.equalTo(joinSubView.snp.centerX).offset(3)
+        }
+        
+        popPointMinTitleLabel.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(14)
+            make.centerX.equalToSuperview()
+        }
+        
+        popPointLabel.snp.makeConstraints{ make in
+            make.top.equalTo(popPointMinTitleLabel.snp.bottom).offset(2)
+            make.centerX.equalToSuperview()
+        }
+        
+        popLineView.snp.makeConstraints{ make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(12)
+            make.trailing.equalToSuperview().offset(-12)
+            make.height.equalTo(1)
+        }
+        
+        popPeriodLabel.snp.makeConstraints{ make in
+            make.bottom.equalToSuperview().offset(-14)
+            make.centerX.equalToSuperview()
+        }
+        
+        popPeriodTitleLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(popPeriodLabel.snp.top).offset(-2)
+            make.centerX.equalToSuperview()
+        }
 
     }
+    //MARK: - updateLabel
     
     private func updateChallengeLabelText() {
         let weekCountText = "일주일"//"\(challengeModel.weekCount) weeks"
@@ -786,9 +1106,44 @@ class ChallengeDetailViewController: UIViewController {
         attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: sessionCountRange)
         
         let font = UIFont(name: "NotoSansKR-Medium", size: 12)
-        attributedText.addAttribute(.font, value: font!, range: NSRange(location: 0, length: fullText.count))
+        attributedText.addAttribute(.font, value: font!, range: weekCountRange)
+        attributedText.addAttribute(.font, value: font!, range: sessionCountRange)
         
         challengePeriodLabel.attributedText = attributedText
+    }
+    
+    private func updatePopPeriodLabelText() {
+        let weekCountText = "일주일"//"\(challengeModel.weekCount) weeks"
+        let sessionCountText = "5"//"\(challengeModel.sessionCount) sessions"
+        
+        let fullText = "시작일로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
+        
+        let attributedText = NSMutableAttributedString(string: fullText)
+        
+        let weekCountRange = (fullText as NSString).range(of: "\(weekCountText) 동안")
+        let sessionCountRange = (fullText as NSString).range(of: "\(sessionCountText)회")
+
+        attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: weekCountRange)
+        attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: sessionCountRange)
+        
+        let font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        attributedText.addAttribute(.font, value: font!, range: weekCountRange)
+        attributedText.addAttribute(.font, value: font!, range: sessionCountRange)
+        
+        popPeriodLabel.attributedText = attributedText
+    }
+    
+    private func updatePopPointLabelText() {
+        let point = "500"
+        
+        let fullText = "\(point)P"
+        
+        let attributedText = NSMutableAttributedString(string: fullText)
+        
+        let font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        attributedText.addAttribute(.font, value: font!, range: NSRange(location: 0, length: fullText.count))
+        
+        popPointLabel.attributedText = attributedText
     }
     
     //MARK: - Cell Height
@@ -800,10 +1155,50 @@ class ChallengeDetailViewController: UIViewController {
         return newHeight
     }
     
+    //MARK: - showToast
+    
+    private func showPromoToast() {
+        UIView.animate(withDuration: 2, delay: 1, options: .curveEaseOut, animations: {
+            self.toastLabel.alpha = 0.0
+        }, completion: { (isCompleted) in
+            self.toastLabel.removeFromSuperview()
+        })
+    }
+    
+    private func showChallengeJoinToast() {
+        let toastLabel = UILabel()
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = .white
+        toastLabel.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        toastLabel.textAlignment = .center
+        toastLabel.text = "🙌 해당 챌린지 신청이 완료되었습니다!"
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 20
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        
+        toastLabel.snp.makeConstraints { make in
+                make.bottom.equalTo(bottomView.snp.top).offset(12)
+                make.leading.equalToSuperview().offset(24)
+                make.trailing.equalToSuperview().offset(-24)
+                make.height.equalTo(44)
+            }
+        
+        UIView.animate(withDuration: 2, delay: 1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
+
     //MARK: - Actions
     
     @objc func joinButtonTapped(_ sender: UIButton) {
-        print("바보바보")
+        alertViewResponder = joinAlert.showInfo("챌린지 참여하기")
+    }
+    
+    @objc func testButtonTapped(_ sender: UIButton){
+        alertViewResponder = reportAlert.showInfo("챌린지 신고하기")
     }
     
     @objc func bookMarkTapped(_ sender: UIButton) {
@@ -813,12 +1208,30 @@ class ChallengeDetailViewController: UIViewController {
         let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
         
         if sender.isSelected {
-            bookMarkButton.setImage(image, for: .normal)
-        } else {
             bookMarkButton.setImage(selectedImage, for: .normal)
+        } else {
+            bookMarkButton.setImage(image, for: .normal)
         
         }
     }
+    
+    @objc func reportButtonTapped() {
+        let reportUrl = NSURL(string: "https://www.hongik.ac.kr/index.do")
+        let reportSafariView: SFSafariViewController = SFSafariViewController(url: reportUrl! as URL)
+        self.present(reportSafariView, animated: true, completion: nil)
+        alertViewResponder?.close()
+    }
+    
+    @objc func popJoinButtonTapped() {
+        print("참여해벌임")
+        alertViewResponder?.close()
+        showChallengeJoinToast()
+    }
+
+    @objc func close(){
+            alertViewResponder?.close()
+        }
+    
 }
 
 
@@ -866,6 +1279,7 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
         return UICollectionViewCell()
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if collectionView == recommendCollectionView {
@@ -878,4 +1292,5 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
         
         return CGSize()
     }
+     
 }
