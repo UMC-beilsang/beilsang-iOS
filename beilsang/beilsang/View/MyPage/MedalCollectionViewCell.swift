@@ -11,7 +11,7 @@ import SwiftUI
 class MedalCollectionViewCell: UICollectionViewCell {
 
     static let identifier = "medalCollectionViewCell"
-    var delegate: CustomCellDelegate?
+    var delegate: CustomMedalCellDelegate?
     
     // 달성 메달 셀 전체 뷰
     lazy var medalView: UIView = {
@@ -171,6 +171,6 @@ private struct FloatingView: View {
   }
 }
 
-protocol CustomCellDelegate: AnyObject {
+protocol CustomMedalCellDelegate: AnyObject {
     func didTapButton(in cell: UICollectionViewCell, button: UIButton)
 }

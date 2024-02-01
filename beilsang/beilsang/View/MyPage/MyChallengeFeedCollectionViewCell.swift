@@ -8,7 +8,7 @@
 import UIKit
 class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
     
-    static let identifier = "MyChallengeFeedVC"
+    static let identifier = "myChallengeFeedCollectionViewCell"
     
     lazy var challengeFeed: UIButton = {
         let feedButton = UIButton()
@@ -17,6 +17,8 @@ class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
         feedButton.layer.borderColor = UIColor.beBorderDis.cgColor
         feedButton.layer.cornerRadius = 10
         feedButton.backgroundColor = .white
+        feedButton.contentMode = .scaleAspectFill
+        feedButton.clipsToBounds = true
         return feedButton
     }()
     override init(frame: CGRect){
@@ -35,8 +37,9 @@ class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
     private func setConstraint() {
         challengeFeed.translatesAutoresizingMaskIntoConstraints = false
         challengeFeed.snp.makeConstraints({ make in
-            make.width.equalTo(173)
-            make.height.equalTo(140)
+            make.size.edges.equalToSuperview()
+//            make.width.equalTo(173)
+//            make.height.equalTo(140)
         })
     }
 }
