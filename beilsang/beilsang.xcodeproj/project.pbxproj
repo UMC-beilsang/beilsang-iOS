@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F0418CA2B6A329B001816B5 /* HomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0418C92B6A329B001816B5 /* HomeDetailViewController.swift */; };
+		2F0418CA2B6A329B001816B5 /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0418C92B6A329B001816B5 /* ChallengeDetailViewController.swift */; };
 		2F0838802B564085002E2551 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08387F2B564085002E2551 /* AppDelegate.swift */; };
 		2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838812B564085002E2551 /* SceneDelegate.swift */; };
 		2F0838842B564085002E2551 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838832B564085002E2551 /* ViewController.swift */; };
@@ -33,6 +33,8 @@
 		2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */; };
 		2FC6F6652B6AD28E00F49E7E /* RecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F6642B6AD28E00F49E7E /* RecommendCollectionViewCell.swift */; };
 		2FC6F6672B6AD50900F49E7E /* RecommendChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F6662B6AD50900F49E7E /* RecommendChallenge.swift */; };
+		2FC6F6692B6B7E9600F49E7E /* CautionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F6682B6B7E9600F49E7E /* CautionCollectionViewCell.swift */; };
+		2FC6F66D2B6B891700F49E7E /* CautionChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC6F66C2B6B891700F49E7E /* CautionChallenge.swift */; };
 		2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C252B5EC56C0022C4F3 /* SnapKit */; };
 		2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
@@ -73,7 +75,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F0418C92B6A329B001816B5 /* HomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailViewController.swift; sourceTree = "<group>"; };
+		2F0418C92B6A329B001816B5 /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
 		2F08387C2B564085002E2551 /* beilsang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beilsang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F08387F2B564085002E2551 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F0838812B564085002E2551 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +105,8 @@
 		2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FC6F6642B6AD28E00F49E7E /* RecommendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FC6F6662B6AD50900F49E7E /* RecommendChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendChallenge.swift; sourceTree = "<group>"; };
+		2FC6F6682B6B7E9600F49E7E /* CautionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FC6F66C2B6B891700F49E7E /* CautionChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionChallenge.swift; sourceTree = "<group>"; };
 		2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2FF55CA32B684C92004EDB39 /* PlaceHolder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceHolder+.swift"; sourceTree = "<group>"; };
 		2FF55CA72B684CAF004EDB39 /* InfoCircle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoCircle+.swift"; sourceTree = "<group>"; };
@@ -321,6 +325,7 @@
 			children = (
 				AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */,
 				2FC6F6662B6AD50900F49E7E /* RecommendChallenge.swift */,
+				2FC6F66C2B6B891700F49E7E /* CautionChallenge.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */,
 				AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */,
 				2FC6F6642B6AD28E00F49E7E /* RecommendCollectionViewCell.swift */,
+				2FC6F6682B6B7E9600F49E7E /* CautionCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -340,10 +346,10 @@
 			children = (
 				AF4403362B63E06F006B68FE /* HomeMainViewController.swift */,
 				AF4403382B63E0E3006B68FE /* PageViewController.swift */,
-				2F0418C92B6A329B001816B5 /* HomeDetailViewController.swift */,
 				AF44033A2B63E116006B68FE /* MainBeforeViewController.swift */,
 				AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */,
 				AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */,
+				2F0418C92B6A329B001816B5 /* ChallengeDetailViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -493,7 +499,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F0418CA2B6A329B001816B5 /* HomeDetailViewController.swift in Sources */,
+				2F0418CA2B6A329B001816B5 /* ChallengeDetailViewController.swift in Sources */,
 				2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */,
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
@@ -507,12 +513,14 @@
 				2FC6F6652B6AD28E00F49E7E /* RecommendCollectionViewCell.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
 				AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */,
+				2FC6F66D2B6B891700F49E7E /* CautionChallenge.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
 				2FC6F6672B6AD50900F49E7E /* RecommendChallenge.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
+				2FC6F6692B6B7E9600F49E7E /* CautionCollectionViewCell.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,

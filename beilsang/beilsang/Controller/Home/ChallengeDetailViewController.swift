@@ -1,5 +1,5 @@
 //
-//  HomeDetailViewController.swift
+//  ChallengeDetailViewController.swift
 //  beilsang
 //
 //  Created by Seyoung on 1/31/24.
@@ -8,14 +8,17 @@
 import UIKit
 import SnapKit
 
-class HomeDetailViewController: UIViewController {
+class ChallengeDetailViewController: UIViewController {
     
     //MARK: - Properties
     
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
     
-    let dataList = RecommendChallenge.data
+    let recommendDataList = RecommendChallenge.data
+    let cautionDataList = CautionChallenge.data
+    
+    let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     
     
     lazy var recommendCollectionView: UICollectionView = {
@@ -23,6 +26,15 @@ class HomeDetailViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(RecommendCollectionViewCell.self, forCellWithReuseIdentifier: RecommendCollectionViewCell.identifier)
+        return collectionView
+    }()
+    
+    lazy var cautionCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(CautionCollectionViewCell.self, forCellWithReuseIdentifier: CautionCollectionViewCell.identifier)
+        collectionView.backgroundColor = .beBgSub
         return collectionView
     }()
     
@@ -405,7 +417,10 @@ class HomeDetailViewController: UIViewController {
     
     lazy var bookMarkButton: UIButton = {
         let view = UIButton()
+        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
+        let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
         
+        view.setImage(image, for: .normal)
         view.tintColor = .beScPurple600
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -434,7 +449,7 @@ class HomeDetailViewController: UIViewController {
         button.layer.cornerRadius = 8
         button.isEnabled = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(joinTapped), for: .touchDown)
+        button.addTarget(self, action: #selector(joinButtonTapped), for: .touchDown)
         
         return button
     }()
@@ -492,6 +507,8 @@ class HomeDetailViewController: UIViewController {
         challengePeriodView.addSubview(challengePeriodLabel)
         
         detailView.addSubview(detailLabel)
+        
+        cautionView.addSubview(cautionCollectionView)
         
         pointExpView.addSubview(pointImageView)
         pointExpView.addSubview(pointExpLabel)
@@ -629,7 +646,6 @@ class HomeDetailViewController: UIViewController {
             make.leading.equalToSuperview().offset(16)
         }
         
-        
         detailView.snp.makeConstraints{ make in
             make.top.equalTo(detailTitleLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
@@ -655,11 +671,21 @@ class HomeDetailViewController: UIViewController {
             make.leading.equalToSuperview().offset(16)
         }
         
-        cautionView.snp.makeConstraints{ make in
+        cautionCollectionView.snp.makeConstraints { make in
+            make.center.equalTo(cautionView)
+            make.leading.equalToSuperview().offset(19).priority(999)
+            make.trailing.equalToSuperview().offset(-19).priority(999)
+            make.top.greaterThanOrEqualToSuperview().offset(14)
+            make.bottom.lessThanOrEqualToSuperview().offset(-14)
+            make.height.equalTo(calculateNewCollectionViewHeight())
+        }
+
+        // cautionView
+        cautionView.snp.makeConstraints { make in
             make.top.equalTo(cautionDetailLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.height.equalTo(96)
+            make.bottom.equalTo(cautionCollectionView.snp.bottom).offset(14)
         }
         
         cautionImageView.snp.makeConstraints{ make in
@@ -742,9 +768,7 @@ class HomeDetailViewController: UIViewController {
             make.width.equalTo(140)
             make.height.equalTo(52)
         }
-        
-        
-        
+
     }
     
     private func updateChallengeLabelText() {
@@ -767,48 +791,91 @@ class HomeDetailViewController: UIViewController {
         challengePeriodLabel.attributedText = attributedText
     }
     
-    //MARK: - Actions
+    //MARK: - Cell Height
     
-    @objc private func joinTapped() {
-        print("join button tapped")
+    private func calculateNewCollectionViewHeight() -> CGFloat {
+        let cellHeight: CGFloat = 18
+        let numberOfCells = cautionDataList.count
+        let newHeight = (CGFloat(numberOfCells) * cellHeight) + (8 * CGFloat(numberOfCells))
+        return newHeight
     }
     
-    @objc private func bookMarkTapped(){
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
+    //MARK: - Actions
+    
+    @objc func joinButtonTapped(_ sender: UIButton) {
+        print("바보바보")
+    }
+    
+    @objc func bookMarkTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        
         let image = UIImage(systemName: "star", withConfiguration: imageConfig)
         let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
         
-        bookMarkButton.setImage(selectedImage, for: .selected)
-        bookMarkButton.tintColor = .beScPurple600
+        if sender.isSelected {
+            bookMarkButton.setImage(image, for: .normal)
+        } else {
+            bookMarkButton.setImage(selectedImage, for: .normal)
         
+        }
     }
 }
 
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 
-extension HomeDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataList.count
+        if collectionView == recommendCollectionView {
+            return recommendDataList.count
+        }
+        else if collectionView == cautionCollectionView {
+            return cautionDataList.count
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendCollectionViewCell.identifier, for: indexPath) as?
-                RecommendCollectionViewCell else {
-            return UICollectionViewCell()
+        if collectionView == recommendCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendCollectionViewCell.identifier, for: indexPath) as?
+                    RecommendCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let target = recommendDataList[indexPath.row]
+            
+            cell.recommendImageView.image = UIImage(named: target.image)
+            cell.categoryLabel.text = target.category
+            cell.titleLabel.text = target.title
+            
+            return cell
         }
-        let target = dataList[indexPath.row]
         
-        cell.recommendImageView.image = UIImage(named: target.image)
-        cell.categoryLabel.text = target.category
-        cell.titleLabel.text = target.title
+        else if collectionView == cautionCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CautionCollectionViewCell.identifier, for: indexPath) as?
+                    CautionCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let target = cautionDataList[indexPath.row]
+            
+            cell.cautionLabel.text = target.label
+            
+            return cell
+        }
         
-        return cell
-        
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 342, height: 90)
+        
+        if collectionView == recommendCollectionView {
+            return CGSize(width: 342, height: 90)
+        }
+        
+        else if collectionView == cautionCollectionView {
+            return CGSize(width: 320, height: 18)
+        }
+        
+        return CGSize()
     }
 }
