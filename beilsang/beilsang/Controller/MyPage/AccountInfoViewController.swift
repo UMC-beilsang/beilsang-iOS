@@ -17,21 +17,17 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     var gender = ["남성", "여성", "기타"]
     var alertViewResponder: SCLAlertViewResponder? = nil
     
-    lazy var profileImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "Mask group")
-        image.layer.cornerRadius = 48
-        return image
-    }()
-    lazy var profileShadowView: UIView = {
-        let view = UIView()
-        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+    lazy var profileShadowView: UIImageView = {
+        let view = UIImageView()
+        view.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
         view.layer.shadowOpacity = 1
+        view.image = UIImage(named: "Mask group")
+        view.layer.cornerRadius = 48
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 4
 //        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds,
 //                               cornerRadius: view.layer.cornerRadius).cgPath
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = true
         return view
     }()
     lazy var editProfileImageView: UIView = {
@@ -524,6 +520,7 @@ extension AccountInfoViewController {
         setFullScrollView()
         setLayout()
         setScrollViewLayout()
+        
     }
     
     func setFullScrollView() {
@@ -554,7 +551,6 @@ extension AccountInfoViewController {
         // foreach문을 사용해서 클로저 형태로 작성
         [profileShadowView, editProfileImageView, editProfileImageLabel, editProfileImageButton, nicknameLabel, nicknameTextField, dupCheckButton, birthLabel, birthTextField, genderLabel, genderTextField, addressLabel, postCodeTextField, postCodeButton, systemLabel, systemImage, addressBox1, addressBox2, line, logoutButton, withdrawButton, greyBox, privacyPolicy, termsOfUse, bottomBar, nickNameCircle, birthCircle, genderCircle, addressCircle].forEach{view in fullContentView.addSubview(view)}
         
-        profileShadowView.addSubview(profileImage)
         // 텍스트필드 입력 수단 연결
         birthTextField.inputView = birthPicker
         genderTextField.inputView = genderPickerView
@@ -567,12 +563,6 @@ extension AccountInfoViewController {
     }
     // MARK: - 전체 오토레이아웃 관리
     func viewConstraint(){
-        profileImage.snp.makeConstraints { make in
-            make.width.equalTo(96)
-            make.height.equalTo(96)
-            make.centerX.equalTo(profileShadowView)
-            make.top.equalTo(profileShadowView)
-        }
         profileShadowView.snp.makeConstraints { make in
             make.width.equalTo(96)
             make.height.equalTo(96)
@@ -582,18 +572,18 @@ extension AccountInfoViewController {
         editProfileImageView.snp.makeConstraints { make in
             make.width.equalTo(46)
             make.height.equalTo(21)
-            make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(16)
+            make.centerX.equalTo(profileShadowView)
         }
         editProfileImageLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(18)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(18)
+            make.centerX.equalTo(profileShadowView)
         }
         editProfileImageButton.snp.makeConstraints { make in
             make.width.equalTo(46)
             make.height.equalTo(21)
-            make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(16)
+            make.centerX.equalTo(profileShadowView)
         }
         nicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(editProfileImageButton).offset(32)
@@ -1099,7 +1089,8 @@ extension AccountInfoViewController {
         // 로그아웃 알림창
         logoutSubview.snp.makeConstraints { make in
             make.width.equalTo(316)
-            make.bottom.equalTo(cancelLogoutButton).offset(12)
+            make.height.equalTo(200)
+//            make.bottom.equalTo(cancelLogoutButton).offset(12)
         }
         emailBox.snp.makeConstraints { make in
             make.width.equalTo(280)

@@ -275,8 +275,8 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             let labelText = cell.menuLabel.text
             let challengeListVC = ChallengeListViewController()
             challengeListVC.categoryLabelText = labelText
-        case challengeFeedBoxCollectionView:
-            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+//        case challengeFeedBoxCollectionView:
+//            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
         default:
             return
         }
