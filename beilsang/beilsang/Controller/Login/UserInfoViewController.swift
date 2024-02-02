@@ -1134,6 +1134,13 @@ extension UserInfoViewController: UIScrollViewDelegate {
 
 extension UserInfoViewController: UITextFieldDelegate {
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            nextButtonDisabled()
+        
+            return true
+        
+        }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == nameField {
             nameField.resignFirstResponder()
@@ -1238,32 +1245,33 @@ extension UserInfoViewController: UITextFieldDelegate {
         return true
     }
 }
-    
-    extension UserInfoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            return 3
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            return genderOptions[row]
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            switch component {
-            case 0:
-                selectedGender = genderOptions[row]
-            default:
-                break
-            }
-            
-            genderField.text = selectedGender
-            genderField.textColor = .bePsBlue500
-        }
+
+extension UserInfoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return genderOptions[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch component {
+        case 0:
+            selectedGender = genderOptions[row]
+        default:
+            break
+        }
+        
+        genderField.text = selectedGender
+        genderField.textColor = .bePsBlue500
+    }
+}
 
 extension String {
     // 한글 숫자 영문 특수문자 포함 정규식 (이모티콘 제외)
