@@ -85,7 +85,7 @@ class StartViewController: UIViewController {
         setupAttributedStr()
         setupUI()
         setupLayout()
-
+        
     }
     
     //MARK: - UI Setup
@@ -144,23 +144,21 @@ class StartViewController: UIViewController {
     
     func setupAttributedStr() {
         attributedStr = NSMutableAttributedString(string: bubbleLabel.text!)
-
+        
         attributedStr.addAttribute(.foregroundColor, value: UIColor.beCta , range: (bubbleLabel.text! as NSString).range(of: "1000P"))
-
+        
         bubbleLabel.attributedText = attributedStr
     }
     
     // MARK: - Actions
     
-    @objc private func nextAction() {
-        print("Next button tapped")
-        let testViewController = ViewController()
+    
+    @objc func nextAction
+    (_ sender: UIButton) {
+        let homeVC = HomeMainViewController()
         
-        if let navigationController = self.navigationController {
-            navigationController.pushViewController(testViewController, animated: true)
-        } else {
-            print("Error")
-            
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.changeRootViewController(homeVC)
         }
     }
 }

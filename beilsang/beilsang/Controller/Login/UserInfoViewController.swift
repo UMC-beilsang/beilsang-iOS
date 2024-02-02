@@ -20,12 +20,14 @@ class UserInfoViewController: UIViewController {
     var selectedGender: String?
     var nickName: String?
     let kakaoZipCodeVC = KakaoPostCodeViewController()
+    var nickNameCheck = true
     
     let agreeImage = UIImage(named: "agree")
     let disagreeImage = UIImage(named: "disagree")
     
     private var isProgressBarVisible = true
     private var lastContentOffset: CGFloat = 0
+    var isAgree = [false, false]
     
     lazy var headerView: UIView = {
         let view = UIView()
@@ -86,6 +88,32 @@ class UserInfoViewController: UIViewController {
         view.keyboardType = UIKeyboardType.namePhonePad
         view.resignFirstResponder()
         
+        
+        return view
+    }()
+    
+    lazy var nameInfoView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.isHidden = true
+        
+        return view
+    }()
+    
+    lazy var nameInfoImage: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    lazy var nameInfoLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.numberOfLines = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
         
         return view
     }()
@@ -358,6 +386,7 @@ class UserInfoViewController: UIViewController {
         button.setImage(disagreeImage, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(agreeButtonHandelr), for: .touchDown)
+        button.tag = 0
         
         return button
     }()
@@ -389,6 +418,7 @@ class UserInfoViewController: UIViewController {
     lazy var agreeButtonArea: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(agreeButtonHandelr), for: .touchDown)
+        button.tag = 0
         
         return button
     }()
@@ -419,7 +449,8 @@ class UserInfoViewController: UIViewController {
     lazy var privacyAgreeButton: UIButton = {
         let button = UIButton()
         button.setImage(disagreeImage, for: .normal)
-        button.addTarget(self, action: #selector(privacyButtonHandelr), for: .touchDown)
+        button.addTarget(self, action: #selector(agreeButtonHandelr), for: .touchDown)
+        button.tag = 1
         
         return button
     }()
@@ -450,7 +481,8 @@ class UserInfoViewController: UIViewController {
     
     lazy var privacyButtonArea: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(privacyButtonHandelr), for: .touchDown)
+        button.addTarget(self, action: #selector(agreeButtonHandelr), for: .touchDown)
+        button.tag = 1
         
         return button
     }()
@@ -480,13 +512,13 @@ class UserInfoViewController: UIViewController {
     
     lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .beScPurple600
+        button.backgroundColor = .beScPurple400
         button.setTitle("다음으로", for: .normal)
         button.setTitleColor(.beTextWhite, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isEnabled = true
+        button.isEnabled = false
         button.addTarget(self, action: #selector(nextAction), for: .touchDown)
         
         return button
@@ -525,6 +557,7 @@ class UserInfoViewController: UIViewController {
         verticalContentView.addSubview(nameLabel)
         verticalContentView.addSubview(nameCircle)
         verticalContentView.addSubview(nameField)
+        verticalContentView.addSubview(nameInfoView)
         verticalContentView.addSubview(nameDuplicateButton)
         
         verticalContentView.addSubview(birthLabel)
@@ -567,6 +600,9 @@ class UserInfoViewController: UIViewController {
         
         agreeSection.addSubview(agreeText)
         privacySection.addSubview(privacyText)
+        
+        nameInfoView.addSubview(nameInfoImage)
+        nameInfoView.addSubview(nameInfoLabel)
     }
     
     private func setupLayout() {
@@ -613,6 +649,24 @@ class UserInfoViewController: UIViewController {
             make.width.equalTo(254)
         }
         
+        nameInfoView.snp.makeConstraints{ make in
+            make.top.equalTo(nameField.snp.bottom).offset(4)
+            make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(16)
+            make.width.equalTo(240)
+        }
+        
+        nameInfoImage.snp.makeConstraints{ make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.height.width.equalTo(14)
+        }
+        
+        nameInfoLabel.snp.makeConstraints{ make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(nameInfoImage.snp.trailing).offset(4)
+        }
+        
         nameDuplicateButton.snp.makeConstraints{ make in
             make.top.equalTo(nameField)
             make.leading.equalTo(nameField.snp.trailing).offset(8)
@@ -621,7 +675,7 @@ class UserInfoViewController: UIViewController {
         }
         
         birthLabel.snp.makeConstraints{ make in
-            make.top.equalTo(nameField.snp.bottom).offset(24)
+            make.top.equalTo(nameInfoView.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(16)
         }
         
@@ -858,20 +912,13 @@ class UserInfoViewController: UIViewController {
     }
     
     private func setupDatePicker() {
-        // UIDatePicker 객체 생성을 해줍니다.
         let datePicker = UIDatePicker()
-        // datePickerModed에는 time, date, dateAndTime, countDownTimer가 존재합니다.
         datePicker.datePickerMode = .date
-        // datePicker 스타일을 설정합니다. wheels, inline, compact, automatic이 존재합니다.
         datePicker.preferredDatePickerStyle = .wheels
-        // 원하는 언어로 지역 설정도 가능합니다.
         datePicker.locale = Locale(identifier: "ko-KR")
-        // 값이 변할 때마다 동작을 설정해 줌
         datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
-        // textField의 inputView가 nil이라면 기본 할당은 키보드입니다.
+        datePicker.maximumDate = Date()
         birthField.inputView = datePicker
-        // textField에 오늘 날짜로 표시되게 설정
-        //birthField.text = dateFormat(date: Date())
     }
     
     private func dateFormat(date: Date) -> String {
@@ -898,21 +945,82 @@ class UserInfoViewController: UIViewController {
         genderField.inputAccessoryView = toolBar
     }
     
+    // MARK - Valid Function
+    
+    func nameDuplicateCheck() -> Bool {
+        
+        let userInput = nameField.text ?? ""
+        let serverInput = true
+        
+        if serverInput && nameDuplicateButton.isEnabled {
+            nameInfoView.isHidden = false
+            nameInfoImage.image = UIImage(named: "iconCheck")
+            nameInfoLabel.text = "사용 가능한 닉네임입니다."
+            nameInfoLabel.textColor = .bePsBlue500
+            
+            return true
+        }
+        else {
+            nameInfoView.isHidden = false
+            nameInfoImage.image = UIImage(named: "iconAttention")
+            nameInfoLabel.text = "이미 존재하는 닉네임입니다."
+            nameInfoLabel.textColor = .beWnRed500
+            
+            return false
+        }
+    }
+    
     // MARK: - Button Disabled
     
-    /*private func selectedMoto(for cell: MotoCollectionViewCell) {
-     let check = cell.isSelected
-     
-     if check {
-     nextButton.isEnabled = true
-     nextButton.backgroundColor = .beScPurple600
-     } else {
-     nextButton.isEnabled = false
-     nextButton.backgroundColor = .beScPurple400
-     // 필요한 경우 check 변수 사용 또는 반환 등을 진행
+     private func nextButtonDisabled() {
+         // nameDuplicateCheck가 true인지 확인
+         guard nameDuplicateCheck() else {
+             nextButton.isEnabled = false
+             return
+         }
+         
+         // birthField의 선택 여부 확인
+         guard let birthDate = birthField.text, !birthDate.isEmpty else {
+             nextButton.isEnabled = false
+             return
+         }
+         
+         // genderField의 선택 여부 확인
+         guard let gender = genderField.text, !gender.isEmpty else {
+             nextButton.isEnabled = false
+             return
+         }
+         
+         // zipcodeField와 addressField가 채워져 있는지 확인
+         guard let zipcode = zipCodeField.text, !zipcode.isEmpty,
+               let address = addressField.text, !address.isEmpty else {
+             nextButton.isEnabled = false
+             return
+         }
+         
+         guard agreeAllButton.isSelected else {
+                 nextButton.isEnabled = false
+                 return
+             }
+         
+         updateUI()
      }
-     }
-     */
+    
+    private func updateUI() {
+        DispatchQueue.main.async {
+            // 여기서 UI 업데이트를 수행
+            self.nextButton.isEnabled = true
+            self.nextButton.backgroundColor = .beScPurple400
+        }
+    }
+    
+    private func updateAgreeAllButton() {
+        if isAgree.allSatisfy({ $0 }) {
+            agreeAllButton.setImage(agreeImage, for: .normal)
+        } else {
+            agreeAllButton.setImage(disagreeImage, for: .normal)
+        }
+    }
     
     // MARK: - Actions
     
@@ -926,12 +1034,10 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc private func duplicateCheck() {
-        print("duplicate button tapped")
-        
+        nameDuplicateCheck()
     }
-    
     @objc private func zipCodeSearch() {
-        kakaoZipCodeVC.userInfoVC = self // self는 UserInfoViewController 인스턴스여야 합니다.
+        kakaoZipCodeVC.userInfoVC = self
         present(kakaoZipCodeVC, animated: true)
         
     }
@@ -945,7 +1051,6 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc func dateChange(_ sender: UIDatePicker) {
-        // 값이 변하면 UIDatePicker에서 날자를 받아와 형식을 변형해서 textField에 넣어줍니다.
         birthField.text = dateFormat(date: sender.date)
         birthField.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         birthField.textColor = .bePsBlue500
@@ -961,7 +1066,6 @@ class UserInfoViewController: UIViewController {
     @objc func agreeAllButtonHandelr(_ sender: UIButton) {
         sender.isSelected.toggle()
         
-        // 버튼이 클릭될 때마다, 버튼 이미지를 변환
         if sender.isSelected {
             agreeAllButton.setImage(agreeImage, for: .normal)
             agreeButton.setImage(agreeImage, for: .normal)
@@ -974,46 +1078,41 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc func agreeButtonHandelr(_ sender: UIButton) {
-        sender.isSelected.toggle()
+        isAgree[sender.tag] = !isAgree[sender.tag]
         
-        // 버튼이 클릭될 때마다, 버튼 이미지를 변환
-        if sender.isSelected {
-            agreeButton.setImage(agreeImage, for: .normal)
-        } else {
-            agreeButton.setImage(disagreeImage, for: .normal)
+        if sender == agreeButton || sender == privacyAgreeButton {
+            sender.isSelected = isAgree[sender.tag]
+            
+            if isAgree[sender.tag] == true{
+                sender.setImage(agreeImage, for: .normal)
+            } else {
+                sender.setImage(disagreeImage, for: .normal)
+            }
         }
         
-        agreeAllButton.isSelected = sender.isSelected && privacyAgreeButton.isSelected
-        
-        if agreeAllButton.isSelected {
-            agreeAllButton.setImage(agreeImage, for: .normal)
+        else if sender == agreeButtonArea {
+            agreeButton.isSelected = isAgree[sender.tag]
+            
+            if isAgree[sender.tag] == true{
+                agreeButton.setImage(agreeImage, for: .normal)
+            } else {
+                agreeButton.setImage(disagreeImage, for: .normal)
+            }
         }
         
-        else {
-            agreeAllButton.setImage(disagreeImage, for: .normal)
+        else if sender == privacyButtonArea {
+            privacyAgreeButton.isSelected = isAgree[sender.tag]
+            
+            if isAgree[sender.tag] == true{
+                privacyAgreeButton.setImage(agreeImage, for: .normal)
+            } else {
+                privacyAgreeButton.setImage(disagreeImage, for: .normal)
+            }
         }
+        
+        updateAgreeAllButton()
     }
     
-    @objc func privacyButtonHandelr(_ sender: UIButton) {
-        sender.isSelected.toggle()
-        
-        // 버튼이 클릭될 때마다, 버튼 이미지를 변환
-        if sender.isSelected {
-            privacyAgreeButton.setImage(agreeImage, for: .normal)
-        } else {
-            privacyAgreeButton.setImage(disagreeImage, for: .normal)
-        }
-        
-        agreeAllButton.isSelected = sender.isSelected && agreeButton.isSelected
-        
-        if agreeAllButton.isSelected {
-            agreeAllButton.setImage(agreeImage, for: .normal)
-        }
-        
-        else {
-            agreeAllButton.setImage(disagreeImage, for: .normal)
-        }
-    }
 }
 
 extension UserInfoViewController: UIScrollViewDelegate {
@@ -1045,16 +1144,21 @@ extension UserInfoViewController: UITextFieldDelegate {
         else if textField == birthField {
             
         }
-            
-            return true
-        }
+        
+        return true
+    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == nameField  {
-            nameField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            nameField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
-            nameField.textColor = UIColor.bePsBlue500
-            nameField.setPlaceholderColor(.bePsBlue500)
+            if nickNameCheck {
+                nameField.layer.borderColor = UIColor.bePsBlue500.cgColor
+                nameField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
+                nameField.textColor = UIColor.bePsBlue500
+                nameField.setPlaceholderColor(.bePsBlue500)
+            }
+            else {
+                nameInfoView.isHidden = true
+            }
         }
         else if textField == birthField {
             birthField.layer.borderColor = UIColor.bePsBlue500.cgColor
@@ -1075,18 +1179,43 @@ extension UserInfoViewController: UITextFieldDelegate {
             addressDetailField.setPlaceholderColor(.bePsBlue500)
         }
     }
-   
+    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField == nameField {
-            nameField.layer.borderColor = UIColor.beBorderDis.cgColor
-            nameField.layer.backgroundColor = UIColor.clear.cgColor
-            nameField.textColor = UIColor.beTextDef
-            nameField.setPlaceholderColor(.beTextEx)
             
-            nameDuplicateButton.isEnabled = true
-            nameDuplicateButton.setTitleColor(.beTextWhite, for: .normal)
-            nameDuplicateButton.backgroundColor = .beScPurple600
+            let userInput = nameField.text ?? ""
+            
+            if userInput.hasCharactersLogin() {
+                nameField.layer.borderColor = UIColor.beBorderDis.cgColor
+                nameField.layer.backgroundColor = UIColor.clear.cgColor
+                nameField.textColor = UIColor.beTextDef
+                nameField.setPlaceholderColor(.beTextEx)
+                
+                nameDuplicateButton.isEnabled = true
+                nameDuplicateButton.setTitleColor(.beTextWhite, for: .normal)
+                nameDuplicateButton.backgroundColor = .beScPurple600
+                
+                nickNameCheck = true
+                
+            } else {
+                nameField.backgroundColor = .beWnRed100
+                nameField.layer.borderColor = UIColor.beWnRed500.cgColor
+                nameField.textColor = .beWnRed500
+                nameInfoView.isHidden = false
+                nameInfoImage.image = UIImage(named: "iconAttention")
+                nameInfoLabel.text = "닉네임은 2-8자 이내로 입력해 주세요."
+                nameInfoLabel.textColor = .beWnRed500
+                nameField.setPlaceholderColor(.beWnRed500)
+                
+                nameDuplicateButton.isEnabled = false
+                nameDuplicateButton.setTitleColor(.beTextEx, for: .normal)
+                nameDuplicateButton.backgroundColor = .beBgDiv
+                
+                nickNameCheck = false
+            }
+            
         }
+        
         else if textField == birthField {
             birthField.layer.borderColor = UIColor.beBorderDis.cgColor
             birthField.layer.backgroundColor = UIColor.clear.cgColor
@@ -1109,29 +1238,42 @@ extension UserInfoViewController: UITextFieldDelegate {
         return true
     }
 }
-
-extension UserInfoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 3
-    }
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return genderOptions[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch component {
-        case 0:
-            selectedGender = genderOptions[row]
-        default:
-            break
+    extension UserInfoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
         }
         
-        genderField.text = selectedGender
-        genderField.textColor = .bePsBlue500
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return 3
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return genderOptions[row]
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            switch component {
+            case 0:
+                selectedGender = genderOptions[row]
+            default:
+                break
+            }
+            
+            genderField.text = selectedGender
+            genderField.textColor = .bePsBlue500
+        }
+    }
+
+extension String {
+    // 한글 숫자 영문 특수문자 포함 정규식 (이모티콘 제외)
+    func hasCharactersLogin() -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,8}$", options: .caseInsensitive)
+            return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.count)) != nil
+        } catch {
+            print("Invalid regex pattern: \(error.localizedDescription)")
+            return false
+        }
     }
 }
