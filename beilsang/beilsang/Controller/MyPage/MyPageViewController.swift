@@ -275,6 +275,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var myChallengeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView =  UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -524,10 +525,10 @@ extension MyPageViewController {
             make.edges.equalTo(showAllChallengeFeedView)
         }
         myChallengeCollectionView.snp.makeConstraints { make in
-            make.width.equalTo(super.view.frame.width - 32)
-            make.height.equalTo(292)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.top.equalTo(myChallengeFeedLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
         }
     }
 }

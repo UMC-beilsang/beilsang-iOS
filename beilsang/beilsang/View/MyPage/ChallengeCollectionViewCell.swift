@@ -10,7 +10,6 @@ import UIKit
 class ChallengeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "challengeCollectionViewCell"
-    
     // 달성 메달 셀 전체 뷰
     lazy var challengeView: UIView = {
         let view = UIView()
@@ -38,7 +37,6 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         view.backgroundColor = .white
         return view
     }()
-    
     
     //사용자가 선택한 셀에 따라 POST
     

@@ -17,21 +17,16 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     var gender = ["남성", "여성", "기타"]
     var alertViewResponder: SCLAlertViewResponder? = nil
     
-    lazy var profileImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "Mask group")
-        image.layer.cornerRadius = 48
-        return image
-    }()
-    lazy var profileShadowView: UIView = {
-        let view = UIView()
-        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+    lazy var profileShadowView: UIImageView = {
+        let view = UIImageView()
+        view.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
         view.layer.shadowOpacity = 1
+        view.image = UIImage(named: "Mask group")
+        view.layer.cornerRadius = 48
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 4
 //        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds,
 //                               cornerRadius: view.layer.cornerRadius).cgPath
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     lazy var editProfileImageView: UIView = {
@@ -368,8 +363,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     }()
     lazy var withDrawSubview: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        
+        view.backgroundColor = .white     
         return view
     }()
     lazy var withDrawPopUpContent: UILabel = {
@@ -525,6 +519,7 @@ extension AccountInfoViewController {
         setFullScrollView()
         setLayout()
         setScrollViewLayout()
+        
     }
     
     func setFullScrollView() {
@@ -555,7 +550,7 @@ extension AccountInfoViewController {
         // foreach문을 사용해서 클로저 형태로 작성
         [profileShadowView, editProfileImageView, editProfileImageLabel, editProfileImageButton, nicknameLabel, nicknameTextField, dupCheckButton, birthLabel, birthTextField, genderLabel, genderTextField, addressLabel, postCodeTextField, postCodeButton, systemLabel, systemImage, addressBox1, addressBox2, line, logoutButton, withdrawButton, greyBox, privacyPolicy, termsOfUse, bottomBar, nickNameCircle, birthCircle, genderCircle, addressCircle].forEach{view in fullContentView.addSubview(view)}
         
-        profileShadowView.addSubview(profileImage)
+        
         // 텍스트필드 입력 수단 연결
         birthTextField.inputView = birthPicker
         genderTextField.inputView = genderPickerView
@@ -568,12 +563,6 @@ extension AccountInfoViewController {
     }
     // MARK: - 전체 오토레이아웃 관리
     func viewConstraint(){
-        profileImage.snp.makeConstraints { make in
-            make.width.equalTo(96)
-            make.height.equalTo(96)
-            make.centerX.equalTo(profileShadowView)
-            make.top.equalTo(profileShadowView)
-        }
         profileShadowView.snp.makeConstraints { make in
             make.width.equalTo(96)
             make.height.equalTo(96)
@@ -583,18 +572,18 @@ extension AccountInfoViewController {
         editProfileImageView.snp.makeConstraints { make in
             make.width.equalTo(46)
             make.height.equalTo(21)
-            make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(16)
+            make.centerX.equalTo(profileShadowView)
         }
         editProfileImageLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(18)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(18)
+            make.centerX.equalTo(profileShadowView)
         }
         editProfileImageButton.snp.makeConstraints { make in
             make.width.equalTo(46)
             make.height.equalTo(21)
-            make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(16)
+            make.centerX.equalTo(profileShadowView)
         }
         nicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(editProfileImageButton).offset(32)
@@ -912,14 +901,14 @@ extension AccountInfoViewController: UITextFieldDelegate {
             if let char = string.cString(using: String.Encoding.utf8) {
                 let isBackSpace = strcmp(char, "\\b")
                 if (isBackSpace == -92) {
-                    selectingNickname()
-                    textFieldSelected(textField)
+                    selectingNickname() // <- 버튼 다시 파란색
+                    textFieldSelected(textField) // <- 백스페이스 하면 색깔 다시 파란색으로 해주겠다는 뜻
                     return true
                 }
             }
             guard textField.text!.count <= 8 else {
                 nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
-                return false
+                return false // <- 이거 false로 하면 유효성 검사에서 걸리면 입력 자체가 안됨 true로 하는게 나을려나?
             }
             guard string.hasCharacters() else {
                 nicknameError("닉네임은 한글, 영어 대소문자, 숫자만 가능합니다.")
@@ -960,9 +949,37 @@ extension AccountInfoViewController: UITextFieldDelegate {
                 textFieldNormal(genderTextField)
                 return false
             }
+            nicknameTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            nicknameTextField.layer.backgroundColor = UIColor.clear.cgColor
+            nicknameTextField.textColor = UIColor.beTextDef
+            nicknameTextField.setPlaceholderColor(.beTextEx)
+            
+            dupCheckButton.isEnabled = true
+            dupCheckButton.setTitleColor(.beTextWhite, for: .normal)
+            dupCheckButton.backgroundColor = .beScPurple600
+        }
+        else if textField == birthTextField {
+            birthTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            birthTextField.layer.backgroundColor = UIColor.clear.cgColor
+            birthTextField.textColor = UIColor.beTextDef
+            birthTextField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == genderTextField {
+            genderTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            genderTextField.layer.backgroundColor = UIColor.clear.cgColor
+            genderTextField.textColor = UIColor.beTextDef
+            genderTextField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == postCodeTextField {
+            postCodeTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            postCodeTextField.layer.backgroundColor = UIColor.clear.cgColor
+            postCodeTextField.textColor = UIColor.beTextDef
+            postCodeTextField.setPlaceholderColor(.beTextEx)
         }
         return true
     }
+    
+        
     func nicknameError(_ message: String) {
         // 에러 메세지 출력
         systemLabel.isHidden = false
@@ -1072,7 +1089,8 @@ extension AccountInfoViewController {
         // 로그아웃 알림창
         logoutSubview.snp.makeConstraints { make in
             make.width.equalTo(316)
-            make.bottom.equalTo(cancelLogoutButton).offset(12)
+            make.height.equalTo(200)
+//            make.bottom.equalTo(cancelLogoutButton).offset(12)
         }
         emailBox.snp.makeConstraints { make in
             make.width.equalTo(280)
