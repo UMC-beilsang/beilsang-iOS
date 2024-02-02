@@ -27,7 +27,6 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         view.layer.shadowRadius = 4
 //        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds,
 //                               cornerRadius: view.layer.cornerRadius).cgPath
-        view.translatesAutoresizingMaskIntoConstraints = true
         return view
     }()
     lazy var editProfileImageView: UIView = {
@@ -550,6 +549,7 @@ extension AccountInfoViewController {
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
         [profileShadowView, editProfileImageView, editProfileImageLabel, editProfileImageButton, nicknameLabel, nicknameTextField, dupCheckButton, birthLabel, birthTextField, genderLabel, genderTextField, addressLabel, postCodeTextField, postCodeButton, systemLabel, systemImage, addressBox1, addressBox2, line, logoutButton, withdrawButton, greyBox, privacyPolicy, termsOfUse, bottomBar, nickNameCircle, birthCircle, genderCircle, addressCircle].forEach{view in fullContentView.addSubview(view)}
+        
         
         // 텍스트필드 입력 수단 연결
         birthTextField.inputView = birthPicker

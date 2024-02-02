@@ -156,20 +156,6 @@ extension MedalCollectionViewCell {
     }
     
 }
-private struct FloatingView: View {
-  var body: some View {
-    HStack {
-      Spacer()
-      Text("This is Floating")
-        .font(.headline)
-        .padding(.vertical, 10)
-      Spacer()
-    }
-    .background(Color.white)
-    .cornerRadius(20)
-    .padding(.horizontal, 20)
-  }
-}
 
 protocol CustomMedalCellDelegate: AnyObject {
     func didTapButton(in cell: UICollectionViewCell, button: UIButton)

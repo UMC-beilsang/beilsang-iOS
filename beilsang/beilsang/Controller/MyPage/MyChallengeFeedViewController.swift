@@ -36,7 +36,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // categoriesView - 셀
-    let categoryDataList = CategoryKeyword.data
+    let categoryDataList = CategoryKeyword.data[1...]
     lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -74,6 +74,14 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         return label
     }()
+    
+    lazy var feedDetailCollectionView: UICollectionView = {
+        let layout = self.makeFlowLayout()
+        layout.configuration.scrollDirection = .vertical
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.isHidden = true
+        return view
+    }()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -84,7 +92,6 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
         setNavigationBar()
         viewConstraint()
     }
-
 }
 extension MyChallengeFeedViewController {
     
@@ -117,12 +124,12 @@ extension MyChallengeFeedViewController {
             make.height.equalTo(1056)
         }
     }
+    
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
         //상단부
-        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeFeedBoxCollectionView, challengeFeedLabel].forEach{ view in fullContentView.addSubview(view)}
-        
+        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeFeedBoxCollectionView, challengeFeedLabel, feedDetailCollectionView].forEach{ view in fullContentView.addSubview(view)}
     }
     
     //snp 설정
@@ -161,6 +168,11 @@ extension MyChallengeFeedViewController {
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
+        feedDetailCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(challengeFeedBoxCollectionView)
+            make.bottom.leading.trailing.equalToSuperview()
+//            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
     }
 }
 // MARK: - 네비게이션 바 커스텀
@@ -175,7 +187,7 @@ extension MyChallengeFeedViewController{
         // title 설정
         let label = UILabel()
         let lightText: NSMutableAttributedString =
-            NSMutableAttributedString(string: "나의 챌린지",attributes: [
+            NSMutableAttributedString(string: "나의 챌린지 피드",attributes: [
             .foregroundColor: UIColor.black,
             .font: UIFont(name: "NotoSansKR-SemiBold", size: 20)!])
         let naviTitle: NSMutableAttributedString
@@ -199,7 +211,7 @@ extension MyChallengeFeedViewController{
 extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     // collectionView, delegate, datasorce 설정
     func setCollectionView() {
-        [menuCollectionView, categoryCollectionView, challengeFeedBoxCollectionView].forEach { view in
+        [menuCollectionView, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailCollectionView].forEach { view in
             view.delegate = self
             view.dataSource = self
         }
@@ -208,6 +220,7 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
         menuCollectionView.register(ChallengeMenuCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeMenuCollectionViewCell.identifier)
         categoryCollectionView.register(MyPageCategoryCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCategoryCollectionViewCell.identifier)
         challengeFeedBoxCollectionView.register(MyChallengeFeedCollectionViewCell.self, forCellWithReuseIdentifier: MyChallengeFeedCollectionViewCell.identifier)
+        feedDetailCollectionView.register(FeedDetailCollectionViewCell.self, forCellWithReuseIdentifier: FeedDetailCollectionViewCell.identifier)
         // 컬렉션 뷰 첫 화면 선택
         setFirstIndexIsSelected()
         
@@ -226,6 +239,8 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             return categoryDataList.count
         case challengeFeedBoxCollectionView:
             return 2
+        case feedDetailCollectionView:
+            return 1
         default:
             return 0
         }
@@ -248,7 +263,7 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
                     MyPageCategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let target = categoryDataList[indexPath.row]
+            let target = categoryDataList[indexPath.row+1]
             let img = UIImage(named: "\(target.image).svg")
             cell.keywordImage.image = img
             cell.keywordLabel.text = target.title
@@ -259,7 +274,14 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
                     MyChallengeFeedCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.challengeFeed.setImage(UIImage(named: imageList[indexPath.row]), for: .normal)
+            cell.challengeFeed.image = UIImage(named: imageList[indexPath.row])
+            return cell
+        case feedDetailCollectionView:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedDetailCollectionViewCell.identifier, for: indexPath) as?
+                    FeedDetailCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
             return cell
         default:
             return UICollectionViewCell()
@@ -275,8 +297,15 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             let labelText = cell.menuLabel.text
             let challengeListVC = ChallengeListViewController()
             challengeListVC.categoryLabelText = labelText
-//        case challengeFeedBoxCollectionView:
-//            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+            didTapButton()
+        case categoryCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
+            didTapButton()
+        case challengeFeedBoxCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+            feedDetailCollectionView.isHidden = false
+            let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeedDetailCollectionViewCell
+            feedCell.feedImage.image = cell.challengeFeed.image
         default:
             return
         }
@@ -288,5 +317,43 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
         menuCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
         categoryCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
     }
+    
+    // 섹션 별 크기 설정을 위한 함수
+    // challengeBoxCollectionView layout 커스텀
+    private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { section, ev -> NSCollectionLayoutSection? in
+            
+            return makeChallengeFeedDetailSectionLayout()
+        }
+        // 전체가 아닐 때의 medal 섹션
+        func makeChallengeFeedDetailSectionLayout() -> NSCollectionLayoutSection? {
+            // item
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            /// 아이템들이 들어갈 Group 설정
+            /// groupSize 설정
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            // section
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 16,
+                bottom: 0,
+                trailing: 16)
+            
+            return section
+        }
+    }
 }
-
+// MARK: - function
+extension MyChallengeFeedViewController: CustomFeedCellDelegate {
+    func didTapButton() {
+        feedDetailCollectionView.isHidden = true
+    }
+}

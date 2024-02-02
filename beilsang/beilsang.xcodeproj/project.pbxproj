@@ -50,6 +50,7 @@
 		896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */; };
 		896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */; };
 		896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */; };
+		89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */; };
 		89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */; };
 		89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A322B656156009263F5 /* MyChallengeViewController.swift */; };
 		AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */; };
@@ -123,6 +124,7 @@
 		896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedalCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
+		89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
 		89A08A322B656156009263F5 /* MyChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeViewController.swift; sourceTree = "<group>"; };
 		AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */,
 				896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */,
 				8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */,
+				89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
 				2FF55CA82B684CAF004EDB39 /* InfoCircle+.swift in Sources */,
+				89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
 				8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,

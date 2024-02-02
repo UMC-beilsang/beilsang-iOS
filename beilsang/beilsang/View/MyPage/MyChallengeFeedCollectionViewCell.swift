@@ -10,16 +10,16 @@ class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
     
     static let identifier = "myChallengeFeedCollectionViewCell"
     
-    lazy var challengeFeed: UIButton = {
-        let feedButton = UIButton()
-        feedButton.setImage(UIImage(named: "Mask group"), for: .normal)
-        feedButton.layer.borderWidth = 1
-        feedButton.layer.borderColor = UIColor.beBorderDis.cgColor
-        feedButton.layer.cornerRadius = 10
-        feedButton.backgroundColor = .white
-        feedButton.contentMode = .scaleAspectFill
-        feedButton.clipsToBounds = true
-        return feedButton
+    lazy var challengeFeed: UIImageView = {
+        let feed = UIImageView()
+        feed.image = UIImage(named: "Mask group")
+        feed.layer.borderWidth = 1
+        feed.layer.borderColor = UIColor.beBorderDis.cgColor
+        feed.layer.cornerRadius = 10
+        feed.backgroundColor = .white
+        feed.contentMode = .scaleAspectFill
+        feed.clipsToBounds = true
+        return feed
     }()
     override init(frame: CGRect){
         super.init(frame: frame)

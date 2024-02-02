@@ -70,7 +70,6 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
         toastLabel.isHidden = true
         return toastLabel
     }()
-
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
