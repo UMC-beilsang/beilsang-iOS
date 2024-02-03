@@ -46,7 +46,12 @@
 		AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */; };
 		AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */; };
 		AF4403432B66B0F6006B68FE /* RegisterCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403422B66B0F6006B68FE /* RegisterCompleteViewController.swift */; };
-		AF4403452B66B11E006B68FE /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403442B66B11E006B68FE /* RegisterViewController.swift */; };
+		AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403442B66B11E006B68FE /* RegisterFirstViewController.swift */; };
+		AF4403472B6A2E34006B68FE /* RegisterSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403462B6A2E34006B68FE /* RegisterSecondViewController.swift */; };
+		AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403482B6ABA5E006B68FE /* RegisterThirdViewController.swift */; };
+		AF44034C2B6B9AEA006B68FE /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = AF44034B2B6B9AEA006B68FE /* SCLAlertView */; };
+		AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034D2B6D3A76006B68FE /* RegisterModalViewController.swift */; };
+		AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,7 +112,11 @@
 		AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeListViewController.swift; sourceTree = "<group>"; };
 		AF4403422B66B0F6006B68FE /* RegisterCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCompleteViewController.swift; sourceTree = "<group>"; };
-		AF4403442B66B11E006B68FE /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		AF4403442B66B11E006B68FE /* RegisterFirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFirstViewController.swift; sourceTree = "<group>"; };
+		AF4403462B6A2E34006B68FE /* RegisterSecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterSecondViewController.swift; sourceTree = "<group>"; };
+		AF4403482B6ABA5E006B68FE /* RegisterThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterThirdViewController.swift; sourceTree = "<group>"; };
+		AF44034D2B6D3A76006B68FE /* RegisterModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterModalViewController.swift; sourceTree = "<group>"; };
+		AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */,
+				AF44034C2B6B9AEA006B68FE /* SCLAlertView in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
 			);
@@ -279,6 +289,7 @@
 			children = (
 				AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */,
 				AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */,
+				AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -292,7 +303,10 @@
 				AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */,
 				AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */,
 				AF4403422B66B0F6006B68FE /* RegisterCompleteViewController.swift */,
-				AF4403442B66B11E006B68FE /* RegisterViewController.swift */,
+				AF4403442B66B11E006B68FE /* RegisterFirstViewController.swift */,
+				AF4403462B6A2E34006B68FE /* RegisterSecondViewController.swift */,
+				AF4403482B6ABA5E006B68FE /* RegisterThirdViewController.swift */,
+				AF44034D2B6D3A76006B68FE /* RegisterModalViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -317,6 +331,7 @@
 				2FE57C252B5EC56C0022C4F3 /* SnapKit */,
 				2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */,
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
+				AF44034B2B6B9AEA006B68FE /* SCLAlertView */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -393,6 +408,7 @@
 			packageReferences = (
 				2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				AF44034A2B6B9AEA006B68FE /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -448,24 +464,28 @@
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
+				AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
+				AF4403472B6A2E34006B68FE /* RegisterSecondViewController.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
 				AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */,
+				AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
+				AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
 				AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */,
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,
-				AF4403452B66B11E006B68FE /* RegisterViewController.swift in Sources */,
+				AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */,
 				AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,
 			);
@@ -816,6 +836,14 @@
 				minimumVersion = 5.8.1;
 			};
 		};
+		AF44034A2B6B9AEA006B68FE /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vikmeup/SCLAlertView-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -833,6 +861,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		AF44034B2B6B9AEA006B68FE /* SCLAlertView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF44034A2B6B9AEA006B68FE /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */;
+			productName = SCLAlertView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

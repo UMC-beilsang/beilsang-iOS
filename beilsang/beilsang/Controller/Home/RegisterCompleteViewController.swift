@@ -16,7 +16,7 @@ class RegisterCompleteViewController: UIViewController {
     lazy var challengeImage: UIImageView = {
         let view = UIImageView()
         
-        view.image = UIImage(named: "characterlogo")
+        view.image = UIImage(named: "registerComplete")
         view.contentMode = .scaleAspectFill
         view.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -85,7 +85,7 @@ class RegisterCompleteViewController: UIViewController {
     // 게시물 확인하기 버튼이 눌렸을 때 - 챌린지 세부화면(DetailVC)으로 이동
     @objc func toDetailButtonClicked() {
         print("게시물 확인하기")
-        navigationController?.popViewController(animated: true)
+        // 만든 챌린지 화면으로 이동
     }
     
     // 홈으로 버튼이 눌렸을 때 - 홈(HomeMainVC)으로 이동
