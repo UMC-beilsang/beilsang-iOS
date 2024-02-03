@@ -945,30 +945,89 @@ class UserInfoViewController: UIViewController {
         genderField.inputAccessoryView = toolBar
     }
     
-    // MARK - Valid Function
+    // MARK: - changed
     
-    func nameDuplicateCheck() -> Bool {
-        
-        let userInput = nameField.text ?? ""
-        let serverInput = true
-        
-        if serverInput && nameDuplicateButton.isEnabled {
+    private func nameInfoViewChanged(state: String) {
+        switch state {
+        case "avaliable":
             nameInfoView.isHidden = false
             nameInfoImage.image = UIImage(named: "iconCheck")
             nameInfoLabel.text = "사용 가능한 닉네임입니다."
             nameInfoLabel.textColor = .bePsBlue500
-            
-            return true
-        }
-        else {
+        case "inavaliable":
+            nameInfoView.isHidden = false
+            nameInfoImage.image = UIImage(named: "iconAttention")
+            nameInfoLabel.text = "닉네임은 2-8자 이내로 입력해 주세요."
+            nameInfoLabel.textColor = .beWnRed500
+        case "exist":
             nameInfoView.isHidden = false
             nameInfoImage.image = UIImage(named: "iconAttention")
             nameInfoLabel.text = "이미 존재하는 닉네임입니다."
             nameInfoLabel.textColor = .beWnRed500
+        default:
+            break
+        }
+    }
+    
+    private func textFieldChanged(textField: UITextField, state: String)  {
+        switch state {
+        case "avaliable":
+            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+            textField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
+            textField.textColor = UIColor.bePsBlue500
+            textField.setPlaceholderColor(.bePsBlue500)
+        case "basic":
+            // 다른 상태에 대한 설정 또는 기본값 설정
+            textField.layer.borderColor = UIColor.beBorderDis.cgColor
+            textField.layer.backgroundColor = UIColor.beBgCard.cgColor
+            textField.textColor = UIColor.black
+            textField.setPlaceholderColor(.lightGray)
+        case "inavaliable":
+            textField.backgroundColor = .beWnRed100
+            textField.layer.borderColor = UIColor.beWnRed500.cgColor
+            textField.textColor = .beWnRed500
+            textField.setPlaceholderColor(.beWnRed500)
+            
+        default:
+            break
+        }
+    }
+    
+    private func nameDuplicateButtonChanged(state: String) {
+        switch state {
+        case "avaliable":
+            nameDuplicateButton.isEnabled = true
+            nameDuplicateButton.setTitleColor(.beTextWhite, for: .normal)
+            nameDuplicateButton.backgroundColor = .beScPurple600
+        case "inavaliable":
+            nameDuplicateButton.isEnabled = false
+            nameDuplicateButton.setTitleColor(.beTextEx, for: .normal)
+            nameDuplicateButton.backgroundColor = .beBgDiv
+        default:
+            break
+        }
+    }
+    
+    
+    // MARK: - nameDuplicateCheck
+    
+    func nameDuplicateCheck() -> Bool {
+        
+        let _userInput = nameField.text ?? ""
+        let serverInput = Bool.random()
+        
+        if serverInput  {
+            nameInfoViewChanged(state: "avaliable")
+            
+            return true
+        }
+        else {
+            nameInfoViewChanged(state: "exist")
             
             return false
         }
     }
+    
     
     // MARK: - Button Disabled
     
@@ -1002,22 +1061,15 @@ class UserInfoViewController: UIViewController {
                  nextButton.isEnabled = false
                  return
              }
-         
-         updateUI()
-     }
     
-    private func updateUI() {
-        DispatchQueue.main.async {
-            // 여기서 UI 업데이트를 수행
-            self.nextButton.isEnabled = true
-            self.nextButton.backgroundColor = .beScPurple400
-        }
-    }
+     }
     
     private func updateAgreeAllButton() {
         if isAgree.allSatisfy({ $0 }) {
+            agreeAllButton.isSelected = true
             agreeAllButton.setImage(agreeImage, for: .normal)
         } else {
+            agreeAllButton.isSelected = false
             agreeAllButton.setImage(disagreeImage, for: .normal)
         }
     }
@@ -1034,12 +1086,11 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc private func duplicateCheck() {
-        nameDuplicateCheck()
+        //nameDuplicateCheck()
     }
     @objc private func zipCodeSearch() {
         kakaoZipCodeVC.userInfoVC = self
         present(kakaoZipCodeVC, animated: true)
-        
     }
     
     @objc private func zipCodeFieldTapped() {
@@ -1057,8 +1108,6 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
-        //birthField.text = dateFormat(date: datePicker.date)
-        // 키보드 내리기
         birthField.resignFirstResponder()
         genderField.resignFirstResponder()
     }
@@ -1068,12 +1117,16 @@ class UserInfoViewController: UIViewController {
         
         if sender.isSelected {
             agreeAllButton.setImage(agreeImage, for: .normal)
+            agreeButton.isSelected = true
             agreeButton.setImage(agreeImage, for: .normal)
+            privacyAgreeButton.isSelected = true
             privacyAgreeButton.setImage(agreeImage, for: .normal)
         } else {
             agreeAllButton.setImage(disagreeImage, for: .normal)
             agreeButton.setImage(disagreeImage, for: .normal)
+            agreeButton.isSelected = false
             privacyAgreeButton.setImage(disagreeImage, for: .normal)
+            privacyAgreeButton.isSelected = false
         }
     }
     
@@ -1135,7 +1188,7 @@ extension UserInfoViewController: UIScrollViewDelegate {
 extension UserInfoViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            nextButtonDisabled()
+            //nextButtonDisabled() //nextButton이 disabled 되는지 업뎃
         
             return true
         
@@ -1148,42 +1201,29 @@ extension UserInfoViewController: UITextFieldDelegate {
         else if textField == addressDetailField {
             addressDetailField.resignFirstResponder()
         }
-        else if textField == birthField {
-            
-        }
-        
+
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == nameField  {
-            if nickNameCheck {
-                nameField.layer.borderColor = UIColor.bePsBlue500.cgColor
-                nameField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
-                nameField.textColor = UIColor.bePsBlue500
-                nameField.setPlaceholderColor(.bePsBlue500)
+            if textFieldShouldEndEditing(nameField) { //NicknameCheck를 일단 true, 아무것도 없으니까.
+                nameInfoView.isHidden = true
+                textFieldChanged(textField: nameField, state: "avaliable")
             }
             else {
-                nameInfoView.isHidden = true
+                nameInfoView.isHidden = false
+                nameInfoViewChanged(state: "avaliable")
             }
         }
         else if textField == birthField {
-            birthField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            birthField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
-            birthField.textColor = UIColor.bePsBlue500
-            birthField.setPlaceholderColor(.bePsBlue500)
+            textFieldChanged(textField: birthField, state: "avaliable")
         }
         else if textField == genderField {
-            genderField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            genderField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
-            genderField.textColor = UIColor.bePsBlue500
-            genderField.setPlaceholderColor(.bePsBlue500)
+            textFieldChanged(textField: genderField, state: "avaliable")
         }
         else if textField == addressDetailField {
-            addressDetailField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            addressDetailField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
-            addressDetailField.textColor = UIColor.bePsBlue500
-            addressDetailField.setPlaceholderColor(.bePsBlue500)
+            textFieldChanged(textField: addressField, state: "avaliable")
         }
     }
     
@@ -1192,58 +1232,46 @@ extension UserInfoViewController: UITextFieldDelegate {
             
             let userInput = nameField.text ?? ""
             
-            if userInput.hasCharactersLogin() {
-                nameField.layer.borderColor = UIColor.beBorderDis.cgColor
-                nameField.layer.backgroundColor = UIColor.clear.cgColor
-                nameField.textColor = UIColor.beTextDef
-                nameField.setPlaceholderColor(.beTextEx)
+            if userInput.hasCharactersLogin() {//2-8자 이내일 때
+                textFieldChanged(textField: nameField, state: "basic")
+                nameDuplicateButtonChanged(state: "avaliable")
                 
-                nameDuplicateButton.isEnabled = true
-                nameDuplicateButton.setTitleColor(.beTextWhite, for: .normal)
-                nameDuplicateButton.backgroundColor = .beScPurple600
+                return true
                 
-                nickNameCheck = true
-                
-            } else {
-                nameField.backgroundColor = .beWnRed100
-                nameField.layer.borderColor = UIColor.beWnRed500.cgColor
-                nameField.textColor = .beWnRed500
-                nameInfoView.isHidden = false
-                nameInfoImage.image = UIImage(named: "iconAttention")
-                nameInfoLabel.text = "닉네임은 2-8자 이내로 입력해 주세요."
-                nameInfoLabel.textColor = .beWnRed500
-                nameField.setPlaceholderColor(.beWnRed500)
-                
-                nameDuplicateButton.isEnabled = false
-                nameDuplicateButton.setTitleColor(.beTextEx, for: .normal)
-                nameDuplicateButton.backgroundColor = .beBgDiv
-                
-                nickNameCheck = false
+            } else if userInput.isEmpty {
+                return true
+            }
+        
+            else { //2-8자 이내 아닐 때
+                textFieldChanged(textField: nameField, state: "inavaliable")
+                nameInfoViewChanged(state: "inavaliable")
+                nameDuplicateButtonChanged(state: "inavaliable")
+    
+                return false
             }
             
         }
         
         else if textField == birthField {
-            birthField.layer.borderColor = UIColor.beBorderDis.cgColor
-            birthField.layer.backgroundColor = UIColor.clear.cgColor
-            birthField.textColor = UIColor.beTextDef
-            birthField.setPlaceholderColor(.beTextEx)
+            textFieldChanged(textField: birthField, state: "basic")
+            
+            return true
         }
         else if textField == genderField {
-            genderField.layer.borderColor = UIColor.beBorderDis.cgColor
-            genderField.layer.backgroundColor = UIColor.clear.cgColor
-            genderField.textColor = UIColor.beTextDef
-            genderField.setPlaceholderColor(.beTextEx)
+            textFieldChanged(textField: genderField, state: "basic")
+            
+            return true
         }
         else if textField == addressDetailField {
-            addressDetailField.layer.borderColor = UIColor.beBorderDis.cgColor
-            addressDetailField.layer.backgroundColor = UIColor.clear.cgColor
-            addressDetailField.textColor = UIColor.beTextDef
-            addressDetailField.setPlaceholderColor(.beTextEx)
+            textFieldChanged(textField: addressDetailField, state: "basic")
+            
+            return true
         }
         
-        return true
+        return false
     }
+
+    
 }
 
 extension UserInfoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -1285,3 +1313,5 @@ extension String {
         }
     }
 }
+
+
