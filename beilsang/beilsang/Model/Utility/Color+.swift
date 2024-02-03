@@ -77,6 +77,7 @@ extension UIColor {
     static let beBgCard = UIColor(hex: "#FDFDFD")
     static let beBgSub = UIColor(hex: "#F8F8F8")
     static let beBgDiv = UIColor(hex: "#E6E6E6")
+    static let beBGPop = UIColor(hex: "#222222")
     
     //MARK: - Icon Color
     
