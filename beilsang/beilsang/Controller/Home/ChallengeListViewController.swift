@@ -127,6 +127,8 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     
     @objc func plusButtonClicked() {
         print("플러스 버튼")
+        let registerChallengeVC = RegisterFirstViewController()
+        navigationController?.pushViewController(registerChallengeVC, animated: true)
     }
     
     @objc func searchButtonClicked() {
