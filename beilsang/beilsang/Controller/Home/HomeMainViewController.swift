@@ -175,7 +175,7 @@ extension HomeMainViewController {
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
-            make.height.equalTo(1140)
+            make.bottom.equalTo(fullScrollView.snp.bottom)
         }
         
         topView.addSubview(logoImage)
