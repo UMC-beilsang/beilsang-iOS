@@ -134,16 +134,15 @@ class RouteViewController: UIViewController {
         return view
     }()
     
-    lazy var bubbleView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .beBgDef
-        view.layer.cornerRadius = 15
+    lazy var bubbleView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "bubble")
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.16
         view.layer.shadowRadius = 4
         view.layer.shadowOffset = CGSize(width: 2, height: 2)
         view.layer.shadowPath = nil
-        
+        view.contentMode = .scaleAspectFill
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -236,14 +235,13 @@ class RouteViewController: UIViewController {
         }
         
         bubbleView.snp.makeConstraints{ make in
-            make.leading.equalToSuperview().offset(67)
-            make.trailing.equalToSuperview().offset(-67)
-            make.bottom.equalToSuperview().offset(-180)
-            make.height.equalTo(32)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(nextButton.snp.top).offset(-12)
+            make.height.equalTo(44)
         }
         
         bubbleLabel.snp.makeConstraints{ make in
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
             make.centerX.equalToSuperview()
         }
         
@@ -362,8 +360,7 @@ extension RouteViewController: UITextFieldDelegate {
         }
         
     }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == routeField {
             routeField.layer.borderColor = UIColor.beBorderDis.cgColor
             routeField.layer.backgroundColor = UIColor.clear.cgColor
@@ -376,9 +373,8 @@ extension RouteViewController: UITextFieldDelegate {
             recommendField.textColor = UIColor.beTextDef
             recommendField.setPlaceholderColor(.beTextEx)
         }
-        
-        return true
     }
+
 }
 
 extension RouteViewController: UIPickerViewDelegate, UIPickerViewDataSource {

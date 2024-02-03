@@ -16,7 +16,7 @@ class StartViewController: UIViewController {
     
     lazy var characterImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "characterlogo")
+        view.image = UIImage(named: "welcomeImage")
         view.sizeToFit()
         view.layer.shadowColor = UIColor.beTextDef.cgColor
         view.layer.masksToBounds = false
@@ -51,16 +51,15 @@ class StartViewController: UIViewController {
         return view
     }()
     
-    lazy var bubbleView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .beBgDef
-        view.layer.cornerRadius = 15
+    lazy var bubbleView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "bubble")
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.16
         view.layer.shadowRadius = 4
         view.layer.shadowOffset = CGSize(width: 2, height: 2)
         view.layer.shadowPath = nil
-        
+        view.contentMode = .scaleAspectFill
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -103,9 +102,9 @@ class StartViewController: UIViewController {
     
     private func setupLayout() {
         characterImage.snp.makeConstraints{ make in
-            make.height.width.equalTo(260)
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(174)
+            make.top.equalToSuperview().offset(140)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         startLabel.snp.makeConstraints{ make in
@@ -114,14 +113,13 @@ class StartViewController: UIViewController {
         }
         
         bubbleView.snp.makeConstraints{ make in
-            make.leading.equalToSuperview().offset(67)
-            make.trailing.equalToSuperview().offset(-67)
-            make.bottom.equalToSuperview().offset(-180)
-            make.height.equalTo(32)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(nextButton.snp.top).offset(-12)
+            make.height.equalTo(44)
         }
         
         bubbleLabel.snp.makeConstraints{ make in
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
             make.centerX.equalToSuperview()
         }
         

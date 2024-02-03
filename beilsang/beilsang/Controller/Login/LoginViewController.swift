@@ -56,6 +56,32 @@ class LoginViewController: UIViewController {
         return view
     }()
     
+    lazy var bubbleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "🌱 우리의 일상이 될 친환경 프로젝트 시작하기"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var bubbleView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "bubble")
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.16
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 2, height: 2)
+        view.layer.shadowPath = nil
+        view.contentMode = .scaleAspectFill
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -71,6 +97,9 @@ class LoginViewController: UIViewController {
         view.addSubview(logoColorImage)
         view.addSubview(kakaoButton)
         view.addSubview(appleButton)
+        view.addSubview(bubbleView)
+        
+        bubbleView.addSubview(bubbleLabel)
     }
     
     private func setupLayout() {
@@ -94,6 +123,17 @@ class LoginViewController: UIViewController {
             make.width.equalTo(kakaoButton)
             make.height.equalTo(56)
             make.top.equalTo(kakaoButton.snp.bottom).offset(12)
+        }
+        
+        bubbleView.snp.makeConstraints{ make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(kakaoButton.snp.top).offset(-12)
+            make.height.equalTo(44)
+        }
+        
+        bubbleLabel.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(8)
+            make.centerX.equalToSuperview()
         }
     }
 }

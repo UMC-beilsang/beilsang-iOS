@@ -20,7 +20,10 @@ class UserInfoViewController: UIViewController {
     var selectedGender: String?
     var nickName: String?
     let kakaoZipCodeVC = KakaoPostCodeViewController()
-    var nickNameCheck = true
+    var isFirstInput = true
+    var textFieldValid = true
+    var nameDuplicate = true
+    var isNext = [false, false, false, false]
     
     let agreeImage = UIImage(named: "agree")
     let disagreeImage = UIImage(named: "disagree")
@@ -1011,66 +1014,84 @@ class UserInfoViewController: UIViewController {
     
     // MARK: - nameDuplicateCheck
     
-    func nameDuplicateCheck() -> Bool {
+    func nameDuplicateCheck() {
         
-        let _userInput = nameField.text ?? ""
+        let userInput = nameField.text ?? ""
         let serverInput = Bool.random()
         
         if serverInput  {
             nameInfoViewChanged(state: "avaliable")
+            textFieldChanged(textField: nameField, state: "basic")
+            nameDuplicate = true
             
-            return true
+            isNext[0] = true
+            
+            updateNextButtonState()
         }
         else {
             nameInfoViewChanged(state: "exist")
+            textFieldChanged(textField: nameField, state: "inavaliable")
+            nameDuplicate = false
             
-            return false
+            updateNextButtonState()
+            
         }
+        
     }
     
     
-    // MARK: - Button Disabled
+    // MARK: - next Button
     
+    func updateNextButtonState() {
+        if isNext.allSatisfy({ $0 }) {
+          nextButton.backgroundColor = .beScPurple600
+          nextButton.isEnabled = true
+        } else {
+          nextButton.isEnabled = false
+          nextButton.backgroundColor = .beScPurple400
+        }
+      }
+    /*
      private func nextButtonDisabled() {
-         // nameDuplicateCheck가 true인지 확인
-         guard nameDuplicateCheck() else {
-             nextButton.isEnabled = false
+         
+         guard nameDuplicate else {
+             nextButtonActive = false
              return
          }
-         
+          
          // birthField의 선택 여부 확인
          guard let birthDate = birthField.text, !birthDate.isEmpty else {
-             nextButton.isEnabled = false
+             nextButtonActive = false
              return
          }
          
          // genderField의 선택 여부 확인
          guard let gender = genderField.text, !gender.isEmpty else {
-             nextButton.isEnabled = false
-             return
-         }
-         
-         // zipcodeField와 addressField가 채워져 있는지 확인
-         guard let zipcode = zipCodeField.text, !zipcode.isEmpty,
-               let address = addressField.text, !address.isEmpty else {
-             nextButton.isEnabled = false
+             nextButtonActive = false
              return
          }
          
          guard agreeAllButton.isSelected else {
-                 nextButton.isEnabled = false
-                 return
-             }
-    
+             nextButtonActive = false
+             return
+         }
+         
+         nextButtonActive = true
+         
      }
+     */
     
     private func updateAgreeAllButton() {
         if isAgree.allSatisfy({ $0 }) {
             agreeAllButton.isSelected = true
             agreeAllButton.setImage(agreeImage, for: .normal)
+            isNext[3] = true
+            updateNextButtonState()
         } else {
             agreeAllButton.isSelected = false
             agreeAllButton.setImage(disagreeImage, for: .normal)
+            isNext[3] = false
+            updateNextButtonState()
         }
     }
     
@@ -1086,7 +1107,7 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc private func duplicateCheck() {
-        //nameDuplicateCheck()
+        nameDuplicateCheck()
     }
     @objc private func zipCodeSearch() {
         kakaoZipCodeVC.userInfoVC = self
@@ -1121,13 +1142,20 @@ class UserInfoViewController: UIViewController {
             agreeButton.setImage(agreeImage, for: .normal)
             privacyAgreeButton.isSelected = true
             privacyAgreeButton.setImage(agreeImage, for: .normal)
+            
+            isNext[3] = true
+            
         } else {
             agreeAllButton.setImage(disagreeImage, for: .normal)
             agreeButton.setImage(disagreeImage, for: .normal)
             agreeButton.isSelected = false
             privacyAgreeButton.setImage(disagreeImage, for: .normal)
             privacyAgreeButton.isSelected = false
+            
+            isNext[3] = false
         }
+        
+        updateNextButtonState()
     }
     
     @objc func agreeButtonHandelr(_ sender: UIButton) {
@@ -1187,13 +1215,6 @@ extension UserInfoViewController: UIScrollViewDelegate {
 
 extension UserInfoViewController: UITextFieldDelegate {
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            //nextButtonDisabled() //nextButton이 disabled 되는지 업뎃
-        
-            return true
-        
-        }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == nameField {
             nameField.resignFirstResponder()
@@ -1207,14 +1228,24 @@ extension UserInfoViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == nameField  {
-            if textFieldShouldEndEditing(nameField) { //NicknameCheck를 일단 true, 아무것도 없으니까.
-                nameInfoView.isHidden = true
+            
+            if isFirstInput { //첫입력일때
                 textFieldChanged(textField: nameField, state: "avaliable")
+                isFirstInput = false
             }
             else {
-                nameInfoView.isHidden = false
-                nameInfoViewChanged(state: "avaliable")
+                if textFieldValid { //true일 때 : 2-8자 이내 or 공백
+                    nameInfoView.isHidden = true //혹시 모르니 인포뷰 숨기고
+                    textFieldChanged(textField: nameField, state: "avaliable") //textField 파란색 표시
+                }
+                else { //2-8자 이내 아님. 그러면 shoulEndEditing일때 바꾼걸유지해야함.
+                    
+                }
             }
+            //이런식으로 하면 안될듯, 그냥 첫 시작부터 다시 생각해보면,
+            //처음에 입력 -> 2-8자 이내 인지 검사
+            //재입력인 경우를 구분해서 거기서 나눠야할듯 ?
+        
         }
         else if textField == birthField {
             textFieldChanged(textField: birthField, state: "avaliable")
@@ -1223,52 +1254,80 @@ extension UserInfoViewController: UITextFieldDelegate {
             textFieldChanged(textField: genderField, state: "avaliable")
         }
         else if textField == addressDetailField {
-            textFieldChanged(textField: addressField, state: "avaliable")
+            textFieldChanged(textField: addressDetailField, state: "avaliable")
         }
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         if textField == nameField {
             
             let userInput = nameField.text ?? ""
             
             if userInput.hasCharactersLogin() {//2-8자 이내일 때
-                textFieldChanged(textField: nameField, state: "basic")
-                nameDuplicateButtonChanged(state: "avaliable")
+                textFieldChanged(textField: nameField, state: "basic") //text필드는 다시 베이직으로 바뀌고,
+                nameDuplicateButtonChanged(state: "avaliable") // 중복 확인 버튼 활성화
                 
-                return true
+                textFieldValid = true
                 
-            } else if userInput.isEmpty {
-                return true
             }
-        
+            else if userInput.isEmpty { //공백일때
+                textFieldChanged(textField: nameField, state: "basic") //text필드는 다시 베이직으로 바뀜
+                
+                textFieldValid = true
+            }
+            
             else { //2-8자 이내 아닐 때
                 textFieldChanged(textField: nameField, state: "inavaliable")
                 nameInfoViewChanged(state: "inavaliable")
                 nameDuplicateButtonChanged(state: "inavaliable")
-    
-                return false
+                
+                textFieldValid = false
             }
-            
         }
         
         else if textField == birthField {
             textFieldChanged(textField: birthField, state: "basic")
             
-            return true
+            if let birthDate = birthField.text, !birthDate.isEmpty {
+                isNext[1] = true
+            }
+            
+            updateNextButtonState()
+            
         }
         else if textField == genderField {
             textFieldChanged(textField: genderField, state: "basic")
+            if let gender = genderField.text, !gender.isEmpty {
+                isNext[2] = true
+            }
             
-            return true
+            updateNextButtonState()
+            
+
         }
         else if textField == addressDetailField {
             textFieldChanged(textField: addressDetailField, state: "basic")
             
-            return true
+
         }
-        
-        return false
+    }
+    
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) { //change됐을때도
+         
+        if textField == nameField {
+            let userInput = nameField.text ?? ""
+            
+            if userInput.hasCharactersLogin() {//2-8자 이내가 아닐때
+                textFieldChanged(textField: nameField, state: "avaliable")
+                nameInfoView.isHidden = true
+            }
+            else
+            {
+            }
+        }
+        else {
+        }
     }
 
     
