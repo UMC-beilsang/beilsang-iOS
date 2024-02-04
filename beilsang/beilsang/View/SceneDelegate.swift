@@ -18,11 +18,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
-        let mainViewController = UINavigationController(rootViewController: RegisterSecondViewController()) // 맨 처음 보여줄 ViewController
+        let mainViewController = UINavigationController(rootViewController: MyChallengeFeedViewController()) // 맨 처음 보여줄 ViewController
 
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
     }
+    
+    func changeRootViewController(_ newRootViewController: UIViewController) {
+            guard let window = self.window else { return }
+            window.rootViewController = newRootViewController
+        }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

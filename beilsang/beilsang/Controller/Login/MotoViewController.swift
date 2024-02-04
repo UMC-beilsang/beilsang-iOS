@@ -23,16 +23,6 @@ class MotoViewController: UIViewController {
         return collectionView
     }()
     
-    lazy var progressView: UIProgressView = {
-        let view = UIProgressView()
-        view.trackTintColor = .beBgDiv
-        view.progressTintColor = .bePrPurple500
-        view.progress = 0.5
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 4
-        return view
-    }()
-    
     lazy var joinmotoLabel: UILabel = {
         let view = UILabel()
         view.text = "비일상을 통해 이루고 싶은 다짐을 입력해 주세요!"
@@ -63,6 +53,7 @@ class MotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBar()
         setupUI()
         setupLayout()
     }
@@ -70,27 +61,19 @@ class MotoViewController: UIViewController {
     //MARK: - UI Setup
     
     private func setupUI() {
-        navigationBarHidden()
+       // navigationBarHidden()
         view.backgroundColor = .beBgDef
-        view.addSubview(progressView)
         view.addSubview(joinmotoLabel)
         view.addSubview(nextButton)
         view.addSubview(motoCollectionView)
     }
     
     private func setupLayout() {
-        progressView.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(84)
-            make.leading.equalToSuperview().offset(16)
-            make.width.equalTo(192)
-            make.height.equalTo(8)
-        }
-        
         
         joinmotoLabel.snp.makeConstraints{ make in
             make.leading.equalToSuperview().offset(16)
             make.width.equalTo(230)
-            make.top.equalTo(progressView.snp.bottom).offset(32)
+            make.top.equalToSuperview().offset(116)
         }
         
         nextButton.snp.makeConstraints{ make in
@@ -110,9 +93,9 @@ class MotoViewController: UIViewController {
     
     // MARK: - Navigation Bar
     
-    private func navigationBarHidden() {
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    private func setNavigationBar() {
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     // MARK: - Button Disabled
@@ -133,15 +116,8 @@ class MotoViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func nextAction() {
-        print("Next button tapped")
-        let routeViewController = RouteViewController()
-        
-        if let navigationController = self.navigationController {
-            navigationController.pushViewController(routeViewController, animated: true)
-        } else {
-            print("Error")
-            
-        }
+        let userInfoController = UserInfoViewController()
+        self.navigationController?.pushViewController(userInfoController, animated: true)
     }
 }
 
