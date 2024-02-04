@@ -24,6 +24,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
     }
+    
+    func changeRootViewController(_ newRootViewController: UIViewController) {
+            guard let window = self.window else { return }
+            window.rootViewController = newRootViewController
+        }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

@@ -11,9 +11,12 @@ import SnapKit
 class StartViewController: UIViewController {
     
     //MARK: - Properties
+    
+    var attributedStr: NSMutableAttributedString!
+    
     lazy var characterImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "characterlogo")
+        view.image = UIImage(named: "welcomeImage")
         view.sizeToFit()
         view.layer.shadowColor = UIColor.beTextDef.cgColor
         view.layer.masksToBounds = false
@@ -36,6 +39,32 @@ class StartViewController: UIViewController {
         return view
     }()
     
+    lazy var bubbleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "🌱 가입 축하 +1000P 받고 시작하기!"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var bubbleView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "bubble")
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.16
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 2, height: 2)
+        view.layer.shadowPath = nil
+        view.contentMode = .scaleAspectFill
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     lazy var nextButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = .beScPurple600
@@ -52,10 +81,10 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAttributedStr()
         setupUI()
         setupLayout()
-
-
+        
     }
     
     //MARK: - UI Setup
@@ -65,19 +94,33 @@ class StartViewController: UIViewController {
         view.backgroundColor = .beBgDef
         view.addSubview(characterImage)
         view.addSubview(startLabel)
+        view.addSubview(bubbleView)
         view.addSubview(nextButton)
+        
+        bubbleView.addSubview(bubbleLabel)
     }
     
     private func setupLayout() {
         characterImage.snp.makeConstraints{ make in
-            make.height.width.equalTo(260)
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(174)
+            make.top.equalToSuperview().offset(140)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         startLabel.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
             make.top.equalTo(characterImage.snp.bottom).offset(24)
+        }
+        
+        bubbleView.snp.makeConstraints{ make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(nextButton.snp.top).offset(-12)
+            make.height.equalTo(44)
+        }
+        
+        bubbleLabel.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(8)
+            make.centerX.equalToSuperview()
         }
         
         nextButton.snp.makeConstraints{ make in
@@ -95,15 +138,25 @@ class StartViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
-    @objc private func nextAction() {
-        print("Next button tapped")
-        let testViewController = ViewController()
+    //MARK: - setupAttributeStr
+    
+    func setupAttributedStr() {
+        attributedStr = NSMutableAttributedString(string: bubbleLabel.text!)
         
-        if let navigationController = self.navigationController {
-            navigationController.pushViewController(testViewController, animated: true)
-        } else {
-            print("Error")
-            
+        attributedStr.addAttribute(.foregroundColor, value: UIColor.beCta , range: (bubbleLabel.text! as NSString).range(of: "1000P"))
+        
+        bubbleLabel.attributedText = attributedStr
+    }
+    
+    // MARK: - Actions
+    
+    
+    @objc func nextAction
+    (_ sender: UIButton) {
+        let homeVC = HomeMainViewController()
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.changeRootViewController(homeVC)
         }
     }
 }
