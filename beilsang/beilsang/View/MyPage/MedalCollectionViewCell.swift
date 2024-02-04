@@ -11,7 +11,7 @@ import SwiftUI
 class MedalCollectionViewCell: UICollectionViewCell {
 
     static let identifier = "medalCollectionViewCell"
-    var delegate: CustomCellDelegate?
+    var delegate: CustomMedalCellDelegate?
     
     // 달성 메달 셀 전체 뷰
     lazy var medalView: UIView = {
@@ -47,7 +47,7 @@ class MedalCollectionViewCell: UICollectionViewCell {
         button.setTitleColor(.clear, for: .normal)
         button.setImage(UIImage(named: "Group 1000002757"), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.isEnabled = false
+        button.isUserInteractionEnabled = false
         return button
     }()
     lazy var medal2: UIButton = {
@@ -150,27 +150,13 @@ extension MedalCollectionViewCell {
 // MARK: - function
 extension MedalCollectionViewCell {
     @objc func buttonTapped(_ sender: UIButton) {
-        if sender.isEnabled {
+        if sender.isUserInteractionEnabled {
             delegate?.didTapButton(in: self, button: sender)
         }
     }
     
 }
-private struct FloatingView: View {
-  var body: some View {
-    HStack {
-      Spacer()
-      Text("This is Floating")
-        .font(.headline)
-        .padding(.vertical, 10)
-      Spacer()
-    }
-    .background(Color.white)
-    .cornerRadius(20)
-    .padding(.horizontal, 20)
-  }
-}
 
-protocol CustomCellDelegate: AnyObject {
+protocol CustomMedalCellDelegate: AnyObject {
     func didTapButton(in cell: UICollectionViewCell, button: UIButton)
 }
