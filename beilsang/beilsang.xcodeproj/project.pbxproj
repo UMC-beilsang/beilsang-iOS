@@ -42,6 +42,7 @@
 		8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = 8948F8692B69D99500393D35 /* SCLAlertView */; };
 		894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */; };
 		894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A11482B60A68C002A9A32 /* MyPageViewController.swift */; };
+		895D88732B6D3BEE003E5688 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
 		8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD152B6B7CDA0072440E /* LikeViewController.swift */; };
 		8963CD182B6B918B0072440E /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD172B6B918B0072440E /* PointViewController.swift */; };
@@ -116,6 +117,7 @@
 		2FF55CB12B684E42004EDB39 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
 		8963CD152B6B7CDA0072440E /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		8963CD172B6B918B0072440E /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 		2F08387E2B564085002E2551 /* beilsang */ = {
 			isa = PBXGroup;
 			children = (
+				895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */,
 				2F08388D2B564086002E2551 /* Info.plist */,
 				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2FC63CD82B5BB3A50050139A /* Model */,
@@ -488,6 +491,7 @@
 			files = (
 				2F48E0992B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf in Resources */,
 				2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */,
+				895D88732B6D3BEE003E5688 /* GoogleService-Info.plist in Resources */,
 				2F08388C2B564086002E2551 /* LaunchScreen.storyboard in Resources */,
 				2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */,
 				2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */,
