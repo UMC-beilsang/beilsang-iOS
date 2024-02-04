@@ -37,6 +37,7 @@ extension UIColor {
     static let beScPurple500 = UIColor(hex: "#3070F8")
     static let beScPurple600 = UIColor(hex: "#7B87DB")
     static let beScPurple700 = UIColor(hex: "#5560B7")
+    static let bePrPurple30Per = UIColor(hex: "#A9B5FF") // alpha 적용: .bePrPurple30Per.withAlphaComponent(0.3)
     
     //MARK: - Semantic Color
     
@@ -77,6 +78,7 @@ extension UIColor {
     static let beBgCard = UIColor(hex: "#FDFDFD")
     static let beBgSub = UIColor(hex: "#F8F8F8")
     static let beBgDiv = UIColor(hex: "#E6E6E6")
+    static let beBgPopUp = UIColor(hex: "#222222")
     
     //MARK: - Icon Color
     

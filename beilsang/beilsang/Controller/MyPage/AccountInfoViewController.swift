@@ -7,30 +7,26 @@
 
 import Foundation
 import UIKit
+import SCLAlertView
 
 class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
-    var gender = ["남성", "여성"]
+    var gender = ["남성", "여성", "기타"]
+    var alertViewResponder: SCLAlertViewResponder? = nil
     
-    
-    lazy var profileImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "Mask group")
-        image.layer.cornerRadius = 48
-        return image
-    }()
-    lazy var profileShadowView: UIView = {
-        let view = UIView()
-        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+    lazy var profileShadowView: UIImageView = {
+        let view = UIImageView()
+        view.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
         view.layer.shadowOpacity = 1
+        view.image = UIImage(named: "Mask group")
+        view.layer.cornerRadius = 48
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 4
 //        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds,
 //                               cornerRadius: view.layer.cornerRadius).cgPath
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     lazy var editProfileImageView: UIView = {
@@ -87,6 +83,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         // 비활성화 상태일 때
         button.isEnabled = false
         button.setTitleColor(.beBgSub, for: .disabled)
+        button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .beBgDiv
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         
@@ -224,7 +221,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
-                button.addTarget(self, action: #selector(duplicateCheck), for: .touchDown)
+                button.addTarget(self, action: #selector(postCode), for: .touchDown)
                 
         return button
     }()
@@ -264,15 +261,157 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.setTitle("로그아웃", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        button.addTarget(self, action: #selector(logout), for: .touchDown)
+        button.addTarget(self, action: #selector(tapLogoutButton), for: .touchDown)
+        return button
+    }()
+    lazy var logoutAlert: SCLAlertView = {
+        
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 272,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            kTextFont: UIFont(name: "NotoSansKR-Regular", size: 14)!,
+            kButtonFont: UIFont(name: "NotoSansKR-Medium", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    lazy var logoutSubview : UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    lazy var logoutPopUpContent: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "로그아웃을 진행할까요?\n 앱 내 계정 정보는 사라지지 않아요 👀"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    // 로그아웃일 때, email 박스
+    lazy var emailBox: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgSub
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
+    lazy var emailLabel1: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.text = "현재 로그인된 계정"
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.textColor = .beTextInfo
+        return label
+    }()
+    lazy var emailLabel2: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        label.text = "email"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    lazy var cancelLogoutButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beBorderDef, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.setTitle("취소", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+
+        return button
+    }()
+    lazy var activeLogoutButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.setTitle("로그아웃하기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(logout), for: .touchUpInside)
         return button
     }()
     lazy var withdrawButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원탈퇴", for: .normal)
-        button.setTitleColor(.beBgSub, for: .normal)
+        button.setTitleColor(.beTextEx, for: .normal)
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 16)
-        button.addTarget(self, action: #selector(withdraw), for: .touchDown)
+        button.addTarget(self, action: #selector(tapWithdrawButton), for: .touchDown)
+        return button
+    }()
+    lazy var withDrawAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 272,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            kTextFont: UIFont(name: "NotoSansKR-Regular", size: 14)!,
+            kButtonFont: UIFont(name: "NotoSansKR-Medium", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    lazy var withDrawSubview: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white     
+        return view
+    }()
+    lazy var withDrawPopUpContent: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "정말 탈퇴하시나요?\n 지금 탈퇴하면 챌린지 업적은 복구되지 않아요"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    let textViewPlaceHolder = "탈퇴 사유를 입력해 주세요"
+    //탈퇴사유 입력 textField
+    lazy var withDrawTextView: UITextView = {
+        let view = UITextView()
+        view.layer.borderColor = UIColor.beBgCard.cgColor
+        view.layer.borderWidth = 1
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.layer.cornerRadius = 8
+        view.textColor = .beTextEx
+        // 자동 수정 활성화 여부
+        view.autocorrectionType = .no
+        // 맞춤법 검사 활성화 여부
+        view.spellCheckingType = .no
+        // 대문자부터 시작 활성화 여부
+        view.autocapitalizationType = .none
+        view.delegate = self
+        view.text = textViewPlaceHolder
+        return view
+    }()
+    lazy var cancelWithDrawButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beBorderDef, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.setTitle("취소", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        return button
+    }()
+    lazy var activeWithDrawButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.setTitle("탈퇴하기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(withdraw), for: .touchUpInside)
         return button
     }()
     lazy var greyBox: UIView = {
@@ -284,20 +423,84 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("개인정보처리방침", for: .normal)
-        button.setTitleColor(.beBgSub, for: .normal)
+        button.setTitleColor(.beTextEx, for: .normal)
         return button
     }()
     lazy var termsOfUse: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         button.setTitle("이용약관", for: .normal)
-        button.setTitleColor(.beBgSub, for: .normal)
+        button.setTitleColor(.beTextEx, for: .normal)
         return button
     }()
     lazy var bottomBar: UIView = {
         let view = UIView()
-        view.backgroundColor = .beBgSub
+        view.backgroundColor = .beTextEx
         return view
+    }()
+    lazy var saveAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 272,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            kTextFont: UIFont(name: "NotoSansKR-Regular", size: 14)!,
+            kButtonFont: UIFont(name: "NotoSansKR-Medium", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    lazy var saveSubview: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    lazy var savePopUpContent: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.text = "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀"
+        label.textColor = .beTextInfo
+        return label
+    }()
+    lazy var cancelSaveButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beBorderDef, for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.setTitle("닫기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        return button
+    }()
+    lazy var activeSaveButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("나가기", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        return button
+    }()
+    // 네비게이션 오른쪽 BarItem - 변경사항 저장
+    lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("저장하기", for: .normal)
+        button.layer.cornerRadius = 8
+        // 비활성화 상태일 때
+        button.isEnabled = false
+        button.setTitleColor(.white, for: .disabled)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .beScPurple400
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(save), for: .touchDown)
+        return button
     }()
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -316,12 +519,15 @@ extension AccountInfoViewController {
         setFullScrollView()
         setLayout()
         setScrollViewLayout()
+        
     }
     
     func setFullScrollView() {
         fullScrollView.showsVerticalScrollIndicator = true
         fullScrollView.delegate = self
         
+        //스크롤 안보이게 설정
+        fullScrollView.showsVerticalScrollIndicator = false
     }
     
     func setLayout() {
@@ -344,21 +550,19 @@ extension AccountInfoViewController {
         // foreach문을 사용해서 클로저 형태로 작성
         [profileShadowView, editProfileImageView, editProfileImageLabel, editProfileImageButton, nicknameLabel, nicknameTextField, dupCheckButton, birthLabel, birthTextField, genderLabel, genderTextField, addressLabel, postCodeTextField, postCodeButton, systemLabel, systemImage, addressBox1, addressBox2, line, logoutButton, withdrawButton, greyBox, privacyPolicy, termsOfUse, bottomBar, nickNameCircle, birthCircle, genderCircle, addressCircle].forEach{view in fullContentView.addSubview(view)}
         
-        profileShadowView.addSubview(profileImage)
+        
         // 텍스트필드 입력 수단 연결
         birthTextField.inputView = birthPicker
         genderTextField.inputView = genderPickerView
-        
-        
+        logoutAlert.customSubview = logoutSubview
+        [logoutPopUpContent, cancelLogoutButton, activeLogoutButton, emailBox, emailLabel1, emailLabel2].forEach{view in logoutSubview.addSubview(view)}
+        withDrawAlert.customSubview = withDrawSubview
+        [withDrawPopUpContent, cancelWithDrawButton, activeWithDrawButton, withDrawTextView].forEach{view in withDrawSubview.addSubview(view)}
+        saveAlert.customSubview = saveSubview
+        [savePopUpContent, cancelSaveButton, activeSaveButton].forEach{view in saveSubview.addSubview(view)}
     }
     // MARK: - 전체 오토레이아웃 관리
     func viewConstraint(){
-        profileImage.snp.makeConstraints { make in
-            make.width.equalTo(96)
-            make.height.equalTo(96)
-            make.centerX.equalTo(profileShadowView)
-            make.top.equalTo(profileShadowView)
-        }
         profileShadowView.snp.makeConstraints { make in
             make.width.equalTo(96)
             make.height.equalTo(96)
@@ -368,18 +572,18 @@ extension AccountInfoViewController {
         editProfileImageView.snp.makeConstraints { make in
             make.width.equalTo(46)
             make.height.equalTo(21)
-            make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(16)
+            make.centerX.equalTo(profileShadowView)
         }
         editProfileImageLabel.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(18)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(18)
+            make.centerX.equalTo(profileShadowView)
         }
         editProfileImageButton.snp.makeConstraints { make in
             make.width.equalTo(46)
             make.height.equalTo(21)
-            make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.centerX.equalTo(profileImage)
+            make.top.equalTo(profileShadowView.snp.bottom).offset(16)
+            make.centerX.equalTo(profileShadowView)
         }
         nicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(editProfileImageButton).offset(32)
@@ -513,6 +717,11 @@ extension AccountInfoViewController {
             make.leading.equalTo(addressLabel.snp.trailing).offset(2)
             make.top.equalTo(addressLabel.snp.top)
         }
+        saveButton.snp.makeConstraints { make in
+            make.height.equalTo(36)
+            make.width.equalTo(72)
+        }
+        alertLayout()
     }
 // MARK: - 함수
     @objc func dateChange(_ sender: UIDatePicker) {
@@ -541,7 +750,6 @@ extension AccountInfoViewController {
         birthTextField.inputAccessoryView = toolBar
     }
     private func setupGenderToolBar() {
-        
         let toolBar = UIToolbar()
         toolBar.updateConstraintsIfNeeded()
         // flexibleSpace: done 버튼을 맨 끝으로 보내기 위한 item
@@ -566,7 +774,15 @@ extension AccountInfoViewController {
     @objc private func duplicateCheck() -> Bool {
         print("duplicate button tapped")
         nicknameSuccess("사용 가능한 닉네임입니다.")
+        setButton(saveButton, true)
         return true
+    }
+    @objc private func postCode() {
+        print("우편번호")
+    }
+    @objc private func save() {
+        print("변경 사항 저장")
+        setButton(saveButton, false)
     }
     func buttonFieldSelected(_ button: UIButton){
         // textField 파랗게
@@ -581,13 +797,26 @@ extension AccountInfoViewController {
         systemImage.isHidden = true
         systemLabel.isHidden = true
     }
+    @objc func tapLogoutButton(){
+        print("로그아웃")
+        alertViewResponder = logoutAlert.showInfo("계정 로그아웃")
+
+    }
+    @objc func tapWithdrawButton(){
+        print("회원 탈퇴")
+        alertViewResponder = withDrawAlert.showInfo("회원 탈퇴")
+    }
     @objc func logout(){
-        printContent("로그아웃")
-        
+        alertViewResponder?.close()
     }
     @objc func withdraw(){
-        printContent("회원 탈퇴")
-        
+        alertViewResponder?.close()
+    }
+    @objc func close(){
+        alertViewResponder?.close()
+    }
+    @objc func cancel(){
+        alertViewResponder?.close()
     }
 // MARK: - PickerView
     
@@ -618,8 +847,7 @@ extension UITextField{
 extension AccountInfoViewController{
     private func setNavigationBar() {
         self.navigationItem.titleView = attributeTitleView()
-//        navigationController?.navigationBar.shadowImage = UIImage()
-        setBackButton()
+        setBarButton()
         
     }
     private func attributeTitleView() -> UIView {
@@ -636,15 +864,23 @@ extension AccountInfoViewController{
         return label
     }
     // 백버튼 커스텀
-    func setBackButton() {
+    func setBarButton() {
         let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         // 기존 barbutton이미지 이용할 때 -> (barButtonSystemItem: ., target: self, action: #selector(tabBarButtonTapped))
         leftBarButton.tintColor = .black
+        
+        
+        let rightBarButton: UIBarButtonItem = UIBarButtonItem(customView: saveButton)
+        
         self.navigationItem.leftBarButtonItem = leftBarButton
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
-            print("뒤로 가기")
+        print("뒤로 가기")
+        if saveButton.isEnabled {
+            alertViewResponder = saveAlert.showInfo("저장되지 않은 내용이 있어요!", subTitle: "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀")
+        }
     }
 }
 // MARK: - UITextFieldDelegate
@@ -665,14 +901,14 @@ extension AccountInfoViewController: UITextFieldDelegate {
             if let char = string.cString(using: String.Encoding.utf8) {
                 let isBackSpace = strcmp(char, "\\b")
                 if (isBackSpace == -92) {
-                    selectingNickname()
-                    textFieldSelected(textField)
+                    selectingNickname() // <- 버튼 다시 파란색
+                    textFieldSelected(textField) // <- 백스페이스 하면 색깔 다시 파란색으로 해주겠다는 뜻
                     return true
                 }
             }
             guard textField.text!.count <= 8 else {
                 nicknameError("닉네임은 2~8자 이내로 입력해 주세요.")
-                return false
+                return false // <- 이거 false로 하면 유효성 검사에서 걸리면 입력 자체가 안됨 true로 하는게 나을려나?
             }
             guard string.hasCharacters() else {
                 nicknameError("닉네임은 한글, 영어 대소문자, 숫자만 가능합니다.")
@@ -687,6 +923,8 @@ extension AccountInfoViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == nicknameTextField {
             setButton(dupCheckButton, true)
+        } else {
+            setButton(saveButton, true)
         }
         textFieldSelected(textField)
 
@@ -711,9 +949,37 @@ extension AccountInfoViewController: UITextFieldDelegate {
                 textFieldNormal(genderTextField)
                 return false
             }
+            nicknameTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            nicknameTextField.layer.backgroundColor = UIColor.clear.cgColor
+            nicknameTextField.textColor = UIColor.beTextDef
+            nicknameTextField.setPlaceholderColor(.beTextEx)
+            
+            dupCheckButton.isEnabled = true
+            dupCheckButton.setTitleColor(.beTextWhite, for: .normal)
+            dupCheckButton.backgroundColor = .beScPurple600
+        }
+        else if textField == birthTextField {
+            birthTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            birthTextField.layer.backgroundColor = UIColor.clear.cgColor
+            birthTextField.textColor = UIColor.beTextDef
+            birthTextField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == genderTextField {
+            genderTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            genderTextField.layer.backgroundColor = UIColor.clear.cgColor
+            genderTextField.textColor = UIColor.beTextDef
+            genderTextField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == postCodeTextField {
+            postCodeTextField.layer.borderColor = UIColor.beBorderDis.cgColor
+            postCodeTextField.layer.backgroundColor = UIColor.clear.cgColor
+            postCodeTextField.textColor = UIColor.beTextDef
+            postCodeTextField.setPlaceholderColor(.beTextEx)
         }
         return true
     }
+    
+        
     func nicknameError(_ message: String) {
         // 에러 메세지 출력
         systemLabel.isHidden = false
@@ -752,16 +1018,28 @@ extension AccountInfoViewController: UITextFieldDelegate {
         }
     }
     func setButton(_ button: UIButton, _ enabled: Bool){
-        if enabled{
-            // 중복 체크 버튼 활성화
-            dupCheckButton.isEnabled = true
-            dupCheckButton.setTitleColor(.white, for: .normal)
-            dupCheckButton.backgroundColor = .beScPurple600
-        }else{
-            // 중복 체크 버튼 비활성화
-            dupCheckButton.isEnabled = false
-            dupCheckButton.setTitleColor(.beBgSub, for: .disabled)
-            dupCheckButton.backgroundColor = .beBgDiv
+        if button == saveButton {
+            if enabled{
+                // 버튼 활성화
+                button.isEnabled = true
+                button.backgroundColor = .beScPurple600
+            }else{
+                // 버튼 비활성화
+                button.isEnabled = false
+                button.backgroundColor = .beScPurple400
+            }
+        } else {
+            if enabled{
+                // 버튼 활성화
+                button.isEnabled = true
+//                button.setTitleColor(.white, for: .normal)
+                button.backgroundColor = .beScPurple600
+            }else{
+                // 버튼 비활성화
+                button.isEnabled = false
+//                button.setTitleColor(.beBgSub, for: .disabled)
+                button.backgroundColor = .beBgDiv
+            }
         }
     }
     func nicknameSuccess(_ message: String){
@@ -795,12 +1073,118 @@ extension AccountInfoViewController: UIPickerViewDelegate, UIPickerViewDataSourc
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
+        return gender.count
     }
     
     /// 표출할 텍스트 (2020년, 2021년 / 1월, 2월, 3월, 4월 ... )
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         genderTextField.text = gender[row]
         return gender[row]
+    }
+}
+
+// MARK: - Alert
+extension AccountInfoViewController {
+    func alertLayout() {
+        // 로그아웃 알림창
+        logoutSubview.snp.makeConstraints { make in
+            make.width.equalTo(316)
+            make.height.equalTo(200)
+//            make.bottom.equalTo(cancelLogoutButton).offset(12)
+        }
+        emailBox.snp.makeConstraints { make in
+            make.width.equalTo(280)
+            make.height.equalTo(64)
+            make.centerX.equalTo(logoutSubview.snp.centerX)
+            make.top.equalToSuperview()
+        }
+        emailLabel1.snp.makeConstraints { make in
+            make.top.equalTo(emailBox.snp.top).offset(14)
+            make.centerX.equalToSuperview()
+        }
+        emailLabel2.snp.makeConstraints { make in
+            make.top.equalTo(emailLabel1.snp.bottom)
+            make.centerX.equalToSuperview()
+        }
+        logoutPopUpContent.snp.makeConstraints { make in
+            make.top.equalTo(emailBox.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        cancelLogoutButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.trailing.equalTo(logoutSubview.snp.centerX).offset(-3)
+            make.top.equalTo(logoutPopUpContent.snp.bottom).offset(28)
+        }
+        activeLogoutButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.leading.equalTo(logoutSubview.snp.centerX).offset(3)
+            make.centerY.equalTo(cancelLogoutButton)
+        }
+        // 회원 탈퇴 알림창
+        withDrawSubview.snp.makeConstraints { make in
+            make.width.equalTo(316)
+            make.bottom.equalTo(cancelWithDrawButton).offset(12)
+        }
+        withDrawPopUpContent.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        withDrawTextView.snp.makeConstraints { make in
+            make.width.equalTo(285)
+            make.height.equalTo(140)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(withDrawPopUpContent.snp.bottom).offset(20)
+        }
+        cancelWithDrawButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.trailing.equalTo(withDrawSubview.snp.centerX).offset(-3)
+            make.top.equalTo(withDrawTextView.snp.bottom).offset(28)
+        }
+        activeWithDrawButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.leading.equalTo(withDrawSubview.snp.centerX).offset(3)
+            make.centerY.equalTo(cancelWithDrawButton)
+        }
+        // 저장되지 않은 내용이 있어요! 알림창
+        saveSubview.snp.makeConstraints { make in
+            make.width.equalTo(316)
+            make.bottom.equalTo(cancelSaveButton).offset(12)
+        }
+        savePopUpContent.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        cancelSaveButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.trailing.equalTo(saveSubview.snp.centerX).offset(-3)
+            make.top.equalTo(savePopUpContent.snp.bottom).offset(28)
+        }
+        activeSaveButton.snp.makeConstraints { make in
+            make.width.equalTo(156)
+            make.height.equalTo(48)
+            make.leading.equalTo(saveSubview.snp.centerX).offset(3)
+            make.centerY.equalTo(cancelSaveButton)
+        }
+    }
+}
+extension AccountInfoViewController: UITextViewDelegate {
+//    focus를 얻는 경우: text가 placeholder로 그대로 남아 있다면, 입력을 준비하기 위해서 text를 nil, color를 input색상으로 변경
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+//    focus를 읽는 경우: text가 비어있다면 text를 placeholder로 하고 color도 placeholder 색상으로 변경
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .beTextEx
+        }
     }
 }
