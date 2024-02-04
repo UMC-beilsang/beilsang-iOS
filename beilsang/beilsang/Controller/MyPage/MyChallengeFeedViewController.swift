@@ -299,7 +299,6 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             challengeListVC.categoryLabelText = labelText
             didTapButton()
         case categoryCollectionView:
-            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
             didTapButton()
         case challengeFeedBoxCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
