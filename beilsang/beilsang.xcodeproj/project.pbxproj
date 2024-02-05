@@ -57,6 +57,7 @@
 		89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */; };
 		89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */; };
 		89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A322B656156009263F5 /* MyChallengeViewController.swift */; };
+		89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */; };
 		AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */; };
 		AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */; };
 		AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403362B63E06F006B68FE /* HomeMainViewController.swift */; };
@@ -135,6 +136,7 @@
 		89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
 		89A08A322B656156009263F5 /* MyChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeViewController.swift; sourceTree = "<group>"; };
+		89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
 		AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403362B63E06F006B68FE /* HomeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainViewController.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */,
 				8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */,
 				8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */,
+				89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */,
 			);
 			path = Find;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
 				8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */,
 				89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */,
+				89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,

@@ -237,16 +237,17 @@ extension FindViewController {
             make.top.equalTo(categoryCollectionView.snp.bottom).offset(16)
             make.leading.equalTo(challengeFeedLabel)
             make.trailing.equalToSuperview().offset(-16)
-//            make.bottom.equalToSuperview()
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         feedDetailCollectionView.snp.makeConstraints { make in
-//            make.top.equalTo(challengeFeedBoxCollectionView)
             make.height.equalTo(700)
+//            make.leading.trailing.equalToSuperview()
             make.bottom.leading.trailing.equalToSuperview()
         }
         feedDetailBackground.snp.makeConstraints { make in
             make.size.edges.equalToSuperview()
+//            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+//            make.size.equalTo(self.view.safeAreaLayoutGuide)
         }
         moreFeedButton.snp.makeConstraints { make in
             make.width.equalTo(240)
@@ -308,7 +309,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
         HofChallengeCollectionView.register(HofChallengeCollectionViewCell.self, forCellWithReuseIdentifier: HofChallengeCollectionViewCell.identifier)
         categoryCollectionView.register(MyPageCategoryCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCategoryCollectionViewCell.identifier)
         challengeFeedBoxCollectionView.register(MyChallengeFeedCollectionViewCell.self, forCellWithReuseIdentifier: MyChallengeFeedCollectionViewCell.identifier)
-        feedDetailCollectionView.register(FeedDetailCollectionViewCell.self, forCellWithReuseIdentifier: FeedDetailCollectionViewCell.identifier)
+        feedDetailCollectionView.register(FindFeedDetailCollectionViewCell.self, forCellWithReuseIdentifier: FindFeedDetailCollectionViewCell.identifier)
         
         [HofChallengeCategoryCollectionView, HofChallengeCollectionView, categoryCollectionView].forEach { view in
             view.showsHorizontalScrollIndicator = false
@@ -359,8 +360,8 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
         case challengeFeedBoxCollectionView:
             return  CGSize(width: 173, height: 140)
         case feedDetailCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedDetailCollectionViewCell.identifier, for: indexPath) as?
-                    FeedDetailCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FindFeedDetailCollectionViewCell.identifier, for: indexPath) as?
+                    FindFeedDetailCollectionViewCell else {
                 return .zero
             }
             return  cell.frame.size
@@ -407,8 +408,8 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.challengeFeed.image = UIImage(named: imageList[indexPath.row])
             return cell
         case feedDetailCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedDetailCollectionViewCell.identifier, for: indexPath) as?
-                    FeedDetailCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FindFeedDetailCollectionViewCell.identifier, for: indexPath) as?
+                    FindFeedDetailCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.delegate = self
@@ -423,12 +424,25 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
         case categoryCollectionView:
             didTapButton()
         case challengeFeedBoxCollectionView:
+            // 챌린지 피드 선택
+            // 세부 정보 출력
             let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
             feedDetailCollectionView.isHidden = false
             feedDetailBackground.isHidden = false
             fullScrollView.isScrollEnabled = false
-            let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeedDetailCollectionViewCell
+            // 피드 이미지 전달
+            let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FindFeedDetailCollectionViewCell
             feedCell.feedImage.image = cell.challengeFeed.image
+            // 추천 챌린지 data
+            feedCell.categoryLabel.text = "대중교통 챌린지"
+            feedCell.titleLabel.text = "버스 이용자 모여라"
+            feedCell.recommendImageView.image = UIImage(named: "representImage")
+            // 피드 위치 UIScreen 위치에 맞게 수정
+            feedDetailCollectionView.snp.remakeConstraints { make in
+                make.height.equalTo(700)
+                make.top.equalToSuperview().offset(fullScrollView.contentOffset.y+130) //약간 야매...
+                make.leading.trailing.equalToSuperview()
+            }
         default:
             return
         }
@@ -554,3 +568,4 @@ extension UIScrollView {
         return totalRect.union(view.frame)
     }
 }
+
