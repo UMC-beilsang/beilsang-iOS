@@ -1216,7 +1216,7 @@ class ChallengeDetailViewController: UIViewController {
     }
     
     @objc func reportButtonTapped() {
-        let reportUrl = NSURL(string: "https://www.hongik.ac.kr/index.do")
+        let reportUrl = NSURL(string: "https://moaform.com/q/dcQIJc")
         let reportSafariView: SFSafariViewController = SFSafariViewController(url: reportUrl! as URL)
         self.present(reportSafariView, animated: true, completion: nil)
         alertViewResponder?.close()
