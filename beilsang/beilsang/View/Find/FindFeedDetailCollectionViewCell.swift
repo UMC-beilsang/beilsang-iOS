@@ -143,7 +143,7 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         
         return view
     }()
-
+    
     lazy var categoryLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: "NotoSansKR-Medium", size: 14)

@@ -137,6 +137,18 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
+    lazy var scrollToTop: UIButton = {
+        let status = false
+        let button = UIButton()
+        button.backgroundColor = .beScPurple300.withAlphaComponent(0.7)
+        button.setImage(UIImage(named: "icon-navigation")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.transform = CGAffineTransform(rotationAngle: .pi * 0.5)
+        button.layer.cornerRadius = 30
+        button.addTarget(self, action: #selector(scrollToTopButton), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,7 +194,9 @@ extension FindViewController {
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
-        [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, moreFeedButton, feedDetailBackground, feedDetailCollectionView,].forEach{ view in fullContentView.addSubview(view)}
+        self.view.addSubview(scrollToTop)
+        self.view.addSubview(moreFeedButton)
+        [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailBackground, feedDetailCollectionView].forEach{ view in fullContentView.addSubview(view)}
         
         [buttonLabel, buttonImage].forEach { view in
             moreFeedButton.addSubview(view)
@@ -241,19 +255,16 @@ extension FindViewController {
         }
         feedDetailCollectionView.snp.makeConstraints { make in
             make.height.equalTo(700)
-//            make.leading.trailing.equalToSuperview()
             make.bottom.leading.trailing.equalToSuperview()
         }
         feedDetailBackground.snp.makeConstraints { make in
             make.size.edges.equalToSuperview()
-//            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-//            make.size.equalTo(self.view.safeAreaLayoutGuide)
         }
         moreFeedButton.snp.makeConstraints { make in
             make.width.equalTo(240)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-24)
+            make.bottom.equalToSuperview().offset(-48)
         }
         buttonLabel.snp.makeConstraints { make in
             make.leading.equalTo(moreFeedButton).offset(42)
@@ -264,6 +275,11 @@ extension FindViewController {
             make.centerY.equalTo(moreFeedButton)
             make.width.equalTo(12)
             make.height.equalTo(6)
+        }
+        scrollToTop.snp.makeConstraints { make in
+            make.width.height.equalTo(66)
+            make.trailing.equalToSuperview().offset(-20)
+            make.bottom.equalToSuperview().offset(-16)
         }
     }
 }
@@ -466,9 +482,15 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     // 스크롤 맨 밑 도착시 감지
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (scrollView.contentOffset.y + 1) >= (scrollView.contentSize.height - scrollView.frame.size.height) {
-            moreFeedButton.isHidden = false
+        if scrollView == fullScrollView{
+            if (scrollView.contentOffset.y + 1) >= (scrollView.contentSize.height - scrollView.frame.size.height) {
+                moreFeedButton.isHidden = false
+            }
         }
+    }
+    
+    func scrollToTop(_ scrollView: UIScrollView) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: -97), animated: true)
     }
     // 섹션 별 크기 설정을 위한 함수
     // challengeBoxCollectionView layout 커스텀
@@ -507,6 +529,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension FindViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // horizontal 스크롤 - collection view 스크롤 시 하단의 커스텀 스크롤도 이동하기 위함
         let allWidth = self.HofChallengeCollectionView.contentSize.width + self.HofChallengeCollectionView.contentInset.left + self.HofChallengeCollectionView.contentInset.right
         let showingWidth = self.HofChallengeCollectionView.bounds.width
         // 움직일 scroll 길이 설정
@@ -524,6 +547,9 @@ extension FindViewController {
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(fullScrollView.contentSize.height + 10)
         }
+    }
+    @objc func scrollToTopButton(){
+        scrollToTop(fullScrollView)
     }
 }
 
