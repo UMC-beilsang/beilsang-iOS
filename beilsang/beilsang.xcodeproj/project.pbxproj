@@ -39,10 +39,10 @@
 		2FF55CAB2B684D0B004EDB39 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF55CAA2B684D0B004EDB39 /* UserInfoViewController.swift */; };
 		2FF55CAD2B684D3A004EDB39 /* KakaoPostCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF55CAC2B684D3A004EDB39 /* KakaoPostCodeViewController.swift */; };
 		2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF55CB12B684E42004EDB39 /* WebKit.framework */; };
+		2FFA04442B7131E3000B5E4C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2FFA04432B7131E3000B5E4C /* KakaoSDK */; };
 		8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = 8948F8692B69D99500393D35 /* SCLAlertView */; };
 		894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */; };
 		894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A11482B60A68C002A9A32 /* MyPageViewController.swift */; };
-		895D88732B6D3BEE003E5688 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
 		8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD152B6B7CDA0072440E /* LikeViewController.swift */; };
 		8963CD182B6B918B0072440E /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD172B6B918B0072440E /* PointViewController.swift */; };
@@ -117,7 +117,6 @@
 		2FF55CB12B684E42004EDB39 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
 		8963CD152B6B7CDA0072440E /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		8963CD172B6B918B0072440E /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +148,7 @@
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
+				2FFA04442B7131E3000B5E4C /* KakaoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +193,6 @@
 		2F08387E2B564085002E2551 /* beilsang */ = {
 			isa = PBXGroup;
 			children = (
-				895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */,
 				2F08388D2B564086002E2551 /* Info.plist */,
 				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2FC63CD82B5BB3A50050139A /* Model */,
@@ -395,6 +394,7 @@
 				2FE57C272B5EC56C0022C4F3 /* SnapKit-Dynamic */,
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
 				8948F8692B69D99500393D35 /* SCLAlertView */,
+				2FFA04432B7131E3000B5E4C /* KakaoSDK */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -472,6 +472,7 @@
 				2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
+				2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -491,7 +492,6 @@
 			files = (
 				2F48E0992B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf in Resources */,
 				2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */,
-				895D88732B6D3BEE003E5688 /* GoogleService-Info.plist in Resources */,
 				2F08388C2B564086002E2551 /* LaunchScreen.storyboard in Resources */,
 				2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */,
 				2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */,
@@ -735,6 +735,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -761,6 +762,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -908,6 +910,14 @@
 				minimumVersion = 5.8.1;
 			};
 		};
+		2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.20.0;
+			};
+		};
 		8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vikmeup/SCLAlertView-Swift.git";
@@ -933,6 +943,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		2FFA04432B7131E3000B5E4C /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
 		};
 		8948F8692B69D99500393D35 /* SCLAlertView */ = {
 			isa = XCSwiftPackageProductDependency;
