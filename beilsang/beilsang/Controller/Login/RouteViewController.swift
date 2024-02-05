@@ -14,9 +14,9 @@ class RouteViewController: UIViewController {
     
     let pickerView = UIPickerView()
     let routeOptions = ["지인 추천", "직접 검색", "인스타그램", "에브리타임", "기타"]
-    let imageContainer = UIView()
     let arrowImageView = UIImageView(image: UIImage(named: "arrow_gray"))
     var selectedRoute: String?
+    var attributedStr: NSMutableAttributedString!
     
     lazy var joinRouteLabel: UILabel = {
         let view = UILabel()
@@ -65,8 +65,6 @@ class RouteViewController: UIViewController {
         view.setPlaceholderColor(.beTextEx)
         view.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 19.0, height: 0.0))
         view.leftViewMode = .always
-        view.rightView = imageContainer
-        view.rightViewMode = .always
         
         let placeholderText = "알게된 경로 선택하기"
         let attributes: [NSAttributedString.Key: Any] = [
@@ -74,6 +72,78 @@ class RouteViewController: UIViewController {
         ]
         view.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: attributes)
         view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        
+        return view
+    }()
+    
+    lazy var recommendLabel: UILabel = {
+        let view = UILabel()
+        view.text = "추천인 닉네임"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var recommendPointLabel: UILabel = {
+        let view = UILabel()
+        view.text = "+ 1000P"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beCta
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var recommendField: UITextField = {
+        let view = UITextField()
+        view.layer.cornerRadius = 8
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
+        view.autocorrectionType = .no
+        view.spellCheckingType = .no
+        view.autocapitalizationType = .none
+        view.setPlaceholderColor(.beTextEx)
+        view.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 19.0, height: 0.0))
+        view.leftViewMode = .always
+        
+        let placeholderText = "추천인 닉네임 입력하기"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 14)
+        ]
+        view.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: attributes)
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        
+        return view
+    }()
+    
+    lazy var bubbleLabel: UILabel = {
+        let view = UILabel()
+        view.text = "🌱 추천인 닉네임 입력시 +1000P 바로 지급!"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var bubbleView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "bubble")
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.16
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 2, height: 2)
+        view.layer.shadowPath = nil
+        view.contentMode = .scaleAspectFill
+        view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
@@ -94,6 +164,8 @@ class RouteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAttributedStr()
+        setTextField()
         setNavigationBar()
         createPickerView()
         setupToolBar()
@@ -104,16 +176,20 @@ class RouteViewController: UIViewController {
     //MARK: - UI Setup
     
     private func setupUI() {
-        routeField.delegate = self
         
         view.backgroundColor = .beBgDef
         view.addSubview(joinRouteLabel)
         view.addSubview(joinRouteSmallLabel)
         view.addSubview(routeLabel)
         view.addSubview(routeField)
+        view.addSubview(recommendLabel)
+        view.addSubview(recommendPointLabel)
+        view.addSubview(recommendField)
+        view.addSubview(bubbleView)
         view.addSubview(nextButton)
         
-        imageContainer.addSubview(arrowImageView)
+        bubbleView.addSubview(bubbleLabel)
+        
     }
     
     private func setupLayout() {
@@ -141,6 +217,34 @@ class RouteViewController: UIViewController {
             make.top.equalTo(routeLabel.snp.bottom).offset(12)
         }
         
+        recommendLabel.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalTo(routeField.snp.bottom).offset(24)
+        }
+        
+        recommendPointLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(recommendLabel.snp.trailing).offset(16)
+            make.centerY.equalTo(recommendLabel)
+        }
+        
+        recommendField.snp.makeConstraints{ make in
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(48)
+            make.top.equalTo(recommendLabel.snp.bottom).offset(12)
+        }
+        
+        bubbleView.snp.makeConstraints{ make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(nextButton.snp.top).offset(-12)
+            make.height.equalTo(44)
+        }
+        
+        bubbleLabel.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(8)
+            make.centerX.equalToSuperview()
+        }
+        
         nextButton.snp.makeConstraints{ make in
             make.bottom.equalToSuperview().offset(-100)
             make.leading.equalToSuperview().offset(16)
@@ -148,15 +252,6 @@ class RouteViewController: UIViewController {
             make.height.equalTo(56)
         }
         
-        imageContainer.snp.makeConstraints{ make in
-            make.height.equalTo(48)
-            make.width.equalTo(40)
-        }
-        
-        arrowImageView.snp.makeConstraints{ make in
-            make.leading.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
     }
     
     // MARK: - Navigation Bar
@@ -167,6 +262,16 @@ class RouteViewController: UIViewController {
         
         self.navigationItem.setHidesBackButton(true, animated: false)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    // MARK: - TextField Set up
+    
+    private func setTextField() {
+        routeField.delegate = self
+        recommendField.delegate = self
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
     }
     
     //MARK: - Picker View
@@ -197,6 +302,16 @@ class RouteViewController: UIViewController {
         routeField.inputAccessoryView = toolBar
     }
     
+    //MARK: - setupAttributeStr
+    
+    func setupAttributedStr() {
+        attributedStr = NSMutableAttributedString(string: bubbleLabel.text!)
+
+        attributedStr.addAttribute(.foregroundColor, value: UIColor.beCta , range: (bubbleLabel.text! as NSString).range(of: "+1000P"))
+
+        bubbleLabel.attributedText = attributedStr
+    }
+    
     // MARK: - Actions
     
     @objc private func nextAction() {
@@ -214,27 +329,52 @@ class RouteViewController: UIViewController {
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
         routeField.resignFirstResponder()
     }
+    
+    @objc private func handleTap() {
+        view.endEditing(true)
+    }
 }
 
 extension RouteViewController: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        routeField.layer.borderColor = UIColor.bePsBlue500.cgColor
-        routeField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
-        routeField.textColor = UIColor.bePsBlue500
-        routeField.setPlaceholderColor(.bePsBlue500)
-        
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        routeField.layer.borderColor = UIColor.beBorderDis.cgColor
-        routeField.layer.backgroundColor = UIColor.clear.cgColor
-        routeField.textColor = UIColor.beTextDef
-        routeField.setPlaceholderColor(.beTextEx)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        recommendField.resignFirstResponder()
         
         return true
     }
+    
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if textField == routeField {
+            routeField.layer.borderColor = UIColor.bePsBlue500.cgColor
+            routeField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
+            routeField.textColor = UIColor.bePsBlue500
+            routeField.setPlaceholderColor(.bePsBlue500)
+        }
+        else if textField == recommendField {
+            recommendField.layer.borderColor = UIColor.bePsBlue500.cgColor
+            recommendField.layer.backgroundColor = UIColor.bePsBlue100.cgColor
+            recommendField.textColor = UIColor.bePsBlue500
+            recommendField.setPlaceholderColor(.bePsBlue500)
+        }
+        
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == routeField {
+            routeField.layer.borderColor = UIColor.beBorderDis.cgColor
+            routeField.layer.backgroundColor = UIColor.clear.cgColor
+            routeField.textColor = UIColor.beTextDef
+            routeField.setPlaceholderColor(.beTextEx)
+        }
+        else if textField == recommendField {
+            recommendField.layer.borderColor = UIColor.beBorderDis.cgColor
+            recommendField.layer.backgroundColor = UIColor.clear.cgColor
+            recommendField.textColor = UIColor.beTextDef
+            recommendField.setPlaceholderColor(.beTextEx)
+        }
+    }
+
 }
 
 extension RouteViewController: UIPickerViewDelegate, UIPickerViewDataSource {
