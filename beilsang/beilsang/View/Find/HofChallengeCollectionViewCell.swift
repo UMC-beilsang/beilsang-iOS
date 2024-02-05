@@ -110,7 +110,7 @@ extension HofChallengeCollectionViewCell {
         bottomView.snp.makeConstraints { make in
             make.bottom.equalTo(custombutton.snp.bottom)
             make.height.equalTo(40)
-            make.width.equalTo(custombutton.snp.width)
+            make.width.leading.trailing.equalToSuperview()
         }
         
         buttonLabel.snp.makeConstraints { make in

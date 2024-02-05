@@ -132,7 +132,7 @@ extension FeedDetailCollectionViewCell {
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
-            make.height.equalTo(1000)
+            make.height.equalTo(700)
         }
     }
     func setLayout() {
