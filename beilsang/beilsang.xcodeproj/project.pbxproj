@@ -94,12 +94,14 @@
 		2F08389C2B564086002E2551 /* beilsangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = beilsangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F0838A02B564086002E2551 /* beilsangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITests.swift; sourceTree = "<group>"; };
 		2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2F1DCE052B71495F002F1043 /* beilsangDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = beilsangDebug.entitlements; sourceTree = "<group>"; };
 		2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
 		2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.ttf"; sourceTree = "<group>"; };
 		2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
 		2F48E08E2B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-SemiBold.ttf"; sourceTree = "<group>"; };
 		2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.ttf"; sourceTree = "<group>"; };
 		2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
+		2F4CD90B2B71428000B2D02D /* beilsangRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = beilsangRelease.entitlements; sourceTree = "<group>"; };
 		2F69039B2B60429700A7716D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoViewController.swift; sourceTree = "<group>"; };
 		2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMoto.swift; sourceTree = "<group>"; };
@@ -193,6 +195,8 @@
 		2F08387E2B564085002E2551 /* beilsang */ = {
 			isa = PBXGroup;
 			children = (
+				2F1DCE052B71495F002F1043 /* beilsangDebug.entitlements */,
+				2F4CD90B2B71428000B2D02D /* beilsangRelease.entitlements */,
 				2F08388D2B564086002E2551 /* Info.plist */,
 				2F0838882B564086002E2551 /* Assets.xcassets */,
 				2FC63CD82B5BB3A50050139A /* Model */,
@@ -731,8 +735,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = beilsang/beilsangDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RC5FY8NJN7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -758,8 +764,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = beilsang/beilsangRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RC5FY8NJN7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = beilsang/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";

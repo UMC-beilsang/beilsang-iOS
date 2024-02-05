@@ -27,6 +27,10 @@
 		<string>NotoSansKR-SemiBold.ttf</string>
 		<string>NotoSansKR-Thin.ttf</string>
 	</array>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>ko</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

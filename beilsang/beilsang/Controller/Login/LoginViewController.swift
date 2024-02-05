@@ -7,6 +7,10 @@
 
 import UIKit
 import SnapKit
+import KakaoSDKCommon
+import KakaoSDKAuth
+import KakaoSDKUser
+import AuthenticationServices
 
 class LoginViewController: UIViewController {
     
@@ -34,28 +38,19 @@ class LoginViewController: UIViewController {
             view.imageEdgeInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
            }
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.addTarget(self, action: #selector(kakaoSignInButtonPress), for: .touchDown)
         
         return view
     }()
     
-    lazy var appleButton: UIButton = {
-        let view = UIButton()
-        view.backgroundColor = .beBgCard
-        view.setTitle("Apple로 계속하기", for: .normal)
-        view.setTitleColor(.beTextDef, for: .normal)
-        view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.beBorderDis.cgColor
-        view.layer.cornerRadius = 10
-        if let appleIcon = UIImage(named: "Apple_logo") {
-            view.setImage(appleIcon, for: .normal)
-            view.imageEdgeInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 10)
-           }
-        view.translatesAutoresizingMaskIntoConstraints = false
+    lazy var appleButton: ASAuthorizationAppleIDButton = {
+        let view = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .whiteOutline)
+        view.addTarget(self, action: #selector(appleButtonPress), for: .touchDown)
         
         return view
     }()
     
+
     lazy var bubbleLabel: UILabel = {
         let view = UILabel()
         view.text = "🌱 우리의 일상이 될 친환경 프로젝트 시작하기"
@@ -136,4 +131,134 @@ class LoginViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
+    
+    //MARK: - Actions
+    
+    @objc private func kakaoSignInButtonPress() {
+        // 카카오톡 설치 여부 확인
+        if UserApi.isKakaoTalkLoginAvailable() {
+            // 카카오톡 로그인. api 호출 결과를 클로저로 전달.
+            loginWithApp()
+        } else {
+            // 만약, 카카오톡이 깔려있지 않을 경우에는 웹 브라우저로 카카오 로그인함.
+            loginWithWeb()
+        }
+    }
+    
+    @objc private func appleButtonPress() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+}
+
+//MARK: - 카카오 로그인
+
+extension LoginViewController {
+    func loginWithApp() {
+        UserApi.shared.loginWithKakaoTalk {(_, error) in
+            if let error = error {
+                print(error)
+            } else {
+                print("loginWithKakaoTalk() success.")
+                
+                UserApi.shared.me {(user, error) in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        /*
+                        guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
+                              let name = user?.kakaoAccount?.profile?.nickname else{
+                            print("token/email/name is nil")
+                            return
+                        }
+                        
+                        self.email = email
+                        self.accessToken = token
+                        self.name = name
+                         */
+                        //서버에 보내주기
+                        
+                        self.presentToMain()
+                    }
+                }
+            }
+        }
+    }
+    
+    // 카카오톡 웹으로 로그인
+    func loginWithWeb() {
+        UserApi.shared.loginWithKakaoAccount {(_, error) in
+            if let error = error {
+                print(error)
+            } else {
+                print("loginWithKakaoAccount() success.")
+                
+                UserApi.shared.me {(user, error) in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        self.presentToMain()
+                    }
+                }
+            }
+        }
+    }
+    
+    // 화면 전환 함수
+    func presentToMain() {
+        let joinVC = KeywordViewController()
+        let navigationController = UINavigationController(rootViewController: joinVC)
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            UIView.transition(with: sceneDelegate.window!,
+                              duration: 1.5,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                sceneDelegate.window?.rootViewController = navigationController
+            },
+                              completion: nil)
+        }
+    }
+}
+
+//MARK: - 애플 로그인
+
+extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    // Apple 로그인 화면 표시
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
+    // Apple ID 연동 성공 시
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+            // Apple ID
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+            
+            print("User ID : \(userIdentifier)")
+            print("User Email : \(email ?? "")")
+            print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
+            
+            presentToMain()
+            
+        default:
+            break
+        }
+    }
+    
+    // Apple ID 연동 실패 시
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Apple Login Error")
+    }
+    
 }
