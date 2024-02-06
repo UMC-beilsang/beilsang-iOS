@@ -130,8 +130,9 @@ extension FeedDetailCollectionViewCell {
             make.top.bottom.leading.trailing.equalToSuperview()
         }
         fullContentView.snp.makeConstraints { make in
-            make.edges.equalTo(fullScrollView.contentLayoutGuide)
-            make.width.equalTo(fullScrollView.frameLayoutGuide)
+            make.edges.width.equalToSuperview()
+//            make.edges.equalTo(fullScrollView.contentLayoutGuide)
+//            make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(700)
         }
     }

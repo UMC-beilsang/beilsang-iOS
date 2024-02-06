@@ -18,7 +18,7 @@ class KakaoPostCodeViewController: UIViewController {
     var zipCode = ""
     
     weak var userInfoVC: UserInfoViewController?
-
+    weak var accountInfoVC: AccountInfoViewController?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -82,6 +82,8 @@ extension KakaoPostCodeViewController: WKScriptMessageHandler {
         
         userInfoVC?.addressField.text = address
         userInfoVC?.zipCodeField.text = zipCode
+        accountInfoVC?.addressField.text = address
+        accountInfoVC?.zipCodeField.text = zipCode
         
         dismiss(animated: true, completion: nil)
     }

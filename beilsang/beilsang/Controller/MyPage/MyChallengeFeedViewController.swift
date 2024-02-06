@@ -170,8 +170,8 @@ extension MyChallengeFeedViewController {
         }
         feedDetailCollectionView.snp.makeConstraints { make in
             make.top.equalTo(challengeFeedBoxCollectionView)
-            make.bottom.leading.trailing.equalToSuperview()
-//            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
 }

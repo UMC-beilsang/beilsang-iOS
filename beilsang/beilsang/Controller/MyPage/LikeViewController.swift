@@ -301,7 +301,11 @@ extension LikeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .absolute(140))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
+            group.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 12,
+                trailing: 0)
             // section
             let section = NSCollectionLayoutSection(group: group)
 //            section.orthogonalScrollingBehavior = .continuous // 섹션 내 가로 스크롤
