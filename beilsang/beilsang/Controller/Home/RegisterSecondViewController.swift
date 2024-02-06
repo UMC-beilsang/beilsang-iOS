@@ -163,7 +163,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     lazy var noticeButtonLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "챌린지 유의사항 등록하기"
+        view.text = "챌린지 인증 유의사항 등록하기"
         view.textColor = .beTextSub
         view.textAlignment = .center
         view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
@@ -310,6 +310,11 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     lazy var bottomView: UIView = {
         let view = UIView()
         
+        view.layer.shadowColor = UIColor.beTextDef.cgColor
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         
         return view
@@ -380,7 +385,6 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     }
     
     @objc func noticeRegisterButtonClicked() {
-        
         if noticeLabels.count >= 5 {
             noticeButton.isEnabled = false
         } else {
@@ -411,8 +415,11 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
             self.fullContentView.snp.updateConstraints { make in
                 make.height.equalTo(contentViewHeight)
             }
-            self.isNext[1] = true
-            self.updateNextButtonState()
+            
+            if self.noticeLabels.count > 0 {
+                self.isNext[1] = true
+                self.updateNextButtonState()
+            }
         }
         
         // 모달창 스타일 설정
@@ -507,6 +514,7 @@ extension RegisterSecondViewController {
         setFullScrollView()
         setNavigationBar()
         setUI()
+        setAddViews()
         setLayout()
         setCancleAlert()
     }
@@ -537,52 +545,43 @@ extension RegisterSecondViewController {
         }
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(bottomView)
         
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, detailLabel, detailField, noticeTitleLabel, noticeButton, toolTipButton, toolTipLabel, noticeCollectionView, examplePhotoLabel, examplePhotoImage, examplePhotoButton, pointLabel, pointUnitLabel, pointMinusButton, pointIntLabel, pointPlusButton].forEach { view in
+            fullContentView.addSubview(view)
+        }
+        
+        [noticeButtonImage, noticeButtonLabel, noticeButtonCountLabel].forEach { view in
+            noticeButton.addSubview(view)
+        }
+        
+        [examplePhotoButtonImage, examplePhotoButtonLabel].forEach { view in
+            examplePhotoButton.addSubview(view)
+        }
+        
+        examplePhotoImage.addSubview(photoCloseButton)
+        
+        [beforeButton, nextButton].forEach { view in
+            bottomView.addSubview(view)
+        }
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.width.equalToSuperview()
             make.bottom.equalTo(bottomView.snp.top)
         }
         
-        fullScrollView.addSubview(fullContentView)
-        
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(666)
         }
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(detailLabel)
-        fullContentView.addSubview(detailField)
-        fullContentView.addSubview(noticeTitleLabel)
-        fullContentView.addSubview(noticeButton)
-        fullContentView.addSubview(toolTipButton)
-        fullContentView.addSubview(toolTipLabel)
-        fullContentView.addSubview(noticeCollectionView)
-        fullContentView.addSubview(examplePhotoLabel)
-        fullContentView.addSubview(examplePhotoImage)
-        fullContentView.addSubview(examplePhotoButton)
-        fullContentView.addSubview(pointLabel)
-        fullContentView.addSubview(pointUnitLabel)
-        fullContentView.addSubview(pointMinusButton)
-        fullContentView.addSubview(pointIntLabel)
-        fullContentView.addSubview(pointPlusButton)
-        
-        noticeButton.addSubview(noticeButtonImage)
-        noticeButton.addSubview(noticeButtonLabel)
-        noticeButton.addSubview(noticeButtonCountLabel)
-        
-        examplePhotoButton.addSubview(examplePhotoButtonImage)
-        examplePhotoButton.addSubview(examplePhotoButtonLabel)
-        
-        examplePhotoImage.addSubview(photoCloseButton)
-        
-        bottomView.addSubview(beforeButton)
-        bottomView.addSubview(nextButton)
         
         topViewBorder.snp.makeConstraints { make in
             make.top.equalTo(fullScrollView.snp.top)
@@ -1081,11 +1080,9 @@ extension RegisterSecondViewController {
             return view
         }()
         
-        toolTipView.addSubview(title)
-        toolTipView.addSubview(tumblur)
-        toolTipView.addSubview(tumblurEx)
-        toolTipView.addSubview(flogging)
-        toolTipView.addSubview(floggingEx)
+        [title, tumblur, tumblurEx, flogging, floggingEx].forEach { view in
+            toolTipView.addSubview(view)
+        }
         
         title.snp.makeConstraints { make in
             make.top.equalTo(toolTipView.snp.top).offset(12)
@@ -1139,6 +1136,7 @@ extension RegisterSecondViewController: UICollectionViewDataSource, UICollection
         }
         
         cell.noticeLabel.text = noticeLabels[indexPath.item]
+        cell.deleteButton.addTarget(self, action: #selector(deleteButtonClicked(sender:)), for: .touchUpInside)
         
         return cell
     }
@@ -1152,5 +1150,37 @@ extension RegisterSecondViewController: UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8 // 행 혹은 열 사이의 최소 간격
+    }
+    
+    // MARK: - actions
+    @objc func deleteButtonClicked(sender: UIButton) {
+        if let cell = sender.superview?.superview as? NoticeCollectionViewCell {
+            if let labelText = cell.noticeLabel.text,
+               let index = noticeLabels.firstIndex(of: labelText) {
+                noticeLabels.remove(at: index)
+                // UICollectionView 다시 로드
+                noticeCollectionView.reloadData()
+                // 등록하기 숫자 업데이트
+                noticeButtonCountLabel.text = "(\(noticeLabels.count)/5)"
+                // 컬렉션뷰 높이 업데이트
+                let collectionViewHeight = (noticeLabels.count * 48) + ((noticeLabels.count) * 8)
+                noticeCollectionView.snp.updateConstraints { make in
+                    make.height.equalTo(collectionViewHeight)
+                }
+                // 스크롤뷰 높이 업데이트
+                let contentViewHeight = collectionViewHeight + 618
+                fullContentView.snp.updateConstraints { make in
+                    make.height.equalTo(contentViewHeight)
+                }
+            }
+            
+            if noticeLabels.count > 0 {
+                isNext[1] = true
+                updateNextButtonState()
+            } else {
+                isNext[1] = false
+                updateNextButtonState()
+            }
+        }
     }
 }
