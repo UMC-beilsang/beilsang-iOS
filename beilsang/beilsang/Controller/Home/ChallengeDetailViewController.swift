@@ -24,13 +24,6 @@ class ChallengeDetailViewController: UIViewController {
     var alertViewResponder: SCLAlertViewResponder? = nil
     
     // 신고하기 팝업
-    lazy var testbutton: UIButton = {
-        let view = UIButton()
-        view.backgroundColor = .black
-        view.addTarget(self, action: #selector(testButtonTapped), for: .touchUpInside)
-        
-        return view
-    }()
     
     lazy var reportAlert: SCLAlertView = {
         let apperance = SCLAlertView.SCLAppearance(
@@ -622,6 +615,7 @@ class ChallengeDetailViewController: UIViewController {
         let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
         
         view.setImage(image, for: .normal)
+        view.setImage(selectedImage, for: .selected)
         view.tintColor = .beScPurple600
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -701,8 +695,6 @@ class ChallengeDetailViewController: UIViewController {
         verticalContentView.addSubview(divider3)
         verticalContentView.addSubview(recommendTitleLabel)
         verticalContentView.addSubview(recommendCollectionView)
-        
-        verticalContentView.addSubview(testbutton)//업애야해
         
         joinAlert.customSubview = joinSubView
         joinSubView.addSubview(popUpSubView)
@@ -1000,10 +992,6 @@ class ChallengeDetailViewController: UIViewController {
         
         // 신고하기 팝업
         
-        testbutton.snp.makeConstraints{ make in
-            make.centerX.centerY.equalToSuperview()
-        }
-        
         reportSubView.snp.makeConstraints{ make in
             make.width.equalTo(318)
             make.height.equalTo(120)
@@ -1202,17 +1190,7 @@ class ChallengeDetailViewController: UIViewController {
     }
     
     @objc func bookMarkTapped(_ sender: UIButton) {
-        sender.isSelected.toggle()
-        
-        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
-        let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
-        
-        if sender.isSelected {
-            bookMarkButton.setImage(selectedImage, for: .normal)
-        } else {
-            bookMarkButton.setImage(image, for: .normal)
-        
-        }
+        //서버에게 이거..이거됐어요 하고보내기
     }
     
     @objc func reportButtonTapped() {
@@ -1229,8 +1207,8 @@ class ChallengeDetailViewController: UIViewController {
     }
 
     @objc func close(){
-            alertViewResponder?.close()
-        }
+        alertViewResponder?.close()
+    }
     
 }
 

@@ -16,6 +16,9 @@
 		2F0838972B564086002E2551 /* beilsangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838962B564086002E2551 /* beilsangTests.swift */; };
 		2F0838A12B564086002E2551 /* beilsangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A02B564086002E2551 /* beilsangUITests.swift */; };
 		2F0838A32B564086002E2551 /* beilsangUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */; };
+		2F1DCE072B7186AC002F1043 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1DCE062B7186AC002F1043 /* GalleryCollectionViewCell.swift */; };
+		2F1DCE092B718853002F1043 /* GalleryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1DCE082B718853002F1043 /* GalleryData.swift */; };
+		2F1DCE0B2B726E93002F1043 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1DCE0A2B726E93002F1043 /* String+.swift */; };
 		2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */; };
 		2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */; };
 		2F48E0962B5BB44C002F3D4A /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */; };
@@ -90,6 +93,9 @@
 		2F08389C2B564086002E2551 /* beilsangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = beilsangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F0838A02B564086002E2551 /* beilsangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITests.swift; sourceTree = "<group>"; };
 		2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2F1DCE062B7186AC002F1043 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		2F1DCE082B718853002F1043 /* GalleryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryData.swift; sourceTree = "<group>"; };
+		2F1DCE0A2B726E93002F1043 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
 		2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.ttf"; sourceTree = "<group>"; };
 		2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
@@ -228,6 +234,7 @@
 				2FF55CA32B684C92004EDB39 /* PlaceHolder+.swift */,
 				2FF55CA72B684CAF004EDB39 /* InfoCircle+.swift */,
 				2F69039B2B60429700A7716D /* Color+.swift */,
+				2F1DCE0A2B726E93002F1043 /* String+.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -330,6 +337,7 @@
 				AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */,
 				2FC6F6662B6AD50900F49E7E /* RecommendChallenge.swift */,
 				2FC6F66C2B6B891700F49E7E /* CautionChallenge.swift */,
+				2F1DCE082B718853002F1043 /* GalleryData.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -341,6 +349,7 @@
 				AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */,
 				2FC6F6642B6AD28E00F49E7E /* RecommendCollectionViewCell.swift */,
 				2FC6F6682B6B7E9600F49E7E /* CautionCollectionViewCell.swift */,
+				2F1DCE062B7186AC002F1043 /* GalleryCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -511,6 +520,7 @@
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
+				2F1DCE0B2B726E93002F1043 /* String+.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
 				2FF55CA82B684CAF004EDB39 /* InfoCircle+.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
@@ -532,6 +542,8 @@
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
 				2FC6F6722B6C074300F49E7E /* JoinChallengeViewController.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
+				2F1DCE092B718853002F1043 /* GalleryData.swift in Sources */,
+				2F1DCE072B7186AC002F1043 /* GalleryCollectionViewCell.swift in Sources */,
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
 				2FF55CAD2B684D3A004EDB39 /* KakaoPostCodeViewController.swift in Sources */,
 				2FF55CA42B684C92004EDB39 /* PlaceHolder+.swift in Sources */,

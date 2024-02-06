@@ -85,7 +85,6 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     // 챌린지 진행 view - label
     lazy var progressTitleLabel: UILabel = {
         let view = UILabel()
-        
         view.text = "\(categoryLabelText!) 챌린지는\n이렇게 진행돼요"
         view.numberOfLines = 2
         view.textAlignment = .left
