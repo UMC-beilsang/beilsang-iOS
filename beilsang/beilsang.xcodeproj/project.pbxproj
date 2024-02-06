@@ -22,6 +22,15 @@
 		2F48E09A2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */; };
 		2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */; };
 		2F69039C2B60429700A7716D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F69039B2B60429700A7716D /* Color+.swift */; };
+		2FAB99EF2B72C8C900853BF7 /* RecommendChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99EE2B72C8C900853BF7 /* RecommendChallenge.swift */; };
+		2FAB99F12B72C8DE00853BF7 /* CautionChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F02B72C8DE00853BF7 /* CautionChallenge.swift */; };
+		2FAB99F32B72C8EF00853BF7 /* GalleryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */; };
+		2FAB99F52B72C94700853BF7 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F42B72C94700853BF7 /* String+.swift */; };
+		2FAB99F72B72C97C00853BF7 /* RecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F62B72C97C00853BF7 /* RecommendCollectionViewCell.swift */; };
+		2FAB99F92B72C99300853BF7 /* CautionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F82B72C99300853BF7 /* CautionCollectionViewCell.swift */; };
+		2FAB99FB2B72C9B000853BF7 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99FA2B72C9B000853BF7 /* GalleryCollectionViewCell.swift */; };
+		2FAB99FD2B72C9F000853BF7 /* ChallengeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99FC2B72C9F000853BF7 /* ChallengeDetailViewController.swift */; };
+		2FAB99FF2B72CA1400853BF7 /* JoinChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99FE2B72CA1400853BF7 /* JoinChallengeViewController.swift */; };
 		2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */; };
 		2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */; };
 		2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA522B5E532100C0DB84 /* MotoCollectionViewCell.swift */; };
@@ -71,7 +80,6 @@
 		AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403442B66B11E006B68FE /* RegisterFirstViewController.swift */; };
 		AF4403472B6A2E34006B68FE /* RegisterSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403462B6A2E34006B68FE /* RegisterSecondViewController.swift */; };
 		AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403482B6ABA5E006B68FE /* RegisterThirdViewController.swift */; };
-		AF44034C2B6B9AEA006B68FE /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = AF44034B2B6B9AEA006B68FE /* SCLAlertView */; };
 		AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034D2B6D3A76006B68FE /* RegisterModalViewController.swift */; };
 		AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -115,6 +123,15 @@
 		2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
 		2F4CD90B2B71428000B2D02D /* beilsangRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = beilsangRelease.entitlements; sourceTree = "<group>"; };
 		2F69039B2B60429700A7716D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		2FAB99EE2B72C8C900853BF7 /* RecommendChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendChallenge.swift; sourceTree = "<group>"; };
+		2FAB99F02B72C8DE00853BF7 /* CautionChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionChallenge.swift; sourceTree = "<group>"; };
+		2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryData.swift; sourceTree = "<group>"; };
+		2FAB99F42B72C94700853BF7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		2FAB99F62B72C97C00853BF7 /* RecommendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FAB99F82B72C99300853BF7 /* CautionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FAB99FA2B72C9B000853BF7 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FAB99FC2B72C9F000853BF7 /* ChallengeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailViewController.swift; sourceTree = "<group>"; };
+		2FAB99FE2B72CA1400853BF7 /* JoinChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinChallengeViewController.swift; sourceTree = "<group>"; };
 		2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoViewController.swift; sourceTree = "<group>"; };
 		2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMoto.swift; sourceTree = "<group>"; };
 		2FC4CA522B5E532100C0DB84 /* MotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -265,6 +282,7 @@
 				2FF55CA32B684C92004EDB39 /* PlaceHolder+.swift */,
 				2FF55CA72B684CAF004EDB39 /* InfoCircle+.swift */,
 				2F69039B2B60429700A7716D /* Color+.swift */,
+				2FAB99F42B72C94700853BF7 /* String+.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -396,6 +414,9 @@
 			isa = PBXGroup;
 			children = (
 				AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */,
+				2FAB99EE2B72C8C900853BF7 /* RecommendChallenge.swift */,
+				2FAB99F02B72C8DE00853BF7 /* CautionChallenge.swift */,
+				2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -403,6 +424,9 @@
 		AF4403322B63DF09006B68FE /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2FAB99F82B72C99300853BF7 /* CautionCollectionViewCell.swift */,
+				2FAB99FA2B72C9B000853BF7 /* GalleryCollectionViewCell.swift */,
+				2FAB99F62B72C97C00853BF7 /* RecommendCollectionViewCell.swift */,
 				AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */,
 				AF44033E2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift */,
 				AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */,
@@ -418,6 +442,8 @@
 				AF44033A2B63E116006B68FE /* MainBeforeViewController.swift */,
 				AF44033C2B63E13C006B68FE /* MainAfterViewController.swift */,
 				AF4403402B63EA3F006B68FE /* ChallengeListViewController.swift */,
+				2FAB99FC2B72C9F000853BF7 /* ChallengeDetailViewController.swift */,
+				2FAB99FE2B72CA1400853BF7 /* JoinChallengeViewController.swift */,
 				AF4403422B66B0F6006B68FE /* RegisterCompleteViewController.swift */,
 				AF4403442B66B11E006B68FE /* RegisterFirstViewController.swift */,
 				AF4403462B6A2E34006B68FE /* RegisterSecondViewController.swift */,
@@ -580,13 +606,16 @@
 				2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */,
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
 				896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */,
+				2FAB99F92B72C99300853BF7 /* CautionCollectionViewCell.swift in Sources */,
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
 				895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
 				AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
+				2FAB99F52B72C94700853BF7 /* String+.swift in Sources */,
 				AF4403472B6A2E34006B68FE /* RegisterSecondViewController.swift in Sources */,
+				2FAB99F12B72C8DE00853BF7 /* CautionChallenge.swift in Sources */,
 				2FF55CA82B684CAF004EDB39 /* InfoCircle+.swift in Sources */,
 				89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
@@ -595,6 +624,7 @@
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
 				8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */,
 				89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */,
+				2FAB99FF2B72CA1400853BF7 /* JoinChallengeViewController.swift in Sources */,
 				89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
@@ -607,9 +637,12 @@
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
 				AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */,
+				2FAB99FB2B72C9B000853BF7 /* GalleryCollectionViewCell.swift in Sources */,
 				896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */,
+				2FAB99EF2B72C8C900853BF7 /* RecommendChallenge.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */,
+				2FAB99FD2B72C9F000853BF7 /* ChallengeDetailViewController.swift in Sources */,
 				8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
 				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
@@ -621,8 +654,10 @@
 				2FF55CAD2B684D3A004EDB39 /* KakaoPostCodeViewController.swift in Sources */,
 				2FF55CA42B684C92004EDB39 /* PlaceHolder+.swift in Sources */,
 				2FF55CAB2B684D0B004EDB39 /* UserInfoViewController.swift in Sources */,
+				2FAB99F32B72C8EF00853BF7 /* GalleryData.swift in Sources */,
 				AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */,
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,
+				2FAB99F72B72C97C00853BF7 /* RecommendCollectionViewCell.swift in Sources */,
 				AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */,
 				AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,
