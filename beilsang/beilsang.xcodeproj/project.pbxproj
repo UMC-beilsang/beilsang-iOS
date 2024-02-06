@@ -44,6 +44,9 @@
 		894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A11482B60A68C002A9A32 /* MyPageViewController.swift */; };
 		895D88732B6D3BEE003E5688 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
+		895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D88792B6D45B8003E5688 /* FindViewController.swift */; };
+		8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */; };
+		8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */; };
 		8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD152B6B7CDA0072440E /* LikeViewController.swift */; };
 		8963CD182B6B918B0072440E /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD172B6B918B0072440E /* PointViewController.swift */; };
 		8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */; };
@@ -51,9 +54,11 @@
 		896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */; };
 		896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */; };
 		896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */; };
+		897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */; };
 		89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */; };
 		89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */; };
 		89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A322B656156009263F5 /* MyChallengeViewController.swift */; };
+		89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */; };
 		AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */; };
 		AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */; };
 		AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403362B63E06F006B68FE /* HomeMainViewController.swift */; };
@@ -126,6 +131,9 @@
 		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		895D88722B6D3BEE003E5688 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
+		895D88792B6D45B8003E5688 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HofChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
+		8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollIndicatorView.swift; sourceTree = "<group>"; };
 		8963CD152B6B7CDA0072440E /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		8963CD172B6B918B0072440E /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
 		8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -133,9 +141,11 @@
 		896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedalCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
+		897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HofChallengeCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
 		89A08A322B656156009263F5 /* MyChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeViewController.swift; sourceTree = "<group>"; };
+		89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
 		AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403362B63E06F006B68FE /* HomeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainViewController.swift; sourceTree = "<group>"; };
@@ -259,6 +269,7 @@
 		2FC63CD62B5BB3990050139A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				897653E12B6F5095004CA008 /* Find */,
 				2FF55CAF2B684D59004EDB39 /* Login */,
 				AF4403322B63DF09006B68FE /* Home */,
 				894A113C2B609ACE002A9A32 /* MyPage */,
@@ -272,6 +283,7 @@
 		2FC63CD72B5BB39C0050139A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				895D88782B6D45B1003E5688 /* Find */,
 				AF4403352B63E032006B68FE /* Home */,
 				894A113D2B609AD5002A9A32 /* MyPage */,
 				2FF55CA92B684CC3004EDB39 /* Login */,
@@ -356,6 +368,25 @@
 				8963CD172B6B918B0072440E /* PointViewController.swift */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		895D88782B6D45B1003E5688 /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				895D88792B6D45B8003E5688 /* FindViewController.swift */,
+			);
+			path = Find;
+			sourceTree = "<group>";
+		};
+		897653E12B6F5095004CA008 /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */,
+				8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */,
+				8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */,
+				89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */,
+			);
+			path = Find;
 			sourceTree = "<group>";
 		};
 		AF44032E2B63DDBE006B68FE /* Home */ = {
@@ -547,6 +578,7 @@
 				896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */,
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
+				895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
 				AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
@@ -559,6 +591,7 @@
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
 				8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */,
 				89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */,
+				89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
@@ -573,7 +606,10 @@
 				896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */,
+				8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
+				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
+				897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */,
 				896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */,

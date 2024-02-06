@@ -38,7 +38,7 @@ class LikeViewController: UIViewController, UIScrollViewDelegate {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 72, height: 72)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         

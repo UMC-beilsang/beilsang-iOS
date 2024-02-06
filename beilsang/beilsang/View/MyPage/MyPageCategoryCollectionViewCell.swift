@@ -48,15 +48,15 @@ class MyPageCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     override var isSelected: Bool {
-            didSet{
-                if isSelected {
-                    keywordView.backgroundColor = .bePrPurple30Per.withAlphaComponent(0.3)
-                }
-                else {
-                    keywordView.backgroundColor = .beBgSub
-                }
+        didSet{
+            if isSelected {
+                keywordView.backgroundColor = .bePrPurple30Per.withAlphaComponent(0.3)
+            }
+            else {
+                keywordView.backgroundColor = .beBgSub
             }
         }
+    }
 }
 
 // MARK: - layout setting

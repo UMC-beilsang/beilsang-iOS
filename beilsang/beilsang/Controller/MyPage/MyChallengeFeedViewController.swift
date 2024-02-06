@@ -41,7 +41,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 72, height: 72)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         
@@ -293,13 +293,11 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
         switch collectionView{
         case menuCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeMenuCollectionViewCell
-            
             let labelText = cell.menuLabel.text
             let challengeListVC = ChallengeListViewController()
             challengeListVC.categoryLabelText = labelText
             didTapButton()
         case categoryCollectionView:
-            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
             didTapButton()
         case challengeFeedBoxCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
