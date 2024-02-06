@@ -17,13 +17,6 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
     
-    // topview
-    lazy var topView: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
-    
     // topview - navigation
     lazy var navigationButton: UIBarButtonItem = {
         let view = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
@@ -46,17 +39,30 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // topview - plus
-    lazy var plusButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(image: UIImage(named: "icon_plus"), style: .plain, target: self, action: #selector(plusButtonClicked))
+    lazy var plusButton: UIButton = {
+        let view = UIButton()
+        
+        view.setImage(UIImage(named: "icon_plus"), for: .normal)
+        view.addTarget(self, action: #selector(plusButtonClicked), for: .touchUpInside)
         view.tintColor = .beIconDef
         
         return view
     }()
     
     // topview - search
-    lazy var searchButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(image: UIImage(named: "icon-search"), style: .plain, target: self, action: #selector(searchButtonClicked))
+    lazy var searchButton: UIButton = {
+        let view = UIButton()
+        
+        view.setImage(UIImage(named: "icon-search"), for: .normal)
+        view.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
         view.tintColor = .beIconDef
+        
+        return view
+    }()
+    
+    // 네비게이션 오른쪽 버튼 두 개
+    lazy var topRightView: UIView = {
+        let view = UIView()
         
         return view
     }()
@@ -86,7 +92,7 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     lazy var progressTitleLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "\(categoryLabelText!) 챌린지는\n이렇게 진행돼요"
+        view.text = "\(categoryLabelText ?? "전체") 챌린지는\n이렇게 진행돼요"
         view.numberOfLines = 2
         view.textAlignment = .left
         view.textColor = .beTextDef
@@ -141,6 +147,7 @@ extension ChallengeListViewController {
     
     func setupAttribute() {
         setFullScrollView()
+        setAddViews()
         setLayout()
         setNavigationBar()
     }
@@ -151,38 +158,47 @@ extension ChallengeListViewController {
     }
     
     func setNavigationBar() {
-        navigationItem.titleView = topView
+        let rightBarButtons = UIBarButtonItem(customView: topRightView)
+        navigationItem.titleView = categoryLabel
         navigationItem.leftBarButtonItem = navigationButton
-        navigationItem.rightBarButtonItems = [plusButton, searchButton]
+        navigationItem.rightBarButtonItem = rightBarButtons
+    }
+    
+    func setAddViews() {
+        [plusButton, searchButton].forEach { view in
+            topRightView.addSubview(view)
+        }
+        
+        view.addSubview(fullScrollView)
+        
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, challengeProgress, challengeCollectionView].forEach { view in
+            fullContentView.addSubview(view)
+        }
+        
+        [progressTitleLabel, progressCharacterImage].forEach { view in
+            challengeProgress.addSubview(view)
+        }
     }
     
     func setLayout() {
-        view.addSubview(topView)
-        view.addSubview(fullScrollView)
+        plusButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-60)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(24)
+        }
         
-        topView.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(46)
-            make.width.equalToSuperview()
-            make.height.equalTo(48)
+        searchButton.snp.makeConstraints { make in
+            make.leading.equalTo(plusButton.snp.trailing).offset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(24)
         }
         
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.leading.trailing.equalToSuperview()
         }
-
-        topView.addSubview(categoryLabel)
-        
-        categoryLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(topView.snp.centerX)
-            make.centerY.equalTo(topView.snp.centerY)
-        }
-        
-        fullScrollView.addSubview(fullContentView)
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(challengeProgress)
-        fullContentView.addSubview(challengeCollectionView)
         
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
@@ -209,9 +225,6 @@ extension ChallengeListViewController {
             make.trailing.equalTo(fullScrollView.snp.trailing)
             make.bottom.equalTo(fullScrollView.snp.bottom)
         }
-        
-        challengeProgress.addSubview(progressTitleLabel)
-        challengeProgress.addSubview(progressCharacterImage)
         
         progressTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(challengeProgress.snp.top).offset(12)
