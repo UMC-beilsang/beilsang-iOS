@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줘
 
-        let mainViewController = UINavigationController(rootViewController: MyChallengeFeedViewController()) // 맨 처음 보여줄 ViewController
+        let mainViewController = UINavigationController(rootViewController: SearchViewController()) // 맨 처음 보여줄 ViewController
 
 
         window?.rootViewController = mainViewController

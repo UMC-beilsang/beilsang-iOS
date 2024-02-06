@@ -15,6 +15,7 @@
 		2F0838972B564086002E2551 /* beilsangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838962B564086002E2551 /* beilsangTests.swift */; };
 		2F0838A12B564086002E2551 /* beilsangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A02B564086002E2551 /* beilsangUITests.swift */; };
 		2F0838A32B564086002E2551 /* beilsangUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */; };
+		2F1DCE162B72B292002F1043 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1DCE152B72B292002F1043 /* SearchViewController.swift */; };
 		2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */; };
 		2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */; };
 		2F48E0962B5BB44C002F3D4A /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */; };
@@ -71,7 +72,6 @@
 		AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403442B66B11E006B68FE /* RegisterFirstViewController.swift */; };
 		AF4403472B6A2E34006B68FE /* RegisterSecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403462B6A2E34006B68FE /* RegisterSecondViewController.swift */; };
 		AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403482B6ABA5E006B68FE /* RegisterThirdViewController.swift */; };
-		AF44034C2B6B9AEA006B68FE /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = AF44034B2B6B9AEA006B68FE /* SCLAlertView */; };
 		AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034D2B6D3A76006B68FE /* RegisterModalViewController.swift */; };
 		AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -107,6 +107,7 @@
 		2F0838A02B564086002E2551 /* beilsangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITests.swift; sourceTree = "<group>"; };
 		2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2F1DCE052B71495F002F1043 /* beilsangDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = beilsangDebug.entitlements; sourceTree = "<group>"; };
+		2F1DCE152B72B292002F1043 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
 		2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.ttf"; sourceTree = "<group>"; };
 		2F48E08B2B5BB44B002F3D4A /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
@@ -246,6 +247,14 @@
 			path = beilsangUITests;
 			sourceTree = "<group>";
 		};
+		2F1DCE172B72B29B002F1043 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				2F1DCE152B72B292002F1043 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		2F48E0852B5BB3D5002F3D4A /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +295,7 @@
 		2FC63CD72B5BB39C0050139A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2F1DCE172B72B29B002F1043 /* Search */,
 				895D88782B6D45B1003E5688 /* Find */,
 				AF4403352B63E032006B68FE /* Home */,
 				894A113D2B609AD5002A9A32 /* MyPage */,
@@ -579,6 +589,7 @@
 				AF4403432B66B0F6006B68FE /* RegisterCompleteViewController.swift in Sources */,
 				2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */,
 				2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */,
+				2F1DCE162B72B292002F1043 /* SearchViewController.swift in Sources */,
 				896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */,
 				89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */,
 				2FC4CA5D2B5E757700C0DB84 /* RouteViewController.swift in Sources */,
