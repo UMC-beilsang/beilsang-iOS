@@ -1,15 +1,15 @@
 //
-//  FeedDetailCollectionViewCell.swift
+//  FindFeedDetailCollectionViewCell.swift
 //  beilsang
 //
-//  Created by 강희진 on 2/2/24.
+//  Created by 강희진 on 2/5/24.
 //
 
 import UIKit
 
-class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
+class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     
-    static let identifier = "feedDetailCollectionViewCell"
+    static let identifier = "findFeedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
     
     // 달성 메달 셀 전체 뷰
@@ -103,6 +103,68 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
         view.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return view
     }()
+    lazy var reportButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("신고하기", for: .normal)
+        view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.setTitleColor(.beTextEx, for: .normal)
+        view.addTarget(self, action: #selector(tapReportButton), for: .touchUpInside)
+        return view
+    }()
+    
+    lazy var line : UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgSub
+        return view
+    }()
+    
+    lazy var recommendLabel : UILabel = {
+        let label = UILabel()
+        label.text = "이런 챌린지는 어떠세요? 👀"
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        label.textColor = .black
+        return label
+    }()
+    lazy var recommendCellView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .beBgSub
+        view.layer.cornerRadius = 12
+        
+        return view
+    }()
+        
+    lazy var recommendImageView: UIImageView = {
+        let view = UIImageView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 16
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    lazy var categoryLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        view.numberOfLines = 0
+        view.textColor = .beTextSub
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 18)
+        view.numberOfLines = 0
+        view.textColor = .beTextDef
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .left
+        
+        return view
+    }()
     
     
     //사용자가 선택한 셀에 따라 POST
@@ -120,7 +182,7 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
 }
 
 // MARK: - layout setting
-extension FeedDetailCollectionViewCell {
+extension FindFeedDetailCollectionViewCell {
     func setScrollLayout() {
         self.addSubview(fullScrollView)
         fullScrollView.delegate = self
@@ -132,12 +194,15 @@ extension FeedDetailCollectionViewCell {
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
-            make.height.equalTo(700)
+            make.height.equalTo(950)
         }
     }
     func setLayout() {
-        [feedImage, profileImage, nicknameLabel, dateLabel, heartButton, categoryTag, titleTag, reviewLabel, reviewBox, reviewContent, closeButton].forEach { view in
+        [feedImage, profileImage, nicknameLabel, dateLabel, heartButton, categoryTag, titleTag, reviewLabel, reviewBox, reviewContent, closeButton, reportButton, line, recommendLabel, recommendCellView].forEach { view in
             fullContentView.addSubview(view)
+        }
+        [recommendImageView, categoryLabel, titleLabel].forEach { view in
+            recommendCellView.addSubview(view)
         }
         
         feedImage.snp.makeConstraints { make in
@@ -190,15 +255,48 @@ extension FeedDetailCollectionViewCell {
             make.top.equalTo(feedImage.snp.top).offset(10)
             make.trailing.equalTo(feedImage.snp.trailing).offset(-10)
         }
+        reportButton.snp.makeConstraints { make in
+            make.top.equalTo(reviewBox.snp.bottom).offset(12)
+            make.trailing.equalTo(reviewBox.snp.trailing)
+        }
+        line.snp.makeConstraints { make in
+            make.top.equalTo(reviewBox.snp.bottom).offset(82)
+            make.height.equalTo(8)
+            make.leading.trailing.equalToSuperview()
+        }
+        recommendLabel.snp.makeConstraints { make in
+            make.top.equalTo(line.snp.bottom).offset(28)
+            make.leading.equalToSuperview().offset(8)
+        }
+        recommendCellView.snp.makeConstraints{ make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(recommendLabel.snp.bottom).offset(16)
+            make.height.equalTo(90)
+        }
+        
+        recommendImageView.snp.makeConstraints{ make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.width.height.equalTo(70)
+        }
+        
+        categoryLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(recommendImageView.snp.trailing).offset(16)
+            make.top.equalTo(recommendImageView.snp.top).offset(10)
+        }
+        
+        titleLabel.snp.makeConstraints{ make in
+            make.leading.equalTo(recommendImageView.snp.trailing).offset(16)
+            make.bottom.equalTo(recommendImageView.snp.bottom).offset(-10)
+        }
     }
 }
 // MARK: - function
-extension FeedDetailCollectionViewCell {
+extension FindFeedDetailCollectionViewCell {
     @objc func tapButton(_ sender: UIButton) {
         delegate?.didTapButton()
     }
-}
-
-protocol CustomFeedCellDelegate: AnyObject {
-    func didTapButton()
+    @objc func tapReportButton(_ sender: UIButton) {
+        print("신고하기")
+    }
 }
