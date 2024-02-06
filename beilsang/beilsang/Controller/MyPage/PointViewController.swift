@@ -212,7 +212,8 @@ extension PointViewController{
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
-            print("뒤로 가기")
+        print("뒤로 가기")
+        navigationController?.popViewController(animated: true)
     }
 }
 // MARK: - collectionView setting(카테고리)

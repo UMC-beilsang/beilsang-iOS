@@ -17,22 +17,27 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
 
     //상단부
     // 세팅 버튼
-    lazy var settingBackground: UIView = {
-        let view = UIView()
+    lazy var settingBackground: UIImageView = {
+        let view = UIImageView()
         view.layer.cornerRadius = 14
         view.backgroundColor = .bePrPurple500
         return view
     }()
+    lazy var settingImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "icon_settings")
+        return view
+    }()
     lazy var settingButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icon_settings"), for: .normal)
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(edit), for: .touchUpInside)
         return button
     }()
-    
     lazy var rectangleBox: UIView = {
         let view = UIView()
         view.layer.backgroundColor = UIColor.beScPurple300.cgColor
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 14
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
         return view
     }()
@@ -176,7 +181,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.textAlignment = .center
         label.textColor = .black
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        label.text = "참여 중"
+        label.text = "전체"
         return label
     }()
     lazy var starLabel: UILabel = {
@@ -198,21 +203,24 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var checkCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        label.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        label.textColor = .beScPurple700
         label.text = "6"
         return label
     }()
     lazy var starCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        label.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        label.textColor = .beScPurple700
         label.text = "12"
         return label
     }()
     lazy var pointCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        label.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
+        label.textColor = .beScPurple700
         label.text = "916"
         return label
     }()
@@ -231,19 +239,23 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .beBgSub
         return view
     }()
-    lazy var checkButton: UIButton = {
+    lazy var challengeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(challenge), for: .touchUpInside)
         return button
     }()
-    lazy var starButton: UIButton = {
+    
+    lazy var likeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(like), for: .touchUpInside)
         return button
     }()
     lazy var pointButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(point), for: .touchUpInside)
         return button
     }()
     // 하단부
@@ -270,6 +282,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     lazy var showAllChallengeFeedButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(challengeFeed), for: .touchUpInside)
         return button
     }()
     lazy var myChallengeCollectionView: UICollectionView = {
@@ -334,15 +347,15 @@ extension MyPageViewController {
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
         //상단부
-        [rectangleBox, nameLabel, profileShadowView, settingBackground, feed, goal, fail, feedCount, goalCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
+        [rectangleBox, nameLabel, profileShadowView, settingBackground, settingButton, feed, goal, fail, feedCount, goalCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
         //중앙부
-        [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, checkLabel, starLabel, pointLabel, checkCount, starCount, pointCount, line1, line2, myChallengeUnderBar, checkButton, starButton, pointButton].forEach{view in fullContentView.addSubview(view)}
+        [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, checkLabel, starLabel, pointLabel, checkCount, starCount, pointCount, line1, line2, myChallengeUnderBar, challengeButton, likeButton, pointButton].forEach{view in fullContentView.addSubview(view)}
         
         //하단부
         [myChallengeFeedLabel, showAllChallengeFeedView, showAllChallengeFeedLabel, showAllChallengeFeedButton, myChallengeCollectionView].forEach{view in fullContentView.addSubview(view)}
         
         profileShadowView.addSubview(profileImage)
-        settingBackground.addSubview(settingButton)
+        settingBackground.addSubview(settingImage)
     }
         
     // MARK: - 전체 오토레이아웃 관리
@@ -356,13 +369,15 @@ extension MyPageViewController {
             make.top.equalTo(rectangleBox).offset(146)
             make.leading.equalToSuperview().offset(114)
         }
-        settingButton.snp.makeConstraints { make in
+        settingImage.snp.makeConstraints { make in
             make.width.equalTo(20)
             make.height.equalTo(20)
             make.leading.equalTo(settingBackground).offset(4)
             make.top.equalTo(settingBackground).offset(4)
         }
-        
+        settingButton.snp.makeConstraints { make in
+            make.edges.size.equalTo(settingBackground)
+        }
         rectangleBox.snp.makeConstraints { make in
             make.height.equalTo(274)
             make.width.equalToSuperview()
@@ -471,20 +486,20 @@ extension MyPageViewController {
             make.centerY.equalTo(checkCount)
             make.centerX.equalTo(pointImage)
         }
-        checkButton.snp.makeConstraints { make in
+        challengeButton.snp.makeConstraints { make in
             make.width.equalTo(122)
             make.height.equalTo(challengeBox)
             make.leading.equalTo(challengeBox)
             make.top.equalTo(challengeBox.snp.top)
         }
-        starButton.snp.makeConstraints { make in
+        likeButton.snp.makeConstraints { make in
             make.width.equalTo(114)
-            make.height.equalTo(checkButton)
+            make.height.equalTo(challengeButton)
             make.leading.equalTo(line1.snp.trailing)
             make.top.equalTo(challengeBox.snp.top)
         }
         pointButton.snp.makeConstraints { make in
-            make.size.equalTo(checkButton)
+            make.size.equalTo(challengeButton)
             make.leading.equalTo(line2.snp.trailing)
             make.top.equalTo(challengeBox.snp.top)
         }
@@ -587,3 +602,28 @@ extension MyPageViewController{
             print("알림버튼")
     }
 }
+// MARK: - function
+extension MyPageViewController {
+    @objc func edit() {
+        let accountInfoVC = AccountInfoViewController()
+        accountInfoVC.nameField.attributedPlaceholder = NSAttributedString(string: nameLabel.layer.name ?? "2~8자 이내로 입력해 주세요")
+        navigationController?.pushViewController(accountInfoVC, animated: true)
+    }
+    @objc func challenge() {
+        let myChallengeVC = MyChallengeViewController()
+        navigationController?.pushViewController(myChallengeVC, animated: true)
+    }
+    @objc func like() {
+        let likeVC = LikeViewController()
+        navigationController?.pushViewController(likeVC, animated: true)
+    }
+    @objc func point() {
+        let pointVC = PointViewController()
+        navigationController?.pushViewController(pointVC, animated: true)
+    }
+    @objc func challengeFeed() {
+        let myChallengeFeedVC = MyChallengeFeedViewController()
+        navigationController?.pushViewController(myChallengeFeedVC, animated: true)
+    }
+}
+

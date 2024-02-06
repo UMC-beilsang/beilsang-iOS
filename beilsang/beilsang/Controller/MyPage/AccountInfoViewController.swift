@@ -594,7 +594,6 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .beScPurple400
         button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(save), for: .touchDown)
         return button
@@ -610,6 +609,7 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
         setupDatePicker()
         setTextField()
         setupToolBar()
+        saveButton.isEnabled = false
     }
 }
 
@@ -913,6 +913,8 @@ extension AccountInfoViewController{
         print("뒤로 가기")
         if saveButton.isEnabled {
             alertViewResponder = saveAlert.showInfo("저장되지 않은 내용이 있어요!", subTitle: "변동사항을 저장하지 않고 나가시겠어요?\n현재 창을 나가면 작성된 내용은 저장되지 않아요 👀")
+        }else{
+            navigationController?.popViewController(animated: true)
         }
     }
     //MARK: - Tool Bar
@@ -1077,6 +1079,7 @@ extension AccountInfoViewController{
     }
     @objc func close(){
         alertViewResponder?.close()
+        navigationController?.popViewController(animated: true)
     }
     @objc func cancel(){
         alertViewResponder?.close()
@@ -1113,7 +1116,6 @@ extension AccountInfoViewController {
         logoutSubview.snp.makeConstraints { make in
             make.width.equalTo(316)
             make.height.equalTo(200)
-            //            make.bottom.equalTo(cancelLogoutButton).offset(12)
         }
         emailBox.snp.makeConstraints { make in
             make.width.equalTo(280)
