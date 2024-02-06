@@ -514,6 +514,7 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
+    //MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -743,13 +744,14 @@ class JoinChallengeViewController: UIViewController {
     
     //MARK: - Toast Popup
     
-    private func showChallengeLeftDayToast() {
+    private func showToast() {
         let toastLabel = UILabel()
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = .white
         toastLabel.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         toastLabel.textAlignment = .center
         toastLabel.text = "📆 챌린지가 1일 뒤 시작됩니다!"
+        //other text = "🌳 현재 진행도는 70%입니다!"
         toastLabel.alpha = 1.0
         toastLabel.layer.cornerRadius = 20
         toastLabel.clipsToBounds  =  true
@@ -848,7 +850,7 @@ class JoinChallengeViewController: UIViewController {
     }
 }
 
-//MARK: - 인증갤러리 뷰 변경
+//MARK: - Gallery View Changed
 
 extension JoinChallengeViewController {
     func setGalleryView() {
