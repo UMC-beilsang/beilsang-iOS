@@ -75,10 +75,5 @@ extension PageViewController {
             make.width.equalTo(view.snp.width)
             make.height.equalTo(view.snp.height)
         }
-        label.snp.makeConstraints { make in
-            make.leading.equalTo(button.snp.leading).offset(24)
-            make.top.equalTo(button.snp.top).offset(32)
-        }
-
     }
 }
