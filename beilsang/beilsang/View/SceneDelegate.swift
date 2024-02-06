@@ -19,9 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
-        let mainViewController = UINavigationController(rootViewController: StartViewController())
-    () // 맨 처음 보여줄 ViewController
+        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줘
+
+        let mainViewController = UINavigationController(rootViewController: MyChallengeFeedViewController()) // 맨 처음 보여줄 ViewController
+
 
         window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()

@@ -62,9 +62,9 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    // pageView - title, color setting
-    let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!", "내 주변 친환경 스팟\n어디 있을까?"]
-    let pageColor = [UIColor.beScPurple400, UIColor.beBgDef, UIColor.beMint500]
+    // pageView - title, image setting
+    let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!"]
+    let pageImages = [UIImage(named: "Thumbnail Banner-1"), UIImage(named: "Thumbnail Banner-2")]
     var pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     
     // pageView - sliding button
@@ -112,6 +112,7 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        self.navigationItem.hidesBackButton = true
         
         setupAttribute()
         setCollectionView()
@@ -134,7 +135,7 @@ extension HomeMainViewController {
         pageViewController.delegate = self
         
         // 첫번째로 보여지는 뷰컨트롤러 설정
-        let firstVC = PageViewController(pageTitle: pageTitles[0], pageColor: pageColor[0])
+        let firstVC = PageViewController(pageTitle: pageTitles[0], pageImage: pageImages[0]!)
         pageViewController.setViewControllers([firstVC], direction: .forward, animated: false, completion: nil)
     }
     
@@ -174,7 +175,7 @@ extension HomeMainViewController {
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
-            make.height.equalTo(1140)
+            make.bottom.equalTo(fullScrollView.snp.bottom)
         }
         
         topView.addSubview(logoImage)
@@ -300,9 +301,9 @@ extension HomeMainViewController: UIPageViewControllerDataSource, UIPageViewCont
         if let lastVC = viewController as? PageViewController,
            let index = pageTitles.firstIndex(of: lastVC.pageTitle),
            index > 0 {
-            return PageViewController(pageTitle: pageTitles[index - 1], pageColor: pageColor[index - 1])
+            return PageViewController(pageTitle: pageTitles[index - 1], pageImage: pageImages[index - 1]!)
         } else {
-            return PageViewController(pageTitle: pageTitles[2], pageColor: pageColor[2])
+            return PageViewController(pageTitle: pageTitles[1], pageImage: pageImages[1]!)
         }
     }
     
@@ -311,9 +312,9 @@ extension HomeMainViewController: UIPageViewControllerDataSource, UIPageViewCont
         if let nextVC = viewController as? PageViewController,
            let index = pageTitles.firstIndex(of: nextVC.pageTitle),
            index < pageTitles.count - 1 {
-            return PageViewController(pageTitle: pageTitles[index + 1], pageColor: pageColor[index + 1])
+            return PageViewController(pageTitle: pageTitles[index + 1], pageImage: pageImages[index + 1]!)
         } else {
-            return PageViewController(pageTitle: pageTitles[0], pageColor: pageColor[0])
+            return PageViewController(pageTitle: pageTitles[0], pageImage: pageImages[0]!)
         }
     }
     
