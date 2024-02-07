@@ -20,9 +20,6 @@ class StartViewController: UIViewController {
         view.sizeToFit()
         view.layer.shadowColor = UIColor.beTextDef.cgColor
         view.layer.masksToBounds = false
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.2
         
         return view
     }()

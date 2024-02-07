@@ -366,7 +366,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                 return .zero
             }
             let target = HofChallengeCategoryList[indexPath.row]
-            cell.categoryLabel.text = "\(target.image)\(target.title)"
+            cell.categoryLabel.text = "\(target.image) \(target.title)"
             cell.categoryLabel.sizeToFit()
             return CGSize(width: cell.categoryLabel.frame.width + 20, height: 28)
         case HofChallengeCollectionView:
@@ -395,7 +395,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                 return UICollectionViewCell()
             }
             let target = HofChallengeCategoryList[indexPath.row]
-            cell.categoryLabel.text = "\(target.image)\(target.title)"
+            cell.categoryLabel.text = "\(target.image) \(target.title)"
             cell.categoryLabel.sizeToFit()
             return cell
         case HofChallengeCollectionView:

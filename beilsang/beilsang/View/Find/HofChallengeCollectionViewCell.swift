@@ -56,11 +56,12 @@ class HofChallengeCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    // 챌린지 버튼 - 레이블
-    let buttonLabel: UILabel = {
+    // 챌린지 버튼 참여 인원 레이블
+    var numOfPeople = Int.random(in: 0...100)
+    lazy var numOfPeopleLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "달성률 \(Int.random(in: 0...100))%"
+        view.text = "참여인원 \(numOfPeople)명"
         view.textColor = .beNavy500
         view.font = UIFont(name: "Noto Sans KR", size: 12)
         
@@ -88,7 +89,7 @@ extension HofChallengeCollectionViewCell {
         custombutton.addSubview(bottomView)
         
         challengeImage.addSubview(challengeNameLabel)
-        bottomView.addSubview(buttonLabel)
+        bottomView.addSubview(numOfPeopleLabel)
         
         custombutton.snp.makeConstraints { make in
             make.size.edges.equalToSuperview()
@@ -113,7 +114,7 @@ extension HofChallengeCollectionViewCell {
             make.width.leading.trailing.equalToSuperview()
         }
         
-        buttonLabel.snp.makeConstraints { make in
+        numOfPeopleLabel.snp.makeConstraints { make in
             make.trailing.equalTo(bottomView.snp.trailing).offset(-10)
             make.centerY.equalTo(bottomView.snp.centerY)
         }

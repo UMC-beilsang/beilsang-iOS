@@ -655,7 +655,7 @@ class UserInfoViewController: UIViewController {
         nameInfoView.snp.makeConstraints{ make in
             make.top.equalTo(nameField.snp.bottom).offset(4)
             make.leading.equalToSuperview().offset(16)
-            make.height.equalTo(16)
+            make.height.equalTo(0)
             make.width.equalTo(240)
         }
         
@@ -835,7 +835,7 @@ class UserInfoViewController: UIViewController {
         }
         
         privacyLabel.snp.makeConstraints{ make in
-            make.leading.equalTo(needPrivacyLabel.snp.trailing).offset(8)
+            make.leading.equalTo(needPrivacyLabel.snp.trailing).offset(4)
             make.centerY.equalTo(privacyAgreeButton)
         }
         
@@ -954,16 +954,19 @@ class UserInfoViewController: UIViewController {
         switch state {
         case "avaliable":
             nameInfoView.isHidden = false
+            nameInfoViewNoHidden()
             nameInfoImage.image = UIImage(named: "iconCheck")
             nameInfoLabel.text = "사용 가능한 닉네임입니다."
             nameInfoLabel.textColor = .bePsBlue500
         case "inavaliable":
             nameInfoView.isHidden = false
+            nameInfoViewNoHidden()
             nameInfoImage.image = UIImage(named: "iconAttention")
             nameInfoLabel.text = "닉네임은 2-8자 이내로 입력해 주세요."
             nameInfoLabel.textColor = .beWnRed500
         case "exist":
             nameInfoView.isHidden = false
+            nameInfoViewNoHidden()
             nameInfoImage.image = UIImage(named: "iconAttention")
             nameInfoLabel.text = "이미 존재하는 닉네임입니다."
             nameInfoLabel.textColor = .beWnRed500
@@ -1093,6 +1096,20 @@ class UserInfoViewController: UIViewController {
             isNext[3] = false
             updateNextButtonState()
         }
+    }
+    
+    //MARK: - nameInfoView Hidden
+    
+    func nameInfoViewHidden() {
+        nameInfoView.snp.updateConstraints { make in
+            make.height.equalTo(0) // 높이를 0으로 설정하여 숨김
+        }
+    }
+    
+    func nameInfoViewNoHidden() {
+        nameInfoView.snp.updateConstraints { make in
+                        make.height.equalTo(16) // 높이를 0으로 설정하여 숨김
+                    }
     }
     
     // MARK: - Actions
@@ -1235,7 +1252,8 @@ extension UserInfoViewController: UITextFieldDelegate {
             }
             else {
                 if textFieldValid { //true일 때 : 2-8자 이내 or 공백
-                    nameInfoView.isHidden = true //혹시 모르니 인포뷰 숨기고
+                    nameInfoView.isHidden = true
+                    nameInfoViewHidden()
                     textFieldChanged(textField: nameField, state: "avaliable") //textField 파란색 표시
                 }
                 else { //2-8자 이내 아님. 그러면 shoulEndEditing일때 바꾼걸유지해야함.
@@ -1321,6 +1339,7 @@ extension UserInfoViewController: UITextFieldDelegate {
             if userInput.hasCharactersLogin() {//2-8자 이내가 아닐때
                 textFieldChanged(textField: nameField, state: "avaliable")
                 nameInfoView.isHidden = true
+                nameInfoViewHidden()
             }
             else
             {

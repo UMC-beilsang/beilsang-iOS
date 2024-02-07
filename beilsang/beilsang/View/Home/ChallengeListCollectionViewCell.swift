@@ -71,12 +71,11 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    // 챌린지 버튼 참여 인원 레이블
-    var numOfPeople = Int.random(in: 0...100)
-    lazy var numOfPeopleLabel: UILabel = {
+    // 챌린지 버튼 - 레이블
+    let buttonLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "참여 인원 \(numOfPeople)명"
+        view.text = "달성률 \(Int.random(in: 0...100))%"
         view.textColor = .beNavy500
         view.font = UIFont(name: "Noto Sans KR", size: 12)
         
@@ -126,14 +125,14 @@ extension ChallengeListCollectionViewCell {
         }
         
         bottomView.addSubview(makerNickname)
-        bottomView.addSubview(numOfPeopleLabel)
+        bottomView.addSubview(buttonLabel)
         
         makerNickname.snp.makeConstraints { make in
             make.leading.equalTo(bottomView.snp.leading).offset(20)
             make.centerY.equalTo(bottomView.snp.centerY)
         }
         
-        numOfPeopleLabel.snp.makeConstraints { make in
+        buttonLabel.snp.makeConstraints { make in
             make.trailing.equalTo(bottomView.snp.trailing).offset(-20)
             make.centerY.equalTo(makerNickname.snp.centerY)
         }
