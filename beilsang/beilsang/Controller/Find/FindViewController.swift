@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SafariServices
+import SCLAlertView
 
 class FindViewController: UIViewController, UIScrollViewDelegate {
 
@@ -15,6 +17,7 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
     var imageList = ["image 8", "image 9", "image 8", "image 9","image 8", "image 9",]
+    var alertViewResponder: SCLAlertViewResponder? = nil
     //검색창
     lazy var searchBar: UITextField = {
         let view = UITextField()
@@ -149,6 +152,62 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     
+    lazy var reportAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 184,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    
+    lazy var reportSubView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    
+    lazy var reportLabel: UILabel = {
+        let view = UILabel()
+        view.text = "해당 인증 사진을 신고하는 게 맞을까요? \n 신고시 본 챌린저는 챌린지 실패로 처리됩니다"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 2
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
+        
+        return view
+    }()
+        
+    lazy var reportCancelButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beTextEx, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        
+        return button
+    }()
+    lazy var reportButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("신고하기", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,11 +255,16 @@ extension FindViewController {
         // foreach문을 사용해서 클로저 형태로 작성
         self.view.addSubview(scrollToTop)
         self.view.addSubview(moreFeedButton)
-        [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailBackground, feedDetailCollectionView].forEach{ view in fullContentView.addSubview(view)}
+        [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailBackground, feedDetailCollectionView, reportButton].forEach{ view in fullContentView.addSubview(view)}
         
         [buttonLabel, buttonImage].forEach { view in
             moreFeedButton.addSubview(view)
         }
+        
+        reportAlert.customSubview = reportSubView
+        reportSubView.addSubview(reportLabel)
+        reportSubView.addSubview(reportCancelButton)
+        reportSubView.addSubview(reportButton)
     }
     
     //snp 설정
@@ -280,6 +344,29 @@ extension FindViewController {
             make.width.height.equalTo(66)
             make.trailing.equalToSuperview().offset(-20)
             make.bottom.equalToSuperview().offset(-16)
+        }
+        reportSubView.snp.makeConstraints{ make in
+            make.width.equalTo(318)
+            make.height.equalTo(120)
+        }
+        
+        reportCancelButton.snp.makeConstraints{ make in
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.trailing.equalTo(reportSubView.snp.centerX).offset(-3)
+        }
+        
+        reportButton.snp.makeConstraints{ make in
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.leading.equalTo(reportSubView.snp.centerX).offset(3)
+        }
+        
+        reportLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(reportCancelButton.snp.top).offset(-28)
+            make.centerX.equalToSuperview()
         }
     }
 }
@@ -551,6 +638,15 @@ extension FindViewController {
     @objc func scrollToTopButton(){
         scrollToTop(fullScrollView)
     }
+    @objc func reportButtonTapped() {
+        let reportUrl = NSURL(string: "https://moaform.com/q/dcQIJc")
+        let reportSafariView: SFSafariViewController = SFSafariViewController(url: reportUrl! as URL)
+        self.present(reportSafariView, animated: true, completion: nil)
+        alertViewResponder?.close()
+    }
+    @objc func close(){
+        alertViewResponder?.close()
+    }
 }
 
 // 텍스트필드 placeholder 왼쪽에 padding 추가
@@ -595,3 +691,9 @@ extension UIScrollView {
     }
 }
 
+// MARK: - function
+extension FindViewController: CustomFindCellDelegate {
+    func didTapReportButton() {
+        alertViewResponder = reportAlert.showInfo("신고하기")
+    }
+}
