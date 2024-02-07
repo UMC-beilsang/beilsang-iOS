@@ -75,6 +75,5 @@ extension PageViewController {
             make.width.equalTo(view.snp.width)
             make.height.equalTo(view.snp.height)
         }
-
     }
 }
