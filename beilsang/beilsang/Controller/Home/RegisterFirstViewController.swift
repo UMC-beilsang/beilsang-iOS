@@ -106,7 +106,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     var isNext = [false, false, false, false, false, false]
     
     // 대표 사진 등록 레이블
-    lazy var representativePhotoLabel = customLabelView(labelText: "대표 사진 등록")
+    lazy var representativePhotoLabel = customLabelView(labelText: "대표 사진")
     
     // 대표 사진 등록하기 이미지 피커
     let representativeImagePicker = UIImagePickerController()
@@ -289,6 +289,11 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     lazy var bottomView: UIView = {
         let view = UIView()
         
+        view.layer.shadowColor = UIColor.beTextDef.cgColor
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         
         return view
@@ -436,6 +441,7 @@ extension RegisterFirstViewController {
     
     func setupAttribute() {
         setFullScrollView()
+        setAddViews()
         setLayout()
         setNavigationBar()
         setUI()
@@ -474,52 +480,37 @@ extension RegisterFirstViewController {
         }
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(bottomView)
         
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, representativePhotoLabel, representativePhotoImage, representativePhotoButton, challengeTitleLabel, challengeTitleField, challengeTitleCheckImage, challengeTitleCheckLabel, categoryLabel, categoryField, startLabel, startField, dayLabel, dayField, countLabel, countUnitLabel, countMinusButton, countIntLabel, countPlusButton, countNoticeLabel].forEach { view in
+            fullContentView.addSubview(view)
+        }
+        
+        [representativePhotoButtonImage, representativePhotoButtonLabel].forEach { view in
+            representativePhotoButton.addSubview(view)
+        }
+        
+        representativePhotoImage.addSubview(photoCloseButton)
+        
+        bottomView.addSubview(nextButton)
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.leading.trailing.equalToSuperview()
             make.bottom.equalTo(bottomView.snp.top)
         }
         
-        fullScrollView.addSubview(fullContentView)
-        // fullScrollView.contentInsetAdjustmentBehavior = .never
-        
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(770)
         }
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(representativePhotoLabel)
-        fullContentView.addSubview(representativePhotoImage)
-        fullContentView.addSubview(representativePhotoButton)
-        fullContentView.addSubview(challengeTitleLabel)
-        fullContentView.addSubview(challengeTitleField)
-        fullContentView.addSubview(challengeTitleCheckImage)
-        fullContentView.addSubview(challengeTitleCheckLabel)
-        fullContentView.addSubview(categoryLabel)
-        fullContentView.addSubview(categoryField)
-        fullContentView.addSubview(startLabel)
-        fullContentView.addSubview(startField)
-        fullContentView.addSubview(dayLabel)
-        fullContentView.addSubview(dayField)
-        fullContentView.addSubview(countLabel)
-        fullContentView.addSubview(countUnitLabel)
-        fullContentView.addSubview(countMinusButton)
-        fullContentView.addSubview(countIntLabel)
-        fullContentView.addSubview(countPlusButton)
-        fullContentView.addSubview(countNoticeLabel)
-        
-        representativePhotoButton.addSubview(representativePhotoButtonImage)
-        representativePhotoButton.addSubview(representativePhotoButtonLabel)
-        
-        representativePhotoImage.addSubview(photoCloseButton)
-        
-        bottomView.addSubview(nextButton)
         
         topViewBorder.snp.makeConstraints { make in
             make.top.equalTo(fullScrollView.snp.top)

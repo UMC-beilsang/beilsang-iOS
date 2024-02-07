@@ -233,6 +233,11 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     lazy var bottomView: UIView = {
         let view = UIView()
         
+        view.layer.shadowColor = UIColor.beTextDef.cgColor
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         
         return view
@@ -417,6 +422,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
 extension RegisterThirdViewController {
     func setupAttribute() {
         setFullScrollView()
+        setAddViews()
         setLayout()
         setNavigationBar()
         setUI()
@@ -435,43 +441,38 @@ extension RegisterThirdViewController {
     }
     
     func setUI() {
-        agreeButtons.append(agree1Button)
-        agreeButtons.append(agree2Button)
-        agreeButtons.append(agree3Button)
-        agreeButtons.append(agree4Button)
+        [agree1Button, agree2Button, agree3Button, agree4Button].forEach { button in
+            agreeButtons.append(button)
+        }
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(bottomView)
         
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, noticeTitle, agree1Button, agree1Label, agree2Button, agree2Label, agree3Button, agree3Label, agree4Button, agree4Label].forEach { view in
+            fullContentView.addSubview(view)
+        }
+
+        [beforeButton, makeButton].forEach { view in
+            bottomView.addSubview(view)
+        }
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.width.equalToSuperview()
             make.bottom.equalTo(bottomView.snp.top)
         }
         
-        fullScrollView.addSubview(fullContentView)
-        
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(670)
         }
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(noticeTitle)
-        fullContentView.addSubview(agree1Button)
-        fullContentView.addSubview(agree1Label)
-        fullContentView.addSubview(agree2Button)
-        fullContentView.addSubview(agree2Label)
-        fullContentView.addSubview(agree3Button)
-        fullContentView.addSubview(agree3Label)
-        fullContentView.addSubview(agree4Button)
-        fullContentView.addSubview(agree4Label)
-        
-        bottomView.addSubview(beforeButton)
-        bottomView.addSubview(makeButton)
         
         topViewBorder.snp.makeConstraints { make in
             make.top.equalTo(fullScrollView.snp.top)
