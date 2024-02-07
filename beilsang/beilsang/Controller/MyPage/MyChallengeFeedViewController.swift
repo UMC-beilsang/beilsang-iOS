@@ -352,6 +352,9 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
 }
 // MARK: - function
 extension MyChallengeFeedViewController: CustomFeedCellDelegate {
+    func didTapReportButton() {
+    }
+    
     func didTapButton() {
         feedDetailCollectionView.isHidden = true
     }

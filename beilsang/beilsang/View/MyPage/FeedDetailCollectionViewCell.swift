@@ -200,4 +200,5 @@ extension FeedDetailCollectionViewCell {
 
 protocol CustomFeedCellDelegate: AnyObject {
     func didTapButton()
+    func didTapReportButton()
 }

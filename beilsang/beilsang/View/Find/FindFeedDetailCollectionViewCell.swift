@@ -13,7 +13,6 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
     
     static let identifier = "findFeedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
-    var findDelegate: CustomFindCellDelegate?
     // 달성 메달 셀 전체 뷰
     let fullScrollView = UIScrollView()
     
@@ -300,9 +299,6 @@ extension FindFeedDetailCollectionViewCell {
     }
     @objc func tapReportButton(_ sender: UIButton) {
         print("신고하기")
-        findDelegate?.didTapReportButton()
+        delegate?.didTapReportButton()
     }
-}
-protocol CustomFindCellDelegate {
-    func didTapReportButton()
 }

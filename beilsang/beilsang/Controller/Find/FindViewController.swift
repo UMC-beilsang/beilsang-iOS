@@ -515,6 +515,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                     FindFeedDetailCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            
             cell.delegate = self
             return cell
         default:
@@ -667,6 +668,9 @@ extension FindViewController: CustomFeedCellDelegate {
         feedDetailBackground.isHidden = true
         fullScrollView.isScrollEnabled = true
     }
+    func didTapReportButton() {
+        alertViewResponder = reportAlert.showInfo("신고하기")
+    }
 }
 
 // 동적으로 scroll view 크기 설정
@@ -688,12 +692,5 @@ extension UIScrollView {
         
         // 최종 계산 영역의 크기를 반환
         return totalRect.union(view.frame)
-    }
-}
-
-// MARK: - function
-extension FindViewController: CustomFindCellDelegate {
-    func didTapReportButton() {
-        alertViewResponder = reportAlert.showInfo("신고하기")
     }
 }
