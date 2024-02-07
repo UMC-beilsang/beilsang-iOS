@@ -792,20 +792,13 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
     
     // MARK: - Date 설정
     func setupDatePicker() {
-        // UIDatePicker 객체 생성을 해줍니다.
         let datePicker = UIDatePicker()
-        // datePickerModed에는 time, date, dateAndTime, countDownTimer가 존재합니다.
         datePicker.datePickerMode = .date
-        // datePicker 스타일을 설정합니다. wheels, inline, compact, automatic이 존재합니다.
         datePicker.preferredDatePickerStyle = .wheels
-        // 원하는 언어로 지역 설정도 가능합니다.
         datePicker.locale = Locale(identifier: "ko-KR")
-        // 값이 변할 때마다 동작을 설정해 줌
         datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
-        // textField의 inputView가 nil이라면 기본 할당은 키보드입니다.
+        datePicker.minimumDate = Date()
         startField.inputView = datePicker
-        // textField에 오늘 날짜로 표시되게 설정
-        // startField.text = dateFormat(date: Date())
     }
     
     func dateFormat(date: Date) -> String {
