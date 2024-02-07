@@ -1014,7 +1014,7 @@ extension RegisterSecondViewController {
         lazy var toolTipView: UIView = {
             let view = UIView()
             
-            view.backgroundColor = .beBGPop.withAlphaComponent(0.8)
+            view.backgroundColor = UIColor.beBgPopUp.withAlphaComponent(0.8)
             view.layer.cornerRadius = 4
             
             return view
