@@ -183,12 +183,18 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeTitleCheckImage: UIImageView = {
         let view = UIImageView()
         
+        view.image = UIImage(named: "icon_information-circle")
+        
         return view
     }()
     
     // 챌린지 제목 검사 레이블
     lazy var challengeTitleCheckLabel: UILabel = {
         let view = UILabel()
+        
+        view.text = "챌린지 제목을 입력해주세요"
+        view.textColor = .beWnRed500
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
         
         return view
     }()
@@ -754,40 +760,85 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
         view.addGestureRecognizer(tapGesture)
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    // 텍스트필드 입력 관련
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
         if textField == challengeTitleField {
-            textField.backgroundColor = .bePsBlue100
-            textField.textColor = .bePsBlue500
-            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            
-            challengeTitleCheckImage.isHidden = false
-            challengeTitleCheckLabel.isHidden = false
-            categoryLabel.snp.makeConstraints { make in
-                make.top.equalTo(challengeTitleField.snp.bottom).offset(44)
+            // 텍스트필드의 텍스트 개수에 따른 동작
+            if updatedText.count < 4 {
+                textField.textColor = UIColor.beRed500
+                textField.layer.borderColor = UIColor.beRed500.cgColor
+                textField.backgroundColor = .beRed100
+                
+                challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckLabel.isHidden = false
+                challengeTitleCheckLabel.text = "제목은 4자 이상이어야 합니다."
+            } else if updatedText.count > 15 {
+                textField.textColor = UIColor.beRed500
+                textField.layer.borderColor = UIColor.beRed500.cgColor
+                textField.backgroundColor = .beRed100
+                
+                challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckImage.image = UIImage(named: "icon_information-circle")
+                challengeTitleCheckLabel.isHidden = false
+                challengeTitleCheckLabel.text = "제목은 15자를 넘을 수 없습니다."
+                challengeTitleCheckLabel.textColor = .beRed500
+                
+                return false
+            } else {
+                textField.textColor = UIColor.bePsBlue500
+                textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+                textField.backgroundColor = .bePsBlue100
+                
+                challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckImage.image = UIImage(named: "icon-allow")
+                challengeTitleCheckLabel.isHidden = false
+                challengeTitleCheckLabel.text = "사용 가능한 챌린지 제목입니다"
+                challengeTitleCheckLabel.textColor = .bePsBlue500
+                
+                isNext[1] = true
+                updateNextButtonState()
             }
+            return true
+        } else {
+            return true
         }
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == challengeTitleField {
-            isNext[1] = true
+            textField.textColor = UIColor.beRed500
+            textField.layer.borderColor = UIColor.beRed500.cgColor
+            textField.backgroundColor = .beRed100
+            
+            challengeTitleCheckImage.isHidden = false
+            challengeTitleCheckLabel.isHidden = false
+        } else {
+            textField.textColor = UIColor.bePsBlue500
+            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+            textField.backgroundColor = .bePsBlue100
         }
-        else if textField == categoryField {
-            categoryField.textColor = UIColor.beTextDef
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+       if textField == categoryField {
             isNext[2] = true
         }
         else if textField == startField {
-            startField.textColor = UIColor.beTextDef
             isNext[3] = true
         }
         else if textField == dayField {
-            dayField.textColor = UIColor.beTextDef
             isNext[4] = true
         }
         
+        textField.textColor = UIColor.beTextDef
+        textField.layer.borderColor = UIColor.beBorderDis.cgColor
+        textField.backgroundColor = .beBgCard
         updateNextButtonState()
         
-        return true
     }
     
     // MARK: - Date 설정
@@ -921,7 +972,6 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
     }
     
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
-        // startField.text = dateFormat(date: datePicker.date)
         // 키보드 내리기
         startField.resignFirstResponder()
         dayField.resignFirstResponder()
