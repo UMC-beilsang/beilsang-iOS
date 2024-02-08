@@ -417,6 +417,7 @@ extension FindViewController{
         navigationController?.pushViewController(notificationVC, animated: true)
     }
 }
+
 // MARK: - collectionView setting(카테고리)
 extension FindViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     // collectionView, delegate, datasorce 설정
