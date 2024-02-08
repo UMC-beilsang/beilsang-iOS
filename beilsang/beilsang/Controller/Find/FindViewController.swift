@@ -174,7 +174,7 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     
     lazy var reportLabel: UILabel = {
         let view = UILabel()
-        view.text = "해당 인증 사진을 신고하는 게 맞을까요? \n 신고시 본 챌린저는 챌린지 실패로 처리됩니다"
+        view.text = "해당 피드의 신고 사유가 무엇인가요?\n하단 링크를 통해 알려 주세요"
         view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
         view.numberOfLines = 2
         view.textColor = .beTextInfo
@@ -184,6 +184,17 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
         
+    lazy var reportUnderLabel: UILabel = {
+        let view = UILabel()
+        view.text = "신고하기를 누를시 외부 링크로 연결됩니다"
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.numberOfLines = 2
+        view.textColor = .beTextEx
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
+        
+        return view
+    }()
     lazy var reportCancelButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .beBgSub
@@ -263,6 +274,7 @@ extension FindViewController {
         
         reportAlert.customSubview = reportSubView
         reportSubView.addSubview(reportLabel)
+        reportSubView.addSubview(reportUnderLabel)
         reportSubView.addSubview(reportCancelButton)
         reportSubView.addSubview(reportButton)
     }
@@ -347,7 +359,7 @@ extension FindViewController {
         }
         reportSubView.snp.makeConstraints{ make in
             make.width.equalTo(318)
-            make.height.equalTo(120)
+            make.height.equalTo(160)
         }
         
         reportCancelButton.snp.makeConstraints{ make in
@@ -365,6 +377,10 @@ extension FindViewController {
         }
         
         reportLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(reportCancelButton.snp.top).offset(-68)
+            make.centerX.equalToSuperview()
+        }
+        reportUnderLabel.snp.makeConstraints { make in
             make.bottom.equalTo(reportCancelButton.snp.top).offset(-28)
             make.centerX.equalToSuperview()
         }
