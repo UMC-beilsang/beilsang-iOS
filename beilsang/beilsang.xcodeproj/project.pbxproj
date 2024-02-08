@@ -59,12 +59,14 @@
 		8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD152B6B7CDA0072440E /* LikeViewController.swift */; };
 		8963CD182B6B918B0072440E /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD172B6B918B0072440E /* PointViewController.swift */; };
 		8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */; };
+		896706892B738BF500A1295A /* NotificationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896706882B738BF500A1295A /* NotificationCollectionViewCell.swift */; };
 		896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */; };
 		896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */; };
 		896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */; };
 		896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */; };
 		897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */; };
 		89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */; };
+		89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89854F872B7351E100CB6E4E /* NotificationViewController.swift */; };
 		89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */; };
 		89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A322B656156009263F5 /* MyChallengeViewController.swift */; };
 		89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */; };
@@ -158,12 +160,14 @@
 		8963CD152B6B7CDA0072440E /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		8963CD172B6B918B0072440E /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
 		8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
+		896706882B738BF500A1295A /* NotificationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedalCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HofChallengeCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		89854F872B7351E100CB6E4E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
 		89A08A322B656156009263F5 /* MyChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeViewController.swift; sourceTree = "<group>"; };
 		89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 		2F08387E2B564085002E2551 /* beilsang */ = {
 			isa = PBXGroup;
 			children = (
+				8967068A2B73924400A1295A /* Data */,
 				2F1DCE052B71495F002F1043 /* beilsangDebug.entitlements */,
 				2F4CD90B2B71428000B2D02D /* beilsangRelease.entitlements */,
 				2F08388D2B564086002E2551 /* Info.plist */,
@@ -296,6 +301,7 @@
 		2FC63CD62B5BB3990050139A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				896706872B738B2700A1295A /* Notification */,
 				897653E12B6F5095004CA008 /* Find */,
 				2FF55CAF2B684D59004EDB39 /* Login */,
 				AF4403322B63DF09006B68FE /* Home */,
@@ -310,6 +316,7 @@
 		2FC63CD72B5BB39C0050139A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				89854F862B7351D100CB6E4E /* Notification */,
 				895D88782B6D45B1003E5688 /* Find */,
 				AF4403352B63E032006B68FE /* Home */,
 				894A113D2B609AD5002A9A32 /* MyPage */,
@@ -405,6 +412,21 @@
 			path = Find;
 			sourceTree = "<group>";
 		};
+		896706872B738B2700A1295A /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				896706882B738BF500A1295A /* NotificationCollectionViewCell.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		8967068A2B73924400A1295A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		897653E12B6F5095004CA008 /* Find */ = {
 			isa = PBXGroup;
 			children = (
@@ -414,6 +436,14 @@
 				89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */,
 			);
 			path = Find;
+			sourceTree = "<group>";
+		};
+		89854F862B7351D100CB6E4E /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				89854F872B7351E100CB6E4E /* NotificationViewController.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		AF44032E2B63DDBE006B68FE /* Home */ = {
@@ -644,10 +674,12 @@
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
+				89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
 				AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */,
 				2FAB99FB2B72C9B000853BF7 /* GalleryCollectionViewCell.swift in Sources */,
 				896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */,
+				896706892B738BF500A1295A /* NotificationCollectionViewCell.swift in Sources */,
 				2FAB99EF2B72C8C900853BF7 /* RecommendChallenge.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */,

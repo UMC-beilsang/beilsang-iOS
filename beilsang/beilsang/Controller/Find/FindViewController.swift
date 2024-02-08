@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SafariServices
+import SCLAlertView
 
 class FindViewController: UIViewController, UIScrollViewDelegate {
 
@@ -15,6 +17,7 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
     var imageList = ["image 8", "image 9", "image 8", "image 9","image 8", "image 9",]
+    var alertViewResponder: SCLAlertViewResponder? = nil
     //검색창
     lazy var searchBar: UITextField = {
         let view = UITextField()
@@ -149,6 +152,73 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     
+    lazy var reportAlert: SCLAlertView = {
+        let apperance = SCLAlertView.SCLAppearance(
+            kWindowWidth: 342, kWindowHeight : 184,
+            kTitleFont: UIFont(name: "NotoSansKR-SemiBold", size: 18)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            dynamicAnimatorActive: false
+        )
+        let alert = SCLAlertView(appearance: apperance)
+        
+        return alert
+    }()
+    
+    lazy var reportSubView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    
+    lazy var reportLabel: UILabel = {
+        let view = UILabel()
+        view.text = "해당 피드의 신고 사유가 무엇인가요?\n하단 링크를 통해 알려 주세요"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        view.numberOfLines = 2
+        view.textColor = .beTextInfo
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
+        
+        return view
+    }()
+        
+    lazy var reportUnderLabel: UILabel = {
+        let view = UILabel()
+        view.text = "신고하기를 누를시 외부 링크로 연결됩니다"
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.numberOfLines = 2
+        view.textColor = .beTextEx
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
+        
+        return view
+    }()
+    lazy var reportCancelButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beBgSub
+        button.setTitleColor(.beTextEx, for: .normal)
+        button.setTitle("취소", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        
+        return button
+    }()
+    lazy var reportButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .beScPurple600
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("신고하기", for: .normal)
+        button.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,11 +266,17 @@ extension FindViewController {
         // foreach문을 사용해서 클로저 형태로 작성
         self.view.addSubview(scrollToTop)
         self.view.addSubview(moreFeedButton)
-        [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailBackground, feedDetailCollectionView].forEach{ view in fullContentView.addSubview(view)}
+        [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailBackground, feedDetailCollectionView, reportButton].forEach{ view in fullContentView.addSubview(view)}
         
         [buttonLabel, buttonImage].forEach { view in
             moreFeedButton.addSubview(view)
         }
+        
+        reportAlert.customSubview = reportSubView
+        reportSubView.addSubview(reportLabel)
+        reportSubView.addSubview(reportUnderLabel)
+        reportSubView.addSubview(reportCancelButton)
+        reportSubView.addSubview(reportButton)
     }
     
     //snp 설정
@@ -281,6 +357,33 @@ extension FindViewController {
             make.trailing.equalToSuperview().offset(-20)
             make.bottom.equalToSuperview().offset(-16)
         }
+        reportSubView.snp.makeConstraints{ make in
+            make.width.equalTo(318)
+            make.height.equalTo(160)
+        }
+        
+        reportCancelButton.snp.makeConstraints{ make in
+            make.leading.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.trailing.equalTo(reportSubView.snp.centerX).offset(-3)
+        }
+        
+        reportButton.snp.makeConstraints{ make in
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-6)
+            make.height.equalTo(48)
+            make.leading.equalTo(reportSubView.snp.centerX).offset(3)
+        }
+        
+        reportLabel.snp.makeConstraints{ make in
+            make.bottom.equalTo(reportCancelButton.snp.top).offset(-68)
+            make.centerX.equalToSuperview()
+        }
+        reportUnderLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(reportCancelButton.snp.top).offset(-28)
+            make.centerX.equalToSuperview()
+        }
     }
 }
 // MARK: - 네비게이션 바 커스텀
@@ -303,13 +406,15 @@ extension FindViewController{
     }
     // 백버튼 커스텀
     func setBackButton() {
-        let notiButton = UIBarButtonItem(image: UIImage(named: "iconamoon_notification-bold"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
+        let notiButton = UIBarButtonItem(image: UIImage(named: "iconamoon_notification-bold")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         notiButton.tintColor = .black
         self.navigationItem.rightBarButtonItem = notiButton
     }
-    // 백버튼 액션
+    // 사이드 버튼 액션
     @objc func tabBarButtonTapped() {
-            print("알림")
+        print("알림버튼")
+        let notificationVC = NotificationViewController()
+        navigationController?.pushViewController(notificationVC, animated: true)
     }
 }
 // MARK: - collectionView setting(카테고리)
@@ -428,6 +533,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                     FindFeedDetailCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            
             cell.delegate = self
             return cell
         default:
@@ -551,6 +657,15 @@ extension FindViewController {
     @objc func scrollToTopButton(){
         scrollToTop(fullScrollView)
     }
+    @objc func reportButtonTapped() {
+        let reportUrl = NSURL(string: "https://moaform.com/q/dcQIJc")
+        let reportSafariView: SFSafariViewController = SFSafariViewController(url: reportUrl! as URL)
+        self.present(reportSafariView, animated: true, completion: nil)
+        alertViewResponder?.close()
+    }
+    @objc func close(){
+        alertViewResponder?.close()
+    }
 }
 
 // 텍스트필드 placeholder 왼쪽에 padding 추가
@@ -570,6 +685,9 @@ extension FindViewController: CustomFeedCellDelegate {
         feedDetailCollectionView.isHidden = true
         feedDetailBackground.isHidden = true
         fullScrollView.isScrollEnabled = true
+    }
+    func didTapReportButton() {
+        alertViewResponder = reportAlert.showInfo("신고하기")
     }
 }
 
@@ -594,4 +712,3 @@ extension UIScrollView {
         return totalRect.union(view.frame)
     }
 }
-

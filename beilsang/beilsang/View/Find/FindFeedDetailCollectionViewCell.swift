@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import SCLAlertView
+import SafariServices
 
 class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     
     static let identifier = "findFeedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
-    
     // 달성 메달 셀 전체 뷰
     let fullScrollView = UIScrollView()
     
@@ -103,14 +104,6 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         view.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return view
     }()
-    lazy var reportButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("신고하기", for: .normal)
-        view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 11)
-        view.setTitleColor(.beTextEx, for: .normal)
-        view.addTarget(self, action: #selector(tapReportButton), for: .touchUpInside)
-        return view
-    }()
     
     lazy var line : UIView = {
         let view = UIView()
@@ -166,6 +159,14 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         return view
     }()
     
+    lazy var reportButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("신고하기", for: .normal)
+        view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.setTitleColor(.beTextEx, for: .normal)
+        view.addTarget(self, action: #selector(tapReportButton), for: .touchUpInside)
+        return view
+    }()
     
     //사용자가 선택한 셀에 따라 POST
     override init(frame: CGRect) {
@@ -298,5 +299,6 @@ extension FindFeedDetailCollectionViewCell {
     }
     @objc func tapReportButton(_ sender: UIButton) {
         print("신고하기")
+        delegate?.didTapReportButton()
     }
 }

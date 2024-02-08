@@ -593,13 +593,15 @@ extension MyPageViewController{
     }
     // 백버튼 커스텀
     func setBackButton() {
-        let notiButton = UIBarButtonItem(image: UIImage(named: "iconamoon_notification-bold"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
+        let notiButton = UIBarButtonItem(image: UIImage(named: "iconamoon_notification-bold")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         notiButton.tintColor = .black
         self.navigationItem.rightBarButtonItem = notiButton
     }
-    // 백버튼 액션
+    // 사이드 버튼 액션
     @objc func tabBarButtonTapped() {
-            print("알림버튼")
+        print("알림버튼")
+        let notificationVC = NotificationViewController()
+        navigationController?.pushViewController(notificationVC, animated: true)
     }
 }
 // MARK: - function

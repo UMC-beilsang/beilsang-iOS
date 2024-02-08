@@ -198,7 +198,7 @@ extension MyChallengeFeedViewController{
     }
     // 백버튼 커스텀
     func setBackButton() {
-        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
+        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         leftBarButton.tintColor = .black
         self.navigationItem.leftBarButtonItem = leftBarButton
     }
@@ -352,6 +352,9 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
 }
 // MARK: - function
 extension MyChallengeFeedViewController: CustomFeedCellDelegate {
+    func didTapReportButton() {
+    }
+    
     func didTapButton() {
         feedDetailCollectionView.isHidden = true
     }
