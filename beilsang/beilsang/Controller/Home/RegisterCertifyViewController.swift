@@ -115,8 +115,30 @@ class RegisterCertifyViewController: UIViewController {
     // 후기 선택 레이블
     lazy var reviewLabel = customLabelView(labelText: "후기")
     
+    let textViewPlaceHolder = "후기를 20~80자 이내로 입력해 주세요"
     // 후기 텍스트필드
-    lazy var reviewField = customTextField(textFieldText: "후기를 20~80자 이내로 입력해 주세요")
+    lazy var reviewTextView: UITextView = {
+        let view = UITextView()
+        
+        view.layer.cornerRadius = 8
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
+        view.backgroundColor = .beBgCard
+        
+        view.isEditable = true // 편집 가능하게 설정
+        view.isScrollEnabled = true // 스크롤 가능하게 설정
+        view.autocorrectionType = .no // 자동 수정 활성화 여부
+        view.spellCheckingType = .no // 맞춤법 검사 활성화 여부
+        view.autocapitalizationType = .none // 대문자부터 시작 활성화 여부
+        
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.textColor = .beTextEx
+        view.text = textViewPlaceHolder
+        
+        view.textContainerInset = UIEdgeInsets(top: 14, left: 19, bottom: 14, right: 19)
+        
+        return view
+    }()
     
     // 후기 텍스트필드 안내 레이블 이미지
     lazy var reviewFieldAlertImage: UIImageView = {
@@ -237,7 +259,7 @@ class RegisterCertifyViewController: UIViewController {
         
         setupAttribute()
         setImagePicker()
-        setTextField()
+        setTextView()
         setupToolBar()
     }
     
@@ -317,7 +339,7 @@ extension RegisterCertifyViewController {
     }
     
     func setAddViews() {
-        [topViewBorder, certifyPhotoLabel, certifyPhotoImage, certifyPhotoButton, reviewLabel, reviewField, reviewFieldAlertImage, reviewFieldAlertLabel, certifyNoticeView, bottomView].forEach { view in
+        [topViewBorder, certifyPhotoLabel, certifyPhotoImage, certifyPhotoButton, reviewLabel, reviewTextView, reviewFieldAlertImage, reviewFieldAlertLabel, certifyNoticeView, bottomView].forEach { view in
             self.view.addSubview(view)
         }
         
@@ -383,7 +405,7 @@ extension RegisterCertifyViewController {
             make.height.equalTo(23)
         }
         
-        reviewField.snp.makeConstraints { make in
+        reviewTextView.snp.makeConstraints { make in
             make.top.equalTo(reviewLabel.snp.bottom).offset(12)
             make.leading.equalTo(reviewLabel.snp.leading)
             make.trailing.equalTo(view.snp.trailing).offset(-16)
@@ -391,7 +413,7 @@ extension RegisterCertifyViewController {
         }
         
         reviewFieldAlertImage.snp.makeConstraints { make in
-            make.top.equalTo(reviewField.snp.bottom).offset(4)
+            make.top.equalTo(reviewTextView.snp.bottom).offset(4)
             make.leading.equalTo(reviewLabel.snp.leading)
             make.width.height.equalTo(14)
         }
@@ -403,7 +425,7 @@ extension RegisterCertifyViewController {
         }
         
         certifyNoticeView.snp.makeConstraints { make in
-            make.top.equalTo(reviewField.snp.bottom).offset(60)
+            make.top.equalTo(reviewTextView.snp.bottom).offset(60)
             make.width.equalToSuperview()
             make.height.equalTo(228)
         }
@@ -485,57 +507,81 @@ extension RegisterCertifyViewController: UIImagePickerControllerDelegate, UINavi
     }
 }
 
-// MARK: - 텍스트필드 설정
-extension RegisterCertifyViewController: UITextFieldDelegate {
-    func setTextField() {
-        reviewField.delegate = self
+// MARK: - 텍스트뷰 설정
+extension RegisterCertifyViewController: UITextViewDelegate {
+    func setTextView() {
+        reviewTextView.delegate = self
         
         // 화면 터치시 키보드 내려감
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
     }
     
-    // 텍스트필드 입력 관련
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
+    // 텍스트뷰 입력 관련
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+                
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
         
-        // 텍스트필드의 텍스트 개수에 따른 동작
-        if updatedText.count < 20 || updatedText.count > 80 {
-            reviewField.textColor = UIColor.beRed500
-            reviewField.layer.borderColor = UIColor.beRed500.cgColor
-            reviewField.backgroundColor = .beRed100
+        // 텍스트뷰 글자 개수에 따른 동작
+        if updatedText.count < 20 {
+            reviewTextView.textColor = UIColor.beRed500
+            reviewTextView.layer.borderColor = UIColor.beRed500.cgColor
+            reviewTextView.backgroundColor = .beRed100
             
             reviewFieldAlertImage.isHidden = false
             reviewFieldAlertLabel.isHidden = false
+            reviewFieldAlertLabel.text = "후기는 20자 이상이어야 합니다."
             
-            return updatedText.count <= 80
+            isNext[1] = false
+        } else if updatedText.count > 80 {
+            reviewTextView.textColor = UIColor.beRed500
+            reviewTextView.layer.borderColor = UIColor.beRed500.cgColor
+            reviewTextView.backgroundColor = .beRed100
+            
+            reviewFieldAlertImage.isHidden = false
+            reviewFieldAlertLabel.isHidden = false
+            reviewFieldAlertLabel.text = "후기는 80자를 넘을 수 없습니다."
+            
+            isNext[1] = false
+            
+            return false
         } else {
-            reviewField.textColor = UIColor.bePsBlue500
-            reviewField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            reviewField.backgroundColor = .bePsBlue100
+            reviewTextView.textColor = UIColor.bePsBlue500
+            reviewTextView.layer.borderColor = UIColor.bePsBlue500.cgColor
+            reviewTextView.backgroundColor = .bePsBlue100
             
             reviewFieldAlertImage.isHidden = true
             reviewFieldAlertLabel.isHidden = true
             
             isNext[1] = true
-            updateCertifyButtonState()
-            
-            return true
         }
+        updateCertifyButtonState()
+        
+        return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        reviewField.textColor = UIColor.beRed500
-        reviewField.layer.borderColor = UIColor.beRed500.cgColor
-        reviewField.backgroundColor = .beRed100
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        // 입력 전 텍스트뷰 지우기
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+        }
+        
+        textView.textColor = UIColor.beRed500
+        textView.layer.borderColor = UIColor.beRed500.cgColor
+        textView.backgroundColor = .beRed100
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        reviewField.textColor = UIColor.beTextDef
-        reviewField.layer.borderColor = UIColor.beBorderDis.cgColor
-        reviewField.backgroundColor = .beBgCard
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .beTextEx
+        }
+        
+        textView.textColor = UIColor.beTextDef
+        textView.layer.borderColor = UIColor.beBorderDis.cgColor
+        textView.backgroundColor = .beBgCard
     }
     
     // MARK: - 툴바 설정
@@ -549,7 +595,7 @@ extension RegisterCertifyViewController: UITextFieldDelegate {
         // 적절한 사이즈로 toolBar의 크기를 만들어 줍니다.
         toolBar.sizeToFit()
         
-        reviewField.inputAccessoryView = toolBar
+        reviewTextView.inputAccessoryView = toolBar
     }
     
     // MARK: - actions
@@ -559,42 +605,7 @@ extension RegisterCertifyViewController: UITextFieldDelegate {
     
     // 키보드 내리기
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
-        reviewField.resignFirstResponder()
-    }
-    
-    // MARK: - 텍스트 필드 커스텀 함수
-    func customTextField(textFieldText: String) -> UITextField {
-        let customField: UITextField = {
-            let view = UITextField()
-            
-            view.layer.cornerRadius = 8
-            view.layer.borderWidth = 1
-            view.layer.borderColor = UIColor.beBorderDis.cgColor
-            view.backgroundColor = .beBgCard
-            
-            view.autocorrectionType = .no
-            view.spellCheckingType = .no
-            view.autocapitalizationType = .none
-            view.clearButtonMode = .never
-            view.clearsOnBeginEditing = false
-            
-            view.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 19.0, height: 0.0))
-            view.leftViewMode = .always
-            let placeholderText = textFieldText
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 14),
-                .foregroundColor: UIColor.beTextEx
-            ]
-            view.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: attributes)
-            view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
-            view.tintColor = .clear // 커서 지우기
-            
-            view.returnKeyType = .done
-            
-            return view
-        }()
-        
-        return customField
+        reviewTextView.resignFirstResponder()
     }
 }
 

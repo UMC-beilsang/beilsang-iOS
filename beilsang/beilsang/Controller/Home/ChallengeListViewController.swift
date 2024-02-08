@@ -38,6 +38,13 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
+    // 네비게이션 오른쪽 버튼 두 개
+    lazy var topRightView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
     // topview - plus
     lazy var plusButton: UIButton = {
         let view = UIButton()
@@ -56,13 +63,6 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
         view.setImage(UIImage(named: "icon-search"), for: .normal)
         view.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
         view.tintColor = .beIconDef
-        
-        return view
-    }()
-    
-    // 네비게이션 오른쪽 버튼 두 개
-    lazy var topRightView: UIView = {
-        let view = UIView()
         
         return view
     }()
@@ -128,7 +128,8 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     // 네비게이션 아이템 누르면 뒤(홈 메인화면)으로 가기
     @objc func tabBarButtonTapped() {
         print("뒤로 가기")
-        navigationController?.popViewController(animated: true)
+        let homeVC = HomeMainViewController()
+        navigationController?.pushViewController(homeVC, animated: true)
     }
     
     @objc func plusButtonClicked() {
@@ -183,9 +184,14 @@ extension ChallengeListViewController {
     }
     
     func setLayout() {
+        topRightView.snp.makeConstraints { make in
+            make.width.equalTo(64)
+            make.height.equalTo(24)
+        }
+        
         plusButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-60)
             make.centerY.equalToSuperview()
+            make.leading.equalToSuperview()
             make.width.height.equalTo(24)
         }
         
