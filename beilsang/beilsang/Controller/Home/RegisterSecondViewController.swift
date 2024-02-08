@@ -897,6 +897,8 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
             detailFieldAlertImage.isHidden = false
             detailFieldAlertLabel.isHidden = false
             detailFieldAlertLabel.text = "후기는 20자 이상이어야 합니다."
+            
+            isNext[0] = false
         } else if updatedText.count > 80 {
             detailTextView.textColor = UIColor.beRed500
             detailTextView.layer.borderColor = UIColor.beRed500.cgColor
@@ -905,6 +907,8 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
             detailFieldAlertImage.isHidden = false
             detailFieldAlertLabel.isHidden = false
             detailFieldAlertLabel.text = "후기는 80자를 넘을 수 없습니다."
+            
+            isNext[0] = false
             
             return false
         } else {
@@ -916,8 +920,9 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
             detailFieldAlertLabel.isHidden = true
             
             isNext[0] = true
-            updateNextButtonState()
         }
+        
+        updateNextButtonState()
         
         return true
     }

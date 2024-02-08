@@ -533,6 +533,8 @@ extension RegisterCertifyViewController: UITextViewDelegate {
             reviewFieldAlertImage.isHidden = false
             reviewFieldAlertLabel.isHidden = false
             reviewFieldAlertLabel.text = "후기는 20자 이상이어야 합니다."
+            
+            isNext[1] = false
         } else if updatedText.count > 80 {
             reviewTextView.textColor = UIColor.beRed500
             reviewTextView.layer.borderColor = UIColor.beRed500.cgColor
@@ -541,6 +543,8 @@ extension RegisterCertifyViewController: UITextViewDelegate {
             reviewFieldAlertImage.isHidden = false
             reviewFieldAlertLabel.isHidden = false
             reviewFieldAlertLabel.text = "후기는 80자를 넘을 수 없습니다."
+            
+            isNext[1] = false
             
             return false
         } else {
@@ -552,8 +556,8 @@ extension RegisterCertifyViewController: UITextViewDelegate {
             reviewFieldAlertLabel.isHidden = true
             
             isNext[1] = true
-            updateCertifyButtonState()
         }
+        updateCertifyButtonState()
         
         return true
     }

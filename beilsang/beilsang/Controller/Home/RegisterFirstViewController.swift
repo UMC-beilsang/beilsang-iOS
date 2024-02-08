@@ -776,6 +776,8 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
                 challengeTitleCheckImage.isHidden = false
                 challengeTitleCheckLabel.isHidden = false
                 challengeTitleCheckLabel.text = "제목은 4자 이상이어야 합니다."
+                
+                isNext[1] = false
             } else if updatedText.count > 15 {
                 textField.textColor = UIColor.beRed500
                 textField.layer.borderColor = UIColor.beRed500.cgColor
@@ -786,6 +788,8 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
                 challengeTitleCheckLabel.isHidden = false
                 challengeTitleCheckLabel.text = "제목은 15자를 넘을 수 없습니다."
                 challengeTitleCheckLabel.textColor = .beRed500
+                
+                isNext[1] = false
                 
                 return false
             } else {
@@ -800,8 +804,9 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
                 challengeTitleCheckLabel.textColor = .bePsBlue500
                 
                 isNext[1] = true
-                updateNextButtonState()
             }
+            updateNextButtonState()
+            
             return true
         } else {
             return true
