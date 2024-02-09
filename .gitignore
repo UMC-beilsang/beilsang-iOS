@@ -58,3 +58,8 @@ xcuserdata/
 
 # Notification
 GoogleService-Info.plist
+
+# Xcode project files
+beilsang/beilsang.xcodeproj/project.pbxproj
+beilsang/beilsang.xcodeproj/project.xcworkspace/xcuserdata/seyoung.xcuserdatad/UserInterfaceState.xcuserstate
+beilsang/beilsang/View/SceneDelegate.swift
