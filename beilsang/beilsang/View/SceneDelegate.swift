@@ -8,25 +8,77 @@
 import UIKit
 import KakaoSDKCommon
 import KakaoSDKAuth
+import AuthenticationServices
+import KakaoSDKUser
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줘
-
-        let mainViewController = UINavigationController(rootViewController: MyChallengeFeedViewController()) // 맨 처음 보여줄 ViewController
-
-
-        window?.rootViewController = mainViewController
-        window?.makeKeyAndVisible()
+        window = UIWindow(windowScene: windowScene)
+        
+        // 카카오 로그인 상태 확인
+        
+        if (AuthApi.hasToken()) {
+            UserApi.shared.accessTokenInfo { (_, error) in
+                if let error = error {
+                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                        DispatchQueue.main.async {
+                            let mainViewController = UINavigationController(rootViewController: LoginViewController())
+                            self.window?.rootViewController = mainViewController
+                            self.window?.makeKeyAndVisible()
+                        }
+                    }
+                    else {
+                        print("error")
+                    }
+                }
+                else {
+                    //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
+                    print("Kakao Token Found")
+                    
+                    // 카카오 로그인이 되어 있는 경우
+                    DispatchQueue.main.async {
+                        let mainViewController = UINavigationController(rootViewController: HomeMainViewController())
+                        self.window?.rootViewController = mainViewController
+                        self.window?.makeKeyAndVisible()
+                    }
+                }
+            }
+        }
+        else {
+            print("Kakao Token not Found")
+            // 애플 로그인 확인
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            appleIDProvider.getCredentialState(forUserID: "/*user의 고유 ID값(xxxxx.xxxxxxxxxx.xxxx)*/") { (credentialState, error) in
+                switch credentialState {
+                case .authorized:
+                    print("Apple Authorized")
+                    DispatchQueue.main.async {
+                        // 애플 로그인이 되어 있는 경우
+                        let mainViewController = UINavigationController(rootViewController: HomeMainViewController())
+                        self.window?.rootViewController = mainViewController
+                        self.window?.makeKeyAndVisible()
+                    }
+                case .revoked, .notFound:
+                    print("Apple Not Authorized")
+                    DispatchQueue.main.async {
+                        // 애플 로그인이 되어 있지 않은 경우, 로그인 화면 표시
+                        let mainViewController = UINavigationController(rootViewController: LoginViewController())
+                        self.window?.rootViewController = mainViewController
+                        self.window?.makeKeyAndVisible()
+                    }
+                default:
+                    break
+                    
+                }
+            }
+        }
     }
+        
     
     func changeRootViewController(_ newRootViewController: UIViewController) {
             guard let window = self.window else { return }
