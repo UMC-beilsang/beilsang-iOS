@@ -10,42 +10,55 @@ import SnapKit
 
 class SearchViewController: UIViewController {
     
-    let navigationBarView = UIView()
+    var dataList = RecentSearchTerms.data
+    var searchBar: UISearchBar!
     
-    lazy var titleLabel: UILabel = {
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "backbutton"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchDown)
+        
+        return button
+    }()
+    
+    lazy var recentSearchTitleLabel: UILabel = {
         let view = UILabel()
-        view.text = "게시물 검색"
-        view.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
+        view.text = "최근 검색어"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.numberOfLines = 0
-        view.textColor = .beTextDef
+        view.textColor = .beTextSub
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
         
         return view
     }()
     
-    lazy var closeButton: UIButton = {
+    lazy var allClearButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(named: "xiconblack"), for: .normal)
+        view.setTitle("모두 삭제", for: .normal)
+        view.setTitleColor(.beTextDef, for: .normal)
+        view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         view.translatesAutoresizingMaskIntoConstraints = false
-        //view.tintColor = UIColor.beTextDef
-        view.addTarget(self, action: #selector(closeButtonTapped), for: .touchDown)
+        view.addTarget(self, action: #selector(allClear), for: .touchDown)
         
         return view
     }()
     
-    lazy var lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .beBorderDis
-        view.translatesAutoresizingMaskIntoConstraints = false
+    lazy var recentTermCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(RecentSearchCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchCollectionViewCell.identifier)
         
-        return view
+        return collectionView
     }()
     
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setSearchBar()
         setupUI()
         setupLayout()
         setNavigationBar()
@@ -54,61 +67,123 @@ class SearchViewController: UIViewController {
     // MARK: - UI Setup
     
     private func setupUI() {
-        //navigationBarHidden()
-        view.backgroundColor = .beBgDef
-        view.addSubview(lineView)
+        view.backgroundColor = .white
+        
+        view.addSubview(recentSearchTitleLabel)
+        view.addSubview(allClearButton)
+        view.addSubview(recentTermCollectionView)
+        
     }
     
     private func setupLayout() {
+        recentSearchTitleLabel.snp.makeConstraints{ make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(28)
+            make.leading.equalToSuperview().offset(16)
+        }
         
-        lineView.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(100)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(1)}
+        allClearButton.snp.makeConstraints{ make in
+            make.centerY.equalTo(recentSearchTitleLabel)
+            make.trailing.equalToSuperview().offset(-16)
+        }
+        
+        recentTermCollectionView.snp.makeConstraints{ make in
+            make.top.equalTo(recentSearchTitleLabel.snp.bottom).offset(12)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview()
+        }
     }
     
     // MARK: - Actions
     
-    @objc func closeButtonTapped() {
-        print("closeButton")
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
+    
+    @objc func allClear() {
+        dataList.removeAll()
+        recentTermCollectionView.reloadData()
+    }
+    
 }
 
-// MARK: - setNavigationBar
+// MARK: - setNavigationBar, search Bar
 
 extension SearchViewController {
     func setNavigationBar() {
-        let searchController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchController
+        navigationController?.navigationBar.barTintColor = .white
+        let barButton = UIBarButtonItem(customView: backButton)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
+        navigationItem.leftBarButtonItem = barButton
+        
+        if let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField {
+            textFieldInsideSearchBar.layer.cornerRadius = 20
+            textFieldInsideSearchBar.clipsToBounds = true
+        }
+    }
+    
+    func setSearchBar() {
+        let bounds = UIScreen.main.bounds
+        let width = bounds.size.width
+        
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 80, height: 48))
+        searchBar.delegate = self
+        searchBar.placeholder = "   누구나 즐길 수 있는 대중교통 챌린지!  🚌"
+        searchBar.searchTextField.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+    }
+}
 
-        let width = UIScreen.main.bounds.width
-        let navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0
+// MARK: - collectionView setting
+extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCollectionViewCell.identifier, for: indexPath) as?
+                RecentSearchCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let target = dataList[indexPath.row]
+        cell.termLabel.text = target.label
+        cell.deleteHandler = { [weak self] in
+            guard let self = self else { return }
+            guard let indexPath = self.recentTermCollectionView.indexPath(for: cell) else { return }
+            
+            self.dataList.remove(at: indexPath.item)
+            self.recentTermCollectionView.deleteItems(at: [indexPath])
+        }
+    
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchCollectionViewCell.identifier, for: indexPath) is RecentSearchCollectionViewCell else {
+            return CGSize.zero
+        }
         
-        //navigationItem.leftBarButtonItem = nil
-        navigationItem.rightBarButtonItem = nil
+        let text = dataList[indexPath.item].label
+        
+        let estimatedWidth = text.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]).width
+        
+        return CGSize(width: estimatedWidth + 48, height: 28)
+    }
+}
 
-        navigationBarView.addSubview(closeButton)
-        navigationBarView.addSubview(titleLabel)
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         
-        navigationBarView.snp.makeConstraints{ make in
-            make.width.equalTo(width)
-            make.height.equalTo(navigationBarHeight)
-        }
-        titleLabel.snp.makeConstraints{ make in
-            make.leading.equalToSuperview().offset(4)
-            make.centerY.equalToSuperview()
-        }
+        let searchResultViewController = SearchResultViewController()
         
-        closeButton.snp.makeConstraints{ make in
-            make.trailing.equalToSuperview().offset(-10)
-            make.centerY.equalToSuperview()
-            make.height.width.equalTo(24)
-        }
+        // 현재 자식 뷰 컨트롤러 제거
+        self.children.forEach { $0.removeFromParent() }
         
-        //navigationItem.titleView = navigationBarView
-        
-        let leftBarButton = UIBarButtonItem(customView: navigationBarView)
-        navigationItem.leftBarButtonItem = leftBarButton
-        
+        // 새로운 뷰 컨트롤러 추가
+        self.addChild(searchResultViewController)
+        self.view.addSubview(searchResultViewController.view)
+        searchResultViewController.didMove(toParent: self)
     }
 }

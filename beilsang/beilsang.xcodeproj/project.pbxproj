@@ -15,6 +15,7 @@
 		2F0838972B564086002E2551 /* beilsangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838962B564086002E2551 /* beilsangTests.swift */; };
 		2F0838A12B564086002E2551 /* beilsangUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A02B564086002E2551 /* beilsangUITests.swift */; };
 		2F0838A32B564086002E2551 /* beilsangUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */; };
+		2F1D895D2B74EBBA000B2C95 /* SearchCallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1D895C2B74EBBA000B2C95 /* SearchCallenge.swift */; };
 		2F1DCE162B72B292002F1043 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1DCE152B72B292002F1043 /* SearchViewController.swift */; };
 		2F48E0912B5BB44C002F3D4A /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */; };
 		2F48E0932B5BB44C002F3D4A /* NotoSansKR-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0882B5BB44B002F3D4A /* NotoSansKR-Medium.ttf */; };
@@ -22,6 +23,13 @@
 		2F48E0992B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08E2B5BB44C002F3D4A /* NotoSansKR-SemiBold.ttf */; };
 		2F48E09A2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */; };
 		2F48E09B2B5BB44C002F3D4A /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */; };
+		2F548FB52B740B9E002804CE /* RecentSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F548FB42B740B9E002804CE /* RecentSearchCollectionViewCell.swift */; };
+		2F548FB82B740EF0002804CE /* RecentSearchTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F548FB72B740EF0002804CE /* RecentSearchTerms.swift */; };
+		2F548FBC2B74929B002804CE /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 2F548FBB2B74929B002804CE /* Tabman */; };
+		2F548FBE2B74939D002804CE /* TabManViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F548FBD2B74939D002804CE /* TabManViewController.swift */; };
+		2F548FC02B74945A002804CE /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F548FBF2B74945A002804CE /* SearchResultViewController.swift */; };
+		2F548FC22B7494B6002804CE /* SearchChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F548FC12B7494B6002804CE /* SearchChallengeViewController.swift */; };
+		2F548FC42B7494BF002804CE /* SearchFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F548FC32B7494BF002804CE /* SearchFeedViewController.swift */; };
 		2F69039C2B60429700A7716D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F69039B2B60429700A7716D /* Color+.swift */; };
 		2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */; };
 		2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */; };
@@ -106,6 +114,7 @@
 		2F08389C2B564086002E2551 /* beilsangUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = beilsangUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F0838A02B564086002E2551 /* beilsangUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITests.swift; sourceTree = "<group>"; };
 		2F0838A22B564086002E2551 /* beilsangUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = beilsangUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2F1D895C2B74EBBA000B2C95 /* SearchCallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCallenge.swift; sourceTree = "<group>"; };
 		2F1DCE052B71495F002F1043 /* beilsangDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = beilsangDebug.entitlements; sourceTree = "<group>"; };
 		2F1DCE152B72B292002F1043 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		2F48E0862B5BB44B002F3D4A /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
@@ -115,6 +124,12 @@
 		2F48E08F2B5BB44C002F3D4A /* NotoSansKR-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.ttf"; sourceTree = "<group>"; };
 		2F48E0902B5BB44C002F3D4A /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
 		2F4CD90B2B71428000B2D02D /* beilsangRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = beilsangRelease.entitlements; sourceTree = "<group>"; };
+		2F548FB42B740B9E002804CE /* RecentSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		2F548FB72B740EF0002804CE /* RecentSearchTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTerms.swift; sourceTree = "<group>"; };
+		2F548FBD2B74939D002804CE /* TabManViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManViewController.swift; sourceTree = "<group>"; };
+		2F548FBF2B74945A002804CE /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		2F548FC12B7494B6002804CE /* SearchChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChallengeViewController.swift; sourceTree = "<group>"; };
+		2F548FC32B7494BF002804CE /* SearchFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFeedViewController.swift; sourceTree = "<group>"; };
 		2F69039B2B60429700A7716D /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		2FC4CA4E2B5E518500C0DB84 /* MotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotoViewController.swift; sourceTree = "<group>"; };
 		2FC4CA502B5E528F00C0DB84 /* JoinMoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMoto.swift; sourceTree = "<group>"; };
@@ -171,6 +186,7 @@
 			files = (
 				2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */,
 				8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */,
+				2F548FBC2B74929B002804CE /* Tabman in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
@@ -251,6 +267,10 @@
 			isa = PBXGroup;
 			children = (
 				2F1DCE152B72B292002F1043 /* SearchViewController.swift */,
+				2F548FBF2B74945A002804CE /* SearchResultViewController.swift */,
+				2F548FC12B7494B6002804CE /* SearchChallengeViewController.swift */,
+				2F548FC32B7494BF002804CE /* SearchFeedViewController.swift */,
+				2F548FBD2B74939D002804CE /* TabManViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -268,6 +288,23 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		2F548FB62B740BA3002804CE /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				2F548FB42B740B9E002804CE /* RecentSearchCollectionViewCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		2F548FB92B740EFA002804CE /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				2F1D895C2B74EBBA000B2C95 /* SearchCallenge.swift */,
+				2F548FB72B740EF0002804CE /* RecentSearchTerms.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		2F69039A2B60427100A7716D /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +318,7 @@
 		2FC63CD62B5BB3990050139A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2F548FB62B740BA3002804CE /* Search */,
 				897653E12B6F5095004CA008 /* Find */,
 				2FF55CAF2B684D59004EDB39 /* Login */,
 				AF4403322B63DF09006B68FE /* Home */,
@@ -308,6 +346,7 @@
 		2FC63CD82B5BB3A50050139A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2F548FB92B740EFA002804CE /* Search */,
 				AF44032E2B63DDBE006B68FE /* Home */,
 				2FF55CAE2B684D4A004EDB39 /* Login */,
 				2F69039A2B60427100A7716D /* Utility */,
@@ -459,6 +498,7 @@
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
 				8948F8692B69D99500393D35 /* SCLAlertView */,
 				2FFA04432B7131E3000B5E4C /* KakaoSDK */,
+				2F548FBB2B74929B002804CE /* Tabman */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -537,6 +577,7 @@
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 				2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				2F548FBA2B74929B002804CE /* XCRemoteSwiftPackageReference "Tabman" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -603,13 +644,16 @@
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
 				8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,
+				2F548FB52B740B9E002804CE /* RecentSearchCollectionViewCell.swift in Sources */,
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
 				8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */,
+				2F1D895D2B74EBBA000B2C95 /* SearchCallenge.swift in Sources */,
 				89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */,
 				89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
+				2F548FC42B7494BF002804CE /* SearchFeedViewController.swift in Sources */,
 				AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */,
 				AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
@@ -622,8 +666,10 @@
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */,
 				8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */,
+				2F548FBE2B74939D002804CE /* TabManViewController.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
 				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
+				2F548FB82B740EF0002804CE /* RecentSearchTerms.swift in Sources */,
 				897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */,
@@ -635,7 +681,9 @@
 				AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */,
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,
 				AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */,
+				2F548FC02B74945A002804CE /* SearchResultViewController.swift in Sources */,
 				AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */,
+				2F548FC22B7494B6002804CE /* SearchChallengeViewController.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -975,6 +1023,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2F548FBA2B74929B002804CE /* XCRemoteSwiftPackageReference "Tabman" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uias/Tabman.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.2;
+			};
+		};
 		2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -1010,6 +1066,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2F548FBB2B74929B002804CE /* Tabman */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F548FBA2B74929B002804CE /* XCRemoteSwiftPackageReference "Tabman" */;
+			productName = Tabman;
+		};
 		2FE57C252B5EC56C0022C4F3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */;
