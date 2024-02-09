@@ -16,6 +16,9 @@ class LoginViewController: UIViewController {
     
     //MARK: - Properties
     
+    var accessToken : String? = nil
+    var name : String? = nil
+    
     lazy var logoColorImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "Logo_app_color")
@@ -45,7 +48,7 @@ class LoginViewController: UIViewController {
     
     lazy var appleButton: ASAuthorizationAppleIDButton = {
         let view = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .whiteOutline)
-        view.addTarget(self, action: #selector(appleButtonPress), for: .touchDown)
+        //view.addTarget(self, action: #selector(), for: .touchDown)
         
         return view
     }()
@@ -144,6 +147,7 @@ class LoginViewController: UIViewController {
             loginWithWeb()
         }
     }
+    /*
     
     @objc private func appleButtonPress() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -155,13 +159,14 @@ class LoginViewController: UIViewController {
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
+     */
 }
 
 //MARK: - 카카오 로그인
 
 extension LoginViewController {
     func loginWithApp() {
-        UserApi.shared.loginWithKakaoTalk {(_, error) in
+        UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
             if let error = error {
                 print(error)
             } else {
@@ -171,17 +176,20 @@ extension LoginViewController {
                     if let error = error {
                         print(error)
                     } else {
-                        /*
-                        guard let token = oauthToken?.accessToken, let email = user?.kakaoAccount?.email,
+                        
+                        print("loginWithKakaoApp() success.")
+        
+                        guard let token = oauthToken?.accessToken,
                               let name = user?.kakaoAccount?.profile?.nickname else{
                             print("token/email/name is nil")
                             return
                         }
                         
-                        self.email = email
+                        //self.email = email
                         self.accessToken = token
                         self.name = name
-                         */
+                         
+                        self.loginToServer(with: token)
                         //서버에 보내주기
                         
                         self.presentToMain()
@@ -193,7 +201,7 @@ extension LoginViewController {
     
     // 카카오톡 웹으로 로그인
     func loginWithWeb() {
-        UserApi.shared.loginWithKakaoAccount {(_, error) in
+        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
             if let error = error {
                 print(error)
             } else {
@@ -203,12 +211,50 @@ extension LoginViewController {
                     if let error = error {
                         print(error)
                     } else {
+                        print("loginWithKakaoWeb() success.")
+        
+                        guard let token = oauthToken?.accessToken,
+                              let name = user?.kakaoAccount?.profile?.nickname else{
+                            print("token/email/name is nil")
+                            return
+                        }
+                        
+                        self.accessToken = token
+                        self.name = name
+                        print(token)
+                         
+                        self.loginToServer(with: token)
+                        //서버에 보내주기
+                        
                         self.presentToMain()
                     }
                 }
             }
         }
     }
+    
+    // 서버에 로그인 요청을 보내는 함수
+        private func loginToServer(with accessToken: String) {
+            // LoginService를 사용하여 서버에 Post
+            LoginService.shared.kakaoLogin(accesstoken: accessToken) { result in
+                switch result {
+                case .success(let data):
+                    // 서버에서 받은 데이터 처리
+                    guard let data = data as? LoginKakaoResponse else { return }
+                    
+                    print("Login to server success with data: \(data)")
+                case .networkFail:
+                    // 서버 통신 실패 처리
+                    print("네트워크 페일")
+                case .requestErr(let error):
+                    print("요청 페일 \(error)")
+                case .pathErr:
+                    print("경로 오류")
+                case .serverErr:
+                    print("서버 오류")
+                }
+            }
+        }
     
     // 화면 전환 함수
     func presentToMain() {
@@ -227,38 +273,62 @@ extension LoginViewController {
     }
 }
 
-//MARK: - 애플 로그인
 
-extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    // Apple 로그인 화면 표시
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+
+//MARK: - 애플 로그인
+/*
+extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding{
+  func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
-    
-    // Apple ID 연동 성공 시
+
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    //로그인 성공
         switch authorization.credential {
-            // Apple ID
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            
+            // You can create an account in your system.
             let userIdentifier = appleIDCredential.user
             let fullName = appleIDCredential.fullName
             let email = appleIDCredential.email
             
-            print("User ID : \(userIdentifier)")
-            print("User Email : \(email ?? "")")
-            print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
+            if  let authorizationCode = appleIDCredential.authorizationCode,
+                let identityToken = appleIDCredential.identityToken,
+                let authCodeString = String(data: authorizationCode, encoding: .utf8),
+                let identifyTokenString = String(data: identityToken, encoding: .utf8) {
+                
+                print("authorizationCode: \(authorizationCode)")
+                print("identityToken: \(identityToken)")
+                print("authCodeString: \(authCodeString)")
+                print("identifyTokenString: \(identifyTokenString)")
+            }
             
-            presentToMain()
+            print("useridentifier: \(userIdentifier)")
+            print("fullName: \(fullName)")
+            print("email: \(email)")
+            
+            //Move to MainPage
+            //let validVC = SignValidViewController()
+            //validVC.modalPresentationStyle = .fullScreen
+            //present(validVC, animated: true, completion: nil)
+            
+        case let passwordCredential as ASPasswordCredential:
+            // Sign in using an existing iCloud Keychain credential.
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+            
+            print("username: \(username)")
+            print("password: \(password)")
             
         default:
             break
         }
     }
     
-    // Apple ID 연동 실패 시
+
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("Apple Login Error")
+        // 로그인 실패(유저의 취소도 포함)
+        print("login failed - \(error.localizedDescription)")
     }
-    
 }
+
+*/
