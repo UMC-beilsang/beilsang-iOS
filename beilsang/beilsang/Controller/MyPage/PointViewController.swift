@@ -206,13 +206,14 @@ extension PointViewController{
     }
     // 백버튼 커스텀
     func setBackButton() {
-        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
+        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         leftBarButton.tintColor = .black
         self.navigationItem.leftBarButtonItem = leftBarButton
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
-            print("뒤로 가기")
+        print("뒤로 가기")
+        navigationController?.popViewController(animated: true)
     }
 }
 // MARK: - collectionView setting(카테고리)

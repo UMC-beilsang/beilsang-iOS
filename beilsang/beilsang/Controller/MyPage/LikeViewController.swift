@@ -176,13 +176,14 @@ extension LikeViewController{
     }
     // 백버튼 커스텀
     func setBackButton() {
-        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
+        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         leftBarButton.tintColor = .black
         self.navigationItem.leftBarButtonItem = leftBarButton
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
-            print("뒤로 가기")
+        print("뒤로 가기")
+        navigationController?.popViewController(animated: true)
     }
 }
 // MARK: - collectionView setting(카테고리)
@@ -299,9 +300,13 @@ extension LikeViewController: UICollectionViewDataSource, UICollectionViewDelega
             /// groupSize 설정
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(140))
+                heightDimension: .absolute(148))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
+            group.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 0,
+                bottom: 8,
+                trailing: 0)
             // section
             let section = NSCollectionLayoutSection(group: group)
 //            section.orthogonalScrollingBehavior = .continuous // 섹션 내 가로 스크롤

@@ -124,6 +124,7 @@ extension HomeMainViewController {
     
     func setupAttribute() {
         setFullScrollView()
+        setAddViews()
         setLayout()
         
         setupPageView()
@@ -154,34 +155,32 @@ extension HomeMainViewController {
         fullScrollView.delegate = self
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(topView)
         
         fullScrollView.addSubview(fullContentView)
         
+        [pageViewController.view, pageControl, categoryCollectionView, borderline, mainBeforeVC.view, mainAfterVC.view].forEach { view in
+            fullContentView.addSubview(view)
+        }
+        
+        [logoImage, logoTextImage, alarmButton, searchButton].forEach { view in
+            topView.addSubview(view)
+        }
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(topView.snp.bottom)
             make.bottom.leading.trailing.equalToSuperview()
         }
-        
-        fullContentView.addSubview(pageViewController.view)
-        fullContentView.addSubview(pageControl)
-        fullContentView.addSubview(categoryCollectionView)
-        fullContentView.addSubview(borderline)
-        fullContentView.addSubview(mainBeforeVC.view)
-        fullContentView.addSubview(mainAfterVC.view)
         
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.bottom.equalTo(fullScrollView.snp.bottom)
         }
-        
-        topView.addSubview(logoImage)
-        topView.addSubview(logoTextImage)
-        topView.addSubview(alarmButton)
-        topView.addSubview(searchButton)
         
         topView.snp.makeConstraints{ make in
             make.top.equalToSuperview().offset(46)

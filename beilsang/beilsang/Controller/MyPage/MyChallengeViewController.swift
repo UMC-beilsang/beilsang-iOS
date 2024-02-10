@@ -184,13 +184,14 @@ extension MyChallengeViewController{
     }
     // 백버튼 커스텀
     func setBackButton() {
-        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(tabBarButtonTapped))
+        let leftBarButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon-navigation")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarButtonTapped))
         leftBarButton.tintColor = .black
         self.navigationItem.leftBarButtonItem = leftBarButton
     }
     // 백버튼 액션
     @objc func tabBarButtonTapped() {
-            print("뒤로 가기")
+        print("뒤로 가기")
+        navigationController?.popViewController(animated: true)
     }
 }
 // MARK: - collectionView setting(카테고리)
@@ -283,10 +284,15 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         switch collectionView{
         case menuCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeMenuCollectionViewCell
-            
-            let labelText = cell.menuLabel.text
-            let challengeListVC = ChallengeListViewController()
-            challengeListVC.categoryLabelText = labelText
+            let challengecell = challengeBoxCollectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as! ChallengeCollectionViewCell
+            if cell.menuLabel.text == "참여중"{
+                challengecell.challengeLabel.text = "참여중인 챌린지"
+            } else if cell.menuLabel.text == "등록한"{
+                challengecell.challengeLabel.text = "등록한 챌린지"
+            } else{
+                challengecell.challengeLabel.text = "완료된 챌린지"
+            }
+            self.challengeBoxCollectionView.reloadData()
         case categoryCollectionView:
             let cell = challengeBoxCollectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! MedalCollectionViewCell
             if indexPath.row == 0{

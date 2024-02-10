@@ -117,7 +117,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 만들기 버튼 활성화를 위한 변수
-    var isAgree = [false, false, false, false]
+    var isAgree = [false, false, false, false, false]
     
     // 챌린지 유의사항 체크 버튼
     var agreeButtons = [UIButton]()
@@ -157,6 +157,16 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         
         view.setImage(UIImage(named: "agree-before"), for: .normal)
         view.tag = 3
+        view.addTarget(self, action: #selector(agreeButtonClicked(_:)), for: .touchUpInside)
+        
+        return view
+    }()
+    
+    lazy var agree5Button: UIButton = {
+        let view = UIButton()
+        
+        view.setImage(UIImage(named: "agree-before"), for: .normal)
+        view.tag = 4
         view.addTarget(self, action: #selector(agreeButtonClicked(_:)), for: .touchUpInside)
         
         return view
@@ -229,10 +239,31 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
+    lazy var agree5Label: UILabel = {
+        let view = UILabel()
+        
+        view.text = "챌린지를 등록하면 자동으로 해당 챌린지에 참여\n하게 됩니다."
+        view.textColor = .beTextDef
+        view.textAlignment = .left
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        view.tag = 4
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(agreeButtonClicked))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(tapGesture)
+        
+        return view
+    }()
+    
     // 하단 네비게이션 전체 뷰
     lazy var bottomView: UIView = {
         let view = UIView()
         
+        view.layer.shadowColor = UIColor.beTextDef.cgColor
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         
         return view
@@ -417,6 +448,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
 extension RegisterThirdViewController {
     func setupAttribute() {
         setFullScrollView()
+        setAddViews()
         setLayout()
         setNavigationBar()
         setUI()
@@ -435,43 +467,38 @@ extension RegisterThirdViewController {
     }
     
     func setUI() {
-        agreeButtons.append(agree1Button)
-        agreeButtons.append(agree2Button)
-        agreeButtons.append(agree3Button)
-        agreeButtons.append(agree4Button)
+        [agree1Button, agree2Button, agree3Button, agree4Button, agree5Button].forEach { button in
+            agreeButtons.append(button)
+        }
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(bottomView)
         
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, noticeTitle, agree1Button, agree1Label, agree2Button, agree2Label, agree3Button, agree3Label, agree4Button, agree4Label, agree5Button, agree5Label].forEach { view in
+            fullContentView.addSubview(view)
+        }
+
+        [beforeButton, makeButton].forEach { view in
+            bottomView.addSubview(view)
+        }
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.width.equalToSuperview()
             make.bottom.equalTo(bottomView.snp.top)
         }
         
-        fullScrollView.addSubview(fullContentView)
-        
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(670)
         }
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(noticeTitle)
-        fullContentView.addSubview(agree1Button)
-        fullContentView.addSubview(agree1Label)
-        fullContentView.addSubview(agree2Button)
-        fullContentView.addSubview(agree2Label)
-        fullContentView.addSubview(agree3Button)
-        fullContentView.addSubview(agree3Label)
-        fullContentView.addSubview(agree4Button)
-        fullContentView.addSubview(agree4Label)
-        
-        bottomView.addSubview(beforeButton)
-        bottomView.addSubview(makeButton)
         
         topViewBorder.snp.makeConstraints { make in
             make.top.equalTo(fullScrollView.snp.top)
@@ -526,6 +553,17 @@ extension RegisterThirdViewController {
         agree4Label.snp.makeConstraints { make in
             make.top.equalTo(agree4Button.snp.top)
             make.leading.equalTo(agree3Button.snp.trailing).offset(12)
+        }
+        
+        agree5Button.snp.makeConstraints { make in
+            make.top.equalTo(agree4Button.snp.bottom).offset(24)
+            make.leading.equalTo(fullScrollView.snp.leading).offset(24)
+            make.width.height.equalTo(28)
+        }
+        
+        agree5Label.snp.makeConstraints { make in
+            make.top.equalTo(agree5Button.snp.top)
+            make.leading.equalTo(agree4Button.snp.trailing).offset(12)
         }
         
         bottomView.snp.makeConstraints { make in

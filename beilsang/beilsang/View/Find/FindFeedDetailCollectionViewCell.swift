@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import SCLAlertView
+import SafariServices
 
 class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     
     static let identifier = "findFeedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
-    
     // 달성 메달 셀 전체 뷰
     let fullScrollView = UIScrollView()
     
@@ -51,7 +52,7 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         let label = UILabel()
         label.font =  UIFont(name: "NotoSansKR-Medium", size: 12)
         label.text = "1일 전"
-        label.textColor = .black
+        label.textColor = .beTextSub
         return label
     }()
     
@@ -64,14 +65,14 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
     lazy var categoryTag: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
-        label.textColor = .black
+        label.textColor = .beTextSub
         label.text = "#플로깅"
         return label
     }()
     lazy var titleTag: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "NotoSansKR-Medium", size: 12)
-        label.textColor = .black
+        label.textColor = .beTextSub
         label.text = "#우리가치플로깅하자"
         return label
     }()
@@ -80,7 +81,7 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         let label = UILabel()
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.text = "챌린지 후기"
-        label.textColor = .black
+        label.textColor = .beTextSub
         return label
     }()
     lazy var reviewBox: UIView = {
@@ -91,7 +92,7 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
     }()
     lazy var reviewContent: UILabel = {
         let view = UILabel()
-        view.textColor = .black
+        view.textColor = .beTextDef
         view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         view.numberOfLines = 5
         view.text = "플로깅을 하면서 즐거운 경험을 할 수 있었습니다! 친환경을 위해 앞장설 수 있어서 좋았어요!"
@@ -101,14 +102,6 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         let view = UIButton()
         view.setImage(UIImage(named: "icon-close-circle"), for: .normal)
         view.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
-        return view
-    }()
-    lazy var reportButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("신고하기", for: .normal)
-        view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 11)
-        view.setTitleColor(.beTextEx, for: .normal)
-        view.addTarget(self, action: #selector(tapReportButton), for: .touchUpInside)
         return view
     }()
     
@@ -166,6 +159,14 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         return view
     }()
     
+    lazy var reportButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("신고하기", for: .normal)
+        view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 11)
+        view.setTitleColor(.beTextEx, for: .normal)
+        view.addTarget(self, action: #selector(tapReportButton), for: .touchUpInside)
+        return view
+    }()
     
     //사용자가 선택한 셀에 따라 POST
     override init(frame: CGRect) {
@@ -230,7 +231,7 @@ extension FindFeedDetailCollectionViewCell {
         }
         categoryTag.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(16)
-            make.leading.equalTo(nicknameLabel)
+            make.leading.equalTo(profileImage)
         }
         titleTag.snp.makeConstraints { make in
             make.top.equalTo(categoryTag)
@@ -298,5 +299,6 @@ extension FindFeedDetailCollectionViewCell {
     }
     @objc func tapReportButton(_ sender: UIButton) {
         print("신고하기")
+        delegate?.didTapReportButton()
     }
 }

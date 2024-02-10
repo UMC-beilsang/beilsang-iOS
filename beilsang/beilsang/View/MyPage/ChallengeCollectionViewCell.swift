@@ -21,7 +21,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     lazy var challengeLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        view.text = "참여 챌린지"
+        view.text = "참여중인 챌린지"
         view.numberOfLines = 0
         view.textColor = .black
         view.textAlignment = .center

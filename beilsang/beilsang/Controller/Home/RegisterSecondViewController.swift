@@ -110,8 +110,53 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     // 세부 설명 레이블
     lazy var detailLabel = customLabelView(labelText: "세부 설명")
     
-    // 세부 설명 텍스트 필드
-    lazy var detailField = customTextField(textFieldText: "챌린지에 대한 설명을 20~80자 이내로 입력해 주세요")
+    let textViewPlaceHolder = "챌린지에 대한 설명을 20~80자 이내로 입력해 주세요"
+    // 세부 설명 텍스트뷰
+    lazy var detailTextView: UITextView = {
+        let view = UITextView()
+        
+        view.layer.cornerRadius = 8
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.beBorderDis.cgColor
+        view.backgroundColor = .beBgCard
+        
+        view.isEditable = true // 편집 가능하게 설정
+        view.isScrollEnabled = true // 스크롤 가능하게 설정
+        view.autocorrectionType = .no // 자동 수정 활성화 여부
+        view.spellCheckingType = .no // 맞춤법 검사 활성화 여부
+        view.autocapitalizationType = .none // 대문자부터 시작 활성화 여부
+        
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
+        view.textColor = .beTextEx
+        view.text = textViewPlaceHolder
+        
+        view.textContainerInset = UIEdgeInsets(top: 14, left: 19, bottom: 14, right: 19)
+        
+        return view
+    }()
+    
+    // 후기 텍스트필드 안내 레이블 이미지
+    lazy var detailFieldAlertImage: UIImageView = {
+        let view = UIImageView()
+        
+        view.image = UIImage(named: "icon_information-circle")
+        view.contentMode = .center
+        
+        return view
+    }()
+    
+    // 후기 텍스트필드 안내 레이블 이미지
+    lazy var detailFieldAlertLabel: UILabel = {
+        let view = UILabel()
+        
+        view.text = "글자수 안내 레이블입니다"
+        view.textColor = .beWnRed500
+        view.textAlignment = .left
+        view.numberOfLines = 1
+        view.font = UIFont(name: "NotoSansKR-Light", size: 11)
+        
+        return view
+    }()
     
     // 챌린지 유의사항 레이블
     lazy var noticeTitleLabel = customLabelView(labelText: "챌린지 인증 유의사항")
@@ -163,7 +208,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     lazy var noticeButtonLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "챌린지 유의사항 등록하기"
+        view.text = "챌린지 인증 유의사항 등록하기"
         view.textColor = .beTextSub
         view.textAlignment = .center
         view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
@@ -310,6 +355,11 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     lazy var bottomView: UIView = {
         let view = UIView()
         
+        view.layer.shadowColor = UIColor.beTextDef.cgColor
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         
         return view
@@ -350,7 +400,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         
         setupAttribute()
         setImagePicker()
-        setTextField()
+        setTextView()
         setupToolBar()
         setCollectionView()
     }
@@ -380,7 +430,6 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     }
     
     @objc func noticeRegisterButtonClicked() {
-        
         if noticeLabels.count >= 5 {
             noticeButton.isEnabled = false
         } else {
@@ -411,8 +460,11 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
             self.fullContentView.snp.updateConstraints { make in
                 make.height.equalTo(contentViewHeight)
             }
-            self.isNext[1] = true
-            self.updateNextButtonState()
+            
+            if self.noticeLabels.count > 0 {
+                self.isNext[1] = true
+                self.updateNextButtonState()
+            }
         }
         
         // 모달창 스타일 설정
@@ -507,6 +559,7 @@ extension RegisterSecondViewController {
         setFullScrollView()
         setNavigationBar()
         setUI()
+        setAddViews()
         setLayout()
         setCancleAlert()
     }
@@ -523,7 +576,8 @@ extension RegisterSecondViewController {
     
     func setUI() {
         toolTipLabel.isHidden = true
-        
+        detailFieldAlertImage.isHidden = true
+        detailFieldAlertLabel.isHidden = true
         nextButton.isEnabled = false
     }
     
@@ -537,52 +591,43 @@ extension RegisterSecondViewController {
         }
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(bottomView)
         
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, detailLabel, detailTextView, detailFieldAlertImage, detailFieldAlertLabel, noticeTitleLabel, noticeButton, toolTipButton, toolTipLabel, noticeCollectionView, examplePhotoLabel, examplePhotoImage, examplePhotoButton, pointLabel, pointUnitLabel, pointMinusButton, pointIntLabel, pointPlusButton].forEach { view in
+            fullContentView.addSubview(view)
+        }
+        
+        [noticeButtonImage, noticeButtonLabel, noticeButtonCountLabel].forEach { view in
+            noticeButton.addSubview(view)
+        }
+        
+        [examplePhotoButtonImage, examplePhotoButtonLabel].forEach { view in
+            examplePhotoButton.addSubview(view)
+        }
+        
+        examplePhotoImage.addSubview(photoCloseButton)
+        
+        [beforeButton, nextButton].forEach { view in
+            bottomView.addSubview(view)
+        }
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.width.equalToSuperview()
             make.bottom.equalTo(bottomView.snp.top)
         }
         
-        fullScrollView.addSubview(fullContentView)
-        
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(666)
         }
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(detailLabel)
-        fullContentView.addSubview(detailField)
-        fullContentView.addSubview(noticeTitleLabel)
-        fullContentView.addSubview(noticeButton)
-        fullContentView.addSubview(toolTipButton)
-        fullContentView.addSubview(toolTipLabel)
-        fullContentView.addSubview(noticeCollectionView)
-        fullContentView.addSubview(examplePhotoLabel)
-        fullContentView.addSubview(examplePhotoImage)
-        fullContentView.addSubview(examplePhotoButton)
-        fullContentView.addSubview(pointLabel)
-        fullContentView.addSubview(pointUnitLabel)
-        fullContentView.addSubview(pointMinusButton)
-        fullContentView.addSubview(pointIntLabel)
-        fullContentView.addSubview(pointPlusButton)
-        
-        noticeButton.addSubview(noticeButtonImage)
-        noticeButton.addSubview(noticeButtonLabel)
-        noticeButton.addSubview(noticeButtonCountLabel)
-        
-        examplePhotoButton.addSubview(examplePhotoButtonImage)
-        examplePhotoButton.addSubview(examplePhotoButtonLabel)
-        
-        examplePhotoImage.addSubview(photoCloseButton)
-        
-        bottomView.addSubview(beforeButton)
-        bottomView.addSubview(nextButton)
         
         topViewBorder.snp.makeConstraints { make in
             make.top.equalTo(fullScrollView.snp.top)
@@ -596,15 +641,27 @@ extension RegisterSecondViewController {
             make.height.equalTo(23)
         }
         
-        detailField.snp.makeConstraints { make in
+        detailTextView.snp.makeConstraints { make in
             make.top.equalTo(detailLabel.snp.bottom).offset(12)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
             make.trailing.equalTo(fullScrollView.snp.trailing).offset(-16)
             make.height.equalTo(112)
         }
         
+        detailFieldAlertImage.snp.makeConstraints { make in
+            make.top.equalTo(detailTextView.snp.bottom).offset(4)
+            make.leading.equalTo(detailLabel.snp.leading)
+            make.width.height.equalTo(14)
+        }
+        
+        detailFieldAlertLabel.snp.makeConstraints { make in
+            make.top.equalTo(detailFieldAlertImage.snp.top)
+            make.leading.equalTo(detailFieldAlertImage.snp.trailing).offset(4)
+            make.centerY.equalTo(detailFieldAlertImage.snp.centerY)
+        }
+        
         noticeTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(detailField.snp.bottom).offset(24)
+            make.top.equalTo(detailTextView.snp.bottom).offset(24)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
             make.height.equalTo(23)
         }
@@ -773,7 +830,7 @@ extension RegisterSecondViewController {
 }
     
 // MARK: - 이미지 피커, 텍스트 필드, 피커, 툴바 설정
-extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     // MARK: - 이미지 피커 설정
     func setImagePicker() {
         exampleImagePicker.delegate = self
@@ -816,27 +873,80 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
     }
     
     // MARK: - 텍스트 필드 설정
-    func setTextField() {
-        detailField.delegate = self
+    func setTextView() {
+        detailTextView.delegate = self
         
         // 화면 터치시 키보드 내려감
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    // 텍스트뷰 입력 관련
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+                
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
         
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField == detailField {
-            detailField.textColor = UIColor.beTextDef
+        // 텍스트뷰 글자 개수에 따른 동작
+        if updatedText.count < 20 {
+            detailTextView.textColor = UIColor.beRed500
+            detailTextView.layer.borderColor = UIColor.beRed500.cgColor
+            detailTextView.backgroundColor = .beRed100
+            
+            detailFieldAlertImage.isHidden = false
+            detailFieldAlertLabel.isHidden = false
+            detailFieldAlertLabel.text = "후기는 20자 이상이어야 합니다."
+            
+            isNext[0] = false
+        } else if updatedText.count > 80 {
+            detailTextView.textColor = UIColor.beRed500
+            detailTextView.layer.borderColor = UIColor.beRed500.cgColor
+            detailTextView.backgroundColor = .beRed100
+            
+            detailFieldAlertImage.isHidden = false
+            detailFieldAlertLabel.isHidden = false
+            detailFieldAlertLabel.text = "후기는 80자를 넘을 수 없습니다."
+            
+            isNext[0] = false
+            
+            return false
+        } else {
+            detailTextView.textColor = UIColor.bePsBlue500
+            detailTextView.layer.borderColor = UIColor.bePsBlue500.cgColor
+            detailTextView.backgroundColor = .bePsBlue100
+            
+            detailFieldAlertImage.isHidden = true
+            detailFieldAlertLabel.isHidden = true
+            
             isNext[0] = true
         }
         
         updateNextButtonState()
         
         return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        // 입력 전 텍스트뷰 지우기
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+        }
+        
+        textView.textColor = UIColor.beRed500
+        textView.layer.borderColor = UIColor.beRed500.cgColor
+        textView.backgroundColor = .beRed100
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .beTextEx
+        }
+        
+        textView.textColor = UIColor.beTextDef
+        textView.layer.borderColor = UIColor.beBorderDis.cgColor
+        textView.backgroundColor = .beBgCard
     }
     
     // MARK: - 툴바 설정
@@ -850,7 +960,7 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
         // 적절한 사이즈로 toolBar의 크기를 만들어 줍니다.
         toolBar.sizeToFit()
         
-        detailField.inputAccessoryView = toolBar
+        detailTextView.inputAccessoryView = toolBar
     }
     
     // MARK: - actions
@@ -860,7 +970,7 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
     
     // 키보드 내리기
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
-        detailField.resignFirstResponder()
+        detailTextView.resignFirstResponder()
     }
 }
 
@@ -1013,8 +1123,8 @@ extension RegisterSecondViewController {
     func noticeToolTipView() -> UIView {
         lazy var toolTipView: UIView = {
             let view = UIView()
-            
-            view.backgroundColor = .beBgPopUp.withAlphaComponent(0.8)
+
+            view.backgroundColor = UIColor.beBgPopUp.withAlphaComponent(0.8)
             view.layer.cornerRadius = 4
             
             return view
@@ -1081,11 +1191,9 @@ extension RegisterSecondViewController {
             return view
         }()
         
-        toolTipView.addSubview(title)
-        toolTipView.addSubview(tumblur)
-        toolTipView.addSubview(tumblurEx)
-        toolTipView.addSubview(flogging)
-        toolTipView.addSubview(floggingEx)
+        [title, tumblur, tumblurEx, flogging, floggingEx].forEach { view in
+            toolTipView.addSubview(view)
+        }
         
         title.snp.makeConstraints { make in
             make.top.equalTo(toolTipView.snp.top).offset(12)
@@ -1139,6 +1247,7 @@ extension RegisterSecondViewController: UICollectionViewDataSource, UICollection
         }
         
         cell.noticeLabel.text = noticeLabels[indexPath.item]
+        cell.deleteButton.addTarget(self, action: #selector(deleteButtonClicked(sender:)), for: .touchUpInside)
         
         return cell
     }
@@ -1152,5 +1261,37 @@ extension RegisterSecondViewController: UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8 // 행 혹은 열 사이의 최소 간격
+    }
+    
+    // MARK: - actions
+    @objc func deleteButtonClicked(sender: UIButton) {
+        if let cell = sender.superview?.superview as? NoticeCollectionViewCell {
+            if let labelText = cell.noticeLabel.text,
+               let index = noticeLabels.firstIndex(of: labelText) {
+                noticeLabels.remove(at: index)
+                // UICollectionView 다시 로드
+                noticeCollectionView.reloadData()
+                // 등록하기 숫자 업데이트
+                noticeButtonCountLabel.text = "(\(noticeLabels.count)/5)"
+                // 컬렉션뷰 높이 업데이트
+                let collectionViewHeight = (noticeLabels.count * 48) + ((noticeLabels.count) * 8)
+                noticeCollectionView.snp.updateConstraints { make in
+                    make.height.equalTo(collectionViewHeight)
+                }
+                // 스크롤뷰 높이 업데이트
+                let contentViewHeight = collectionViewHeight + 618
+                fullContentView.snp.updateConstraints { make in
+                    make.height.equalTo(contentViewHeight)
+                }
+            }
+            
+            if noticeLabels.count > 0 {
+                isNext[1] = true
+                updateNextButtonState()
+            } else {
+                isNext[1] = false
+                updateNextButtonState()
+            }
+        }
     }
 }

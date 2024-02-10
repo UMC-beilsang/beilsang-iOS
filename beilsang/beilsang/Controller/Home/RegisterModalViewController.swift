@@ -50,7 +50,7 @@ class RegisterModalViewController: UIViewController {
         
         view.backgroundColor = .beScPurple400
         view.layer.cornerRadius = 10
-        view.setTitle("챌린지 인증 유의사항 등록하기", for: .normal)
+        view.setTitle("등록하기", for: .normal)
         view.setTitleColor(.beTextWhite, for: .normal)
         view.titleLabel?.font = UIFont(name: "NotoSansKR-Regular", size: 16)
         view.addTarget(self, action: #selector(noticeRegisterButtonClicked), for: .touchUpInside)
@@ -106,6 +106,7 @@ extension RegisterModalViewController {
     func setAttribute() {
         setModalKeyboard()
         setUI()
+        setAddViews()
         setLayout()
     }
     
@@ -123,10 +124,16 @@ extension RegisterModalViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(notModalView)
         view.addSubview(modalView)
         
+        [noticeRegisterLabel, noticeRegisterField, noticeRegisterButton].forEach { view in
+            modalView.addSubview(view)
+        }
+    }
+    
+    func setLayout() {
         notModalView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
@@ -136,10 +143,6 @@ extension RegisterModalViewController {
             make.left.right.equalTo(self.view)
             make.height.equalTo(250)
         }
-        
-        modalView.addSubview(noticeRegisterLabel)
-        modalView.addSubview(noticeRegisterField)
-        modalView.addSubview(noticeRegisterButton)
         
         noticeRegisterLabel.snp.makeConstraints { make in
             make.top.equalTo(modalView.snp.top).offset(24)
@@ -173,18 +176,32 @@ extension RegisterModalViewController: UITextFieldDelegate {
         view.addGestureRecognizer(tapGesture)
     }
     
+    // 텍스트필드 입력 관련
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        // 텍스트필드의 텍스트 개수에 따른 동작
+        if updatedText.count < 1 || updatedText.count > 30 {
+            noticeRegisterButton.backgroundColor = .beScPurple400
+            noticeRegisterButton.isEnabled = false
+            return updatedText.count <= 30
+        } else {
+            noticeRegisterButton.backgroundColor = .beScPurple600
+            noticeRegisterButton.isEnabled = true
+            return true
+        }
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         noticeRegisterField.textColor = UIColor.bePsBlue500
         noticeRegisterField.layer.borderColor = UIColor.bePsBlue500.cgColor
         noticeRegisterField.backgroundColor = .bePsBlue100
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-            noticeRegisterField.textColor = UIColor.bePsBlue500
-            noticeRegisterButton.backgroundColor = .beScPurple600
-            noticeRegisterButton.isEnabled = true
-        
-        return true
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        noticeRegisterField.textColor = UIColor.bePsBlue500
     }
     
     // MARK: - 툴바 설정

@@ -106,7 +106,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     var isNext = [false, false, false, false, false, false]
     
     // 대표 사진 등록 레이블
-    lazy var representativePhotoLabel = customLabelView(labelText: "대표 사진 등록")
+    lazy var representativePhotoLabel = customLabelView(labelText: "대표 사진")
     
     // 대표 사진 등록하기 이미지 피커
     let representativeImagePicker = UIImagePickerController()
@@ -183,12 +183,18 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeTitleCheckImage: UIImageView = {
         let view = UIImageView()
         
+        view.image = UIImage(named: "icon_information-circle")
+        
         return view
     }()
     
     // 챌린지 제목 검사 레이블
     lazy var challengeTitleCheckLabel: UILabel = {
         let view = UILabel()
+        
+        view.text = "챌린지 제목을 입력해주세요"
+        view.textColor = .beWnRed500
+        view.font = UIFont(name: "NotoSansKR-Regular", size: 11)
         
         return view
     }()
@@ -289,6 +295,11 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     lazy var bottomView: UIView = {
         let view = UIView()
         
+        view.layer.shadowColor = UIColor.beTextDef.cgColor
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 1
         view.backgroundColor = .beBgSub
         
         return view
@@ -436,6 +447,7 @@ extension RegisterFirstViewController {
     
     func setupAttribute() {
         setFullScrollView()
+        setAddViews()
         setLayout()
         setNavigationBar()
         setUI()
@@ -474,52 +486,37 @@ extension RegisterFirstViewController {
         }
     }
     
-    func setLayout() {
+    func setAddViews() {
         view.addSubview(fullScrollView)
         view.addSubview(bottomView)
         
+        fullScrollView.addSubview(fullContentView)
+        
+        [topViewBorder, representativePhotoLabel, representativePhotoImage, representativePhotoButton, challengeTitleLabel, challengeTitleField, challengeTitleCheckImage, challengeTitleCheckLabel, categoryLabel, categoryField, startLabel, startField, dayLabel, dayField, countLabel, countUnitLabel, countMinusButton, countIntLabel, countPlusButton, countNoticeLabel].forEach { view in
+            fullContentView.addSubview(view)
+        }
+        
+        [representativePhotoButtonImage, representativePhotoButtonLabel].forEach { view in
+            representativePhotoButton.addSubview(view)
+        }
+        
+        representativePhotoImage.addSubview(photoCloseButton)
+        
+        bottomView.addSubview(nextButton)
+    }
+    
+    func setLayout() {
         fullScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.leading.trailing.equalToSuperview()
             make.bottom.equalTo(bottomView.snp.top)
         }
         
-        fullScrollView.addSubview(fullContentView)
-        // fullScrollView.contentInsetAdjustmentBehavior = .never
-        
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
             make.height.equalTo(770)
         }
-        
-        fullContentView.addSubview(topViewBorder)
-        fullContentView.addSubview(representativePhotoLabel)
-        fullContentView.addSubview(representativePhotoImage)
-        fullContentView.addSubview(representativePhotoButton)
-        fullContentView.addSubview(challengeTitleLabel)
-        fullContentView.addSubview(challengeTitleField)
-        fullContentView.addSubview(challengeTitleCheckImage)
-        fullContentView.addSubview(challengeTitleCheckLabel)
-        fullContentView.addSubview(categoryLabel)
-        fullContentView.addSubview(categoryField)
-        fullContentView.addSubview(startLabel)
-        fullContentView.addSubview(startField)
-        fullContentView.addSubview(dayLabel)
-        fullContentView.addSubview(dayField)
-        fullContentView.addSubview(countLabel)
-        fullContentView.addSubview(countUnitLabel)
-        fullContentView.addSubview(countMinusButton)
-        fullContentView.addSubview(countIntLabel)
-        fullContentView.addSubview(countPlusButton)
-        fullContentView.addSubview(countNoticeLabel)
-        
-        representativePhotoButton.addSubview(representativePhotoButtonImage)
-        representativePhotoButton.addSubview(representativePhotoButtonLabel)
-        
-        representativePhotoImage.addSubview(photoCloseButton)
-        
-        bottomView.addSubview(nextButton)
         
         topViewBorder.snp.makeConstraints { make in
             make.top.equalTo(fullScrollView.snp.top)
@@ -763,58 +760,101 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
         view.addGestureRecognizer(tapGesture)
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    // 텍스트필드 입력 관련
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
         if textField == challengeTitleField {
-            textField.backgroundColor = .bePsBlue100
-            textField.textColor = .bePsBlue500
-            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            
-            challengeTitleCheckImage.isHidden = false
-            challengeTitleCheckLabel.isHidden = false
-            categoryLabel.snp.makeConstraints { make in
-                make.top.equalTo(challengeTitleField.snp.bottom).offset(44)
+            // 텍스트필드의 텍스트 개수에 따른 동작
+            if updatedText.count < 4 {
+                textField.textColor = UIColor.beRed500
+                textField.layer.borderColor = UIColor.beRed500.cgColor
+                textField.backgroundColor = .beRed100
+                
+                challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckLabel.isHidden = false
+                challengeTitleCheckLabel.text = "제목은 4자 이상이어야 합니다."
+                
+                isNext[1] = false
+            } else if updatedText.count > 15 {
+                textField.textColor = UIColor.beRed500
+                textField.layer.borderColor = UIColor.beRed500.cgColor
+                textField.backgroundColor = .beRed100
+                
+                challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckImage.image = UIImage(named: "icon_information-circle")
+                challengeTitleCheckLabel.isHidden = false
+                challengeTitleCheckLabel.text = "제목은 15자를 넘을 수 없습니다."
+                challengeTitleCheckLabel.textColor = .beRed500
+                
+                isNext[1] = false
+                
+                return false
+            } else {
+                textField.textColor = UIColor.bePsBlue500
+                textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+                textField.backgroundColor = .bePsBlue100
+                
+                challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckImage.image = UIImage(named: "icon-allow")
+                challengeTitleCheckLabel.isHidden = false
+                challengeTitleCheckLabel.text = "사용 가능한 챌린지 제목입니다"
+                challengeTitleCheckLabel.textColor = .bePsBlue500
+                
+                isNext[1] = true
             }
+            updateNextButtonState()
+            
+            return true
+        } else {
+            return true
         }
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == challengeTitleField {
-            isNext[1] = true
+            textField.textColor = UIColor.beRed500
+            textField.layer.borderColor = UIColor.beRed500.cgColor
+            textField.backgroundColor = .beRed100
+            
+            challengeTitleCheckImage.isHidden = false
+            challengeTitleCheckLabel.isHidden = false
+        } else {
+            textField.textColor = UIColor.bePsBlue500
+            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+            textField.backgroundColor = .bePsBlue100
         }
-        else if textField == categoryField {
-            categoryField.textColor = UIColor.beTextDef
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+       if textField == categoryField {
             isNext[2] = true
         }
         else if textField == startField {
-            startField.textColor = UIColor.beTextDef
             isNext[3] = true
         }
         else if textField == dayField {
-            dayField.textColor = UIColor.beTextDef
             isNext[4] = true
         }
         
+        textField.textColor = UIColor.beTextDef
+        textField.layer.borderColor = UIColor.beBorderDis.cgColor
+        textField.backgroundColor = .beBgCard
         updateNextButtonState()
         
-        return true
     }
     
     // MARK: - Date 설정
     func setupDatePicker() {
-        // UIDatePicker 객체 생성을 해줍니다.
         let datePicker = UIDatePicker()
-        // datePickerModed에는 time, date, dateAndTime, countDownTimer가 존재합니다.
         datePicker.datePickerMode = .date
-        // datePicker 스타일을 설정합니다. wheels, inline, compact, automatic이 존재합니다.
         datePicker.preferredDatePickerStyle = .wheels
-        // 원하는 언어로 지역 설정도 가능합니다.
         datePicker.locale = Locale(identifier: "ko-KR")
-        // 값이 변할 때마다 동작을 설정해 줌
         datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
-        // textField의 inputView가 nil이라면 기본 할당은 키보드입니다.
+        datePicker.minimumDate = Date()
         startField.inputView = datePicker
-        // textField에 오늘 날짜로 표시되게 설정
-        // startField.text = dateFormat(date: Date())
     }
     
     func dateFormat(date: Date) -> String {
@@ -937,7 +977,6 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
     }
     
     @objc func doneButtonHandeler(_ sender: UIBarButtonItem) {
-        // startField.text = dateFormat(date: datePicker.date)
         // 키보드 내리기
         startField.resignFirstResponder()
         dayField.resignFirstResponder()

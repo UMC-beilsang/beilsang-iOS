@@ -34,6 +34,15 @@ class NoticeCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    lazy var deleteButton: UIButton = {
+        let view = UIButton()
+        
+        view.setImage(UIImage(named: "icon-close-circle"), for: .normal)
+        view.imageView?.contentMode = .scaleAspectFill
+        
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
@@ -53,10 +62,17 @@ extension NoticeCollectionViewCell {
         }
         
         noticeView.addSubview(noticeLabel)
+        noticeView.addSubview(deleteButton)
         
         noticeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(noticeView.snp.centerY)
             make.leading.equalTo(noticeView.snp.leading).offset(19)
+        }
+        
+        deleteButton.snp.makeConstraints { make in
+            make.centerY.equalTo(noticeView.snp.centerY)
+            make.trailing.equalTo(noticeView.snp.trailing).offset(-12)
+            make.width.height.equalTo(24)
         }
     }
 }
