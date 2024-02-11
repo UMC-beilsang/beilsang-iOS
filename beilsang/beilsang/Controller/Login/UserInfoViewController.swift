@@ -24,6 +24,7 @@ class UserInfoViewController: UIViewController {
     var textFieldValid = true
     var nameDuplicate = true
     var isNext = [false, false, false, false]
+    var birthFieldTextServer : String?
     
     let agreeImage = UIImage(named: "agree")
     let disagreeImage = UIImage(named: "disagree")
@@ -931,6 +932,13 @@ class UserInfoViewController: UIViewController {
         return formatter.string(from: date)
     }
     
+    private func dateFormatServer(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter.string(from: date)
+    }
+    
     //MARK: - Tool Bar
     
     private func setupToolBar() {
@@ -1108,13 +1116,32 @@ class UserInfoViewController: UIViewController {
     
     func nameInfoViewNoHidden() {
         nameInfoView.snp.updateConstraints { make in
-                        make.height.equalTo(16) // 높이를 0으로 설정하여 숨김
-                    }
+            make.height.equalTo(16) // 높이를 0으로 설정하여 숨김
+        }
     }
     
     // MARK: - Actions
     
     @objc private func nextAction() {
+        
+        if selectedGender == "남자" {
+            SignUpData.shared.gender = "M"
+        }
+        else if selectedGender == "여자" {
+            SignUpData.shared.gender = "F"
+        }
+        else{
+            print("기타 아직 구현 안됨")
+        }
+    
+        SignUpData.shared.nickName = nameField.text ?? ""
+        SignUpData.shared.birth = birthFieldTextServer ?? ""
+        
+        if let address = addressField.text, let detailAddress = addressDetailField.text {
+            let fullAddress = address + " " + detailAddress
+            SignUpData.shared.address = fullAddress
+        }
+        
         let routeViewController = RouteViewController()
         self.navigationController?.pushViewController(routeViewController, animated: true)
     }
@@ -1140,6 +1167,8 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc func dateChange(_ sender: UIDatePicker) {
+        let birthFieldTextServer = dateFormatServer(date: sender.date)
+        
         birthField.text = dateFormat(date: sender.date)
         birthField.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         birthField.textColor = .bePsBlue500
@@ -1260,10 +1289,6 @@ extension UserInfoViewController: UITextFieldDelegate {
                     
                 }
             }
-            //이런식으로 하면 안될듯, 그냥 첫 시작부터 다시 생각해보면,
-            //처음에 입력 -> 2-8자 이내 인지 검사
-            //재입력인 경우를 구분해서 거기서 나눠야할듯 ?
-        
         }
         else if textField == birthField {
             textFieldChanged(textField: birthField, state: "avaliable")

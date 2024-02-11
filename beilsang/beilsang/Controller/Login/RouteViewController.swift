@@ -316,6 +316,10 @@ class RouteViewController: UIViewController {
     
     @objc private func nextAction() {
         print("Next button tapped")
+        
+        SignUpData.shared.discoveredPath = routeField.text ?? ""
+        SignUpData.shared.recommendNickname = recommendField.text ?? ""
+        
         let startViewController = StartViewController()
         
         if let navigationController = self.navigationController {

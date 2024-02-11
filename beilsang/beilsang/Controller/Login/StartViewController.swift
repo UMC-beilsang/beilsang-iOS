@@ -150,10 +150,40 @@ class StartViewController: UIViewController {
     
     @objc func nextAction
     (_ sender: UIButton) {
-        let homeVC = HomeMainViewController()
         
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.changeRootViewController(homeVC)
+        SendToServer()
+        
+        //let homeVC = HomeMainViewController()
+        
+        //if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            //sceneDelegate.changeRootViewController(homeVC)
+       // }
+    }
+}
+
+extension StartViewController {
+    func SendToServer() {
+        // LoginService를 사용하여 서버에 Post
+        SignUpService.shared.signUp(gender: SignUpData.shared.gender, nickName: SignUpData.shared.nickName, birth: SignUpData.shared.birth, address: SignUpData.shared.address, keyword: SignUpData.shared.keyword, discoveredPath: SignUpData.shared.discoveredPath, resolution: SignUpData.shared.resolution ?? "", recommendNickname: SignUpData.shared.recommendNickname){ result in
+            switch result {
+            case .success(let data):
+                // 서버에서 받은 데이터 처리
+                guard let data = data as? SignUpResponse else { return }
+                
+                print("Login to server success with data: \(data)")
+                
+                
+            case .networkFail:
+                // 서버 통신 실패 처리
+                print("네트워크 페일")
+            case .requestErr(let error):
+                print("요청 페일 \(error)")
+            case .pathErr:
+                print("경로 오류 여기다요")
+        
+            case .serverErr:
+                print("서버 오류")
+            }
         }
     }
 }
