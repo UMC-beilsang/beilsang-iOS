@@ -7,16 +7,15 @@
 
 import Foundation
 
-struct LoginKakaoResponse: Codable {
+struct LoginResponse: Codable {
     let isSuccess : Bool?
     let status : String
     let message : String
-    let data : LoginKakaoData?
+    let data : LoginData?
 }
 
-struct LoginKakaoData : Codable {
-    let accessToken : String
+struct LoginData : Codable {
+    let accessToken : String?
     let existMember : Bool?
 }
-    
 

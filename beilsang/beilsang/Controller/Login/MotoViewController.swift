@@ -141,7 +141,6 @@ extension MotoViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.backgroundColor = .beBgDef
         
-        
         return cell
     }
     
@@ -155,5 +154,25 @@ extension MotoViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         selectedMoto(for: cell)
+        
+        var moto: String
+            switch indexPath.row {
+            case 0:
+                moto = "환경보호에 앞장서는"
+            case 1:
+                moto = "일상생활 속 꾸준하게 실천하는"
+            case 2:
+                moto = "건강한 지구를 위해 노력하는"
+            case 3:
+                moto = "다양한 친환경 활동을 배워가는"
+            case 4:
+                moto = "자연과의 조화를 이루는"
+            default:
+                moto = ""
+            }
+        
+        SignUpData.shared.resolution = moto
+        print(moto)
+    
     }
 }

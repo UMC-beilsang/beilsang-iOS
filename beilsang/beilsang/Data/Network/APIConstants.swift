@@ -26,6 +26,6 @@ struct APIConstants {
     static let refreshTokenURL = baseURL + "/auth/token/refresh"
     
     //자체 회원가입
-    static let signUpURL = baseURL + "/auth/singup"
+    static let signUpURL = baseURL + "/auth/signup"
     
 }

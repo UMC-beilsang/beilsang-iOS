@@ -21,59 +21,74 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         // 카카오 로그인 상태 확인
-        
         if (AuthApi.hasToken()) {
-            UserApi.shared.accessTokenInfo { (_, error) in
+            // 토큰 유효성 검사
+            UserApi.shared.accessTokenInfo { (oauthToken, error) in
                 if let error = error {
-                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                    print("Error checking token validity: \(error)")
+                    DispatchQueue.main.async {
+                        // 토큰 유효하지 않은 경우 로그인 화면으로 이동
+                        let mainViewController = UINavigationController(rootViewController: LoginViewController())
+                        self.window?.rootViewController = mainViewController
+                        self.window?.makeKeyAndVisible()
+                    }
+                } else {
+                    print("Kakao Token Found")
+                    // 토큰 유효한 경우 홈 화면으로 이동
+                    if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                        // 회원 가입이 완료된 사용자입니다.
                         DispatchQueue.main.async {
-                            let mainViewController = UINavigationController(rootViewController: LoginViewController())
+                            let mainViewController = UINavigationController(rootViewController: HomeMainViewController())
+                            self.window?.rootViewController = mainViewController
+                            self.window?.makeKeyAndVisible()
+                        }
+                    } else {
+                        // 회원 가입이 필요한 사용자입니다.
+                        DispatchQueue.main.async {
+                            let mainViewController = UINavigationController(rootViewController: KeywordViewController())
                             self.window?.rootViewController = mainViewController
                             self.window?.makeKeyAndVisible()
                         }
                     }
-                    else {
-                        print("error")
-                    }
-                }
-                else {
-                    //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                    print("Kakao Token Found")
                     
-                    // 카카오 로그인이 되어 있는 경우
-                    DispatchQueue.main.async {
-                        let mainViewController = UINavigationController(rootViewController: HomeMainViewController())
-                        self.window?.rootViewController = mainViewController
-                        self.window?.makeKeyAndVisible()
-                    }
                 }
             }
-        }
-        else {
+        } else {
             print("Kakao Token not Found")
-            // 애플 로그인 확인
+            // 카카오 토큰이 없는 경우 애플 로그인 확인
             let appleIDProvider = ASAuthorizationAppleIDProvider()
-            appleIDProvider.getCredentialState(forUserID: "/*user의 고유 ID값(xxxxx.xxxxxxxxxx.xxxx)*/") { (credentialState, error) in
+            appleIDProvider.getCredentialState(forUserID: UserDefaultsKey.memberId) { (credentialState, error) in
                 switch credentialState {
                 case .authorized:
                     print("Apple Authorized")
                     DispatchQueue.main.async {
-                        // 애플 로그인이 되어 있는 경우
-                        let mainViewController = UINavigationController(rootViewController: HomeMainViewController())
-                        self.window?.rootViewController = mainViewController
-                        self.window?.makeKeyAndVisible()
+                        // 애플 로그인이 되어 있는 경우 홈 화면으로 이동
+                        if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                            // 회원 가입이 완료된 사용자입니다.
+                            DispatchQueue.main.async {
+                                let mainViewController = UINavigationController(rootViewController: HomeMainViewController())
+                                self.window?.rootViewController = mainViewController
+                                self.window?.makeKeyAndVisible()
+                            }
+                        } else {
+                            // 회원 가입이 필요한 사용자입니다.
+                            DispatchQueue.main.async {
+                                let mainViewController = UINavigationController(rootViewController: KeywordViewController())
+                                self.window?.rootViewController = mainViewController
+                                self.window?.makeKeyAndVisible()
+                            }
+                        }
                     }
                 case .revoked, .notFound:
                     print("Apple Not Authorized")
                     DispatchQueue.main.async {
-                        // 애플 로그인이 되어 있지 않은 경우, 로그인 화면 표시
+                        // 애플 로그인이 되어 있지 않은 경우 로그인 화면 표시
                         let mainViewController = UINavigationController(rootViewController: LoginViewController())
                         self.window?.rootViewController = mainViewController
                         self.window?.makeKeyAndVisible()
                     }
                 default:
                     break
-                    
                 }
             }
         }

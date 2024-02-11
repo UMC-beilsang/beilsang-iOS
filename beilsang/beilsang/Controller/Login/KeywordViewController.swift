@@ -153,11 +153,13 @@ extension KeywordViewController: UICollectionViewDataSource, UICollectionViewDel
                 JoinCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
         let target = dataList[indexPath.row]
         let img = UIImage(named: "\(target.image).svg")
         cell.keywordImage.image = img
         cell.keywordLabel.text = target.title
         cell.backgroundColor = .beBgDef
+        
         return cell
     }
     
@@ -170,6 +172,33 @@ extension KeywordViewController: UICollectionViewDataSource, UICollectionViewDel
             return
         }
         selectedKeyword(for: cell)
+        
+        var key: String
+            switch indexPath.row {
+            case 0:
+                key = "텀블러"
+            case 1:
+                key = "리필"
+            case 2:
+                key = "다회용기"
+            case 3:
+                key = "에코"
+            case 4:
+                key = "플로깅"
+            case 5:
+                key = "비건"
+            case 6:
+                key = "대중교통"
+            case 7:
+                key = "자전거"
+            case 8:
+                key = "재활용"
+            default:
+                key = ""
+            }
+        
+        SignUpData.shared.keyword = key
+        print(key)
     }
 }
 
