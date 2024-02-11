@@ -52,8 +52,7 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # Delegate 
-SceneDelegate.swift
-AppDelegate.swift
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,xcode
 
 # Notification
