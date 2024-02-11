@@ -16,9 +16,9 @@ struct APIConstants {
     static func loginURL(for provider: LoginProvider) -> String {
            switch provider {
            case .APPLE:
-               return baseURL + "/auth/apple/login"
+               return baseURL + "/auth/APPLE/login"
            case .KAKAO:
-               return baseURL + "/auth/kakao/login"
+               return baseURL + "/auth/KAKAO/login"
            }
        }
     
@@ -26,6 +26,6 @@ struct APIConstants {
     static let refreshTokenURL = baseURL + "/auth/token/refresh"
     
     //자체 회원가입
-    static let signUpURL = baseURL + "/auth/signup"
+    static let signUpURL = baseURL + "auth/singup"
     
 }

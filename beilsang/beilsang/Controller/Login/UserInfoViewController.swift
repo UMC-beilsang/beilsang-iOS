@@ -920,7 +920,7 @@ class UserInfoViewController: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko-KR")
-        datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(dateChange), for: .editingDidEnd)
         datePicker.maximumDate = Date()
         birthField.inputView = datePicker
     }
@@ -928,13 +928,6 @@ class UserInfoViewController: UIViewController {
     private func dateFormat(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일"
-        
-        return formatter.string(from: date)
-    }
-    
-    private func dateFormatServer(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
         
         return formatter.string(from: date)
     }
@@ -1123,24 +1116,29 @@ class UserInfoViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func nextAction() {
-        
-        if selectedGender == "남자" {
-            SignUpData.shared.gender = "M"
-        }
-        else if selectedGender == "여자" {
-            SignUpData.shared.gender = "F"
-        }
-        else{
-            print("기타 아직 구현 안됨")
-        }
     
         SignUpData.shared.nickName = nameField.text ?? ""
-        SignUpData.shared.birth = birthFieldTextServer ?? ""
+        
+        if genderField.text == "남자" {
+            SignUpData.shared.gender = .MALE
+        }
+        else if genderField.text == "여자" {
+            SignUpData.shared.gender = .FEMALE
+        }
+        else {
+            print("error gender guitar")
+        }
+        
+        SignUpData.shared.birth = birthField.text ?? ""
         
         if let address = addressField.text, let detailAddress = addressDetailField.text {
             let fullAddress = address + " " + detailAddress
             SignUpData.shared.address = fullAddress
         }
+        
+        print(SignUpData.shared.gender)
+        print(SignUpData.shared.birth)
+        print(SignUpData.shared.nickName)
         
         let routeViewController = RouteViewController()
         self.navigationController?.pushViewController(routeViewController, animated: true)
@@ -1167,8 +1165,6 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc func dateChange(_ sender: UIDatePicker) {
-        let birthFieldTextServer = dateFormatServer(date: sender.date)
-        
         birthField.text = dateFormat(date: sender.date)
         birthField.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         birthField.textColor = .bePsBlue500

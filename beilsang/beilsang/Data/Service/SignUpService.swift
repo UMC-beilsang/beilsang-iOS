@@ -14,12 +14,7 @@ class SignUpService {
     //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
     private init() {}
     
-    enum Gender: String {
-           case male = "M"
-           case female = "F"
-       }
-    
-    func signUp(gender : String, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
+    func signUp(gender : Gender, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.signUpURL
         let header: HTTPHeaders = ["Content-Type": "application/json"]
         let body: Parameters = ["gender": gender,

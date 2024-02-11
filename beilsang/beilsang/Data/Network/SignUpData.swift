@@ -10,7 +10,7 @@ import Foundation
 class SignUpData {
     static let shared = SignUpData() // Singleton 객체 생성
     
-    var gender: String = "M"
+    var gender: Gender = .MALE
     var nickName: String = ""
     var birth: String = ""
     var address: String? = ""
@@ -19,5 +19,6 @@ class SignUpData {
     var resolution: String? = ""
     var recommendNickname: String? = ""
 }
+
 
 

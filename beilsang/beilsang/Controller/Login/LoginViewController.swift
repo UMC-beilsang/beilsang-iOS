@@ -224,9 +224,10 @@ extension LoginViewController {
                         
                         self.accessToken = token
                         self.name = name
+                        
                         print(token)
                         
-                        self.kakaologinToServer(with: token)
+                        self.kakaologinToServer(with: self.accessToken ?? "")
                         //서버에 보내주기
                         
                         self.presentToMain()
@@ -260,7 +261,6 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
                 
                 print("accessToken: \(accessToken)")
                 print("identityToken: \(identityToken)")
-                UserDefaults.standard.set(userIdentifier, forKey: UserDefaultsKey.memberId)
                 
                 self.appleloginToServer(with: accessToken)
             }
@@ -289,15 +289,26 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
 //MARK: - others
 extension LoginViewController {
     // 서버에 로그인 요청을 보내는 함수
-    private func kakaologinToServer(with kakaoAccessToken: String) {
+    private func kakaologinToServer(with kakaoAccessToken: String?) {
         // LoginService를 사용하여 서버에 Post
-        LoginService.shared.kakaoLogin(accessToken: kakaoAccessToken) { result in
+        LoginService.shared.kakaoLogin(accessToken: kakaoAccessToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
                 guard let data = data as? LoginResponse else { return }
                 
                 print("Login to server success with data: \(data)")
+                // Provider 저장하기
+                UserDefaults.standard.set("kakao", forKey: "provider")
+                //서버에서 보내준 accesstoken 저장하기
+                UserDefaults.standard.set(data.data?.accessToken, forKey: "accesstoken")
+                
+                if let provider = UserDefaults.standard.string(forKey: UserDefaultsKey.provider) {
+                    print("provider: \(provider)")
+                } else {
+                    print("provider 값이 저장되어 있지 않습니다.")
+                }
+                
             case .networkFail:
                 // 서버 통신 실패 처리
                 print("네트워크 페일")

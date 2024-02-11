@@ -20,6 +20,8 @@ class LoginService {
         let header: HTTPHeaders = ["Content-Type": "application/json"]
         let body: Parameters = ["accesstoken": accessToken]
         
+        print(accessToken)
+        
         let dataRequest = AF.request(url,
                                      method: .post,
                                      parameters: body,
