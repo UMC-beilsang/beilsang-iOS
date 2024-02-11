@@ -28,13 +28,18 @@ class NotificationViewController: UIViewController {
         return view
     }()
     
-    
     lazy var menu: UIMenu = {
-        var menuItems = [
-            UIAction(title: "알림 끄기", image: nil, handler: { _ in }),
-        ]
         
-        return UIMenu(title: "", options: [], children: menuItems)
+        let notiOff = UIAction(
+            title: "알림 끄기",
+            image: nil,
+            identifier: nil,
+            discoverabilityTitle: nil,
+            attributes: [],
+            state: .off,
+            handler: { _ in  })
+        
+        return UIMenu(title: "", options: [], children: [notiOff])
     }()
 
     // MARK: - Lifecycle
