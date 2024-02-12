@@ -72,6 +72,7 @@ class MainAfterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        challengeRecommend()
         setLayout()
     }
     
@@ -150,6 +151,26 @@ extension MainAfterViewController {
 
 // MARK: - 챌린지 버튼을 커스텀 함수
 extension MainAfterViewController {
+    // 서버 통신 코드를 실제로 뷰 컨트롤러에서 호출해서 사용하는 부분입니다.
+    func challengeRecommend() {
+        // 서버 통신 서비스 코드를 싱글톤 변수를 통해서 접근
+        // 호출 후에 받은 응답을 가지고, 적절한 처리를 해주고 있습니다.
+        ChallengeService.shared.challengeRecommend { response in
+            switch response {
+            case .success(let data):
+                print(data)
+            case .requestErr(let error):
+                print(error)
+            case .pathErr:
+                print("pathError")
+            case .serverErr:
+                print("serverError")
+            case .networkFail:
+                print("networkFail")
+            }
+        }
+    }
+    
     func customChallengeButton(labelText: String) -> UIButton {
         // 챌린지 버튼 - 버튼
         let custombutton: UIButton = {
