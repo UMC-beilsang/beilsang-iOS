@@ -59,7 +59,8 @@ class PageViewController: UIViewController {
             challengeListVC.categoryLabelText = labelText
             navigationController?.pushViewController(challengeListVC, animated: true)
         case "비일상 챌린지\n참여방법 알아보기!":
-            print("page 3")
+            let challengeTipVC = ChallengeTipViewController()
+            navigationController?.pushViewController(challengeTipVC, animated: true)
         default:
             break
         }

@@ -96,6 +96,7 @@
 		AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */; };
 		AF7E946E2B7A402600338DA3 /* ChallengeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E946D2B7A402600338DA3 /* ChallengeService.swift */; };
 		AF7E94702B7A404800338DA3 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E946F2B7A404800338DA3 /* ChallengeModel.swift */; };
+		AF7E94722B7A852500338DA3 /* ChallengeTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */; };
 		AFDE65EB2B7249C30041D2D0 /* RegisterCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE65EA2B7249C30041D2D0 /* RegisterCertifyViewController.swift */; };
 		AFDE65ED2B728FAF0041D2D0 /* RegisterCertifyModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE65EC2B728FAF0041D2D0 /* RegisterCertifyModalViewController.swift */; };
 /* End PBXBuildFile section */
@@ -207,6 +208,7 @@
 		AF44034F2B6E8817006B68FE /* NoticeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF7E946D2B7A402600338DA3 /* ChallengeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeService.swift; sourceTree = "<group>"; };
 		AF7E946F2B7A404800338DA3 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
+		AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTipViewController.swift; sourceTree = "<group>"; };
 		AFDE65EA2B7249C30041D2D0 /* RegisterCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCertifyViewController.swift; sourceTree = "<group>"; };
 		AFDE65EC2B728FAF0041D2D0 /* RegisterCertifyModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCertifyModalViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -551,6 +553,7 @@
 				AF44034D2B6D3A76006B68FE /* RegisterModalViewController.swift */,
 				AFDE65EA2B7249C30041D2D0 /* RegisterCertifyViewController.swift */,
 				AFDE65EC2B728FAF0041D2D0 /* RegisterCertifyModalViewController.swift */,
+				AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				2FAB99FD2B72C9F000853BF7 /* ChallengeDetailViewController.swift in Sources */,
 				8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
+				AF7E94722B7A852500338DA3 /* ChallengeTipViewController.swift in Sources */,
 				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
 				2F8C57AE2B769C17002B4862 /* LoginModel.swift in Sources */,
 				897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */,
