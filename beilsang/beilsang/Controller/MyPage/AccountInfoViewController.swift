@@ -614,7 +614,24 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
 }
 
 extension AccountInfoViewController {
-    
+    func request() {
+        let memberId = UserDefaults.standard.string(forKey: "memberId")
+        var gender = ""
+        if genderField.text == "남자"{
+            gender = "MAN"
+        } else if genderField.text == "여자"{
+            gender = "WOMAN"
+        } else if genderField.text == "기타"{
+            gender = "ETC"
+        }
+        let parameters = AccountInfoData(nickName: nameField.text ?? "", birth: birthField.text ?? "" , gender: gender , address: (addressField.text ?? "") + (addressDetailField.text ?? ""))
+        print(parameters)
+        MyPageService.shared.postAccountInfo(baseEndPoint: .profile, addPath: "/\(memberId ?? "")", parameter: parameters.toDictionary ?? [:] ) { response in
+            print(response.message )
+            
+        }
+    }
+
     func setupAttribute() {
         setFullScrollView()
         setLayout()
@@ -868,7 +885,7 @@ extension AccountInfoViewController {
     
     private func dateFormat(date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일"
+        formatter.dateFormat = "yyyy-MM-dd"
         
         return formatter.string(from: date)
     }
@@ -1089,6 +1106,7 @@ extension AccountInfoViewController{
         updateSaveButtonState()
         nameDuplicateButton.isEnabled = false
         nameDuplicateButton.backgroundColor = .beBgDiv
+        request()
     }
 }
 

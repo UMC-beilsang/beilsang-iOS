@@ -11,6 +11,7 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     
     static let identifier = "feedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
+    var feedId: Int = 1
     
     // 달성 메달 셀 전체 뷰
     let fullScrollView = UIScrollView()
@@ -58,6 +59,7 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     lazy var heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "iconamoon_heart-bold"), for: .normal)
+        button.addTarget(self, action: #selector(likeButton), for: .touchUpInside)
         return button
     }()
     
@@ -196,6 +198,23 @@ extension FeedDetailCollectionViewCell {
     @objc func tapButton(_ sender: UIButton) {
         delegate?.didTapButton()
     }
+    
+    @objc private func likeButton(_ sender: UIButton) {
+        if sender.image(for: .normal) == UIImage(named: "iconamoon_heart-bold"){
+            sender.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+        } else if sender.image(for: .normal) == UIImage(named: "iconamoon_fullheart-bold"){
+            sender.setImage(UIImage(named: "iconamoon_heart-bold"), for: .normal)
+        }
+        request()
+    }
+    
+    private func request() {
+        
+        MyPageService.shared.postLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
+            print("post 요청 완료 - like button tapped")
+        })
+    }
+
 }
 
 protocol CustomFeedCellDelegate: AnyObject {

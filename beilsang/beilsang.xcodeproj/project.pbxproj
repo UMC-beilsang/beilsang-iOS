@@ -49,17 +49,25 @@
 		2FF55CAD2B684D3A004EDB39 /* KakaoPostCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF55CAC2B684D3A004EDB39 /* KakaoPostCodeViewController.swift */; };
 		2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF55CB12B684E42004EDB39 /* WebKit.framework */; };
 		2FFA04442B7131E3000B5E4C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2FFA04432B7131E3000B5E4C /* KakaoSDK */; };
+		891B863E2B766A80000D03DD /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891B863D2B766A80000D03DD /* MyPageService.swift */; };
 		8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = 8948F8692B69D99500393D35 /* SCLAlertView */; };
 		894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */; };
 		894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A11482B60A68C002A9A32 /* MyPageViewController.swift */; };
 		895A22C82B74AC2500A5230D /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22C72B74AC2400A5230D /* TabBarViewController.swift */; };
+		895A22CA2B7509EB00A5230D /* BaseEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22C92B7509EA00A5230D /* BaseEndpoint.swift */; };
+		895A22CC2B750AA900A5230D /* URLSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22CB2B750AA900A5230D /* URLSetting.swift */; };
+		895A22D12B750BB900A5230D /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 895A22D02B750BB900A5230D /* SwiftyJSON */; };
+		895A22D62B751A6700A5230D /* GetMyPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22D52B751A6700A5230D /* GetMyPage.swift */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
 		895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D88792B6D45B8003E5688 /* FindViewController.swift */; };
 		8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */; };
 		8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */; };
+		896335B72B778AD4006434AC /* PostAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896335B62B778AD4006434AC /* PostAccountInfo.swift */; };
+		896335BB2B77C07D006434AC /* GetPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896335BA2B77C07D006434AC /* GetPoint.swift */; };
 		8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD152B6B7CDA0072440E /* LikeViewController.swift */; };
 		8963CD182B6B918B0072440E /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD172B6B918B0072440E /* PointViewController.swift */; };
 		8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */; };
+		8964DFD22B792E07002E4574 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8964DFD12B792E07002E4574 /* BaseModel.swift */; };
 		896706892B738BF500A1295A /* NotificationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896706882B738BF500A1295A /* NotificationCollectionViewCell.swift */; };
 		896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */; };
 		896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */; };
@@ -151,16 +159,23 @@
 		2FF55CAA2B684D0B004EDB39 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		2FF55CAC2B684D3A004EDB39 /* KakaoPostCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoPostCodeViewController.swift; sourceTree = "<group>"; };
 		2FF55CB12B684E42004EDB39 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		891B863D2B766A80000D03DD /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
 		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		895A22C72B74AC2400A5230D /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		895A22C92B7509EA00A5230D /* BaseEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEndpoint.swift; sourceTree = "<group>"; };
+		895A22CB2B750AA900A5230D /* URLSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSetting.swift; sourceTree = "<group>"; };
+		895A22D52B751A6700A5230D /* GetMyPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPage.swift; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
 		895D88792B6D45B8003E5688 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
 		8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HofChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollIndicatorView.swift; sourceTree = "<group>"; };
+		896335B62B778AD4006434AC /* PostAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAccountInfo.swift; sourceTree = "<group>"; };
+		896335BA2B77C07D006434AC /* GetPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoint.swift; sourceTree = "<group>"; };
 		8963CD152B6B7CDA0072440E /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		8963CD172B6B918B0072440E /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
 		8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointCollectionViewCell.swift; sourceTree = "<group>"; };
+		8964DFD12B792E07002E4574 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		896706882B738BF500A1295A /* NotificationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -196,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */,
+				895A22D12B750BB900A5230D /* SwiftyJSON in Frameworks */,
 				8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
@@ -330,6 +346,8 @@
 		2FC63CD82B5BB3A50050139A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8964DFD12B792E07002E4574 /* BaseModel.swift */,
+				895A22D42B751A5A00A5230D /* MyPage */,
 				AF44032E2B63DDBE006B68FE /* Home */,
 				2FF55CAE2B684D4A004EDB39 /* Login */,
 				2F69039A2B60427100A7716D /* Utility */,
@@ -378,6 +396,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		891B863C2B766A74000D03DD /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				891B863D2B766A80000D03DD /* MyPageService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		894A113C2B609ACE002A9A32 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,6 +431,16 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		895A22D42B751A5A00A5230D /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				895A22D52B751A6700A5230D /* GetMyPage.swift */,
+				896335B62B778AD4006434AC /* PostAccountInfo.swift */,
+				896335BA2B77C07D006434AC /* GetPoint.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		895D88782B6D45B1003E5688 /* Find */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,6 +460,9 @@
 		8967068A2B73924400A1295A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				891B863C2B766A74000D03DD /* Service */,
+				895A22C92B7509EA00A5230D /* BaseEndpoint.swift */,
+				895A22CB2B750AA900A5230D /* URLSetting.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -514,6 +553,7 @@
 				2FE57C2A2B5EC5890022C4F3 /* Alamofire */,
 				8948F8692B69D99500393D35 /* SCLAlertView */,
 				2FFA04432B7131E3000B5E4C /* KakaoSDK */,
+				895A22D02B750BB900A5230D /* SwiftyJSON */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -592,6 +632,7 @@
 				2FE57C292B5EC5890022C4F3 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 				2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				895A22CF2B750BB900A5230D /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -671,10 +712,13 @@
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
 				AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */,
 				AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */,
+				891B863E2B766A80000D03DD /* MyPageService.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
 				895A22C82B74AC2500A5230D /* TabBarViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
+				896335BB2B77C07D006434AC /* GetPoint.swift in Sources */,
+				895A22D62B751A6700A5230D /* GetMyPage.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
@@ -688,14 +732,18 @@
 				2FAB99FD2B72C9F000853BF7 /* ChallengeDetailViewController.swift in Sources */,
 				8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
+				896335B72B778AD4006434AC /* PostAccountInfo.swift in Sources */,
 				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
 				897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */,
 				AFDE65EB2B7249C30041D2D0 /* RegisterCertifyViewController.swift in Sources */,
+				8964DFD22B792E07002E4574 /* BaseModel.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */,
+				895A22CC2B750AA900A5230D /* URLSetting.swift in Sources */,
 				896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */,
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
 				2FF55CAD2B684D3A004EDB39 /* KakaoPostCodeViewController.swift in Sources */,
+				895A22CA2B7509EB00A5230D /* BaseEndpoint.swift in Sources */,
 				2FF55CA42B684C92004EDB39 /* PlaceHolder+.swift in Sources */,
 				2FF55CAB2B684D0B004EDB39 /* UserInfoViewController.swift in Sources */,
 				2FAB99F32B72C8EF00853BF7 /* GalleryData.swift in Sources */,
@@ -1075,6 +1123,14 @@
 				minimumVersion = 0.8.2;
 			};
 		};
+		895A22CF2B750BB900A5230D /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1102,6 +1158,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */;
 			productName = SCLAlertView;
+		};
+		895A22D02B750BB900A5230D /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 895A22CF2B750BB900A5230D /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
