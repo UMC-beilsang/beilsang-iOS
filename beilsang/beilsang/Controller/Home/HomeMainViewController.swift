@@ -63,8 +63,8 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // pageView - title, image setting
-    let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!"]
-    let pageImages = [UIImage(named: "Thumbnail Banner-1"), UIImage(named: "Thumbnail Banner-2")]
+    let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!", "비일상 챌린지\n참여방법 알아보기!"]
+    let pageImages = [UIImage(named: "Thumbnail Banner-1"), UIImage(named: "Thumbnail Banner-2"), UIImage(named: "Thumbnail Banner-3")]
     var pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     
     // pageView - sliding button
@@ -302,7 +302,7 @@ extension HomeMainViewController: UIPageViewControllerDataSource, UIPageViewCont
            index > 0 {
             return PageViewController(pageTitle: pageTitles[index - 1], pageImage: pageImages[index - 1]!)
         } else {
-            return PageViewController(pageTitle: pageTitles[1], pageImage: pageImages[1]!)
+            return PageViewController(pageTitle: pageTitles[2], pageImage: pageImages[2]!)
         }
     }
     
