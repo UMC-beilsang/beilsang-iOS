@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bHalf.png",
+      "filename" : "challengeListBanner.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "bHalf-2.png",
+      "filename" : "challengeListBanner-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "bHalf-3.png",
+      "filename" : "challengeListBanner-3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -76,37 +76,12 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    // 챌린지 진행 view
-    lazy var challengeProgress: UIView = {
-        let view = UIView()
+    // 챌린지 진행 팁
+    lazy var challengeTipButton: UIButton = {
+        let view = UIButton()
         
-        view.backgroundColor = .beScPurple400
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.bePrPurple500.cgColor
-        view.layer.cornerRadius = 10
-        
-        return view
-    }()
-    
-    // 챌린지 진행 view - label
-    lazy var progressTitleLabel: UILabel = {
-        let view = UILabel()
-        
-        view.text = "\(categoryLabelText ?? "전체") 챌린지는\n이렇게 진행돼요"
-        view.numberOfLines = 2
-        view.textAlignment = .left
-        view.textColor = .beTextDef
-        view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        
-        return view
-    }()
-    
-    // 챌린지 진행 view - image
-    lazy var progressCharacterImage: UIImageView = {
-        let view = UIImageView()
-        
-        view.image = UIImage(named: "bHalf")
-        view.contentMode = .scaleAspectFit
+        view.setImage(UIImage(named: "challengeListBanner"), for: .normal)
+        view.addTarget(self, action: #selector(challengeTipButtonClicked), for: .touchUpInside)
         
         return view
     }()
@@ -128,8 +103,7 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     // 네비게이션 아이템 누르면 뒤(홈 메인화면)으로 가기
     @objc func tabBarButtonTapped() {
         print("뒤로 가기")
-        let homeVC = HomeMainViewController()
-        navigationController?.pushViewController(homeVC, animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func plusButtonClicked() {
@@ -140,6 +114,11 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     
     @objc func searchButtonClicked() {
         print("검색")
+    }
+    
+    @objc func challengeTipButtonClicked() {
+        let challengeTipVC = ChallengeTipViewController()
+        navigationController?.pushViewController(challengeTipVC, animated: true)
     }
 }
 
@@ -174,12 +153,8 @@ extension ChallengeListViewController {
         
         fullScrollView.addSubview(fullContentView)
         
-        [topViewBorder, challengeProgress, challengeCollectionView].forEach { view in
+        [topViewBorder, challengeTipButton, challengeCollectionView].forEach { view in
             fullContentView.addSubview(view)
-        }
-        
-        [progressTitleLabel, progressCharacterImage].forEach { view in
-            challengeProgress.addSubview(view)
         }
     }
     
@@ -218,7 +193,7 @@ extension ChallengeListViewController {
             make.height.equalTo(1)
         }
         
-        challengeProgress.snp.makeConstraints { make in
+        challengeTipButton.snp.makeConstraints { make in
             make.top.equalTo(topViewBorder.snp.bottom).offset(17)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
             make.trailing.equalTo(fullScrollView.snp.trailing).offset(-16)
@@ -226,20 +201,10 @@ extension ChallengeListViewController {
         }
         
         challengeCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(challengeProgress.snp.bottom).offset(24)
+            make.top.equalTo(challengeTipButton.snp.bottom).offset(24)
             make.leading.equalTo(fullScrollView.snp.leading)
             make.trailing.equalTo(fullScrollView.snp.trailing)
             make.bottom.equalTo(fullScrollView.snp.bottom)
-        }
-        
-        progressTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(challengeProgress.snp.top).offset(12)
-            make.leading.equalTo(challengeProgress.snp.leading).offset(16)
-        }
-        
-        progressCharacterImage.snp.makeConstraints { make in
-            make.top.equalTo(challengeProgress.snp.top).offset(28)
-            make.trailing.equalTo(challengeProgress.snp.trailing).offset(-17)
         }
     }
 }
