@@ -185,6 +185,8 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
                 return UICollectionViewCell()
             }
             
+            cell.challengeId = challengeRecommendData[indexPath.row].challengeId
+            
             // let url = challengeRecommendData[indexPath.row].imageUrl
             // cell.challengeImage.kf.setImage(with: url)
             cell.challengeNameLabel.text = challengeRecommendData[indexPath.row].title

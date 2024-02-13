@@ -11,6 +11,8 @@ class MainAfterCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MainAfterCell"
     
+    var challengeId : Int? = nil
+    
     // 챌린지 버튼 - 버튼
     let custombutton: UIButton = {
         let view = UIButton()
