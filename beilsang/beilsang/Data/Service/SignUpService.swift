@@ -4,14 +4,14 @@
 //
 //  Created by Seyoung on 2/11/24.
 //
+
 import Foundation
 import Alamofire
-//(1) 라이브러리 추가
 
 class SignUpService {
     
     static let shared = SignUpService()
-    //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
+    
     private init() {}
     
     func signUp(gender : Gender, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {

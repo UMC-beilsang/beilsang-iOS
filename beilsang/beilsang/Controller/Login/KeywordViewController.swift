@@ -198,7 +198,7 @@ extension KeywordViewController: UICollectionViewDataSource, UICollectionViewDel
             }
         
         SignUpData.shared.keyword = key
-        print(key)
+        print("Keyword : \(key)")
     }
 }
 

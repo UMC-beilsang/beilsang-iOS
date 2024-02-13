@@ -1113,11 +1113,10 @@ class UserInfoViewController: UIViewController {
         }
     }
     
-    // MARK: - Actions
-    
-    @objc private func nextAction() {
-    
+    //MARK: - SignUpData parsing
+    func SignUpDataParse() {
         SignUpData.shared.nickName = nameField.text ?? ""
+        SignUpData.shared.birth = birthField.text ?? ""
         
         if genderField.text == "남자" {
             SignUpData.shared.gender = .MALE
@@ -1126,19 +1125,23 @@ class UserInfoViewController: UIViewController {
             SignUpData.shared.gender = .FEMALE
         }
         else {
-            print("error gender guitar")
+            SignUpData.shared.gender = .OTHER
         }
-        
-        SignUpData.shared.birth = birthField.text ?? ""
         
         if let address = addressField.text, let detailAddress = addressDetailField.text {
             let fullAddress = address + " " + detailAddress
             SignUpData.shared.address = fullAddress
         }
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func nextAction() {
+        SignUpDataParse()
         
-        print(SignUpData.shared.gender)
-        print(SignUpData.shared.birth)
-        print(SignUpData.shared.nickName)
+        print("Gender : \(SignUpData.shared.gender)")
+        print("birth : \(SignUpData.shared.birth)")
+        print("nickName : \(SignUpData.shared.nickName)")
         
         let routeViewController = RouteViewController()
         self.navigationController?.pushViewController(routeViewController, animated: true)

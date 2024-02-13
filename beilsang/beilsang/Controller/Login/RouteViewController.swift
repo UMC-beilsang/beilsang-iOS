@@ -320,6 +320,9 @@ class RouteViewController: UIViewController {
         SignUpData.shared.discoveredPath = routeField.text ?? ""
         SignUpData.shared.recommendNickname = recommendField.text ?? ""
         
+        print("DiscoveredPath: \(String(describing: SignUpData.shared.discoveredPath))")
+        print("recommendNickname: \(String(describing: SignUpData.shared.recommendNickname))")
+        
         let startViewController = StartViewController()
         
         if let navigationController = self.navigationController {

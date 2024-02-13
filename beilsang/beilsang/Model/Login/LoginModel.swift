@@ -16,6 +16,7 @@ struct LoginResponse: Codable {
 
 struct LoginData : Codable {
     let accessToken : String?
+    let refreshToken : String?
     let existMember : Bool?
 }
 

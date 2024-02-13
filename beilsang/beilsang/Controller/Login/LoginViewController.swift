@@ -16,8 +16,9 @@ class LoginViewController: UIViewController {
     
     //MARK: - Properties
     
-    var accessToken : String? = nil
-    var name : String? = nil
+    var kakaoAccessToken : String? = ""
+    var kakaoName : String? = ""
+    var kakaoEmail : String? = ""
     
     lazy var logoColorImage: UIImageView = {
         let view = UIImageView()
@@ -180,17 +181,16 @@ extension LoginViewController {
                         print("loginWithKakaoApp() success.")
                         
                         guard let token = oauthToken?.accessToken,
-                              let name = user?.kakaoAccount?.profile?.nickname else{
+                              let name = user?.kakaoAccount?.profile?.nickname,
+                              let email = user?.kakaoAccount?.email
+                        else{
                             print("token/email/name is nil")
                             return
                         }
                         
-                        //self.email = email
-                        self.accessToken = token
-                        self.name = name
-                        
-                        // ✅ 사용자 정보 넘기기
-                        
+                        self.kakaoAccessToken = token
+                        self.kakaoName = name
+                        self.kakaoEmail = email
                         
                         self.kakaologinToServer(with: token)
                         //서버에 보내주기
@@ -217,17 +217,20 @@ extension LoginViewController {
                         print("loginWithKakaoWeb() success.")
                         
                         guard let token = oauthToken?.accessToken,
-                              let name = user?.kakaoAccount?.profile?.nickname else{
+                              let name = user?.kakaoAccount?.profile?.nickname,
+                              let email = user?.kakaoAccount?.email
+                        else{
                             print("token/email/name is nil")
                             return
                         }
                         
-                        self.accessToken = token
-                        self.name = name
+                        self.kakaoAccessToken = token
+                        self.kakaoName = name
+                        self.kakaoEmail = email
                         
                         print(token)
                         
-                        self.kakaologinToServer(with: self.accessToken ?? "")
+                        self.kakaologinToServer(with: token)
                         //서버에 보내주기
                         
                         self.presentToMain()
@@ -262,15 +265,13 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
                 print("accessToken: \(accessToken)")
                 print("identityToken: \(identityToken)")
                 
-                self.appleloginToServer(with: accessToken)
+                self.appleloginToServer(with: identityToken)
             }
             
             print("useridentifier: \(userIdentifier)")
             print("fullName: \(fullName?.description ?? "")")
             print("email: \(email?.description ?? "")")
             
-            // accessToken을 사용하여 서버에 로그인 요청 보냄
-            //Move to MainPage
             self.presentToMain()
             
             
@@ -288,7 +289,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
 
 //MARK: - others
 extension LoginViewController {
-    // 서버에 로그인 요청을 보내는 함수
+    // 카카오
     private func kakaologinToServer(with kakaoAccessToken: String?) {
         // LoginService를 사용하여 서버에 Post
         LoginService.shared.kakaoLogin(accessToken: kakaoAccessToken ?? "") { result in
@@ -298,33 +299,26 @@ extension LoginViewController {
                 guard let data = data as? LoginResponse else { return }
                 
                 print("Login to server success with data: \(data)")
-                // Provider 저장하기
-                UserDefaults.standard.set("kakao", forKey: "provider")
-                //서버에서 보내준 accesstoken 저장하기
-                UserDefaults.standard.set(data.data?.accessToken, forKey: "accesstoken")
                 
-                if let provider = UserDefaults.standard.string(forKey: UserDefaultsKey.provider) {
-                    print("provider: \(provider)")
-                } else {
-                    print("provider 값이 저장되어 있지 않습니다.")
-                }
+                //서버에서 보내준 accessToken,refreshToken, existMember 저장
+                UserDefaults.standard.set(data.data?.accessToken, forKey: "serverToken")
+                UserDefaults.standard.set(data.data?.refreshToken, forKey: "kakaoRefreshToken")
+                UserDefaults.standard.set(data.data?.existMember, forKey: "existMember")
                 
             case .networkFail:
-                // 서버 통신 실패 처리
-                print("네트워크 페일")
+                print("카카오 로그인: 네트워크 페일")
             case .requestErr(let error):
-                print("요청 페일 \(error)")
+                print("카카오 로그인: 요청 페일 \(error)")
             case .pathErr:
-                print("경로 오류")
+                print("카카오 로그인: 경로 오류")
             case .serverErr:
-                print("서버 오류")
+                print("카카오 로그인: 서버 오류")
             }
         }
     }
     
-    private func appleloginToServer(with appleAccessToken: String) {
-        // LoginService를 사용하여 서버에 Post
-        LoginService.shared.appleLogin(accessToken: appleAccessToken){ result in
+    private func appleloginToServer(with appleIdToken: String?) {
+        LoginService.shared.appleLogin(idToken: appleIdToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
@@ -332,19 +326,18 @@ extension LoginViewController {
                 
                 print("Login to server success with data: \(data)")
                 
-                let defaults = UserDefaults.standard
-                defaults.set(data.data?.existMember, forKey: UserDefaultsKey.existMember)
-                
+                UserDefaults.standard.set(data.data?.accessToken, forKey: "serverToken")
+                UserDefaults.standard.set(data.data?.refreshToken, forKey: "appleRefreshToken")
+                UserDefaults.standard.set(data.data?.existMember, forKey: "existMember")
                 
             case .networkFail:
-                // 서버 통신 실패 처리
-                print("네트워크 페일")
+                print("애플 로그인: 네트워크 페일")
             case .requestErr(let error):
-                print("요청 페일 \(error)")
+                print("애플 로그인: 요청 페일 \(error)")
             case .pathErr:
-                print("경로 오류")
+                print("애플 로그인: 경로 오류")
             case .serverErr:
-                print("서버 오류")
+                print("애플 로그인: 서버 오류")
             }
         }
     }
