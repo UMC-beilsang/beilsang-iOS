@@ -128,7 +128,7 @@ extension MainAfterViewController {
     }
 }
 
-// MARK: - 챌린지 버튼을 커스텀 함수
+// MARK: - 참여중 챌린지, 추천 챌린지 api 세팅
 extension MainAfterViewController {
     func challengeRecommend() {
         ChallengeService.shared.challengeRecommend() { response in
@@ -138,9 +138,7 @@ extension MainAfterViewController {
     @MainActor
     private func setRecommendData(_ response: [ChallengeRecommendsData]) {
         self.challengeRecommendData = response
-        
-            self.challengeRecommendCollectionView.reloadData()
-        
+        self.challengeRecommendCollectionView.reloadData()
     }
 }
 
