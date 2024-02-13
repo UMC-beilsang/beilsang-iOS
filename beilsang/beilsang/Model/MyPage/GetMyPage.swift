@@ -31,5 +31,5 @@ struct FeedList: Codable {
 struct feedData: Codable {
     let feedId: Int
     let feedUrl: String
-    let day: String
+    let day: Int
 }

@@ -21,8 +21,6 @@ enum BaseEndpoint {
         case .profile: return URL.makeEndPointString("/api/profile")
         case .feeds: return URL.makeEndPointString("/api/feeds")
         case .join: return URL.makeEndPointString("/api/join/check/nickname")
-
-
         }
     }
 }

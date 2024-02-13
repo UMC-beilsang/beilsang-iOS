@@ -622,7 +622,7 @@ extension AccountInfoViewController {
         } else if genderField.text == "여자"{
             gender = "WOMAN"
         } else if genderField.text == "기타"{
-            gender = "ETC"
+            gender = "OTHER"
         }
         let parameters = AccountInfoData(nickName: nameField.text ?? "", birth: birthField.text ?? "" , gender: gender , address: (addressField.text ?? "") + (addressDetailField.text ?? ""))
         print(parameters)
