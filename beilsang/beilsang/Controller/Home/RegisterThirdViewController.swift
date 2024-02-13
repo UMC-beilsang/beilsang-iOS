@@ -117,7 +117,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 만들기 버튼 활성화를 위한 변수
-    var isAgree = [false, false, false, false]
+    var isAgree = [false, false, false, false, false]
     
     // 챌린지 유의사항 체크 버튼
     var agreeButtons = [UIButton]()
@@ -157,6 +157,16 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         
         view.setImage(UIImage(named: "agree-before"), for: .normal)
         view.tag = 3
+        view.addTarget(self, action: #selector(agreeButtonClicked(_:)), for: .touchUpInside)
+        
+        return view
+    }()
+    
+    lazy var agree5Button: UIButton = {
+        let view = UIButton()
+        
+        view.setImage(UIImage(named: "agree-before"), for: .normal)
+        view.tag = 4
         view.addTarget(self, action: #selector(agreeButtonClicked(_:)), for: .touchUpInside)
         
         return view
@@ -221,6 +231,22 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         view.numberOfLines = 2
         view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.tag = 3
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(agreeButtonClicked))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(tapGesture)
+        
+        return view
+    }()
+    
+    lazy var agree5Label: UILabel = {
+        let view = UILabel()
+        
+        view.text = "챌린지를 등록하면 자동으로 해당 챌린지에 참여\n하게 됩니다."
+        view.textColor = .beTextDef
+        view.textAlignment = .left
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        view.tag = 4
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(agreeButtonClicked))
         view.isUserInteractionEnabled = true
@@ -441,7 +467,7 @@ extension RegisterThirdViewController {
     }
     
     func setUI() {
-        [agree1Button, agree2Button, agree3Button, agree4Button].forEach { button in
+        [agree1Button, agree2Button, agree3Button, agree4Button, agree5Button].forEach { button in
             agreeButtons.append(button)
         }
     }
@@ -452,7 +478,7 @@ extension RegisterThirdViewController {
         
         fullScrollView.addSubview(fullContentView)
         
-        [topViewBorder, noticeTitle, agree1Button, agree1Label, agree2Button, agree2Label, agree3Button, agree3Label, agree4Button, agree4Label].forEach { view in
+        [topViewBorder, noticeTitle, agree1Button, agree1Label, agree2Button, agree2Label, agree3Button, agree3Label, agree4Button, agree4Label, agree5Button, agree5Label].forEach { view in
             fullContentView.addSubview(view)
         }
 
@@ -527,6 +553,17 @@ extension RegisterThirdViewController {
         agree4Label.snp.makeConstraints { make in
             make.top.equalTo(agree4Button.snp.top)
             make.leading.equalTo(agree3Button.snp.trailing).offset(12)
+        }
+        
+        agree5Button.snp.makeConstraints { make in
+            make.top.equalTo(agree4Button.snp.bottom).offset(24)
+            make.leading.equalTo(fullScrollView.snp.leading).offset(24)
+            make.width.height.equalTo(28)
+        }
+        
+        agree5Label.snp.makeConstraints { make in
+            make.top.equalTo(agree5Button.snp.top)
+            make.leading.equalTo(agree4Button.snp.trailing).offset(12)
         }
         
         bottomView.snp.makeConstraints { make in
