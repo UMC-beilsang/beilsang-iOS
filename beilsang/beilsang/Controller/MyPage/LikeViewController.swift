@@ -78,6 +78,18 @@ class LikeViewController: UIViewController, UIScrollViewDelegate {
 }
 extension LikeViewController {
     
+//    func request() {
+//        MyPageService.shared.getMyPageLikeChallengeList(baseEndPoint: .challenges, addPath: "/likes") { response in
+//            self.setFirstFeedList(response.data.feeds)
+//        }
+//    }
+//    @MainActor
+//    private func setFirstFeedList(_ response: [MyPageFeed]){
+//        self.joinList[0] = response
+//        self.cellList = response
+//        challengeFeedBoxCollectionView.reloadData()
+//    }
+    
     func setupAttribute() {
         setFullScrollView()
         setLayout()

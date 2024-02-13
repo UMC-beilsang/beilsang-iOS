@@ -628,7 +628,6 @@ extension AccountInfoViewController {
         print(parameters)
         MyPageService.shared.patchAccountInfo(baseEndPoint: .profile, addPath: "", parameter: parameters.toDictionary ?? [:] ) { response in
             print(response.message )
-            
         }
     }
 

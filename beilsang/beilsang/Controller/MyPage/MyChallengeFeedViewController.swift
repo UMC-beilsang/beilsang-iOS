@@ -22,11 +22,11 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     var selectedMenu : String = "참여중" // 0: 참여중, 1: 등록한, 2: 완료됨
     var selectedCategory = "다회용컵" //0:다회용컵, ..., 8: 재활용
     
-    var cellList : [MyPageFeed] = []
+    var cellList : [FeedModel] = []
     
-    var joinList = [[MyPageFeed]](repeating: Array(), count: 9)
-    var enrollList = [[MyPageFeed]](repeating: Array(), count: 9)
-    var finishList = [[MyPageFeed]](repeating: Array(), count: 9)
+    var joinList = [[FeedModel]](repeating: Array(), count: 9)
+    var enrollList = [[FeedModel]](repeating: Array(), count: 9)
+    var finishList = [[FeedModel]](repeating: Array(), count: 9)
     
     
     
@@ -108,16 +108,17 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
 extension MyChallengeFeedViewController {
     
     func request() {
-        MyPageService.shared.getMyPageFeedList(baseEndPoint: .feeds, addPath: "/참여중/tumbler") { response in
-            self.setFirstFeedList(response.data.feeds)
+        MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/참여중/tumbler") { response in
+            self.setFirstFeedList(response.data.feeds ?? [])
         }
     }
     @MainActor
-    private func setFirstFeedList(_ response: [MyPageFeed]){
+    private func setFirstFeedList(_ response: [FeedModel]){
         self.joinList[0] = response
         self.cellList = response
         challengeFeedBoxCollectionView.reloadData()
     }
+    
     func setupAttribute() {
         setFullScrollView()
         setLayout()
@@ -388,7 +389,7 @@ extension MyChallengeFeedViewController {
         
         MyPageService.shared.getMyPageFeedDetail(baseEndPoint: .feeds, addPath: "/\(String(describing: feedId))") {response in
             feedCell.reviewContent.text = response.data.review
-            if response.data.day > 10{
+            if response.data.day > 3{
                 feedCell.dateLabel.text = response.data.uploadDate
             } else {
                 feedCell.dateLabel.text = "\(response.data.day)일 전"
@@ -431,15 +432,15 @@ extension MyChallengeFeedViewController {
             }
         }
     }
-    private func requestFeedList() -> [MyPageFeed]{
-        var requestList : [MyPageFeed] = []
-        MyPageService.shared.getMyPageFeedList(baseEndPoint: .feeds, addPath: "/\(selectedMenu)/\(selectedCategory)"){response in
-            requestList = self.reloadFeedList(response.data.feeds)
+    private func requestFeedList() -> [FeedModel]{
+        var requestList : [FeedModel] = []
+        MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/\(selectedMenu)/\(selectedCategory)"){response in
+            requestList = self.reloadFeedList(response.data.feeds ?? [])
         }
         return requestList
     }
     @MainActor
-    private func reloadFeedList(_ list: [MyPageFeed]) -> [MyPageFeed]{
+    private func reloadFeedList(_ list: [FeedModel]) -> [FeedModel]{
         cellList = list
         challengeFeedBoxCollectionView.reloadData()
         return list

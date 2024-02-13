@@ -83,6 +83,19 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
 }
 extension MyChallengeViewController {
     
+//    func request() {
+//        MyPageService.shared.getMyPageChallenge(baseEndPoint: .challenges, addPath: "/참여중/tumbler") { response in
+//            self.setFirstFeedList(response.data.feeds)
+//        }
+//    }
+//    
+//    @MainActor
+//    private func setFirstFeedList(_ response: [MyPageFeed]){
+//        self.joinList[0] = response
+//        self.cellList = response
+//        challengeFeedBoxCollectionView.reloadData()
+//    }
+    
     func setupAttribute() {
         setFullScrollView()
         setLayout()

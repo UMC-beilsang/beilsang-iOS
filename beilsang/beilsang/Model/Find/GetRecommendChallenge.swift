@@ -14,9 +14,9 @@ struct GetRecommendChallenge: Codable {
     let data: RecommendChallengeListData
 }
 struct RecommendChallengeListData: Codable {
-    let recommendChallengeDTOList : [RecommendChallengeData]?
+    let recommendChallengeDTOList : [RecommendChallengeModel]?
 }
-struct RecommendChallengeData: Codable {
+struct RecommendChallengeModel: Codable {
     let challengeId : Int
     let imageUrl : String
     let title : String

@@ -8,6 +8,7 @@
 import UIKit
 import SafariServices
 import SCLAlertView
+import Kingfisher
 
 class FindViewController: UIViewController, UIScrollViewDelegate {
 
@@ -18,6 +19,11 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     let fullContentView = UIView()
     var imageList = ["image 8", "image 9", "image 8", "image 9","image 8", "image 9",]
     var alertViewResponder: SCLAlertViewResponder? = nil
+    
+    var cellList : [FeedModel] = []
+    
+    var challengeList = [[FeedModel]](repeating: Array(), count: 10)
+    var category : String = "all"
     //검색창
     lazy var searchBar: UITextField = {
         let view = UITextField()
@@ -223,6 +229,7 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        request()
         setupAttribute()
         setCollectionView()
         setNavigationBar()
@@ -230,6 +237,23 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     }
 }
 extension FindViewController {
+    func request(){
+        
+        requestCategoryChallengeList()
+    }
+    
+    // 카테고리 별 챌린지 리스트
+    func requestCategoryChallengeList() {
+            MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/category/\(category)") { response in
+                self.setFirstFeedList(response.data.feeds ?? [])
+            }
+        }
+    @MainActor
+    private func setFirstFeedList(_ response: [FeedModel]){
+        self.challengeList[0] = response
+        self.cellList = response
+        challengeFeedBoxCollectionView.reloadData()
+    }
     
     func setupAttribute() {
         setFullScrollView()
@@ -456,7 +480,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
         case categoryCollectionView:
             return categoryDataList.count
         case challengeFeedBoxCollectionView:
-            return imageList.count
+            return cellList.count
         case feedDetailCollectionView:
             return 1
         default:
@@ -527,7 +551,10 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                     MyChallengeFeedCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.challengeFeed.image = UIImage(named: imageList[indexPath.row])
+            let target = cellList[indexPath.row]
+            cell.feedId = target.feedId
+            let url = URL(string: target.feedUrl)
+            cell.challengeFeed.kf.setImage(with: url)
             return cell
         case feedDetailCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FindFeedDetailCollectionViewCell.identifier, for: indexPath) as?
@@ -560,11 +587,6 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             // 추천 챌린지 data
             requestRecommendChallenge()
-//            let recommentChallenge = RecommendChallenge.self
-//            print(recommentChallenge)
-            feedCell.categoryLabel.text = "대중교통 챌린지"
-            feedCell.titleLabel.text = "버스 이용자 모여라"
-            feedCell.recommendImageView.image = UIImage(named: "representImage")
             // 피드 위치 UIScreen 위치에 맞게 수정
             feedDetailCollectionView.snp.remakeConstraints { make in
                 make.height.equalTo(700)
@@ -673,12 +695,22 @@ extension FindViewController {
         alertViewResponder?.close()
     }
     
-    // 미완
-    private func requestRecommendChallenge() /*-> RecommendChallengeData*/{
+    private func requestRecommendChallenge(){
         FindService.shared.getRecommendChallenge(baseEndPoint: .challenges, addPath: "/recommends") { response in
-            print(response.data.recommendChallengeDTOList?[0])
-//            return response.data.recommendChallengeDTOList
+            self.setRecommendChallenge(response.data.recommendChallengeDTOList ?? [])
+            
         }
+    }
+    
+    @MainActor
+    private func setRecommendChallenge(_ response: [RecommendChallengeModel]) {
+        let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FindFeedDetailCollectionViewCell
+        
+        feedCell.categoryLabel.text = response[0].category
+        feedCell.titleLabel.text = response[0].title
+        let url = URL(string: response[0].imageUrl)
+        feedCell.recommendImageView.kf.setImage(with: url)
+        feedDetailCollectionView.reloadData()
     }
 }
 

@@ -67,7 +67,7 @@ class MyPageService {
         })
     }
     // 마이 챌린지 피드의 피드 리스트 get
-    func getMyPageFeedList(baseEndPoint:BaseEndpoint, addPath:String?,  completionHandler: @escaping (_ data: GetMyPageFeed) -> Void) {
+    func getFeedList(baseEndPoint:BaseEndpoint, addPath:String?,  completionHandler: @escaping (_ data: GetFeedModel) -> Void) {
         DispatchQueue.main.async {
             let headers: HTTPHeaders = [
                 "accept": "application/json",
@@ -77,7 +77,33 @@ class MyPageService {
             guard let addPath = addPath else { return }
             let url = baseEndPoint.requestURL + addPath
             print(url)
-            AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetMyPageFeed.self, completionHandler:{ response in
+            AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetFeedModel.self, completionHandler:{ response in
+                switch response.result{
+                case .success:
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    print(error)
+                    print("get 요청 실패")
+                }
+            })
+        }
+    }
+    // 마이 챌린지의 찜 챌린지 리스트 get
+    func getChallengeList(baseEndPoint:BaseEndpoint, addPath:String?,  completionHandler: @escaping (_ data: GetChallenge) -> Void) {
+        DispatchQueue.main.async {
+            let headers: HTTPHeaders = [
+                "accept": "application/json",
+                "Authorization": "Bearer \(self.jwtToken)"
+            ]
+            
+            guard let addPath = addPath else { return }
+            let url = baseEndPoint.requestURL + addPath
+            print(url)
+            
+            AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetChallenge.self, completionHandler:{ response in
                 switch response.result{
                 case .success:
                     guard let result = response.value else {return}

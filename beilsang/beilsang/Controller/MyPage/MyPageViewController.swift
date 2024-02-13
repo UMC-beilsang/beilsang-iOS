@@ -14,7 +14,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
-    var feedList : [feedData] = []
+    var feedList : [FeedModel] = []
 
     //상단부
     // 세팅 버튼
@@ -326,7 +326,7 @@ extension MyPageViewController {
     
     // collecion
     @MainActor
-    private func setFeedList(_ feedDTOs: [feedData]){
+    private func setFeedList(_ feedDTOs: [FeedModel]){
         self.feedList = feedDTOs
         myChallengeCollectionView.reloadData()
     }

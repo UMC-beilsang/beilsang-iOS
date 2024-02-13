@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct GetMyPageFeed : Codable{
+struct GetFeedModel : Codable{
     let isSuccess: Bool
     let status: String
     let message: String
-    let data: MyPageFeedList
+    let data: FeedListModel
 }
 
-struct MyPageFeedList : Codable{
-    let feeds: [MyPageFeed]
+struct FeedListModel : Codable{
+    let feeds: [FeedModel]?
 }
-struct MyPageFeed : Codable{
+struct FeedModel : Codable{
     let feedId: Int
     let feedUrl: String
 }

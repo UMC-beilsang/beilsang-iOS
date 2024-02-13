@@ -21,15 +21,7 @@ struct MyPageData: Codable {
     let challenges: Int
     let likes: Int
     let points: Int
-    let feedDTOs: FeedList
+    let feedDTOs: FeedListModel
     let nickName: String
     let profileImage: String
-}
-struct FeedList: Codable {
-    let feeds: [feedData]?
-}
-struct feedData: Codable {
-    let feedId: Int
-    let feedUrl: String
-    let day: Int
 }
