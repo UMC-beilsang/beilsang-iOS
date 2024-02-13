@@ -626,7 +626,7 @@ extension AccountInfoViewController {
         }
         let parameters = AccountInfoData(nickName: nameField.text ?? "", birth: birthField.text ?? "" , gender: gender , address: (addressField.text ?? "") + (addressDetailField.text ?? ""))
         print(parameters)
-        MyPageService.shared.postAccountInfo(baseEndPoint: .profile, addPath: "/\(memberId ?? "")", parameter: parameters.toDictionary ?? [:] ) { response in
+        MyPageService.shared.patchAccountInfo(baseEndPoint: .profile, addPath: "", parameter: parameters.toDictionary ?? [:] ) { response in
             print(response.message )
             
         }
@@ -1015,8 +1015,7 @@ extension AccountInfoViewController{
     
     func nameDuplicateCheck() {
         
-        let userInput = nameField.text ?? ""
-        let serverInput = Bool.random()
+        let serverInput = requestDuplicateCheck()
         
         if serverInput  {
             nameInfoViewChanged(state: "avaliable")
@@ -1034,6 +1033,14 @@ extension AccountInfoViewController{
             
             updateSaveButtonState()
         }
+    }
+    
+    private func requestDuplicateCheck() -> Bool{
+        var dupCheck = true
+        MyPageService.shared.getDuplicateCheck(baseEndPoint: .join, addPath: "?name=\(nameField.text ?? "")" ) { response in
+            dupCheck = response.data
+        }
+        return dupCheck
     }
     // MARK: - save Button
     

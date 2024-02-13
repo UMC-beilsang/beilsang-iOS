@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-struct PostAccountInfo : Codable{
+struct PatchAccountInfo : Codable{
     let isSuccess: Bool
     let status: String
     let message: String
@@ -23,21 +23,10 @@ struct AccountInfoData: Codable {
 }
 
 extension Encodable {
-    
+    // struct를 파라미터 형식(딕셔러니)로 변경
     var toDictionary : [String: Any]? {
         guard let object = try? JSONEncoder().encode(self) else { return nil }
         guard let dictionary = try? JSONSerialization.jsonObject(with: object, options: []) as? [String:Any] else { return nil }
         return dictionary
     }
 }
-//extension String {
-//    func toDate() -> Date? { //"yyyy-MM-dd"
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        if let date = dateFormatter.date(from: self) {
-//            return dateFormatter.string(from: date)
-//        } else {
-//            return nil
-//        }
-//    }
-//}

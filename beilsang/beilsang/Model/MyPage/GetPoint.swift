@@ -11,9 +11,9 @@ struct GetPoint : Codable{
     let isSuccess: Bool
     let status: String
     let message: String
-    let data: Data
+    let data: PointDataList
 }
-struct Data: Codable {
+struct PointDataList: Codable {
     let total : Int
     let points: [PointData]?
 }

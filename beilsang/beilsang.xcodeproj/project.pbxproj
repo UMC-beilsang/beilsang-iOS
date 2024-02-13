@@ -53,16 +53,22 @@
 		8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */ = {isa = PBXBuildFile; productRef = 8948F8692B69D99500393D35 /* SCLAlertView */; };
 		894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */; };
 		894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894A11482B60A68C002A9A32 /* MyPageViewController.swift */; };
+		8953FC572B7A136600F9F6B1 /* GetRecommendChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953FC562B7A136600F9F6B1 /* GetRecommendChallenge.swift */; };
+		8953FC5A2B7A146400F9F6B1 /* FindService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8953FC592B7A146400F9F6B1 /* FindService.swift */; };
 		895A22C82B74AC2500A5230D /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22C72B74AC2400A5230D /* TabBarViewController.swift */; };
 		895A22CA2B7509EB00A5230D /* BaseEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22C92B7509EA00A5230D /* BaseEndpoint.swift */; };
 		895A22CC2B750AA900A5230D /* URLSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22CB2B750AA900A5230D /* URLSetting.swift */; };
 		895A22D12B750BB900A5230D /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 895A22D02B750BB900A5230D /* SwiftyJSON */; };
 		895A22D62B751A6700A5230D /* GetMyPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22D52B751A6700A5230D /* GetMyPage.swift */; };
+		895AE87A2B7B15A6008F9125 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 895AE8792B7B15A6008F9125 /* Kingfisher */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
 		895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D88792B6D45B8003E5688 /* FindViewController.swift */; };
+		89608DBC2B7A36A200B93421 /* GetMyPageFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89608DBB2B7A36A200B93421 /* GetMyPageFeed.swift */; };
+		89608DBE2B7A440200B93421 /* GetDuplicateCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89608DBD2B7A440200B93421 /* GetDuplicateCheck.swift */; };
+		89608DC02B7A475B00B93421 /* GetMyPageFeedDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89608DBF2B7A475B00B93421 /* GetMyPageFeedDetail.swift */; };
 		8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */; };
 		8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */; };
-		896335B72B778AD4006434AC /* PostAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896335B62B778AD4006434AC /* PostAccountInfo.swift */; };
+		896335B72B778AD4006434AC /* PatchAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896335B62B778AD4006434AC /* PatchAccountInfo.swift */; };
 		896335BB2B77C07D006434AC /* GetPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896335BA2B77C07D006434AC /* GetPoint.swift */; };
 		8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD152B6B7CDA0072440E /* LikeViewController.swift */; };
 		8963CD182B6B918B0072440E /* PointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8963CD172B6B918B0072440E /* PointViewController.swift */; };
@@ -162,15 +168,20 @@
 		891B863D2B766A80000D03DD /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
 		894A113E2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		894A11482B60A68C002A9A32 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		8953FC562B7A136600F9F6B1 /* GetRecommendChallenge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetRecommendChallenge.swift; sourceTree = "<group>"; };
+		8953FC592B7A146400F9F6B1 /* FindService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindService.swift; sourceTree = "<group>"; };
 		895A22C72B74AC2400A5230D /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		895A22C92B7509EA00A5230D /* BaseEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEndpoint.swift; sourceTree = "<group>"; };
 		895A22CB2B750AA900A5230D /* URLSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSetting.swift; sourceTree = "<group>"; };
 		895A22D52B751A6700A5230D /* GetMyPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPage.swift; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
 		895D88792B6D45B8003E5688 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		89608DBB2B7A36A200B93421 /* GetMyPageFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPageFeed.swift; sourceTree = "<group>"; };
+		89608DBD2B7A440200B93421 /* GetDuplicateCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDuplicateCheck.swift; sourceTree = "<group>"; };
+		89608DBF2B7A475B00B93421 /* GetMyPageFeedDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPageFeedDetail.swift; sourceTree = "<group>"; };
 		8961A14E2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HofChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		8961A1522B6FCDCD00404444 /* ScrollIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollIndicatorView.swift; sourceTree = "<group>"; };
-		896335B62B778AD4006434AC /* PostAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAccountInfo.swift; sourceTree = "<group>"; };
+		896335B62B778AD4006434AC /* PatchAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchAccountInfo.swift; sourceTree = "<group>"; };
 		896335BA2B77C07D006434AC /* GetPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoint.swift; sourceTree = "<group>"; };
 		8963CD152B6B7CDA0072440E /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
 		8963CD172B6B918B0072440E /* PointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +225,7 @@
 				895A22D12B750BB900A5230D /* SwiftyJSON in Frameworks */,
 				8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
+				895AE87A2B7B15A6008F9125 /* Kingfisher in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
 				2FFA04442B7131E3000B5E4C /* KakaoSDK in Frameworks */,
@@ -347,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				8964DFD12B792E07002E4574 /* BaseModel.swift */,
+				8953FC552B7A136600F9F6B1 /* Find */,
 				895A22D42B751A5A00A5230D /* MyPage */,
 				AF44032E2B63DDBE006B68FE /* Home */,
 				2FF55CAE2B684D4A004EDB39 /* Login */,
@@ -400,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				891B863D2B766A80000D03DD /* MyPageService.swift */,
+				8953FC592B7A146400F9F6B1 /* FindService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -431,12 +445,24 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		8953FC552B7A136600F9F6B1 /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				8953FC562B7A136600F9F6B1 /* GetRecommendChallenge.swift */,
+			);
+			name = Find;
+			path = beilsang/Model/Find;
+			sourceTree = SOURCE_ROOT;
+		};
 		895A22D42B751A5A00A5230D /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
 				895A22D52B751A6700A5230D /* GetMyPage.swift */,
-				896335B62B778AD4006434AC /* PostAccountInfo.swift */,
+				896335B62B778AD4006434AC /* PatchAccountInfo.swift */,
 				896335BA2B77C07D006434AC /* GetPoint.swift */,
+				89608DBB2B7A36A200B93421 /* GetMyPageFeed.swift */,
+				89608DBD2B7A440200B93421 /* GetDuplicateCheck.swift */,
+				89608DBF2B7A475B00B93421 /* GetMyPageFeedDetail.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -554,6 +580,7 @@
 				8948F8692B69D99500393D35 /* SCLAlertView */,
 				2FFA04432B7131E3000B5E4C /* KakaoSDK */,
 				895A22D02B750BB900A5230D /* SwiftyJSON */,
+				895AE8792B7B15A6008F9125 /* Kingfisher */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -633,6 +660,7 @@
 				8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 				2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				895A22CF2B750BB900A5230D /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				895AE8782B7B15A6008F9125 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -700,6 +728,7 @@
 				2FF55CA82B684CAF004EDB39 /* InfoCircle+.swift in Sources */,
 				89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
+				8953FC5A2B7A146400F9F6B1 /* FindService.swift in Sources */,
 				8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
@@ -707,6 +736,7 @@
 				89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */,
 				2FAB99FF2B72CA1400853BF7 /* JoinChallengeViewController.swift in Sources */,
 				89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */,
+				89608DBE2B7A440200B93421 /* GetDuplicateCheck.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
@@ -718,11 +748,13 @@
 				895A22C82B74AC2500A5230D /* TabBarViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
 				896335BB2B77C07D006434AC /* GetPoint.swift in Sources */,
+				89608DC02B7A475B00B93421 /* GetMyPageFeedDetail.swift in Sources */,
 				895A22D62B751A6700A5230D /* GetMyPage.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
 				AF4403502B6E8817006B68FE /* NoticeCollectionViewCell.swift in Sources */,
+				8953FC572B7A136600F9F6B1 /* GetRecommendChallenge.swift in Sources */,
 				2FAB99FB2B72C9B000853BF7 /* GalleryCollectionViewCell.swift in Sources */,
 				896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */,
 				896706892B738BF500A1295A /* NotificationCollectionViewCell.swift in Sources */,
@@ -732,9 +764,10 @@
 				2FAB99FD2B72C9F000853BF7 /* ChallengeDetailViewController.swift in Sources */,
 				8961A1532B6FCDCD00404444 /* ScrollIndicatorView.swift in Sources */,
 				AF4403392B63E0E3006B68FE /* PageViewController.swift in Sources */,
-				896335B72B778AD4006434AC /* PostAccountInfo.swift in Sources */,
+				896335B72B778AD4006434AC /* PatchAccountInfo.swift in Sources */,
 				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
 				897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */,
+				89608DBC2B7A36A200B93421 /* GetMyPageFeed.swift in Sources */,
 				AFDE65EB2B7249C30041D2D0 /* RegisterCertifyViewController.swift in Sources */,
 				8964DFD22B792E07002E4574 /* BaseModel.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
@@ -1131,6 +1164,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		895AE8782B7B15A6008F9125 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1163,6 +1204,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 895A22CF2B750BB900A5230D /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		895AE8792B7B15A6008F9125 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 895AE8782B7B15A6008F9125 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

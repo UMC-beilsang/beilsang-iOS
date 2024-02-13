@@ -12,6 +12,7 @@ enum BaseEndpoint {
     case mypage
     case profile
     case feeds
+    case join
     
     var requestURL: String {
         switch self {
@@ -19,6 +20,8 @@ enum BaseEndpoint {
         case .mypage: return URL.makeEndPointString("/api/mypage")
         case .profile: return URL.makeEndPointString("/api/profile")
         case .feeds: return URL.makeEndPointString("/api/feeds")
+        case .join: return URL.makeEndPointString("/api/join/check/nickname")
+
 
         }
     }

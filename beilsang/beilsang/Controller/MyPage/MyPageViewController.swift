@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+import Kingfisher
 
 class MyPageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -71,8 +71,6 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         view.layer.shadowOpacity = 1
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 4
-//        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds,
-//                               cornerRadius: view.layer.cornerRadius).cgPath
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -310,9 +308,7 @@ extension MyPageViewController {
     
     func request() {
         let memberId = UserDefaults.standard.string(forKey: "memberId")
-            MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/\(memberId ?? "")") { response in
-                
-            self.feedList = response.data.feedDTOs.feeds
+        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/\(memberId ?? "")") { response in
             self.feedCount.text = String(response.data.feedNum)
             self.achivementCount.text = String(response.data.achieve)
             self.failCount.text = String(response.data.fail)
@@ -320,7 +316,11 @@ extension MyPageViewController {
             self.challengeCount.text = String(response.data.challenges)
             self.likeCount.text = String(response.data.likes)
             self.pointCount.text = String(response.data.points)
-            self.setFeedList(response.data.feedDTOs.feeds)
+            self.nameLabel.text = response.data.nickName
+            let url = URL(string: response.data.profileImage)
+            self.profileImage.kf.setImage(with: url)
+            
+            self.setFeedList(response.data.feedDTOs.feeds ?? [])
         }
     }
     
@@ -356,7 +356,7 @@ extension MyPageViewController {
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
-            make.height.equalTo(1056)
+            make.height.equalTo(860)
         }
     }
     
@@ -575,7 +575,7 @@ extension MyPageViewController {
 extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     // cell 개수 지정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        4
+        feedList.count
     }
     
     // cell 등록 및 관련 설정
@@ -583,18 +583,9 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChallengeFeedCollectionViewCell.identifier, for: indexPath) as! MyChallengeFeedCollectionViewCell
         cell.backgroundColor = .white
         if !feedList.isEmpty{
-            if ("https://beilsang-bucket.s3.ap-northeast-2.amazonaws.com/feed/53c28c26-5b4c-471b-a02f-ae9353c9b301" == self.feedList[indexPath.row].feedUrl){
-                cell.challengeFeed.image = UIImage(named: "icon-meatballs")
+            let url = URL(string: self.feedList[indexPath.row].feedUrl)
+            cell.challengeFeed.kf.setImage(with: url)
             }
-            if (self.feedList[indexPath.row].feedUrl == "https://beilsang-bucket.s3.ap-northeast-2.amazonaws.com/feed/908dee82-7164-4ef4-8745-db7c5bf7f06c" ){
-                cell.challengeFeed.image = UIImage(named: "icon-point")
-            }
-            if (self.feedList[indexPath.row].feedUrl == "https://beilsang-bucket.s3.ap-northeast-2.amazonaws.com/feed/d2497de7-1d63-4354-8a08-192139d1bcba"){
-                cell.challengeFeed.image = UIImage(named: "icon-star")
-            }
-            if (self.feedList[indexPath.row].feedUrl == "https://beilsang-bucket.s3.ap-northeast-2.amazonaws.com/feed/e675e124-6746-4caf-9ef9-1a916d13d4e9"){
-                cell.challengeFeed.image = UIImage(named: "iconamoon_heart-bold")
-            }}
         return cell
         
     }
@@ -673,37 +664,4 @@ extension MyPageViewController {
         let myChallengeFeedVC = MyChallengeFeedViewController()
         navigationController?.pushViewController(myChallengeFeedVC, animated: true)
     }
-//    func testImage2(fileName: String) async -> UIImage {
-//        let url: URL
-//        do {
-//        url = try await Amplify.Storage.getURL(key: fileName)
-//        } catch {
-//        print("Failed to get URL for image: \(error)")
-//        return UIImage(named: "test1.jpeg")!
-//        }
-//        let downloadTask = Amplify.Storage.downloadFile(
-//        key: fileName,
-//        local: url,
-//        options: nil
-//        )
-//        Task {
-//        for await progress in await downloadTask.progress {
-//        print("Progress: \(progress)")
-//        }
-//        }
-//        do {
-//        //let imageData = try Data(contentsOf: url)
-//        let (data, _) = try await URLSession.shared.data(from: url)
-//        let image = UIImage(data: data) ?? UIImage(named: fileName)!
-//        //try await downloadTask.value
-//        print("Completed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-//        //return UIImage(data: imageData) ?? UIImage(named: fileName)!
-//        return image
-//        } catch {
-//        print("--------------------------------------------------------------------------------Failed to get URL for image: \(error)")
-//        print(url)
-//        return UIImage(named: "test1.jpeg")!
-//        }
-//    }
 }
-

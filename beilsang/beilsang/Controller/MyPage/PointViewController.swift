@@ -21,7 +21,6 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
     var useList: [PointData] = []
     var disappearList: [PointData] = []
     // cell들의 정보
-    var cellCount = 0
     var cellList: [PointData] = []
    
     lazy var pointTitle: UILabel = {
@@ -127,7 +126,6 @@ extension PointViewController {
                 self.disappearList.append(i)
             }
         }
-        cellCount = self.allList.count
         cellList = self.allList
         pointCollectionView.reloadData()
     }
@@ -271,7 +269,7 @@ extension PointViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case pointCollectionView:
-            return cellCount
+            return cellList.count
         default:
             return 0
         }
@@ -345,16 +343,12 @@ extension PointViewController {
             }
         }
         if sender == allButton{
-            cellCount = allList.count
             cellList = allList
         } else if sender == earnButton {
-            cellCount = earnList.count
             cellList = earnList
         } else if sender == useButton {
-            cellCount = useList.count
             cellList = useList
         } else {
-            cellCount = disappearList.count
             cellList = disappearList
         }
         pointCollectionView.reloadData()

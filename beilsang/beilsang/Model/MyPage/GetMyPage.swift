@@ -11,9 +11,9 @@ struct GetMyPage: Codable {
     let isSuccess: Bool
     let status: String
     let message: String
-    let data: GetMyPageData
+    let data: MyPageData
 }
-struct GetMyPageData: Codable {
+struct MyPageData: Codable {
     let feedNum: Int
     let achieve: Int
     let fail: Int
@@ -21,12 +21,15 @@ struct GetMyPageData: Codable {
     let challenges: Int
     let likes: Int
     let points: Int
-    let feedDTOs: GetFeed
+    let feedDTOs: FeedList
+    let nickName: String
+    let profileImage: String
 }
-struct GetFeed: Codable {
-    let feeds: [feedData]
+struct FeedList: Codable {
+    let feeds: [feedData]?
 }
 struct feedData: Codable {
     let feedId: Int
     let feedUrl: String
+    let day: String
 }
