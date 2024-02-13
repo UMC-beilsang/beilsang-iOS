@@ -1,8 +1,8 @@
 //
-//  ChallengeModel.swift
+//  ChallengeRecommendModel.swift
 //  beilsang
 //
-//  Created by 곽은채 on 2/12/24.
+//  Created by 곽은채 on 2/14/24.
 //
 
 // 챌린지 관련 api 연결 모델
