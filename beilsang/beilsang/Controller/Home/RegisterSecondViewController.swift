@@ -421,7 +421,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         point = Int(pointIntLabel.text!)!
         checkPointButtonState()
         
-        isNext = [true, true, false, true]
+        isNext = [detailTextView.text != nil, !noticeLabels.isEmpty, examplePhotoImage.image != nil, point > 0]
         updateNextButtonState()
     }
     
@@ -722,7 +722,7 @@ extension RegisterSecondViewController {
         }
         
         noticeButton.snp.makeConstraints { make in
-            make.top.equalTo(noticeCollectionView.snp.bottom).offset(8)
+            make.top.equalTo(noticeCollectionView.snp.bottom)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
             make.trailing.equalTo(fullScrollView.snp.trailing).offset(-16)
             make.height.equalTo(64)
@@ -967,9 +967,9 @@ extension RegisterSecondViewController: UIImagePickerControllerDelegate, UINavig
             textView.text = nil
         }
         
-        textView.textColor = UIColor.beRed500
-        textView.layer.borderColor = UIColor.beRed500.cgColor
-        textView.backgroundColor = .beRed100
+        textView.textColor = UIColor.bePsBlue500
+        textView.layer.borderColor = UIColor.bePsBlue500.cgColor
+        textView.backgroundColor = .bePsBlue100
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

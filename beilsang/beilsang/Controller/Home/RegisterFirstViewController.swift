@@ -103,7 +103,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 다음으로 버튼 활성화를 위한 변수
-    var isNext = [false, false, false, false, false, false]
+    var isNext : [Bool] = [false, false, false, false, false, false]
     
     // 대표 사진 등록 레이블
     lazy var representativePhotoLabel = customLabelView(labelText: "대표 사진")
@@ -353,7 +353,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         count = Int(countIntLabel.text!)!
         checkCountButtonState()
         
-        isNext = [true, true, true, true, true, true]
+        isNext = [representativePhotoImage.image != nil, challengeTitleField.text != nil, categoryField.text != nil, startField.text != nil, dayField.text != nil, count > 0]
         updateNextButtonState()
     }
     
@@ -808,8 +808,10 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
                 textField.backgroundColor = .beRed100
                 
                 challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckImage.image = UIImage(named: "icon_information-circle")
                 challengeTitleCheckLabel.isHidden = false
                 challengeTitleCheckLabel.text = "제목은 4자 이상이어야 합니다."
+                challengeTitleCheckLabel.textColor = .beRed500
                 
                 isNext[1] = false
             } else if updatedText.count > 15 {
@@ -849,17 +851,12 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == challengeTitleField {
-            textField.textColor = UIColor.beRed500
-            textField.layer.borderColor = UIColor.beRed500.cgColor
-            textField.backgroundColor = .beRed100
-            
             challengeTitleCheckImage.isHidden = false
             challengeTitleCheckLabel.isHidden = false
-        } else {
-            textField.textColor = UIColor.bePsBlue500
-            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            textField.backgroundColor = .bePsBlue100
         }
+        textField.textColor = UIColor.bePsBlue500
+        textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+        textField.backgroundColor = .bePsBlue100
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
