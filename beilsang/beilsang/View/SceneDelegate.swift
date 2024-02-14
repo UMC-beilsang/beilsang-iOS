@@ -6,23 +6,56 @@
 //
 
 import UIKit
+import KakaoSDKCommon
+import KakaoSDKAuth
+import AuthenticationServices
+import KakaoSDKUser
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+   
+    //로그인 로직
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
-        let mainViewController = TabBarViewController()
-    () // 맨 처음 보여줄 ViewController
-
-        window?.rootViewController = mainViewController
+        window = UIWindow(windowScene: windowScene)
+        
+        if let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken) {
+            // existmember 확인
+            if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                let mainVC = UINavigationController(rootViewController: HomeMainViewController())
+                self.window?.rootViewController = mainVC
+                self.window?.makeKeyAndVisible()
+                print("found access Token")
+            } else {
+                // 가입 절차 거치지 않은 유저
+                let keywordVC = UINavigationController(rootViewController: KeywordViewController())
+                self.window?.rootViewController = keywordVC
+                self.window?.makeKeyAndVisible()
+                print("No exist member")
+            }
+        } else {
+            // 액세스 토큰이 없으면 로그인 화면으로 이동
+            let loginVC = UINavigationController(rootViewController: LoginViewController())
+            self.window?.rootViewController = loginVC
+            self.window?.makeKeyAndVisible()
+            print("Not found access Token")
+        }
+        
         window?.makeKeyAndVisible()
+    }
+    
+    func changeRootViewController(_ newRootViewController: UIViewController) {
+            guard let window = self.window else { return }
+            window.rootViewController = newRootViewController
+        }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -55,3 +88,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
+
+

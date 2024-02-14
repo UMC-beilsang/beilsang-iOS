@@ -7,13 +7,17 @@
 
 import Foundation
 
+// 키체인으로 변경 예정
 struct UserDefaultsKey {
     static let socialType = "socialType"
-    static let accessToken = "accessToken"
+    
+    static let serverToken = "serverToken"
+    
+    static let refreshToken = "refreshToken"
+    
     static let sessionId = "sessionId"
     static let memberId = "memberId"
     static let updatedAt = "updatedAt"
     static let existMember = "existMember"
-    //static let isLogin = "isLogin"
-}
 
+}
