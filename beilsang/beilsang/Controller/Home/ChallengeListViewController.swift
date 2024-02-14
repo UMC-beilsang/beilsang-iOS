@@ -89,12 +89,15 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     // 챌린지 리스트 콜렉션 뷰
     lazy var challengeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    var challengeData : [ChallengeCategoryData] = []
+    
     // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
+        setChallenges()
         setupAttribute()
         setCollectionView()
     }
@@ -209,6 +212,20 @@ extension ChallengeListViewController {
     }
 }
 
+// MARK: - 카테고리별 챌린지 리스트 api 세팅
+extension ChallengeListViewController {
+    func setChallenges() {
+        ChallengeService.shared.challengeCategories(categoryName: categoryLabelText!) { response in
+            self.setChallengesList(response.data!.challenges)
+        }
+    }
+    @MainActor
+    private func setChallengesList(_ response: [ChallengeCategoryData]) {
+        self.challengeData = response
+        self.challengeCollectionView.reloadData()
+    }
+}
+
 // MARK: - collectionView setting(챌린지 리스트)
 extension ChallengeListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 세팅
@@ -220,7 +237,7 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
     
     // 셀 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return challengeData.count
     }
     
     // 셀 설정
@@ -229,6 +246,14 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
                 ChallengeListCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
+        cell.challengeId = challengeData[indexPath.row].challengeId
+        
+        // let url = challengeData[indexPath.row].imageUrl
+        // cell.challengeImage.kf.setImage(with: url)
+        cell.challengeNameLabel.text = challengeData[indexPath.row].title
+        cell.makerNickname.text = challengeData[indexPath.row].hostName
+        cell.buttonLabel.text = "참여 인원 \(challengeData[indexPath.row].attendeeCount)명"
         
         return cell
     }
