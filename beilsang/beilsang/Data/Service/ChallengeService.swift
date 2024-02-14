@@ -14,19 +14,20 @@ class ChallengeService {
     
     private init() {}
     
+    let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.accessToken) ?? ""
+    
+    // 홈 메인화면 추천 챌린지
     func challengeRecommend(completionHandler : @escaping (_ data: ChallengeRecommends) -> Void) {
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/challenges/recommends"
             
-            let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.accessToken) ?? ""
-            
             // HTTP Headers : 요청 헤더
             let header : HTTPHeaders = [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(accessToken)"
+                "Authorization": "Bearer \(self.accessToken)"
             ]
             
-            AF.request(url, method: .get, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: ChallengeRecommends.self, completionHandler: { response in
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeRecommends.self, completionHandler: { response in
                 switch response.result {
                 case .success:
                     guard let result = response.value else {return}
@@ -36,6 +37,72 @@ class ChallengeService {
                 case .failure(let error):
                     print(error)
                     print("get 요청 실패")
+                }
+            })
+        }
+    }
+    
+    // 챌린지 리스트 화면
+    func challengeCategories(categoryName: String, completionHandler : @escaping (_ data: ChallengeCategory) -> Void) {
+        DispatchQueue.main.async {
+            let url = "https://beilsang.com/api/challenges/categories/\(categoryName)"
+            
+            // HTTP Headers : 요청 헤더
+            let header : HTTPHeaders = [
+                "Content-Type": "application/json"
+            ]
+            
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeCategory.self, completionHandler: { response in
+                switch response.result {
+                case .success:
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    print(error)
+                    print("get 요청 실패")
+                }
+            })
+        }
+    }
+    
+    // 챌린지 등록화면
+    func challengePost(completionHandler : @escaping (_ data: ChallengePost) -> Void) {
+        DispatchQueue.main.async {
+            let url = "https://beilsang.com/api/challenges"
+            
+            // HTTP Headers : 요청 헤더
+            let header : HTTPHeaders = [
+                "Content-Type": "multipart/form-data",
+                "Authorization": "Bearer \(self.accessToken)"
+            ]
+            
+            let parameters: [String: Any] = [
+                "mainImage": ChallengeDataSingleton.shared.mainImage ?? "",
+                "title": ChallengeDataSingleton.shared.title ?? "",
+                // "category": ChallengeDataSingleton.shared.category ?? "",
+                "category": "TUMBLER",
+                "startDate": (ChallengeDataSingleton.shared.startDate) ?? "",
+                // "period": ChallengeDataSingleton.shared.period ?? "",
+                "period": "WEEK",
+                "totalGoalDay": ChallengeDataSingleton.shared.totalGoalDay ?? "",
+                "details": ChallengeDataSingleton.shared.details ?? "",
+                "notes": ChallengeDataSingleton.shared.notes,
+                "certImage": ChallengeDataSingleton.shared.certImage ?? "",
+                "joinPoint": ChallengeDataSingleton.shared.joinPoint ?? ""
+            ]
+            
+            AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: ChallengePost.self, completionHandler: { response in
+                switch response.result {
+                case .success:
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("post 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    print(error)
+                    print("post 요청 실패")
                 }
             })
         }

@@ -127,7 +127,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         view.autocapitalizationType = .none // 대문자부터 시작 활성화 여부
         
         view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
-        view.textColor = .beTextEx
+        view.textColor = .beTextDef
         view.text = textViewPlaceHolder
         
         view.textContainerInset = UIEdgeInsets(top: 14, left: 19, bottom: 14, right: 19)
@@ -162,7 +162,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     lazy var noticeTitleLabel = customLabelView(labelText: "챌린지 인증 유의사항")
     
     // 챌린지 유의사항
-    var noticeLabels: [String] = []
+    var noticeLabels: [String] = ChallengeDataSingleton.shared.notes
     
     // 챌린지 유의사항 콜렉션 뷰
     lazy var noticeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -405,6 +405,39 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         setCollectionView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        detailTextView.text = ChallengeDataSingleton.shared.details
+        noticeLabels = ChallengeDataSingleton.shared.notes
+        if let imageData = ChallengeDataSingleton.shared.certImage {
+            let image = UIImage(data: imageData)
+            examplePhotoImage.image = image
+            examplePhotoButtonLabel.text = "사진 등록하기\n1/1"
+            examplePhotoImage.isHidden = false
+        }
+        pointIntLabel.text = String(ChallengeDataSingleton.shared.joinPoint ?? 0)
+        
+        point = Int(pointIntLabel.text!)!
+        checkPointButtonState()
+        
+        isNext = [true, true, false, true]
+        updateNextButtonState()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        ChallengeDataSingleton.shared.details = detailTextView.text
+        ChallengeDataSingleton.shared.notes = noticeLabels
+        
+        guard let image = examplePhotoImage.image else { return }
+        let imageData = image.jpegData(compressionQuality: 1.0)
+        ChallengeDataSingleton.shared.certImage = imageData
+        
+        ChallengeDataSingleton.shared.joinPoint = Int(pointIntLabel.text!)
+    }
+    
     // MARK: - actions
     // 네비게이션 아이템 누르면 alert 띄움
     @objc func navigationButtonClicked() {
@@ -419,6 +452,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         challengeListVC.categoryLabelText = labelText
         navigationController?.pushViewController(challengeListVC, animated: true)
         
+        ChallengeDataSingleton.shared.resetData()
         cancleAlertViewResponder?.close()
     }
     
@@ -688,7 +722,7 @@ extension RegisterSecondViewController {
         }
         
         noticeButton.snp.makeConstraints { make in
-            make.top.equalTo(noticeCollectionView.snp.bottom)
+            make.top.equalTo(noticeCollectionView.snp.bottom).offset(8)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
             make.trailing.equalTo(fullScrollView.snp.trailing).offset(-16)
             make.height.equalTo(64)

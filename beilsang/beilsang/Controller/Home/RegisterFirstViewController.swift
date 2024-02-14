@@ -333,6 +333,44 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         createPickerView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Singleton에서 데이터 가져오기
+        if let imageData = ChallengeDataSingleton.shared.mainImage {
+            let image = UIImage(data: imageData)
+            representativePhotoImage.image = image
+            representativePhotoButtonLabel.text = "사진 등록하기\n1/1"
+            representativePhotoImage.isHidden = false
+        }
+        
+        challengeTitleField.text = ChallengeDataSingleton.shared.title
+        categoryField.text = ChallengeDataSingleton.shared.category
+        startField.text = ChallengeDataSingleton.shared.startDate
+        dayField.text = ChallengeDataSingleton.shared.period
+        countIntLabel.text = String(ChallengeDataSingleton.shared.totalGoalDay ?? 0)
+        
+        count = Int(countIntLabel.text!)!
+        checkCountButtonState()
+        
+        isNext = [true, true, true, true, true, true]
+        updateNextButtonState()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let image = representativePhotoImage.image else { return }
+        let imageData = image.jpegData(compressionQuality: 1.0)
+        ChallengeDataSingleton.shared.mainImage = imageData
+        
+        ChallengeDataSingleton.shared.title = challengeTitleField.text
+        ChallengeDataSingleton.shared.category = categoryField.text
+        ChallengeDataSingleton.shared.startDate = startField.text
+        ChallengeDataSingleton.shared.period = dayField.text
+        ChallengeDataSingleton.shared.totalGoalDay = Int(countIntLabel.text!)
+    }
+    
     // MARK: - actions
     // 네비게이션 아이템 누르면 alert 띄움
     @objc func navigationButtonClicked() {
@@ -347,6 +385,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         challengeListVC.categoryLabelText = labelText
         navigationController?.pushViewController(challengeListVC, animated: true)
         
+        ChallengeDataSingleton.shared.resetData()
         cancleAlertViewResponder?.close()
     }
     
@@ -390,11 +429,6 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
             challengeTitleCheckImage.image = UIImage(named: "icon-check")
             challengeTitleCheckLabel.text = "사용 가능한 챌린지 제목입니다"
             challengeTitleCheckLabel.textColor = .bePsBlue500
-            
-            // 챌린지 제목이 존재한다면
-//            challengeTitleCheckImage.image = UIImage(named: "icon_information-circle")
-//            challengeTitleCheckLabel.text = "이미 존재하는 챌린지 제목입니다"
-//            challengeTitleCheckLabel.textColor = .beWnRed500
         }
     }
     
