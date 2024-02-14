@@ -22,12 +22,20 @@ class SignUpData {
 
 // 서버로부터 받은 데이터를 파싱하는 구조체
 struct SignUpResponse: Codable {
-    let isSuccess: Bool?
+    let isSuccess: Bool
     let status: String
-    let message: String?
-    let data: Empty
+    let message: String
+    let data: Empty?
+}
+
+struct nameCheckResponse: Codable {
+    let isSuccess: Bool
+    let status: String
+    let message: String
+    let data: Bool
 }
 
 struct Empty: Codable { }
+
 
 

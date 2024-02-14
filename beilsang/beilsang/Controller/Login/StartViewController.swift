@@ -179,7 +179,6 @@ extension StartViewController {
                 print("요청 페일 \(error)")
             case .pathErr:
                 print("경로 오류")
-        
             case .serverErr:
                 print("서버 오류")
             }

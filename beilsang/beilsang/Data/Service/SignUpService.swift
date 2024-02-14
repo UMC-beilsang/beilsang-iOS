@@ -16,7 +16,10 @@ class SignUpService {
     
     func signUp(gender : Gender, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.signUpURL
-        let header: HTTPHeaders = ["Content-Type": "application/json"]
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "accept": "*/*"
+        ]
         let body: Parameters = ["gender": gender,
                                 "nickName": nickName,
                                 "birth" : birth,
@@ -30,7 +33,7 @@ class SignUpService {
                                      method: .post,
                                      parameters: body,
                                      encoding: JSONEncoding.default,
-                                     headers: header)
+                                     headers: headers)
         
         dataRequest.responseData { response in
             switch response.result {
@@ -46,6 +49,10 @@ class SignUpService {
                 completion(.networkFail)
             }
         }
+    }
+    
+    func nameCheck() {
+        
     }
     
     private func judgeStatus(by statusCode: Int, _ data: Data) -> NetworkResult<Any> {

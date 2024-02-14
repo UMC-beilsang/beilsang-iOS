@@ -14,18 +14,21 @@ class LoginService {
     
     private init() {}
     
-    func kakaoLogin(accessToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
+    func kakaoLogin(accesstoken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.loginKakaoURL
-        let header: HTTPHeaders = ["Content-Type": "application/json"]
-        let body: Parameters = ["accesstoken": accessToken]
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "accept": "*/*"
+        ]
+        let body: Parameters = ["accesstoken": accesstoken]
         
-        print("access Token : \(accessToken)")
+        print("access Token : \(accesstoken)")
         
         let dataRequest = AF.request(url,
                                      method: .post,
                                      parameters: body,
                                      encoding: JSONEncoding.default,
-                                     headers: header)
+                                     headers: headers)
         
         dataRequest.responseData { response in
             switch response.result {
@@ -37,6 +40,7 @@ class LoginService {
                 
                 let networkResult = self.judgeStatus(by: statusCode, value)
                 completion(networkResult)
+                
             case .failure:
                 completion(.networkFail)
             }
@@ -45,14 +49,17 @@ class LoginService {
     
     func appleLogin(idToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.loginAppleURL
-        let header: HTTPHeaders = ["Content-Type": "application/json"]
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "accept": "*/*"
+        ]
         let body: Parameters = ["idToken": idToken]
         
         let dataRequest = AF.request(url,
                                      method: .post,
                                      parameters: body,
                                      encoding: JSONEncoding.default,
-                                     headers: header)
+                                     headers: headers)
         
         dataRequest.responseData { response in
             switch response.result {

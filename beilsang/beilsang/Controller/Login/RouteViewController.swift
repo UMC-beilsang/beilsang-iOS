@@ -317,11 +317,11 @@ class RouteViewController: UIViewController {
     @objc private func nextAction() {
         print("Next button tapped")
         
-        SignUpData.shared.discoveredPath = routeField.text ?? ""
-        SignUpData.shared.recommendNickname = recommendField.text ?? ""
+        SignUpData.shared.discoveredPath = routeField.text
+        SignUpData.shared.recommendNickname = recommendField.text
         
-        print("DiscoveredPath: \(String(describing: SignUpData.shared.discoveredPath))")
-        print("recommendNickname: \(String(describing: SignUpData.shared.recommendNickname))")
+        print("DiscoveredPath: \(SignUpData.shared.discoveredPath ?? "")")
+        print("recommendNickname: \(SignUpData.shared.recommendNickname ?? "")")
         
         let startViewController = StartViewController()
         

@@ -195,7 +195,7 @@ extension LoginViewController {
                         self.kakaologinToServer(with: token)
                         //서버에 보내주기
                         
-                        self.presentToMain()
+                       // self.presentToMain()
                     }
                 }
             }
@@ -292,17 +292,17 @@ extension LoginViewController {
     // 카카오
     private func kakaologinToServer(with kakaoAccessToken: String?) {
         // LoginService를 사용하여 서버에 Post
-        LoginService.shared.kakaoLogin(accessToken: kakaoAccessToken ?? "") { result in
+        LoginService.shared.kakaoLogin(accesstoken: kakaoAccessToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
                 guard let data = data as? LoginResponse else { return }
                 
-                print("Login to server success with data: \(data)")
+                print("Kakao login to server success with data: \(data)")
                 
                 //서버에서 보내준 accessToken,refreshToken, existMember 저장
                 UserDefaults.standard.set(data.data?.accessToken, forKey: "serverToken")
-                UserDefaults.standard.set(data.data?.refreshToken, forKey: "kakaoRefreshToken")
+                UserDefaults.standard.set(data.data?.refreshToken, forKey: "refreshToken")
                 UserDefaults.standard.set(data.data?.existMember, forKey: "existMember")
                 
             case .networkFail:
@@ -324,7 +324,7 @@ extension LoginViewController {
                 // 서버에서 받은 데이터 처리
                 guard let data = data as? LoginResponse else { return }
                 
-                print("Login to server success with data: \(data)")
+                print("Apple login to server success with data: \(data)")
                 
                 UserDefaults.standard.set(data.data?.accessToken, forKey: "serverToken")
                 UserDefaults.standard.set(data.data?.refreshToken, forKey: "appleRefreshToken")

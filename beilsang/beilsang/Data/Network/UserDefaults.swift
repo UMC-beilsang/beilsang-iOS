@@ -11,12 +11,9 @@ import Foundation
 struct UserDefaultsKey {
     static let socialType = "socialType"
     
-    //static let kakaoAccessToken = "kakaoAccessToken"
-    //static let appleAuthorizationCode = "appleAuthorizationCode"
     static let serverToken = "serverToken"
     
-    static let kakaoRefreshToken = "kakaoRefreshToken"
-    static let appleRefreshToken = "appleRefreshToken"
+    static let refreshToken = "refreshToken"
     
     static let sessionId = "sessionId"
     static let memberId = "memberId"

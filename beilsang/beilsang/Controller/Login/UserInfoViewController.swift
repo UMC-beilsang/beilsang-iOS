@@ -24,7 +24,6 @@ class UserInfoViewController: UIViewController {
     var textFieldValid = true
     var nameDuplicate = true
     var isNext = [false, false, false, false]
-    var birthFieldTextServer : String?
     
     let agreeImage = UIImage(named: "agree")
     let disagreeImage = UIImage(named: "disagree")
@@ -920,7 +919,7 @@ class UserInfoViewController: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko-KR")
-        datePicker.addTarget(self, action: #selector(dateChange), for: .editingDidEnd)
+        datePicker.addTarget(self, action: #selector(dateChange), for: .allEvents)
         datePicker.maximumDate = Date()
         birthField.inputView = datePicker
     }
@@ -1142,6 +1141,7 @@ class UserInfoViewController: UIViewController {
         print("Gender : \(SignUpData.shared.gender)")
         print("birth : \(SignUpData.shared.birth)")
         print("nickName : \(SignUpData.shared.nickName)")
+        print("address : \(SignUpData.shared.address ?? "")")
         
         let routeViewController = RouteViewController()
         self.navigationController?.pushViewController(routeViewController, animated: true)
