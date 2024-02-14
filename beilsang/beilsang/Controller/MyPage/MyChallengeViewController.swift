@@ -104,7 +104,8 @@ extension MyChallengeViewController {
     }
     func setScrollViewLayout(){
         fullScrollView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
+            make.bottom.leading.trailing.equalToSuperview()
+            make.top.equalTo(categoryUnderLine.snp.bottom)
         }
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
@@ -115,15 +116,17 @@ extension MyChallengeViewController {
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
-        //상단부
-        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine, challengeBoxCollectionView, toastLabel].forEach{ view in fullContentView.addSubview(view)}
+        [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine,].forEach { view in
+            self.view.addSubview(view)
+        }
+        [ challengeBoxCollectionView, toastLabel].forEach{ view in fullContentView.addSubview(view)}
         
     }
     
     //snp 설정
     func viewConstraint(){
         menuCollectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(40)
@@ -392,7 +395,7 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         showToast(message: button.titleLabel?.text ?? "")
     }
     func showToast(message : String) {
-        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 166, y: self.view.frame.size.height-100, width: 332, height: 43))
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 166, y: self.view.frame.size.height-140, width: 332, height: 43))
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = .white
         toastLabel.font = UIFont(name: "NotoSansKR-Medium", size: 16)
@@ -410,4 +413,3 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         })
     }
 }
-

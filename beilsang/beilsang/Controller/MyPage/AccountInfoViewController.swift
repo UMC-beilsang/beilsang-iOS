@@ -614,7 +614,24 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
 }
 
 extension AccountInfoViewController {
-    
+    func request() {
+        let memberId = UserDefaults.standard.string(forKey: "memberId")
+        var gender = ""
+        if genderField.text == "남자"{
+            gender = "MAN"
+        } else if genderField.text == "여자"{
+            gender = "WOMAN"
+        } else if genderField.text == "기타"{
+            gender = "OTHER"
+        }
+        let parameters = AccountInfoData(nickName: nameField.text ?? "", birth: birthField.text ?? "" , gender: gender , address: (addressField.text ?? "") + (addressDetailField.text ?? ""))
+        print(parameters)
+        MyPageService.shared.patchAccountInfo(baseEndPoint: .profile, addPath: "", parameter: parameters.toDictionary ?? [:] ) { response in
+            print(response.message )
+            
+        }
+    }
+
     func setupAttribute() {
         setFullScrollView()
         setLayout()
@@ -868,7 +885,7 @@ extension AccountInfoViewController {
     
     private func dateFormat(date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일"
+        formatter.dateFormat = "yyyy-MM-dd"
         
         return formatter.string(from: date)
     }
@@ -998,8 +1015,7 @@ extension AccountInfoViewController{
     
     func nameDuplicateCheck() {
         
-        let userInput = nameField.text ?? ""
-        let serverInput = Bool.random()
+        let serverInput = requestDuplicateCheck()
         
         if serverInput  {
             nameInfoViewChanged(state: "avaliable")
@@ -1017,6 +1033,14 @@ extension AccountInfoViewController{
             
             updateSaveButtonState()
         }
+    }
+    
+    private func requestDuplicateCheck() -> Bool{
+        var dupCheck = true
+        MyPageService.shared.getDuplicateCheck(baseEndPoint: .join, addPath: "?name=\(nameField.text ?? "")" ) { response in
+            dupCheck = response.data
+        }
+        return dupCheck
     }
     // MARK: - save Button
     
@@ -1089,6 +1113,7 @@ extension AccountInfoViewController{
         updateSaveButtonState()
         nameDuplicateButton.isEnabled = false
         nameDuplicateButton.backgroundColor = .beBgDiv
+        request()
     }
 }
 

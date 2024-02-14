@@ -340,7 +340,7 @@ extension FindViewController {
             make.width.equalTo(240)
             make.height.equalTo(40)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-48)
+            make.bottom.equalToSuperview().offset(-128)
         }
         buttonLabel.snp.makeConstraints { make in
             make.leading.equalTo(moreFeedButton).offset(42)
@@ -355,7 +355,7 @@ extension FindViewController {
         scrollToTop.snp.makeConstraints { make in
             make.width.height.equalTo(66)
             make.trailing.equalToSuperview().offset(-20)
-            make.bottom.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-96)
         }
         reportSubView.snp.makeConstraints{ make in
             make.width.equalTo(318)
@@ -553,10 +553,15 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
             feedDetailCollectionView.isHidden = false
             feedDetailBackground.isHidden = false
             fullScrollView.isScrollEnabled = false
+            
             // 피드 이미지 전달
             let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FindFeedDetailCollectionViewCell
             feedCell.feedImage.image = cell.challengeFeed.image
+            
             // 추천 챌린지 data
+            requestRecommendChallenge()
+//            let recommentChallenge = RecommendChallenge.self
+//            print(recommentChallenge)
             feedCell.categoryLabel.text = "대중교통 챌린지"
             feedCell.titleLabel.text = "버스 이용자 모여라"
             feedCell.recommendImageView.image = UIImage(named: "representImage")
@@ -667,6 +672,14 @@ extension FindViewController {
     @objc func close(){
         alertViewResponder?.close()
     }
+    
+    // 미완
+    private func requestRecommendChallenge() /*-> RecommendChallengeData*/{
+        FindService.shared.getRecommendChallenge(baseEndPoint: .challenges, addPath: "/recommends") { response in
+            print(response.data.recommendChallengeDTOList?[0])
+//            return response.data.recommendChallengeDTOList
+        }
+    }
 }
 
 // 텍스트필드 placeholder 왼쪽에 padding 추가
@@ -698,7 +711,7 @@ extension UIScrollView {
         let unionCalculatedTotalRect = recursiveUnionInDepthFor(view: self)
         
         // 계산된 크기로 컨텐츠 사이즈 설정
-        self.contentSize = CGSize(width: self.frame.width, height: unionCalculatedTotalRect.height+50)
+        self.contentSize = CGSize(width: self.frame.width, height: unionCalculatedTotalRect.height+100)
     }
     
     private func recursiveUnionInDepthFor(view: UIView) -> CGRect {
