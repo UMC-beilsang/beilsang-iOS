@@ -1112,19 +1112,36 @@ class UserInfoViewController: UIViewController {
         }
     }
     
+    func formatDate(dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yy년 MM월 dd일" // 입력된 날짜 형식
+        guard let date = dateFormatter.date(from: dateString) else {
+            return nil // 날짜 변환이 실패할 경우 nil 반환
+        }
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd" // 원하는 날짜 형식
+        let formattedDate = dateFormatter.string(from: date)
+        return formattedDate
+    }
+    
     //MARK: - SignUpData parsing
     func SignUpDataParse() {
         SignUpData.shared.nickName = nameField.text ?? ""
-        SignUpData.shared.birth = birthField.text ?? ""
+        
+        if let formattedBirth = formatDate(dateString: birthField.text ?? ""){
+            SignUpData.shared.birth = formattedBirth
+        }else {
+            print("formattting error!")
+        }
         
         if genderField.text == "남자" {
-            SignUpData.shared.gender = .MALE
+            SignUpData.shared.gender = "MAN"
         }
         else if genderField.text == "여자" {
-            SignUpData.shared.gender = .FEMALE
+            SignUpData.shared.gender = "WOMAN"
         }
         else {
-            SignUpData.shared.gender = .OTHER
+            SignUpData.shared.gender = "OTHER"
         }
         
         if let address = addressField.text, let detailAddress = addressDetailField.text {

@@ -13,14 +13,15 @@ class SignUpService {
     static let shared = SignUpService()
     
     private init() {}
-    
-    func signUp(gender : Gender, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
+        
+    func signUp(accessToken: String, gender : String, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.signUpURL
         let headers: HTTPHeaders = [
-            "Content-Type": "application/json",
-            "accept": "*/*"
+            "accept": "*/*",
+            "Content-Type": "application/json"
         ]
-        let body: Parameters = ["gender": gender,
+        let body: Parameters = ["accessToken" : accessToken,
+                                "gender": gender,
                                 "nickName": nickName,
                                 "birth" : birth,
                                 "address" : address ?? "",
@@ -46,11 +47,11 @@ class SignUpService {
                 completion(networkResult)
                 
             case .failure:
-                completion(.networkFail)
+                completion(.pathErr)
             }
         }
     }
-    
+
     func nameCheck() {
         
     }

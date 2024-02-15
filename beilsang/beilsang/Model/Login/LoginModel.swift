@@ -8,10 +8,10 @@
 import Foundation
 
 struct LoginResponse: Codable {
-    let isSuccess : Bool?
-    let status : String
+    let code : String
     let message : String
     let data : LoginData?
+    let success : Bool
 }
 
 struct LoginData : Codable {

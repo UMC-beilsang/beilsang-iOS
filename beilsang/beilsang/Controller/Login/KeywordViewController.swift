@@ -61,6 +61,7 @@ class KeywordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(UserDefaults.standard.string(forKey: "serverToken"))
         navigationBarSetup()
         setupUI()
         setupLayout()
@@ -176,23 +177,23 @@ extension KeywordViewController: UICollectionViewDataSource, UICollectionViewDel
         var key: String
             switch indexPath.row {
             case 0:
-                key = "텀블러"
+                key = "TUMBLER"
             case 1:
-                key = "리필"
+                key = "REFILL_STATION"
             case 2:
-                key = "다회용기"
+                key = "MULTIPLE_CONTAINERS"
             case 3:
-                key = "에코"
+                key = "ECO_PRODUCT"
             case 4:
-                key = "플로깅"
+                key = "PLOGGING"
             case 5:
-                key = "비건"
+                key = "VEGAN"
             case 6:
-                key = "대중교통"
+                key = "PUBLIC_TRANSPORT"
             case 7:
-                key = "자전거"
+                key = "BIKE"
             case 8:
-                key = "재활용"
+                key = "RECYCLE"
             default:
                 key = ""
             }

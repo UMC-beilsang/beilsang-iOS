@@ -10,7 +10,7 @@ import Foundation
 class SignUpData {
     static let shared = SignUpData() // Singleton 객체 생성
     
-    var gender: Gender = .MALE
+    var gender: String = ""
     var nickName: String = ""
     var birth: String = ""
     var address: String? = ""
@@ -22,17 +22,24 @@ class SignUpData {
 
 // 서버로부터 받은 데이터를 파싱하는 구조체
 struct SignUpResponse: Codable {
-    let isSuccess: Bool
-    let status: String
+    let code : String
     let message: String
     let data: Empty?
+    let success : Bool
+}
+
+struct RefreshResponse : Codable {
+    let code : String
+    let message: String
+    let data : RefreshData
+    let success : Bool
 }
 
 struct nameCheckResponse: Codable {
-    let isSuccess: Bool
-    let status: String
+    let code : String
     let message: String
-    let data: Bool
+    let data: Empty?
+    let success : Bool
 }
 
 struct Empty: Codable { }

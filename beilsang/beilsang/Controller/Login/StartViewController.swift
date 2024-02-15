@@ -153,24 +153,28 @@ class StartViewController: UIViewController {
         
         SignUpToServer()
         
-        //let homeVC = HomeMainViewController()
-        
-        //if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            //sceneDelegate.changeRootViewController(homeVC)
-       // }
+
     }
 }
 
 extension StartViewController {
     func SignUpToServer() {
         // SignUpService를 사용하여 서버에 Post
-        SignUpService.shared.signUp(gender: SignUpData.shared.gender, nickName: SignUpData.shared.nickName, birth: SignUpData.shared.birth, address: SignUpData.shared.address, keyword: SignUpData.shared.keyword, discoveredPath: SignUpData.shared.discoveredPath, resolution: SignUpData.shared.resolution, recommendNickname: SignUpData.shared.recommendNickname){ result in
+        let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)
+        SignUpService.shared.signUp(accessToken: accessToken! , gender: SignUpData.shared.gender, nickName: SignUpData.shared.nickName, birth: SignUpData.shared.birth, address: SignUpData.shared.address, keyword: SignUpData.shared.keyword, discoveredPath: SignUpData.shared.discoveredPath, resolution: SignUpData.shared.resolution, recommendNickname: SignUpData.shared.recommendNickname){ result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
                 guard let data = data as? SignUpResponse else { return }
+                print("signup to server success with data: \(data)") 
                 
-                print("signup to server success with data: \(data)")
+                UserDefaults.standard.set(true, forKey: UserDefaultsKey.existMember)
+                
+                let homeVC = HomeMainViewController()
+                
+                if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    sceneDelegate.changeRootViewController(homeVC)
+                }
                 
             case .networkFail:
                 // 서버 통신 실패 처리
@@ -180,8 +184,11 @@ extension StartViewController {
             case .pathErr:
                 print("경로 오류")
             case .serverErr:
+                
                 print("서버 오류")
             }
         }
     }
+    
+    
 }
