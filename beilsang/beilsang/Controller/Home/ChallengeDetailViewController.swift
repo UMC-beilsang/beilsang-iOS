@@ -18,7 +18,6 @@ class ChallengeDetailViewController: UIViewController {
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
     
-    let cautionDataList = CautionChallenge.data
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     
     var alertViewResponder: SCLAlertViewResponder? = nil
@@ -636,7 +635,7 @@ class ChallengeDetailViewController: UIViewController {
         return button
     }()
     
-    var challengeId : Int? = 22
+    var challengeId : Int? = 14
     
     var challengeDetailData : ChallengeDetailData? = nil
     var challengeRecommendData : [ChallengeRecommendsData] = []
@@ -762,7 +761,6 @@ class ChallengeDetailViewController: UIViewController {
         categoryView.snp.makeConstraints{ make in
             make.top.equalTo(writerLabel.snp.bottom).offset(28)
             make.leading.equalToSuperview().offset(16)
-            make.width.equalTo(108)
             make.height.equalTo(40)
         }
         
@@ -773,6 +771,7 @@ class ChallengeDetailViewController: UIViewController {
         
         categoryLabel.snp.makeConstraints{ make in
             make.centerY.equalToSuperview()
+            make.leading.equalTo(categoryIcon.snp.trailing).offset(8)
             make.trailing.equalToSuperview().offset(-20)
         }
         
@@ -1147,7 +1146,8 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
             
             let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
             cell.recommendImageView.kf.setImage(with: url)
-            cell.categoryLabel.text = challengeRecommendData[indexPath.row].category
+            let category = CategoryConverter.shared.convertToKorean(challengeRecommendData[indexPath.row].category)
+            cell.categoryLabel.text = category
             cell.titleLabel.text = challengeRecommendData[indexPath.row].title
             
             return cell
@@ -1183,31 +1183,37 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: - 참여중 챌린지, 챌린지 유의사항, 추천 챌린지 api 세팅
 extension ChallengeDetailViewController {
+    // 챌린지의 모든 데이터를 가져오는 함수
     func setChallengeData() {
         ChallengeService.shared.challengeDetail(challengId: challengeId!) { response in
             self.challengeDetailData = response.data
             
-            self.popPointLabel.text = "\(response.data.joinPoint)P"
+            self.popPointLabel.text = "\(response.data.joinPoint)P" // 참여하기 팝업 - 참여 포인트
             let representURL = URL(string: (response.data.imageUrl!))
-            self.representImageView.kf.setImage(with: representURL)
-            self.titleLabel.text = response.data.title
-            self.peopleNumLabel.text = "\(response.data.attendeeCount)명 참여중"
-            self.writerLabel.text = response.data.hostName
-            self.writeDateLabel.text = response.data.createdDate
-            //            let serverResponse = response.data?.category
-            //            self.categoryIcon.text = self.categoryIconMap[serverResponse!]
-            //            self.categoryLabel.text = self.categoryMap[serverResponse!]
-            self.leftDayLabel.text = "D-\(response.data.dday)"
-            self.startDateLabel.text = response.data.startDate
-            self.joinPointLabel.text = "\(response.data.joinPoint)P"
-            updatePeriodLabel(weekCountText: response.data.period, sessionCountText: response.data.totalGoalDay)
-            self.detailLabel.text = response.data.details
+            self.representImageView.kf.setImage(with: representURL) // 대표 사진 이미지
+            self.titleLabel.text = response.data.title // 챌린지 제목
+            self.peopleNumLabel.text = "\(response.data.attendeeCount)명 참여중" // 참여 중인 유저 수
+            self.writerLabel.text = response.data.hostName // 작성자
+            self.writeDateLabel.text = response.data.createdDate // 작성일: yyyy-MM-dd
+            let categoryIcon = CategoryConverter.shared.convertToIcon(response.data.category)
+            self.categoryIcon.text = categoryIcon // 카테고리 아이콘
+            let categoryText = CategoryConverter.shared.convertToKorean(response.data.category)
+            self.categoryLabel.text = categoryText // 카테고리 한글
+            self.leftDayLabel.text = "D-\(response.data.dday)" // 남은 기간: D-1
+            let startDate = DateConverter.shared.convertDetail(from: response.data.startDate)
+            let startDay = DateConverter.shared.convertToDay(response.data.dayOfWeek)
+            self.startDateLabel.text =  "\(startDate ?? "") \(startDay ?? "")"// 시작일
+            self.joinPointLabel.text = "\(response.data.joinPoint)P" // 참여 포인트: 0P
+            let period = PeriodConverter.shared.convertToKorean(response.data.period) // 실천 기간
+            updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay)
+            self.detailLabel.text = response.data.details // 챌린지 인증 유의사항
             let cautionURL = URL(string: (response.data.certImageUrl!))
-            self.cautionImageView.kf.setImage(with: cautionURL)
-            self.bookMarkButton.isSelected = response.data.like
-            self.bookMarkLabel.text = String(response.data.likes)
+            self.cautionImageView.kf.setImage(with: cautionURL) // 챌린지 인증 예시 사진
+            self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+            self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
         }
         
+        // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
         func updatePeriodLabel(weekCountText: String, sessionCountText: Int) {
             let fullText = "시작일로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
             
@@ -1234,6 +1240,7 @@ extension ChallengeDetailViewController {
         }
     }
     
+    // 챌린지 등록 유의사항 가져오는 함수
     func setChallengeGuide() {
         ChallengeService.shared.challengeGuide(challengId: challengeId) { response in
             let url = URL(string: response.data.certImage)
@@ -1247,6 +1254,7 @@ extension ChallengeDetailViewController {
         }
     }
     
+    // 추천 챌린지 2개 정보 가져오는 함수
     func challengeRecommend() {
         ChallengeService.shared.challengeRecommend() { response in
             self.setRecommendData(response.data!.recommendChallengeDTOList)
