@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import Kingfisher
 
 // [홈] 챌린지 리스트
 // 홈 메인 화면에서 카테고리를 누른 경우
@@ -215,7 +216,7 @@ extension ChallengeListViewController {
 // MARK: - 카테고리별 챌린지 리스트 api 세팅
 extension ChallengeListViewController {
     func setChallenges() {
-        ChallengeService.shared.challengeCategories(categoryName: categoryLabelText!) { response in
+        ChallengeService.shared.challengeCategories(categoryName: categoryLabelText ?? "ALL") { response in
             self.setChallengesList(response.data!.challenges)
         }
     }
@@ -249,8 +250,8 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
         
         cell.challengeId = challengeData[indexPath.row].challengeId
         
-        // let url = challengeData[indexPath.row].imageUrl
-        // cell.challengeImage.kf.setImage(with: url)
+        let url = URL(string: challengeData[indexPath.row].imageUrl!)
+        cell.challengeImage.kf.setImage(with: url)
         cell.challengeNameLabel.text = challengeData[indexPath.row].title
         cell.makerNickname.text = challengeData[indexPath.row].hostName
         cell.buttonLabel.text = "참여 인원 \(challengeData[indexPath.row].attendeeCount)명"

@@ -7,7 +7,7 @@
 
 import SnapKit
 import UIKit
-//import Kingfisher
+import Kingfisher
 
 // [홈] 메인화면
 // 카테고리 하단의 서비스 이용 후 화면(참여 중인 챌린지, 앤님을 위해 준비한 챌린지)
@@ -185,8 +185,8 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
             
             cell.challengeId = challengeRecommendData[indexPath.row].challengeId
             
-            // let url = challengeRecommendData[indexPath.row].imageUrl
-            // cell.challengeImage.kf.setImage(with: url)
+            let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
+            cell.challengeImage.kf.setImage(with: url)
             cell.challengeNameLabel.text = challengeRecommendData[indexPath.row].title
             cell.buttonLabel.text = challengeRecommendData[indexPath.row].category
             
@@ -201,5 +201,21 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
         let width = (UIScreen.main.bounds.width - 44) / 2
         
         return CGSize(width: width , height: 140)
+    }
+    
+    // 셀 선택시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! MainAfterCollectionViewCell
+        let challengeId = cell.challengeId
+        
+        if collectionView == challengeParticipatingCollectionView {
+            let nextVC = JoinChallengeViewController()
+            // nextVC.challengeId = challengeId
+            navigationController?.pushViewController(nextVC, animated: true)
+        } else {
+            let nextVC = ChallengeDetailViewController()
+            nextVC.challengeId = challengeId
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }
