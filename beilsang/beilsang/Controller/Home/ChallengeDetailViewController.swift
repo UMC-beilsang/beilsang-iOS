@@ -79,7 +79,7 @@ class ChallengeDetailViewController: UIViewController {
         button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     // 참여하기 팝업
     
     lazy var joinAlert: SCLAlertView = {
@@ -640,6 +640,10 @@ class ChallengeDetailViewController: UIViewController {
     
     var challengeDetailData : ChallengeDetailData? = nil
     var challengeRecommendData : [ChallengeRecommendsData] = []
+    var challengeGuideData : [String] = []
+    
+    var collectionViewHeight : Constraint?
+    var viewHeight : Constraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -649,6 +653,7 @@ class ChallengeDetailViewController: UIViewController {
         showPromoToast()
         
         setChallengeData()
+        setChallengeGuide()
         challengeRecommend()
     }
     
@@ -714,7 +719,7 @@ class ChallengeDetailViewController: UIViewController {
         verticalContentView.snp.makeConstraints { make in
             make.edges.equalTo(verticalScrollView.contentLayoutGuide)
             make.width.equalTo(verticalScrollView.frameLayoutGuide)
-            make.height.equalTo(1867)
+            viewHeight = make.height.equalTo(1587).constraint
         }
         
         representImageView.snp.makeConstraints{ make in
@@ -856,14 +861,12 @@ class ChallengeDetailViewController: UIViewController {
         }
         
         cautionCollectionView.snp.makeConstraints { make in
-            make.center.equalTo(cautionView)
-            make.leading.equalToSuperview().offset(19).priority(999)
-            make.trailing.equalToSuperview().offset(-19).priority(999)
-            make.top.greaterThanOrEqualToSuperview().offset(14)
-            make.bottom.lessThanOrEqualToSuperview().offset(-14)
-            make.height.equalTo(calculateNewCollectionViewHeight())
+            make.top.equalToSuperview().offset(14)
+            make.leading.equalToSuperview().offset(19)
+            make.trailing.equalToSuperview().offset(-19)
+            collectionViewHeight = make.height.equalTo(0).constraint
         }
-
+        
         // cautionView
         cautionView.snp.makeConstraints { make in
             make.top.equalTo(cautionDetailLabel.snp.bottom).offset(12)
@@ -1047,15 +1050,6 @@ class ChallengeDetailViewController: UIViewController {
         }
     }
     
-    //MARK: - Cell Height
-    
-    private func calculateNewCollectionViewHeight() -> CGFloat {
-        let cellHeight: CGFloat = 18
-        let numberOfCells = cautionDataList.count
-        let newHeight = (CGFloat(numberOfCells) * cellHeight) + (8 * CGFloat(numberOfCells))
-        return newHeight
-    }
-    
     //MARK: - showToast
     
     private func showPromoToast() {
@@ -1079,19 +1073,19 @@ class ChallengeDetailViewController: UIViewController {
         self.view.addSubview(toastLabel)
         
         toastLabel.snp.makeConstraints { make in
-                make.bottom.equalTo(bottomView.snp.top).offset(12)
-                make.leading.equalToSuperview().offset(24)
-                make.trailing.equalToSuperview().offset(-24)
-                make.height.equalTo(44)
-            }
+            make.bottom.equalTo(bottomView.snp.top).offset(12)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.height.equalTo(44)
+        }
         
         UIView.animate(withDuration: 2, delay: 1, options: .curveEaseOut, animations: {
-             toastLabel.alpha = 0.0
+            toastLabel.alpha = 0.0
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
         })
     }
-
+    
     //MARK: - Actions
     
     @objc func joinButtonTapped(_ sender: UIButton) {
@@ -1118,7 +1112,7 @@ class ChallengeDetailViewController: UIViewController {
         alertViewResponder?.close()
         showChallengeJoinToast()
     }
-
+    
     @objc func close(){
         alertViewResponder?.close()
     }
@@ -1135,7 +1129,7 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
         case recommendCollectionView :
             return challengeRecommendData.count
         case cautionCollectionView :
-            return 3
+            return challengeGuideData.count
         default:
             return 2
         }
@@ -1162,10 +1156,8 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
                     CautionCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
-            let target = cautionDataList[indexPath.row]
-            
-            cell.cautionLabel.text = target.label
+            cell.cautionLabel.text = challengeGuideData[indexPath.row]
+            cell.cautionCellView.backgroundColor = .clear
             
             return cell
         default:
@@ -1175,45 +1167,45 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cautionWidth = UIScreen.main.bounds.width - 70
+        let recommendWidth = UIScreen.main.bounds.width - 48
         
-        if collectionView == recommendCollectionView {
-            return CGSize(width: 342, height: 90)
+        switch collectionView {
+        case cautionCollectionView :
+            return CGSize(width: cautionWidth, height: 18)
+        case recommendCollectionView :
+            return CGSize(width: recommendWidth, height: 90)
+        default:
+            return CGSize()
         }
-        
-        else if collectionView == cautionCollectionView {
-            return CGSize(width: 320, height: 18)
-        }
-        
-        return CGSize()
     }
-     
 }
 
-// MARK: - 참여중 챌린지, 추천 챌린지 api 세팅
+// MARK: - 참여중 챌린지, 챌린지 유의사항, 추천 챌린지 api 세팅
 extension ChallengeDetailViewController {
     func setChallengeData() {
         ChallengeService.shared.challengeDetail(challengId: challengeId!) { response in
             self.challengeDetailData = response.data
             
-            self.popPointLabel.text = "\(response.data!.joinPoint)P"
-            let representURL = URL(string: (response.data?.imageUrl!)!)
+            self.popPointLabel.text = "\(response.data.joinPoint)P"
+            let representURL = URL(string: (response.data.imageUrl!))
             self.representImageView.kf.setImage(with: representURL)
-            self.titleLabel.text = response.data?.title
-            self.peopleNumLabel.text = "\(response.data?.attendeeCount ?? 0)명 참여중"
-            self.writerLabel.text = response.data?.hostName
-            self.writeDateLabel.text = response.data?.createdDate
-//            let serverResponse = response.data?.category
-//            self.categoryIcon.text = self.categoryIconMap[serverResponse!]
-//            self.categoryLabel.text = self.categoryMap[serverResponse!]
-            self.leftDayLabel.text = "D-\(response.data?.dday ?? 0)"
-            self.startDateLabel.text = response.data?.startDate
-            self.joinPointLabel.text = "\(response.data!.joinPoint)P"
-            updatePeriodLabel(weekCountText: response.data!.period, sessionCountText: response.data!.totalGoalDay)
-            self.detailLabel.text = response.data?.details
-            let cautionURL = URL(string: (response.data?.certImageUrl!)!)
+            self.titleLabel.text = response.data.title
+            self.peopleNumLabel.text = "\(response.data.attendeeCount)명 참여중"
+            self.writerLabel.text = response.data.hostName
+            self.writeDateLabel.text = response.data.createdDate
+            //            let serverResponse = response.data?.category
+            //            self.categoryIcon.text = self.categoryIconMap[serverResponse!]
+            //            self.categoryLabel.text = self.categoryMap[serverResponse!]
+            self.leftDayLabel.text = "D-\(response.data.dday)"
+            self.startDateLabel.text = response.data.startDate
+            self.joinPointLabel.text = "\(response.data.joinPoint)P"
+            updatePeriodLabel(weekCountText: response.data.period, sessionCountText: response.data.totalGoalDay)
+            self.detailLabel.text = response.data.details
+            let cautionURL = URL(string: (response.data.certImageUrl!))
             self.cautionImageView.kf.setImage(with: cautionURL)
-            self.bookMarkButton.isSelected = response.data?.like ?? false
-            self.bookMarkLabel.text = String(response.data!.likes)
+            self.bookMarkButton.isSelected = response.data.like
+            self.bookMarkLabel.text = String(response.data.likes)
         }
         
         func updatePeriodLabel(weekCountText: String, sessionCountText: Int) {
@@ -1239,6 +1231,19 @@ extension ChallengeDetailViewController {
                 attributedText.addAttribute(.font, value: popFont!, range: range)
             }
             popPeriodLabel.attributedText = attributedText
+        }
+    }
+    
+    func setChallengeGuide() {
+        ChallengeService.shared.challengeGuide(challengId: challengeId) { response in
+            let url = URL(string: response.data.certImage)
+            self.cautionImageView.kf.setImage(with: url)
+            self.challengeGuideData = response.data.challengeNoteList
+            self.cautionCollectionView.reloadData()
+            
+            let height = (self.challengeGuideData.count * 18) + ((self.challengeGuideData.count) * 8)
+            self.collectionViewHeight!.update(offset: height)
+            self.viewHeight!.update(offset: 1587 + height)
         }
     }
     
