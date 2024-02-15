@@ -26,6 +26,8 @@ class DateConverter {
         "SUNDAY": "(일)"
     ]
     
+    private let joinFormatter: DateFormatter
+    
     private init() {
         serverFormatter = DateFormatter()
         serverFormatter.dateFormat = "yyyy-MM-dd" // 서버 날짜 형식
@@ -35,6 +37,9 @@ class DateConverter {
         
         detailFormatter = DateFormatter()
         detailFormatter.dateFormat = "MM. dd" // ChallengeDetailVC 날짜 형식
+        
+        joinFormatter = DateFormatter()
+        joinFormatter.dateFormat = "MM/dd"
     }
     
     func convertToFrontFormat(from serverDate: String) -> String? {
@@ -60,6 +65,14 @@ class DateConverter {
     func convertDetail(from serverDate: String) -> String? {
         if let date = serverFormatter.date(from: serverDate) {
             return detailFormatter.string(from: date)
+        }
+        
+        return nil
+    }
+    
+    func converJoin(from serverDate: String) -> String? {
+        if let date = serverFormatter.date(from: serverDate) {
+            return joinFormatter.string(from: date)
         }
         
         return nil
