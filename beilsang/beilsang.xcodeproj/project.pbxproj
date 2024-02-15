@@ -33,7 +33,6 @@
 		2F8C57BB2B780C29002B4862 /* SignUpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C57BA2B780C29002B4862 /* SignUpService.swift */; };
 		2F8C57BD2B780C61002B4862 /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C57BC2B780C61002B4862 /* SignUpModel.swift */; };
 		2F8C57C32B78D162002B4862 /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 2F8C57C22B78D162002B4862 /* Tabman */; };
-		2FAB99EF2B72C8C900853BF7 /* RecommendChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99EE2B72C8C900853BF7 /* RecommendChallenge.swift */; };
 		2FAB99F12B72C8DE00853BF7 /* CautionChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F02B72C8DE00853BF7 /* CautionChallenge.swift */; };
 		2FAB99F32B72C8EF00853BF7 /* GalleryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */; };
 		2FAB99F72B72C97C00853BF7 /* RecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F62B72C97C00853BF7 /* RecommendCollectionViewCell.swift */; };
@@ -98,6 +97,8 @@
 		AF64A4232B7BF13A0055D5B9 /* ChallengeCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4222B7BF13A0055D5B9 /* ChallengeCategoryModel.swift */; };
 		AF64A4252B7C97910055D5B9 /* ChallengeDataSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4242B7C97910055D5B9 /* ChallengeDataSingleton.swift */; };
 		AF64A4272B7CD2770055D5B9 /* ChallengePostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4262B7CD2770055D5B9 /* ChallengePostModel.swift */; };
+		AF64A4292B7D1FF90055D5B9 /* ChallengeDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4282B7D1FF90055D5B9 /* ChallengeDetailModel.swift */; };
+		AF64A42C2B7DED680055D5B9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AF64A42B2B7DED680055D5B9 /* Kingfisher */; };
 		AF7E946E2B7A402600338DA3 /* ChallengeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E946D2B7A402600338DA3 /* ChallengeService.swift */; };
 		AF7E94722B7A852500338DA3 /* ChallengeTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */; };
 		AF7E94742B7A906500338DA3 /* MainAfterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E94732B7A906500338DA3 /* MainAfterCollectionViewCell.swift */; };
@@ -154,7 +155,6 @@
 		2F8C57B82B77C29D002B4862 /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
 		2F8C57BA2B780C29002B4862 /* SignUpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpService.swift; sourceTree = "<group>"; };
 		2F8C57BC2B780C61002B4862 /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
-		2FAB99EE2B72C8C900853BF7 /* RecommendChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendChallenge.swift; sourceTree = "<group>"; };
 		2FAB99F02B72C8DE00853BF7 /* CautionChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CautionChallenge.swift; sourceTree = "<group>"; };
 		2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryData.swift; sourceTree = "<group>"; };
 		2FAB99F62B72C97C00853BF7 /* RecommendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -214,6 +214,7 @@
 		AF64A4222B7BF13A0055D5B9 /* ChallengeCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCategoryModel.swift; sourceTree = "<group>"; };
 		AF64A4242B7C97910055D5B9 /* ChallengeDataSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataSingleton.swift; sourceTree = "<group>"; };
 		AF64A4262B7CD2770055D5B9 /* ChallengePostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePostModel.swift; sourceTree = "<group>"; };
+		AF64A4282B7D1FF90055D5B9 /* ChallengeDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailModel.swift; sourceTree = "<group>"; };
 		AF7E946D2B7A402600338DA3 /* ChallengeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeService.swift; sourceTree = "<group>"; };
 		AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTipViewController.swift; sourceTree = "<group>"; };
 		AF7E94732B7A906500338DA3 /* MainAfterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAfterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -230,6 +231,7 @@
 				8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */,
 				2F8C57C32B78D162002B4862 /* Tabman in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
+				AF64A42C2B7DED680055D5B9 /* Kingfisher in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
 				2FE57C282B5EC56C0022C4F3 /* SnapKit-Dynamic in Frameworks */,
 				2FFA04442B7131E3000B5E4C /* KakaoSDK in Frameworks */,
@@ -524,8 +526,8 @@
 		AF44032E2B63DDBE006B68FE /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				AF64A4242B7C97910055D5B9 /* ChallengeDataSingleton.swift */,
 				AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */,
-				2FAB99EE2B72C8C900853BF7 /* RecommendChallenge.swift */,
 				2FAB99F02B72C8DE00853BF7 /* CautionChallenge.swift */,
 				2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */,
 			);
@@ -564,7 +566,6 @@
 				AFDE65EA2B7249C30041D2D0 /* RegisterCertifyViewController.swift */,
 				AFDE65EC2B728FAF0041D2D0 /* RegisterCertifyModalViewController.swift */,
 				AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */,
-				AF64A4242B7C97910055D5B9 /* ChallengeDataSingleton.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -575,6 +576,7 @@
 				AF64A4202B7BCC680055D5B9 /* ChallengeRecommendModel.swift */,
 				AF64A4222B7BF13A0055D5B9 /* ChallengeCategoryModel.swift */,
 				AF64A4262B7CD2770055D5B9 /* ChallengePostModel.swift */,
+				AF64A4282B7D1FF90055D5B9 /* ChallengeDetailModel.swift */,
 			);
 			path = HomeNetwork;
 			sourceTree = "<group>";
@@ -602,6 +604,7 @@
 				8948F8692B69D99500393D35 /* SCLAlertView */,
 				2FFA04432B7131E3000B5E4C /* KakaoSDK */,
 				2F8C57C22B78D162002B4862 /* Tabman */,
+				AF64A42B2B7DED680055D5B9 /* Kingfisher */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -681,6 +684,7 @@
 				8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */,
 				2FFA04422B7131E3000B5E4C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				2F8C57C12B78D162002B4862 /* XCRemoteSwiftPackageReference "Tabman" */,
+				AF64A42A2B7DED680055D5B9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -780,7 +784,6 @@
 				2FAB99FB2B72C9B000853BF7 /* GalleryCollectionViewCell.swift in Sources */,
 				896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */,
 				896706892B738BF500A1295A /* NotificationCollectionViewCell.swift in Sources */,
-				2FAB99EF2B72C8C900853BF7 /* RecommendChallenge.swift in Sources */,
 				2FC4CA532B5E532100C0DB84 /* MotoCollectionViewCell.swift in Sources */,
 				896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */,
 				2FAB99FD2B72C9F000853BF7 /* ChallengeDetailViewController.swift in Sources */,
@@ -806,6 +809,7 @@
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,
 				2FAB99F72B72C97C00853BF7 /* RecommendCollectionViewCell.swift in Sources */,
 				AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */,
+				AF64A4292B7D1FF90055D5B9 /* ChallengeDetailModel.swift in Sources */,
 				AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */,
 				2F8C57A92B7693C6002B4862 /* NetworkResult.swift in Sources */,
 				2F0838822B564085002E2551 /* SceneDelegate.swift in Sources */,
@@ -1187,6 +1191,14 @@
 				minimumVersion = 0.8.2;
 			};
 		};
+		AF64A42A2B7DED680055D5B9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1219,6 +1231,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8948F8682B69D99500393D35 /* XCRemoteSwiftPackageReference "SCLAlertView-Swift" */;
 			productName = SCLAlertView;
+		};
+		AF64A42B2B7DED680055D5B9 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF64A42A2B7DED680055D5B9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

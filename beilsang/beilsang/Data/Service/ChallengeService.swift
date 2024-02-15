@@ -107,4 +107,30 @@ class ChallengeService {
             })
         }
     }
+    
+    // 챌린지 세부 화면
+    func challengeDetail(challengId: Int, completionHandler : @escaping (_ data: ChallengeDetail) -> Void) {
+        DispatchQueue.main.async {
+            let url = "https://beilsang.com/api/challenges/\(challengId)"
+            
+            // HTTP Headers : 요청 헤더
+            let header : HTTPHeaders = [
+                "Content-Type": "application/json",
+                "Authorization": "Bearer \(self.accessToken)"
+            ]
+            
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeDetail.self, completionHandler: { response in
+                switch response.result {
+                case .success:
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    print(error)
+                    print("get 요청 실패")
+                }
+            })
+        }
+    }
 }
