@@ -467,13 +467,9 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
 extension RegisterThirdViewController {
     func postChallenges() {
         ChallengeService.shared.challengePost() { response in
-            self.postChallengesList(response.data)
+            self.challengePostData = response.data
             print(response)
         }
-    }
-    @MainActor
-    private func postChallengesList(_ response: ChallengePostData) {
-        self.challengePostData = response
     }
 }
 
