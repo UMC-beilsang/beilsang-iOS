@@ -11,10 +11,10 @@ import Foundation
 // JoinChallengeVC 참여중 챌린지 화면
 // 위 두 vc에서 동일한 api 사용하므로 하나만 선언
 struct ChallengeDetail: Codable {
-    let isSuccess : Bool?
-    let status : String
+    let success : Bool?
+    let code : String
     let message : String
-    let data : ChallengeDetailData?
+    let data : ChallengeDetailData
 }
 
 struct ChallengeDetailData : Codable {

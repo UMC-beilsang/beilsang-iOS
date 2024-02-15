@@ -9,8 +9,8 @@ import Foundation
 
 // MainAfterVC 추천 챌린지
 struct ChallengeRecommends: Codable {
-    let isSuccess : Bool?
-    let status : String
+    let success : Bool?
+    let code : String
     let message : String
     let data : ChallengeRecommendsDatas?
 }
