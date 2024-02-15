@@ -25,6 +25,7 @@ struct ChallengeDetailData : Codable {
     let certImageUrl : String?
     let title : String
     let startDate : String
+    let dayOfWeek : String
     let category : String
     let details : String
     let joinPoint : Int
