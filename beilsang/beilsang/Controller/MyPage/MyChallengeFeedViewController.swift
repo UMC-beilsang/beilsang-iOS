@@ -98,7 +98,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        request()
+        setFeedList()
         setupAttribute()
         setCollectionView()
         setNavigationBar()
@@ -106,18 +106,6 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     }
 }
 extension MyChallengeFeedViewController {
-    
-    func request() {
-        MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/참여중/tumbler") { response in
-            self.setFirstFeedList(response.data.feeds ?? [])
-        }
-    }
-    @MainActor
-    private func setFirstFeedList(_ response: [FeedModel]){
-        self.joinList[0] = response
-        self.cellList = response
-        challengeFeedBoxCollectionView.reloadData()
-    }
     
     func setupAttribute() {
         setFullScrollView()
@@ -328,8 +316,9 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
             didTapButton()
             setFeedList() // request 요청
         case categoryCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
             didTapButton()
-            selectedCategory = "refill_station"//cell.keywordLabel.text ?? ""
+            selectedCategory = cell.keywordLabel.text ?? ""
             setFeedList() // request 요청
         case challengeFeedBoxCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
@@ -406,14 +395,13 @@ extension MyChallengeFeedViewController {
         }
     }
     private func setFeedList(){
-        let categoryIndex = changeCategoryToInt(menu: selectedCategory)
-        
+        let categoryIndex = changeCategoryToInt(category: selectedCategory)-1
         if selectedMenu == "참여중"{
             //api에서 data를 받아오지 않았다면
             if joinList[categoryIndex].isEmpty{
                 joinList[categoryIndex] = requestFeedList()
             } else {
-                self.cellList = joinList[changeCategoryToInt(menu: selectedCategory)]
+                self.cellList = joinList[categoryIndex]
                 challengeFeedBoxCollectionView.reloadData()
             }
         } else if selectedMenu == "등록한"{
@@ -445,7 +433,7 @@ extension MyChallengeFeedViewController {
         challengeFeedBoxCollectionView.reloadData()
         return list
     }
-    private func changeMenuToInt(category: String) -> Int{
+    func changeCategoryToInt(category: String) -> Int{
         switch category{
         case CategoryKeyword.data[0].title: return 0
         case CategoryKeyword.data[1].title: return 1
@@ -456,15 +444,7 @@ extension MyChallengeFeedViewController {
         case CategoryKeyword.data[6].title: return 6
         case CategoryKeyword.data[7].title: return 7
         case CategoryKeyword.data[8].title: return 8
-        default:
-            return 0
-        }
-    }
-    func changeCategoryToInt(menu: String) -> Int{
-        switch menu{
-        case "참여중": return 0
-        case "등록한": return 1
-        case "완료됨": return 2
+        case CategoryKeyword.data[9].title: return 9
         default:
             return 0
         }
@@ -473,6 +453,8 @@ extension MyChallengeFeedViewController {
 
 
 extension MyChallengeFeedViewController: CustomFeedCellDelegate {
+    func didTapRecommendButton(id: Int) {} // 다른 컨트롤러에서 이용하는 것
+    
     func didTapReportButton() {} // 다른 컨트롤러에서 이용하는 것
     
     func didTapButton() {

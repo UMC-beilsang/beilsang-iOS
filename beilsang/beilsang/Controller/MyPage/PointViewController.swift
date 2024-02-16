@@ -105,8 +105,7 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
 }
 extension PointViewController {
     func request() {
-        let memberId = UserDefaults.standard.string(forKey: "memberId")
-        MyPageService.shared.getPoint(baseEndPoint: .mypage, addPath: "/points/\(memberId ?? "" )"){ response in
+        MyPageService.shared.getPoint(baseEndPoint: .mypage, addPath: "/points/1"){ response in
             self.point.text = String(response.data.total)
             if !response.data.points!.isEmpty{
                 self.setPointList(response.data.points!)

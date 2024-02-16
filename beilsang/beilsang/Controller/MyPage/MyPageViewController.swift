@@ -308,7 +308,7 @@ extension MyPageViewController {
     
     func request() {
         let memberId = UserDefaults.standard.string(forKey: "memberId")
-        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/\(memberId ?? "")") { response in
+        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/1") { response in
             self.feedCount.text = String(response.data.feedNum)
             self.achivementCount.text = String(response.data.achieve)
             self.failCount.text = String(response.data.fail)
@@ -385,7 +385,6 @@ extension MyPageViewController {
     // MARK: - 전체 오토레이아웃 관리
         // MARK: - 상단부
     func viewConstraint(){
-        
         
         settingBackground.snp.makeConstraints { make in
             make.width.equalTo(28)
@@ -589,16 +588,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         return cell
         
     }
-//    // cell 선택시 액션
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        switch collectionView{
-//        case myChallengeCollectionView:
-//            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
-//
-//        default:
-//            return
-//        }
-//    }
     //cell 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width : CGFloat = 173

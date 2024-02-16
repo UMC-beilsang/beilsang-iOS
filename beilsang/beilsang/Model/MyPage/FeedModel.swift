@@ -8,8 +8,8 @@
 import Foundation
 
 struct GetFeedModel : Codable{
-    let isSuccess: Bool
-    let status: String
+    let success: Bool
+    let code: String
     let message: String
     let data: FeedListModel
 }

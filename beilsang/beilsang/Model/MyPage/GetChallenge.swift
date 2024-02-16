@@ -9,8 +9,8 @@ import Foundation
 
 // 찜 챌린지, 카테고리별 챌린지 리스트(발견)
 struct GetChallenge : Codable{
-    let isSuccess: Bool
-    let status: String
+    let success: Bool
+    let code: String
     let message: String
     let data: ChallengeListModel
 }
@@ -23,4 +23,15 @@ struct ChallengeModel: Codable {
     let imageUrl: String
     let hostName: String
     let attendeeCount: Int
+}
+// 마이페이지 챌린지
+struct GetMyPageChallenge : Codable {
+    let success: Bool
+    let code: String
+    let message: String
+    let data: MyPageChallengeListModel
+}
+struct MyPageChallengeListModel: Codable {
+    let challenges: ChallengeListModel
+    let count: Int
 }

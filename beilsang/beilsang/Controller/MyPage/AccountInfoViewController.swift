@@ -615,7 +615,6 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
 
 extension AccountInfoViewController {
     func request() {
-        let memberId = UserDefaults.standard.string(forKey: "memberId")
         var gender = ""
         if genderField.text == "남자"{
             gender = "MAN"

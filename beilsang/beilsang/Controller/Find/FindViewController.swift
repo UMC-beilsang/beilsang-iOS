@@ -20,10 +20,16 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     var imageList = ["image 8", "image 9", "image 8", "image 9","image 8", "image 9",]
     var alertViewResponder: SCLAlertViewResponder? = nil
     
-    var cellList : [FeedModel] = []
+    var HofCellList : [ChallengeModel] = []
+    var HofFeedList = [[ChallengeModel]](repeating: Array(), count: 9)
+    var HofCategory : String = "다회용컵"
     
-    var challengeList = [[FeedModel]](repeating: Array(), count: 10)
-    var category : String = "all"
+    var feedCellList : [FeedModel] = []
+    var feedChallengeList = [[FeedModel]](repeating: Array(), count: 10)
+    var feedCategory : String = "전체"
+    
+    // 더보기 버튼용
+    var pageNumber = [Int](repeating: 0, count: 10)
     //검색창
     lazy var searchBar: UITextField = {
         let view = UITextField()
@@ -86,7 +92,7 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
         return label
     }()
     // categoriesView - 셀
-    let categoryDataList = CategoryKeyword.data[1...]
+    let categoryDataList = CategoryKeyword.data
     lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -133,14 +139,14 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
         button.isHidden = true
         return button
     }()
-    lazy var buttonLabel: UILabel = {
+    lazy var moreFeedButtonLabel: UILabel = {
         let label = UILabel()
-        label.text = "다회용컵 챌린지 더보기"
+        label.text = "전체 챌린지 더보기"
         label.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         label.textColor = .black
         return label
     }()
-    lazy var buttonImage: UIImageView = {
+    lazy var moreFeedButtonImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "Vector 10")
         return view
@@ -237,21 +243,59 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     }
 }
 extension FindViewController {
+    @MainActor
     func request(){
-        
-        requestCategoryChallengeList()
+        setList(collectionView: self.HofChallengeCategoryCollectionView)
+        setList(collectionView: self.challengeFeedBoxCollectionView)//requestMoreFeedList()
     }
     
-    // 카테고리 별 챌린지 리스트
-    func requestCategoryChallengeList() {
-            MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/category/\(category)") { response in
-                self.setFirstFeedList(response.data.feeds ?? [])
-            }
+    // 명예의 전당 챌린지 리스트
+    func requestHofChallengeList() -> [ChallengeModel]{
+        var list : [ChallengeModel] = []
+        MyPageService.shared.getChallengeList(baseEndPoint: .challenges, addPath: "/famous/\(HofCategory)") { response in
+            list = response.data.challenges ?? []
+            self.setHofList(response.data.challenges ?? [])
         }
-    @MainActor
-    private func setFirstFeedList(_ response: [FeedModel]){
-        self.challengeList[0] = response
-        self.cellList = response
+        return list
+    }
+    
+    private func setHofList(_ response: [ChallengeModel]){
+        if response.isEmpty {
+            self.HofFeedList[changeCategoryToInt(category: HofCategory)-1].removeAll()
+        } else {
+            self.HofFeedList[changeCategoryToInt(category: HofCategory)-1] = response
+        }
+        self.HofCellList = response
+        HofChallengeCollectionView.reloadData()
+    }
+    // 카테고리 별 챌린지 피드 리스트
+    func requestCategoryChallengeFeedList() -> [FeedModel] {
+        let categoryIndex = changeCategoryToInt(category: feedCategory)
+        var list : [FeedModel] = []
+        MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/category/\(feedCategory)?page=\(pageNumber[categoryIndex])") { response in
+            list = response.data.feeds ?? []
+            if !list.isEmpty {
+                self.pageNumber[categoryIndex] += 1
+            }
+            self.setFeedList(list)
+        }
+        return list
+    }
+    // 카테고리 별 챌린지 피드 리스트
+    func requestMoreFeedList() {
+        let categoryIndex = changeCategoryToInt(category: feedCategory)
+        var list : [FeedModel] = []
+        MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/category/\(feedCategory)?page=\(pageNumber[categoryIndex])") { response in
+            list = response.data.feeds ?? []
+            if !list.isEmpty {
+                self.pageNumber[categoryIndex] += 1
+            }
+            self.setFeedList(list)
+        }
+    }
+    private func setFeedList(_ response: [FeedModel]){
+        self.feedChallengeList[changeCategoryToInt(category: feedCategory)] += response
+        self.feedCellList += response
         challengeFeedBoxCollectionView.reloadData()
     }
     
@@ -292,7 +336,7 @@ extension FindViewController {
         self.view.addSubview(moreFeedButton)
         [searchBar, searchIcon, HofChallengeListLabel, HofChallengeCategoryCollectionView, HofChallengeCollectionView, scrollIndicator, challengeFeedLabel, categoryCollectionView, challengeFeedBoxCollectionView, feedDetailBackground, feedDetailCollectionView, reportButton].forEach{ view in fullContentView.addSubview(view)}
         
-        [buttonLabel, buttonImage].forEach { view in
+        [moreFeedButtonLabel, moreFeedButtonImage].forEach { view in
             moreFeedButton.addSubview(view)
         }
         
@@ -354,7 +398,7 @@ extension FindViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         feedDetailCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(700)
+            make.height.equalTo(800)
             make.bottom.leading.trailing.equalToSuperview()
         }
         feedDetailBackground.snp.makeConstraints { make in
@@ -366,13 +410,13 @@ extension FindViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-128)
         }
-        buttonLabel.snp.makeConstraints { make in
-            make.leading.equalTo(moreFeedButton).offset(42)
+        moreFeedButtonLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(moreFeedButton).offset(-12)
             make.centerY.equalTo(moreFeedButton)
         }
-        buttonImage.snp.makeConstraints { make in
-            make.trailing.equalTo(moreFeedButton).offset(-42)
-            make.centerY.equalTo(moreFeedButton)
+        moreFeedButtonImage.snp.makeConstraints { make in
+            make.leading.equalTo(moreFeedButtonLabel.snp.trailing).offset(12)
+            make.centerY.equalTo(moreFeedButtonLabel)
             make.width.equalTo(12)
             make.height.equalTo(6)
         }
@@ -480,7 +524,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
         case categoryCollectionView:
             return categoryDataList.count
         case challengeFeedBoxCollectionView:
-            return cellList.count
+            return feedCellList.count
         case feedDetailCollectionView:
             return 1
         default:
@@ -533,14 +577,21 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                     HofChallengeCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
+            if HofCellList.count > indexPath.row{
+                let target = HofCellList[indexPath.row]
+                cell.challengeNameLabel.text = target.title
+                let url = URL(string: target.imageUrl)
+                cell.challengeImage.kf.setImage(with: url)
+                cell.numOfPeopleLabel.text = "참여인원 \(target.attendeeCount)명"
+                cell.challengeId = target.challengeId
+            }
             return cell
         case categoryCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCategoryCollectionViewCell.identifier, for: indexPath) as?
                     MyPageCategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let target = categoryDataList[indexPath.row+1]
+            let target = categoryDataList[indexPath.row]
             let img = UIImage(named: "\(target.image).svg")
             cell.keywordImage.image = img
             cell.keywordLabel.text = target.title
@@ -551,7 +602,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                     MyChallengeFeedCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let target = cellList[indexPath.row]
+            let target = feedCellList[indexPath.row]
             cell.feedId = target.feedId
             let url = URL(string: target.feedUrl)
             cell.challengeFeed.kf.setImage(with: url)
@@ -561,7 +612,6 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
                     FindFeedDetailCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
             cell.delegate = self
             return cell
         default:
@@ -571,8 +621,27 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
     // cell 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView{
+        case HofChallengeCategoryCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! HofChallengeCategoryCollectionViewCell
+            let str = cell.categoryLabel.text!
+            let startIndex = str.index(str.startIndex, offsetBy: 2) // 문자열의 세 번째 문자의 인덱스
+            let substring = str[startIndex...]
+            HofCategory = String(substring)
+            setList(collectionView: collectionView) // request 요청
         case categoryCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
+            feedCategory = cell.keywordLabel.text!
+            moreFeedButtonLabel.text = "\(feedCategory) 챌린지 더보기"
             didTapButton()
+            feedCellList.removeAll() // 다른 카테고리에서 받은 데이터 없애기
+            setList(collectionView: collectionView) // request 요청
+            fullScrollView.resetContentSize() // 늘어난 스크롤 뷰 줄이기
+        case HofChallengeCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! HofChallengeCollectionViewCell
+            
+            let challengeDetailVC = ChallengeDetailViewController()
+            challengeDetailVC.challengeId = cell.challengeId
+            navigationController?.pushViewController(challengeDetailVC, animated: true)
         case challengeFeedBoxCollectionView:
             // 챌린지 피드 선택
             // 세부 정보 출력
@@ -580,11 +649,13 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
             feedDetailCollectionView.isHidden = false
             feedDetailBackground.isHidden = false
             fullScrollView.isScrollEnabled = false
-            
+            moreFeedButton.isHidden = true
             // 피드 이미지 전달
             let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FindFeedDetailCollectionViewCell
             feedCell.feedImage.image = cell.challengeFeed.image
-            
+            feedCell.feedId = cell.feedId!
+            self.showFeedDetail(feedId: cell.feedId!, feedImage: cell.challengeFeed.image!)
+
             // 추천 챌린지 data
             requestRecommendChallenge()
             // 피드 위치 UIScreen 위치에 맞게 수정
@@ -672,7 +743,7 @@ extension FindViewController {
     }
     
     @objc func showMoreFeed() {
-        imageList = imageList + ["image 8", "image 9"]
+        requestMoreFeedList()
         challengeFeedBoxCollectionView.reloadData()
         moreFeedButton.isHidden = true
         fullScrollView.updateContentSize()
@@ -686,7 +757,7 @@ extension FindViewController {
         scrollToTop(fullScrollView)
     }
     @objc func reportButtonTapped() {
-        let reportUrl = NSURL(string: "https://moaform.com/q/dcQIJc")
+        let reportUrl = NSURL(string: "https://moaform.com/q/DJ7VuN")
         let reportSafariView: SFSafariViewController = SFSafariViewController(url: reportUrl! as URL)
         self.present(reportSafariView, animated: true, completion: nil)
         alertViewResponder?.close()
@@ -698,7 +769,6 @@ extension FindViewController {
     private func requestRecommendChallenge(){
         FindService.shared.getRecommendChallenge(baseEndPoint: .challenges, addPath: "/recommends") { response in
             self.setRecommendChallenge(response.data.recommendChallengeDTOList ?? [])
-            
         }
     }
     
@@ -710,6 +780,7 @@ extension FindViewController {
         feedCell.titleLabel.text = response[0].title
         let url = URL(string: response[0].imageUrl)
         feedCell.recommendImageView.kf.setImage(with: url)
+        feedCell.recommendChallengeId = response[0].challengeId
         feedDetailCollectionView.reloadData()
     }
 }
@@ -731,9 +802,77 @@ extension FindViewController: CustomFeedCellDelegate {
         feedDetailCollectionView.isHidden = true
         feedDetailBackground.isHidden = true
         fullScrollView.isScrollEnabled = true
+        moreFeedButton.isHidden = false
     }
     func didTapReportButton() {
         alertViewResponder = reportAlert.showInfo("신고하기")
+    }
+    func didTapRecommendButton(id: Int) {
+        let challengeDetailVC = ChallengeDetailViewController()
+        challengeDetailVC.challengeId = id
+        navigationController?.pushViewController(challengeDetailVC, animated: true)
+    }
+    // 피드 상세정보 보기 request
+    private func showFeedDetail(feedId: Int, feedImage: UIImage){
+        let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FindFeedDetailCollectionViewCell
+        
+        MyPageService.shared.getMyPageFeedDetail(baseEndPoint: .feeds, addPath: "/\(String(describing: feedId))"){response in
+            feedCell.reviewContent.text = response.data.review
+            if response.data.day > 3{
+                feedCell.dateLabel.text = response.data.uploadDate
+            } else {
+                feedCell.dateLabel.text = "\(response.data.day)일 전"
+            }
+            feedCell.feedImage.image = feedImage
+            feedCell.titleTag.text = "#\(response.data.challengeTitle)"
+            feedCell.categoryTag.text = "#\(response.data.category)"
+            feedCell.nicknameLabel.text = response.data.nickName
+            let url = URL(string: response.data.profileImage)
+            feedCell.profileImage.kf.setImage(with: url)
+            if response.data.like {
+                feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+            }
+        }
+    }
+    
+    //카테고리 선택 시 request 요청
+    private func setList(collectionView: UICollectionView){
+        
+        if collectionView == HofChallengeCategoryCollectionView{
+            let categoryIndex = changeCategoryToInt(category: HofCategory)-1
+            //api에서 data를 받아오지 않았다면
+            if HofFeedList[categoryIndex].isEmpty{
+                HofFeedList[categoryIndex] = requestHofChallengeList()
+            } else {
+                self.HofCellList = HofFeedList[categoryIndex]
+                HofChallengeCollectionView.reloadData()
+            }
+        } else {
+            let categoryIndex = changeCategoryToInt(category: feedCategory)
+            if feedChallengeList[categoryIndex].isEmpty{
+                feedChallengeList[categoryIndex] = requestCategoryChallengeFeedList()
+            } else{
+                self.feedCellList = feedChallengeList[categoryIndex]
+                challengeFeedBoxCollectionView.reloadData()
+            }
+        }
+    }
+    
+    func changeCategoryToInt(category: String) -> Int{
+        switch category{
+        case CategoryKeyword.data[0].title: return 0
+        case CategoryKeyword.data[1].title: return 1
+        case CategoryKeyword.data[2].title: return 2
+        case CategoryKeyword.data[3].title: return 3
+        case CategoryKeyword.data[4].title: return 4
+        case CategoryKeyword.data[5].title: return 5
+        case CategoryKeyword.data[6].title: return 6
+        case CategoryKeyword.data[7].title: return 7
+        case CategoryKeyword.data[8].title: return 8
+        case CategoryKeyword.data[9].title: return 9
+        default:
+            return 0
+        }
     }
 }
 
@@ -743,9 +882,13 @@ extension UIScrollView {
         let unionCalculatedTotalRect = recursiveUnionInDepthFor(view: self)
         
         // 계산된 크기로 컨텐츠 사이즈 설정
-        self.contentSize = CGSize(width: self.frame.width, height: unionCalculatedTotalRect.height+100)
+        self.contentSize = CGSize(width: self.frame.width, height: unionCalculatedTotalRect.height+400)
     }
-    
+    func resetContentSize() {
+        let unionCalculatedTotalRect = recursiveUnionInDepthFor(view: self)
+        // 계산된 크기로 컨텐츠 사이즈 설정
+        self.contentSize = CGSize(width: self.frame.width, height: unionCalculatedTotalRect.height-400)
+    }
     private func recursiveUnionInDepthFor(view: UIView) -> CGRect {
         var totalRect: CGRect = .zero
         
