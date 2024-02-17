@@ -19,5 +19,4 @@ struct UserDefaultsKey {
     static let memberId = "memberId"
     static let updatedAt = "updatedAt"
     static let existMember = "existMember"
-
 }

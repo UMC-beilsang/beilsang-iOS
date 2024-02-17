@@ -4,25 +4,47 @@
 //
 //  Created by Seyoung on 2/11/24.
 //
+
 import Foundation
 import Alamofire
-//(1) 라이브러리 추가
 
 class SignUpService {
-    
     static let shared = SignUpService()
-    //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
     private init() {}
     
-    enum Gender: String {
-           case male = "M"
-           case female = "F"
-       }
+    var jwtToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)
     
-    func signUp(gender : String, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
+    func nameCheck(name : String?, completionHandler: @escaping (_ data: nameCheckResponse) -> Void) {
+        DispatchQueue.main.async {
+            let addPath = "?name=\(name ?? "")"
+            let url = APIConstants.duplicateCheck + addPath
+            let headers: HTTPHeaders = [
+                "accept": "application/json",
+                "Authorization": "Bearer \(self.jwtToken ?? "")"
+            ]
+            
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: headers).validate().responseDecodable(of: nameCheckResponse.self, completionHandler:{ response in
+                switch response.result{
+                case .success:
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                case .failure(let error):
+                    print(error)
+                    print("get 요청 실패")
+                }
+            })
+        }
+    }
+    
+    func signUp(accessToken: String, gender : String, nickName : String, birth : String, address : String?, keyword : String, discoveredPath : String?, resolution : String, recommendNickname : String?, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.signUpURL
-        let header: HTTPHeaders = ["Content-Type": "application/json"]
-        let body: Parameters = ["gender": gender,
+        let headers: HTTPHeaders = [
+            "accept": "*/*",
+            "Content-Type": "application/json"
+        ]
+        let body: Parameters = ["accessToken" : accessToken,
+                                "gender": gender,
                                 "nickName": nickName,
                                 "birth" : birth,
                                 "address" : address ?? "",
@@ -35,7 +57,7 @@ class SignUpService {
                                      method: .post,
                                      parameters: body,
                                      encoding: JSONEncoding.default,
-                                     headers: header)
+                                     headers: headers)
         
         dataRequest.responseData { response in
             switch response.result {
@@ -48,15 +70,16 @@ class SignUpService {
                 completion(networkResult)
                 
             case .failure:
-                completion(.networkFail)
+                completion(.pathErr)
             }
         }
     }
-    
+
     private func judgeStatus(by statusCode: Int, _ data: Data) -> NetworkResult<Any> {
         switch statusCode {
         case ..<300 : return isVaildData(data: data)
-        case 400..<500 :return .pathErr
+        case 401 : return .tokenExpired
+        case 400, 402..<500: return .pathErr
         case 500..<600 : return .serverErr
         default : return .networkFail
         }
