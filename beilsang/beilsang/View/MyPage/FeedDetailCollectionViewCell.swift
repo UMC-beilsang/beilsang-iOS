@@ -11,6 +11,7 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     
     static let identifier = "feedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
+    var feedId: Int = 1
     
     // 달성 메달 셀 전체 뷰
     let fullScrollView = UIScrollView()
@@ -35,9 +36,23 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowPath = nil
         view.image = UIImage(named: "Mask group")
+        view.contentMode = .scaleAspectFit
+        //넘치는 영역 잘라내기
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    lazy var profileShadowView: UIView = {
+        let view = UIView()
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowRadius = 4
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
@@ -58,6 +73,7 @@ class FeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
     lazy var heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "iconamoon_heart-bold"), for: .normal)
+        button.addTarget(self, action: #selector(likeButton), for: .touchUpInside)
         return button
     }()
     
@@ -135,7 +151,7 @@ extension FeedDetailCollectionViewCell {
         }
     }
     func setLayout() {
-        [feedImage, profileImage, nicknameLabel, dateLabel, heartButton, categoryTag, titleTag, reviewLabel, reviewBox, reviewContent, closeButton].forEach { view in
+        [feedImage, profileShadowView, profileImage, nicknameLabel, dateLabel, heartButton, categoryTag, titleTag, reviewLabel, reviewBox, reviewContent, closeButton].forEach { view in
             fullContentView.addSubview(view)
         }
         
@@ -148,6 +164,9 @@ extension FeedDetailCollectionViewCell {
             make.width.height.equalTo(48)
             make.top.equalTo(feedImage.snp.bottom).offset(12)
             make.leading.equalTo(feedImage.snp.leading).offset(10)
+        }
+        profileShadowView.snp.makeConstraints { make in
+            make.edges.width.equalTo(profileImage)
         }
         nicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.top).offset(2)
@@ -195,6 +214,28 @@ extension FeedDetailCollectionViewCell {
 extension FeedDetailCollectionViewCell {
     @objc func tapButton(_ sender: UIButton) {
         delegate?.didTapButton()
+    }
+    
+    @objc private func likeButton(_ sender: UIButton) {
+        if sender.image(for: .normal) == UIImage(named: "iconamoon_heart-bold"){
+            sender.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+            requestLikeButtonTapped()
+        } else if sender.image(for: .normal) == UIImage(named: "iconamoon_fullheart-bold"){
+            sender.setImage(UIImage(named: "iconamoon_heart-bold"), for: .normal)
+            requestCancelLikeButtonTapped()
+        }
+    }
+    //찜하기
+    private func requestLikeButtonTapped() {
+        MyPageService.shared.postLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
+            print("post 요청 완료 - like button tapped")
+        })
+    }
+    // 찜 취소
+    private func requestCancelLikeButtonTapped() {
+        MyPageService.shared.postLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
+            print("post 요청 완료 - like button tapped")
+        })
     }
 }
 

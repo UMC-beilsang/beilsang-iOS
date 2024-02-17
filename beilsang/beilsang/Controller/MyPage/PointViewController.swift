@@ -15,8 +15,13 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
     // 전체 화면 scrollview
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
-    var typeList:[String] = ["사용", "적립"]
-    var contentList:[String] = ["다회용기 사용하자 챌린지 참여 포인트", "비치 플로깅 이벤트 참여 완료 포인트"]
+    // parsing 정보
+    var allList: [PointData] = []
+    var earnList: [PointData] = []
+    var useList: [PointData] = []
+    var disappearList: [PointData] = []
+    // cell들의 정보
+    var cellList: [PointData] = []
    
     lazy var pointTitle: UILabel = {
         let label = UILabel()
@@ -35,7 +40,7 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
         label.font = UIFont(name: "NotoSansKR-Medium", size: 18)
         return label
     }()
-    lazy var button1: UIButton = {
+    lazy var allButton: UIButton = {
         let button = UIButton()
         button.setTitle("전체", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -45,7 +50,7 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return button
     }()
-    lazy var button2: UIButton = {
+    lazy var earnButton: UIButton = {
         let button = UIButton()
         button.setTitle("적립", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -55,7 +60,7 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return button
     }()
-    lazy var button3: UIButton = {
+    lazy var useButton: UIButton = {
         let button = UIButton()
         button.setTitle("사용", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -65,7 +70,7 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return button
     }()
-    lazy var button4: UIButton = {
+    lazy var disappearButton: UIButton = {
         let button = UIButton()
         button.setTitle("소멸", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -91,6 +96,7 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        request()
         setupAttribute()
         setNavigationBar()
         viewConstraint()
@@ -98,6 +104,31 @@ class PointViewController: UIViewController, UIScrollViewDelegate {
 
 }
 extension PointViewController {
+    func request() {
+        let memberId = UserDefaults.standard.string(forKey: "memberId")
+        MyPageService.shared.getPoint(baseEndPoint: .mypage, addPath: "/points/\(memberId ?? "" )"){ response in
+            self.point.text = String(response.data.total)
+            if !response.data.points!.isEmpty{
+                self.setPointList(response.data.points!)
+            }
+        }
+    }
+    @MainActor
+    private func setPointList(_ points: [PointData]){
+        for i in points {
+            self.allList.append(i)
+            if i.status == "EARN"{
+                self.earnList.append(i)
+            }
+            else if i.status == "USE"{
+                self.useList.append(i)
+            } else {
+                self.disappearList.append(i)
+            }
+        }
+        cellList = self.allList
+        pointCollectionView.reloadData()
+    }
     
     func setupAttribute() {
         setFullScrollView()
@@ -132,7 +163,7 @@ extension PointViewController {
     // addSubview() 메서드 모음
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
-        [pointTitle, pointImage, point, button1, button2, button3, button4, pointCollectionView].forEach{ view in fullContentView.addSubview(view)}
+        [pointTitle, pointImage, point, allButton, earnButton, useButton, disappearButton, pointCollectionView].forEach{ view in fullContentView.addSubview(view)}
         
     }
     
@@ -151,32 +182,32 @@ extension PointViewController {
             make.centerY.equalTo(pointImage)
             make.leading.equalTo(pointImage.snp.trailing).offset(8)
         }
-        button1.snp.makeConstraints { make in
+        allButton.snp.makeConstraints { make in
             make.width.equalTo(58)
             make.height.equalTo(28)
             make.top.equalTo(point).offset(36)
             make.leading.equalTo(pointTitle)
         }
-        button2.snp.makeConstraints { make in
+        earnButton.snp.makeConstraints { make in
             make.width.equalTo(58)
             make.height.equalTo(28)
-            make.centerY.equalTo(button1)
-            make.leading.equalTo(button1.snp.trailing).offset(8)
+            make.centerY.equalTo(allButton)
+            make.leading.equalTo(allButton.snp.trailing).offset(8)
         }
-        button3.snp.makeConstraints { make in
+        useButton.snp.makeConstraints { make in
             make.width.equalTo(58)
             make.height.equalTo(28)
-            make.centerY.equalTo(button1)
-            make.leading.equalTo(button2.snp.trailing).offset(8)
+            make.centerY.equalTo(allButton)
+            make.leading.equalTo(earnButton.snp.trailing).offset(8)
         }
-        button4.snp.makeConstraints { make in
+        disappearButton.snp.makeConstraints { make in
             make.width.equalTo(58)
             make.height.equalTo(28)
-            make.centerY.equalTo(button1)
-            make.leading.equalTo(button3.snp.trailing).offset(8)
+            make.centerY.equalTo(allButton)
+            make.leading.equalTo(useButton.snp.trailing).offset(8)
         }
         pointCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(button1.snp.bottom).offset(12)
+            make.top.equalTo(allButton.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
@@ -238,7 +269,7 @@ extension PointViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case pointCollectionView:
-            return typeList.count
+            return cellList.count
         default:
             return 0
         }
@@ -252,17 +283,32 @@ extension PointViewController: UICollectionViewDataSource, UICollectionViewDeleg
                     PointCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let target = typeList[indexPath.row]
-            cell.typeLabel.text = target
+            if !cellList.isEmpty{
+                let target = cellList[indexPath.row]
+                
+                // "2024-02-10" -> "2024.02.10" 문자 변경
+                cell.dateLabel.text = target.date.replacingOccurrences(of: "-", with: ".")
+                
+                // status에 따른 색상과 type 변경
+                if target.status == "EARN"{
+                    cell.typeLabel.text = "적립"
+                    cell.pointLabel.textColor = .beScPurple600
+                    cell.pointLabel.text = "+\(target.value)P"
+                }
+                else{
+                    // 사용, 소멸 type 라벨 변경
+                    if target.status == "USE"{
+                        cell.typeLabel.text = "사용"
+                    } else {
+                        cell.typeLabel.text = "소멸"
+                    }
+                    
+                    cell.pointLabel.textColor = .beTextInfo
+                    cell.pointLabel.text = "-\(target.value)P"
+                }
+                cell.pointContent.text = "\(target.name)"
+            }
             
-            let content = contentList[indexPath.row]
-            if target == "적립"{
-                cell.pointLabel.textColor = .beScPurple600
-                cell.pointContent.text = content
-            }
-            else{
-                cell.pointContent.text = content
-            }
             
             return cell
         default:
@@ -271,21 +317,23 @@ extension PointViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     // cell 선택시 액션
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        switch collectionView{
 //        case pointCollectionView:
 //            let cell = collectionView.cellForItem(at: indexPath) as! ChallengeMenuCollectionViewCell
-//            
+//            if indexPath.row == 1{ //적립
+//                
+//            }
 //        default:
 //            return
 //        }
-    }
+//    }
 }
 
 // MARK: - function
 extension PointViewController {
     @objc func tapButton(_ sender: UIButton) {
-        [button1, button2, button3, button4].forEach { view in
+        [allButton, earnButton, useButton, disappearButton].forEach { view in
             if view == sender{
                 view.setTitleColor(.white, for: .normal)
                 view.backgroundColor = .beScPurple600
@@ -294,5 +342,15 @@ extension PointViewController {
                 view.backgroundColor = .beBgSub
             }
         }
+        if sender == allButton{
+            cellList = allList
+        } else if sender == earnButton {
+            cellList = earnList
+        } else if sender == useButton {
+            cellList = useList
+        } else {
+            cellList = disappearList
+        }
+        pointCollectionView.reloadData()
     }
 }

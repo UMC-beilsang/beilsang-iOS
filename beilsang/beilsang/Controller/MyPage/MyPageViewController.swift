@@ -7,13 +7,14 @@
 
 import UIKit
 import SnapKit
-
+import Kingfisher
 
 class MyPageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
+    var feedList : [feedData] = []
 
     //상단부
     // 세팅 버튼
@@ -70,8 +71,6 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         view.layer.shadowOpacity = 1
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 4
-//        view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds,
-//                               cornerRadius: view.layer.cornerRadius).cgPath
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -110,7 +109,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         return label
     }()
-    lazy var goalCount : UILabel = {
+    lazy var achivementCount : UILabel = {
         let label = UILabel()
         label.text = "18"
         label.textColor = .black
@@ -176,7 +175,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    lazy var checkLabel: UILabel = {
+    lazy var challengeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
@@ -184,7 +183,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.text = "전체"
         return label
     }()
-    lazy var starLabel: UILabel = {
+    lazy var likeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
@@ -200,7 +199,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.text = "포인트"
         return label
     }()
-    lazy var checkCount: UILabel = {
+    lazy var challengeCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
@@ -208,7 +207,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
         label.text = "6"
         return label
     }()
-    lazy var starCount: UILabel = {
+    lazy var likeCount: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont(name: "NotoSansKR-SemiBold", size: 14)
@@ -297,15 +296,40 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        request()
         setupAttribute()
         viewConstraint()
         setNavigationBar()
         collectionviewSet()
     }
-
 }
 
 extension MyPageViewController {
+    
+    func request() {
+        let memberId = UserDefaults.standard.string(forKey: "memberId")
+        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/\(memberId ?? "")") { response in
+            self.feedCount.text = String(response.data.feedNum)
+            self.achivementCount.text = String(response.data.achieve)
+            self.failCount.text = String(response.data.fail)
+            self.comment.text = String(response.data.resolution ?? "")
+            self.challengeCount.text = String(response.data.challenges)
+            self.likeCount.text = String(response.data.likes)
+            self.pointCount.text = String(response.data.points)
+            self.nameLabel.text = response.data.nickName
+            let url = URL(string: response.data.profileImage)
+            self.profileImage.kf.setImage(with: url)
+            
+            self.setFeedList(response.data.feedDTOs.feeds ?? [])
+        }
+    }
+    
+    // collecion
+    @MainActor
+    private func setFeedList(_ feedDTOs: [feedData]){
+        self.feedList = feedDTOs
+        myChallengeCollectionView.reloadData()
+    }
     
     func setupAttribute() {
         setFullScrollView()
@@ -332,7 +356,7 @@ extension MyPageViewController {
         fullContentView.snp.makeConstraints { make in
             make.edges.equalTo(fullScrollView.contentLayoutGuide)
             make.width.equalTo(fullScrollView.frameLayoutGuide)
-            make.height.equalTo(1056)
+            make.height.equalTo(860)
         }
     }
     
@@ -347,9 +371,9 @@ extension MyPageViewController {
     func addView() {
         // foreach문을 사용해서 클로저 형태로 작성
         //상단부
-        [rectangleBox, nameLabel, profileShadowView, settingBackground, settingButton, feed, goal, fail, feedCount, goalCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
+        [rectangleBox, nameLabel, profileShadowView, settingBackground, settingButton, feed, goal, fail, feedCount, achivementCount, failCount, commentBox, comment, challengeTitleLabel].forEach{view in fullContentView.addSubview(view)}
         //중앙부
-        [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, checkLabel, starLabel, pointLabel, checkCount, starCount, pointCount, line1, line2, myChallengeUnderBar, challengeButton, likeButton, pointButton].forEach{view in fullContentView.addSubview(view)}
+        [challengeTitleLabel, challengeBox, checkImage, starImage, pointImage, challengeLabel, likeLabel, pointLabel, challengeCount, likeCount, pointCount, line1, line2, myChallengeUnderBar, challengeButton, likeButton, pointButton].forEach{view in fullContentView.addSubview(view)}
         
         //하단부
         [myChallengeFeedLabel, showAllChallengeFeedView, showAllChallengeFeedLabel, showAllChallengeFeedButton, myChallengeCollectionView].forEach{view in fullContentView.addSubview(view)}
@@ -417,7 +441,7 @@ extension MyPageViewController {
             make.top.equalTo(feed.snp.bottom).offset(16)
             make.centerX.equalTo(feed)
         }
-        goalCount.snp.makeConstraints { make in
+        achivementCount.snp.makeConstraints { make in
             make.centerX.equalTo(goal)
             make.centerY.equalTo(feedCount)
         }
@@ -462,28 +486,28 @@ extension MyPageViewController {
             make.centerY.equalTo(checkImage)
             make.leading.equalTo(starImage.snp.trailing).offset(79)
         }
-        checkLabel.snp.makeConstraints { make in
+        challengeLabel.snp.makeConstraints { make in
             make.top.equalTo(challengeBox.snp.top).offset(62)
             make.centerX.equalTo(checkImage)
         }
-        starLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(checkLabel)
+        likeLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(challengeLabel)
             make.centerX.equalTo(starImage)
         }
         pointLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(checkLabel)
+            make.centerY.equalTo(challengeLabel)
             make.centerX.equalTo(pointImage)
         }
-        checkCount.snp.makeConstraints { make in
+        challengeCount.snp.makeConstraints { make in
             make.top.equalTo(challengeBox.snp.top).offset(86)
             make.centerX.equalTo(checkImage)
         }
-        starCount.snp.makeConstraints { make in
-            make.centerY.equalTo(checkCount)
+        likeCount.snp.makeConstraints { make in
+            make.centerY.equalTo(challengeCount)
             make.centerX.equalTo(starImage)
         }
         pointCount.snp.makeConstraints { make in
-            make.centerY.equalTo(checkCount)
+            make.centerY.equalTo(challengeCount)
             make.centerX.equalTo(pointImage)
         }
         challengeButton.snp.makeConstraints { make in
@@ -551,17 +575,30 @@ extension MyPageViewController {
 extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     // cell 개수 지정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        4
+        feedList.count
     }
     
     // cell 등록 및 관련 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChallengeFeedCollectionViewCell.identifier, for: indexPath) as! MyChallengeFeedCollectionViewCell
         cell.backgroundColor = .white
+        if !feedList.isEmpty{
+            let url = URL(string: self.feedList[indexPath.row].feedUrl)
+            cell.challengeFeed.kf.setImage(with: url)
+            }
         return cell
         
     }
-    
+//    // cell 선택시 액션
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        switch collectionView{
+//        case myChallengeCollectionView:
+//            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+//
+//        default:
+//            return
+//        }
+//    }
     //cell 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width : CGFloat = 173
@@ -628,4 +665,3 @@ extension MyPageViewController {
         navigationController?.pushViewController(myChallengeFeedVC, animated: true)
     }
 }
-

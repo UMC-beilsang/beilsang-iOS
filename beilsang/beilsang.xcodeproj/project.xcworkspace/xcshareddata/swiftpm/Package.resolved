@@ -19,6 +19,24 @@
       }
     },
     {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "5b92f029fab2cce44386d28588098b5be0824ef5",
+        "version" : "7.11.0"
+      }
+    },
+    {
+      "identity" : "pageboy",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uias/Pageboy",
+      "state" : {
+        "revision" : "5522aa6ae88633f6c23cf504e9cd684e963822f1",
+        "version" : "4.0.2"
+      }
+    },
+    {
       "identity" : "sclalertview-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vikmeup/SCLAlertView-Swift.git",
@@ -34,6 +52,24 @@
       "state" : {
         "revision" : "e74fe2a978d1216c3602b129447c7301573cc2d8",
         "version" : "5.7.0"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
+        "version" : "5.0.1"
+      }
+    },
+    {
+      "identity" : "tabman",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uias/Tabman.git",
+      "state" : {
+        "revision" : "e32c0d821b03566ed966753f941113883f268da0",
+        "version" : "3.0.2"
       }
     }
   ],
