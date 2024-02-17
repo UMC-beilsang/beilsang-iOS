@@ -16,8 +16,8 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     var challengeId : Int? = nil
     
     // 챌린지 전체 버튼
-    lazy var challengeButton: UIButton = {
-        let view = UIButton()
+    lazy var challengeButton: UIView = {
+        let view = UIView()
         
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 1

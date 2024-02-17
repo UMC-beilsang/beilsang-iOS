@@ -14,8 +14,8 @@ class MainAfterCollectionViewCell: UICollectionViewCell {
     var challengeId : Int? = nil
     
     // 챌린지 버튼 - 버튼
-    let custombutton: UIButton = {
-        let view = UIButton()
+    let custombutton: UIView = {
+        let view = UIView()
         
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 1
