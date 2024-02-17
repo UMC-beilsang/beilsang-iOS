@@ -119,7 +119,7 @@ class ChallengeService {
     }
     
     // 챌린지 리스트 화면 - 참여중
-    func challengeCategoriesEnrolled(completionHandler : @escaping (_ data: ChallengeCategory) -> Void) {
+    func challengeCategoriesEnrolled(completionHandler : @escaping (_ data: ChallengeStatus) -> Void) {
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/challenges/참여중/ALL"
             
@@ -128,7 +128,7 @@ class ChallengeService {
                 "Content-Type": "application/json"
             ]
             
-            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeCategory.self, completionHandler: { response in
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeStatus.self, completionHandler: { response in
                 switch response.result {
                 case .success:
                     guard let result = response.value else {return}

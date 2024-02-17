@@ -217,19 +217,23 @@ extension ChallengeListViewController {
 extension ChallengeListViewController {
     func setChallenges() {
         if categoryLabelText == "전체" {
+            print("전체")
             ChallengeService.shared.challengeCategoriesAll { response in
                 self.setChallengesList(response.data!.challenges)
             }
         } else if categoryLabelText == "참여중" {
+            print("참여중")
             ChallengeService.shared.challengeCategoriesEnrolled { response in
-                self.setChallengesList(response.data!.challenges)
+                self.setChallengesList(response.data!.challenges.challenges)
             }
         } else {
+            print("카테고리")
             ChallengeService.shared.challengeCategories(categoryName: categoryLabelText ?? "") { response in
                 self.setChallengesList(response.data!.challenges)
             }
         }
     }
+    
     @MainActor
     private func setChallengesList(_ response: [ChallengeCategoryData]) {
         self.challengeData = response
