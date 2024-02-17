@@ -210,7 +210,7 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
         
         if collectionView == challengeParticipatingCollectionView {
             let nextVC = JoinChallengeViewController()
-            // nextVC.challengeId = challengeId
+            nextVC.challengeId = challengeId
             navigationController?.pushViewController(nextVC, animated: true)
         } else {
             let nextVC = ChallengeDetailViewController()

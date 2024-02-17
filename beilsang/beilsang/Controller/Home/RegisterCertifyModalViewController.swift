@@ -70,7 +70,7 @@ class RegisterCertifyModalViewController: UIViewController {
     // 챌린지 인증 유의사항 리스트
     var challengeGuideData : [String] = []
     
-    var challengeId : Int? = 0
+    var challengeId : Int?
     
     var collectionViewHeight : Constraint?
     var modalViewHeight : Constraint?

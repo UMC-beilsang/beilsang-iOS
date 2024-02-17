@@ -499,7 +499,7 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
-    var challengeId : Int? = 14
+    var challengeId : Int? = nil
     
     var challengeDetailData : ChallengeDetailData? = nil
     
@@ -986,7 +986,7 @@ extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionV
 extension JoinChallengeViewController {
     // 챌린지의 모든 데이터를 가져오는 함수
     func setChallengeData() {
-        ChallengeService.shared.challengeDetail(challengId: challengeId!) { response in
+        ChallengeService.shared.challengeDetail(challengId: challengeId ?? 0) { response in
             self.challengeDetailData = response.data
             
             let representURL = URL(string: (response.data.imageUrl!))
