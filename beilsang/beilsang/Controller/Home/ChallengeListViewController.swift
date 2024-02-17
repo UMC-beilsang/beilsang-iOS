@@ -220,6 +220,10 @@ extension ChallengeListViewController {
             ChallengeService.shared.challengeCategoriesAll { response in
                 self.setChallengesList(response.data!.challenges)
             }
+        } else if categoryLabelText == "참여중" {
+            ChallengeService.shared.challengeCategoriesEnrolled { response in
+                self.setChallengesList(response.data!.challenges)
+            }
         } else {
             ChallengeService.shared.challengeCategories(categoryName: categoryLabelText ?? "") { response in
                 self.setChallengesList(response.data!.challenges)
@@ -270,5 +274,26 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
         let width = UIScreen.main.bounds.width - 32
         
         return CGSize(width: width , height: 140)
+    }
+    
+    // 셀 선택시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
+        let challengeId = cell.challengeId
+        var isEnrolled = false
+        
+        ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+            isEnrolled = response.data.isEnrolled
+        }
+        
+        if isEnrolled {
+            let nextVC = JoinChallengeViewController()
+            nextVC.challengeId = challengeId
+            navigationController?.pushViewController(nextVC, animated: true)
+        } else {
+            let nextVC = ChallengeDetailViewController()
+            nextVC.challengeId = challengeId
+            navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }
