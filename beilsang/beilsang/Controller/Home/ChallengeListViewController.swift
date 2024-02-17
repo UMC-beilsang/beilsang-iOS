@@ -216,8 +216,14 @@ extension ChallengeListViewController {
 // MARK: - 카테고리별 챌린지 리스트 api 세팅
 extension ChallengeListViewController {
     func setChallenges() {
-        ChallengeService.shared.challengeCategories(categoryName: categoryLabelText ?? "ALL") { response in
-            self.setChallengesList(response.data!.challenges)
+        if categoryLabelText == "전체" {
+            ChallengeService.shared.challengeCategoriesAll { response in
+                self.setChallengesList(response.data!.challenges)
+            }
+        } else {
+            ChallengeService.shared.challengeCategories(categoryName: categoryLabelText ?? "") { response in
+                self.setChallengesList(response.data!.challenges)
+            }
         }
     }
     @MainActor
