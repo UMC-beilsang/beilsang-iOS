@@ -13,6 +13,7 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
     
     static let identifier = "findFeedDetailCollectionViewCell"
     var delegate: CustomFeedCellDelegate?
+    var feedId: Int = 0
     // 달성 메달 셀 전체 뷰
     let fullScrollView = UIScrollView()
     
@@ -36,6 +37,21 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowPath = nil
         view.image = UIImage(named: "Mask group")
+        view.contentMode = .scaleAspectFit
+        //넘치는 영역 잘라내기
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var profileShadowView: UIView = {
+        let view = UIView()
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowRadius = 4
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
@@ -59,6 +75,7 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
     lazy var heartButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "iconamoon_heart-bold"), for: .normal)
+        button.addTarget(self, action: #selector(likeButton), for: .touchUpInside)
         return button
     }()
     
@@ -118,11 +135,13 @@ class FindFeedDetailCollectionViewCell: UICollectionViewCell,UIScrollViewDelegat
         label.textColor = .black
         return label
     }()
-    lazy var recommendCellView: UIView = {
-        let view = UIView()
+    
+    var recommendChallengeId: Int = 0
+    lazy var recommendCellButton: UIButton = {
+        let view = UIButton()
         view.backgroundColor = .beBgSub
         view.layer.cornerRadius = 12
-        
+        view.addTarget(self, action: #selector(tapRecommendButton), for: .touchUpInside)
         return view
     }()
         
@@ -199,11 +218,11 @@ extension FindFeedDetailCollectionViewCell {
         }
     }
     func setLayout() {
-        [feedImage, profileImage, nicknameLabel, dateLabel, heartButton, categoryTag, titleTag, reviewLabel, reviewBox, reviewContent, closeButton, reportButton, line, recommendLabel, recommendCellView].forEach { view in
+        [feedImage, profileShadowView, profileImage, nicknameLabel, dateLabel, heartButton, categoryTag, titleTag, reviewLabel, reviewBox, reviewContent, closeButton, reportButton, line, recommendLabel, recommendCellButton].forEach { view in
             fullContentView.addSubview(view)
         }
         [recommendImageView, categoryLabel, titleLabel].forEach { view in
-            recommendCellView.addSubview(view)
+            recommendCellButton.addSubview(view)
         }
         
         feedImage.snp.makeConstraints { make in
@@ -215,6 +234,9 @@ extension FindFeedDetailCollectionViewCell {
             make.width.height.equalTo(48)
             make.top.equalTo(feedImage.snp.bottom).offset(12)
             make.leading.equalTo(feedImage.snp.leading).offset(10)
+        }
+        profileShadowView.snp.makeConstraints { make in
+            make.edges.width.equalTo(profileImage)
         }
         nicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.top).offset(2)
@@ -269,7 +291,7 @@ extension FindFeedDetailCollectionViewCell {
             make.top.equalTo(line.snp.bottom).offset(28)
             make.leading.equalToSuperview().offset(8)
         }
-        recommendCellView.snp.makeConstraints{ make in
+        recommendCellButton.snp.makeConstraints{ make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(recommendLabel.snp.bottom).offset(16)
             make.height.equalTo(90)
@@ -300,5 +322,29 @@ extension FindFeedDetailCollectionViewCell {
     @objc func tapReportButton(_ sender: UIButton) {
         print("신고하기")
         delegate?.didTapReportButton()
+    }
+    @objc func tapRecommendButton(_ sender: UIButton) {
+        delegate?.didTapRecommendButton(id: recommendChallengeId)
+    }
+    @objc private func likeButton(_ sender: UIButton) {
+        if sender.image(for: .normal) == UIImage(named: "iconamoon_heart-bold"){
+            sender.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+            requestLikeButtonTapped()
+        } else if sender.image(for: .normal) == UIImage(named: "iconamoon_fullheart-bold"){
+            sender.setImage(UIImage(named: "iconamoon_heart-bold"), for: .normal)
+            requestCancelLikeButtonTapped()
+        }
+    }
+    //찜하기
+    private func requestLikeButtonTapped() {
+        MyPageService.shared.postLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
+            print("post 요청 완료 - like button tapped")
+        })
+    }
+    // 찜 취소
+    private func requestCancelLikeButtonTapped() {
+        MyPageService.shared.deleteLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
+            print("delete 요청 완료 - cancel like button tapped")
+        })
     }
 }

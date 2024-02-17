@@ -16,6 +16,7 @@ class ChallengeDetailViewController: UIViewController {
     
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
+    var challengeId : Int = 1
     
     let recommendDataList = RecommendChallenge.data
     let cautionDataList = CautionChallenge.data

@@ -16,7 +16,7 @@ enum BaseEndpoint {
     
     var requestURL: String {
         switch self {
-        case .challenges: return URL.makeEndPointString("/challenges")
+        case .challenges: return URL.makeEndPointString("/api/challenges")
         case .mypage: return URL.makeEndPointString("/api/mypage")
         case .profile: return URL.makeEndPointString("/api/profile")
         case .feeds: return URL.makeEndPointString("/api/feeds")

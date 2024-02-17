@@ -8,8 +8,8 @@
 import Foundation
 
 struct GetMyPage: Codable {
-    let isSuccess: Bool
-    let status: String
+    let success: Bool
+    let code: String
     let message: String
     let data: MyPageData
 }
@@ -21,15 +21,7 @@ struct MyPageData: Codable {
     let challenges: Int
     let likes: Int
     let points: Int
-    let feedDTOs: FeedList
+    let feedDTOs: FeedListModel
     let nickName: String
     let profileImage: String
-}
-struct FeedList: Codable {
-    let feeds: [feedData]?
-}
-struct feedData: Codable {
-    let feedId: Int
-    let feedUrl: String
-    let day: Int
 }

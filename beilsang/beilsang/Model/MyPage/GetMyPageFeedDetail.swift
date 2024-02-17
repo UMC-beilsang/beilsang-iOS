@@ -8,8 +8,8 @@
 import Foundation
 
 struct GetMyPageFeedDetail : Codable {
-    let isSuccess: Bool
-    let status: String
+    let success: Bool
+    let code: String
     let message: String
     let data: MyPageFeedDetailData
 }

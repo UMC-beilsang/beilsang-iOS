@@ -10,9 +10,10 @@ import UIKit
 class HofChallengeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "hofChallengeCollectionViewCell"
+    var challengeId: Int = 0
     // 챌린지 버튼 - 버튼
-    let custombutton: UIButton = {
-        let view = UIButton()
+    let custombutton: UIView = {
+        let view = UIView()
         
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 1
@@ -25,7 +26,6 @@ class HofChallengeCollectionViewCell: UICollectionViewCell {
     let challengeImage: UIImageView = {
         let view = UIImageView()
         
-        view.image = UIImage(named: "testChallengeImage")
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = 10
@@ -57,11 +57,10 @@ class HofChallengeCollectionViewCell: UICollectionViewCell {
     }()
     
     // 챌린지 버튼 참여 인원 레이블
-    var numOfPeople = Int.random(in: 0...100)
     lazy var numOfPeopleLabel: UILabel = {
         let view = UILabel()
         
-        view.text = "참여인원 \(numOfPeople)명"
+        view.text = "참여인원 0명"
         view.textColor = .beNavy500
         view.font = UIFont(name: "Noto Sans KR", size: 12)
         

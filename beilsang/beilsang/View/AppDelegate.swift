@@ -13,9 +13,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         KakaoSDK.initSDK(appKey: "47b833fe85b10793cdd4d5a19efb3260")
+        let center = UNUserNotificationCenter.current()
+                center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+                    // 알림 권한 요청 결과 처리
+                    if granted {
+                        DispatchQueue.main.async {
+                            application.registerForRemoteNotifications()
+                        }
+                    }
+                }
         return true
     }
 
+    // MARK: - Device Token
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // 디바이스 토큰 발급 성공 시 처리
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("디바이스 토큰: \(token)")
+        // 디바이스 토큰을 서버에 전송하거나 앱 내부에 저장하는 등의 작업을 수행합니다.
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // 디바이스 토큰 발급 실패 시 처리
+        print("푸시 알림 등록 실패: \(error.localizedDescription)")
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
