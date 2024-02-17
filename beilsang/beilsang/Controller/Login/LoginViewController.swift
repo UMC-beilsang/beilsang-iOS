@@ -195,7 +195,12 @@ extension LoginViewController {
                         self.kakaologinToServer(with: token)
                         //서버에 보내주기
                         
-                       // self.presentToMain()
+                        if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                            self.presentTo(name: "main")
+                        }
+                        else {
+                            self.presentTo(name: "keyword")
+                        }
                     }
                 }
             }
@@ -231,15 +236,21 @@ extension LoginViewController {
                         print(token)
                         
                         self.kakaologinToServer(with: token)
-                        //서버에 보내주기
-                        
-                        self.presentToMain()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
+                            if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                                self.presentTo(name: "main")
+                            } else {
+                                self.presentTo(name: "keyword")
+                            }
+                            
+                        }
                     }
                 }
             }
         }
     }
 }
+
 //MARK: - 애플 로그인
 extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
@@ -272,7 +283,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
             print("fullName: \(fullName?.description ?? "")")
             print("email: \(email?.description ?? "")")
             
-            self.presentToMain()
+            self.presentTo(name: "keyword")
             
             
         default:
@@ -301,10 +312,12 @@ extension LoginViewController {
                 print("Kakao login to server success with data: \(data)")
                 
                 //서버에서 보내준 accessToken,refreshToken, existMember 저장
-                UserDefaults.standard.set(data.data?.accessToken, forKey: "serverToken")
-                UserDefaults.standard.set(data.data?.refreshToken, forKey: "refreshToken")
-                UserDefaults.standard.set(data.data?.existMember, forKey: "existMember")
+                UserDefaults.standard.set(data.data.accessToken, forKey: "serverToken")
+                UserDefaults.standard.set(data.data.refreshToken, forKey: "refreshToken")
+                UserDefaults.standard.set(data.data.existMember, forKey: "existMember")
                 
+            case .tokenExpired:
+                print("카카오 토큰 만료")
             case .networkFail:
                 print("카카오 로그인: 네트워크 페일")
             case .requestErr(let error):
@@ -326,10 +339,12 @@ extension LoginViewController {
                 
                 print("Apple login to server success with data: \(data)")
                 
-                UserDefaults.standard.set(data.data?.accessToken, forKey: "serverToken")
-                UserDefaults.standard.set(data.data?.refreshToken, forKey: "appleRefreshToken")
-                UserDefaults.standard.set(data.data?.existMember, forKey: "existMember")
+                UserDefaults.standard.set(data.data.accessToken, forKey: "serverToken")
+                UserDefaults.standard.set(data.data.refreshToken, forKey: "appleRefreshToken")
+                UserDefaults.standard.set(data.data.existMember, forKey: "existMember")
                 
+            case .tokenExpired:
+                print("애플 토큰 만료")
             case .networkFail:
                 print("애플 로그인: 네트워크 페일")
             case .requestErr(let error):
@@ -343,18 +358,34 @@ extension LoginViewController {
     }
     
     // 화면 전환 함수
-    func presentToMain() {
-        let joinVC = KeywordViewController()
-        let navigationController = UINavigationController(rootViewController: joinVC)
-        
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            UIView.transition(with: sceneDelegate.window!,
-                              duration: 1.5,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                sceneDelegate.window?.rootViewController = navigationController
-            },
-                              completion: nil)
+    func presentTo(name : String) {
+        if name == "keyword" {
+            let joinVC = KeywordViewController()
+            let navigationController = UINavigationController(rootViewController: joinVC)
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                UIView.transition(with: sceneDelegate.window!,
+                                  duration: 1.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                    sceneDelegate.window?.rootViewController = navigationController
+                },
+                                  completion: nil)
+            }
+        }
+        else if name == "main" {
+            let joinVC = HomeMainViewController()
+            let navigationController = UINavigationController(rootViewController: joinVC)
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                UIView.transition(with: sceneDelegate.window!,
+                                  duration: 1.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                    sceneDelegate.window?.rootViewController = navigationController
+                },
+                                  completion: nil)
+            }
         }
     }
 }

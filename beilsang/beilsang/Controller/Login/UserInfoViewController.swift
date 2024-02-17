@@ -1018,9 +1018,7 @@ class UserInfoViewController: UIViewController {
     // MARK: - nameDuplicateCheck
     
     func nameDuplicateCheck() {
-        
-        let userInput = nameField.text ?? ""
-        let serverInput = Bool.random()
+        let serverInput = requestDuplicateCheck()
         
         if serverInput  {
             nameInfoViewChanged(state: "avaliable")
@@ -1037,11 +1035,16 @@ class UserInfoViewController: UIViewController {
             nameDuplicate = false
             
             updateNextButtonState()
-            
         }
-        
     }
     
+    private func requestDuplicateCheck() -> Bool{
+        var dupCheck = true
+        SignUpService.shared.nameCheck(name: nameField.text) { response in
+            dupCheck = response.data
+        }
+        return dupCheck
+    }
     
     // MARK: - next Button
     
@@ -1054,35 +1057,6 @@ class UserInfoViewController: UIViewController {
           nextButton.backgroundColor = .beScPurple400
         }
       }
-    /*
-     private func nextButtonDisabled() {
-         
-         guard nameDuplicate else {
-             nextButtonActive = false
-             return
-         }
-          
-         // birthField의 선택 여부 확인
-         guard let birthDate = birthField.text, !birthDate.isEmpty else {
-             nextButtonActive = false
-             return
-         }
-         
-         // genderField의 선택 여부 확인
-         guard let gender = genderField.text, !gender.isEmpty else {
-             nextButtonActive = false
-             return
-         }
-         
-         guard agreeAllButton.isSelected else {
-             nextButtonActive = false
-             return
-         }
-         
-         nextButtonActive = true
-         
-     }
-     */
     
     private func updateAgreeAllButton() {
         if isAgree.allSatisfy({ $0 }) {
@@ -1432,5 +1406,3 @@ extension String {
         }
     }
 }
-
-

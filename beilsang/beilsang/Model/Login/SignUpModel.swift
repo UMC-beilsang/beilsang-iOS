@@ -28,17 +28,10 @@ struct SignUpResponse: Codable {
     let success : Bool
 }
 
-struct RefreshResponse : Codable {
-    let code : String
-    let message: String
-    let data : RefreshData
-    let success : Bool
-}
-
 struct nameCheckResponse: Codable {
     let code : String
     let message: String
-    let data: Empty?
+    let data: Bool
     let success : Bool
 }
 
