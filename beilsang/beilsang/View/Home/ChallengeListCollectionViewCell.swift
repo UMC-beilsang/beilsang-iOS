@@ -12,6 +12,7 @@ import UIKit
 class ChallengeListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ChallengeListViewCell"
+    var challengId : Int = 0
     
     // 챌린지 전체 버튼
     lazy var challengeButton: UIButton = {
