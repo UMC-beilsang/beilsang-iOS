@@ -115,6 +115,7 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         self.navigationItem.hidesBackButton = true
         
         setupAttribute()
+        setChallengeStatus()
         setCollectionView()
     }
 }
@@ -126,6 +127,7 @@ extension HomeMainViewController {
         setFullScrollView()
         setAddViews()
         setLayout()
+        setUI()
         
         setupPageView()
         setAddChild()
@@ -148,6 +150,11 @@ extension HomeMainViewController {
         pageViewController.didMove(toParent: self)
         mainBeforeVC.didMove(toParent: self)
         mainAfterVC.didMove(toParent: self)
+    }
+    
+    func setUI() {
+        mainBeforeVC.view.isHidden = true
+        mainAfterVC.view.isHidden = true
     }
     
     func setFullScrollView() {
@@ -244,10 +251,30 @@ extension HomeMainViewController {
         }
         
         mainAfterVC.view.snp.makeConstraints { make in
-            make.top.equalTo(mainBeforeVC.view.snp.bottom)
+            make.top.equalTo(borderline.snp.bottom)
             make.width.equalTo(fullScrollView.snp.width)
             make.height.equalTo(456)
             make.bottom.equalToSuperview()
+        }
+    }
+}
+
+// MARK: - network
+extension HomeMainViewController {
+    func setChallengeStatus() {
+        ChallengeService.shared.challengeCategoriesEnrolled { response in
+            let isEnrolled = !(response.data?.challenges.challenges.isEmpty ?? true)
+            self.setChallengeParticipate(isEnrolled: isEnrolled)
+        }
+    }
+    
+    func setChallengeParticipate(isEnrolled: Bool) {
+        if isEnrolled {
+            print(fullScrollView.isScrollEnabled)
+            print(fullScrollView.isUserInteractionEnabled)
+            mainAfterVC.view.isHidden = false
+        } else {
+            mainBeforeVC.view.isHidden = false
         }
     }
 }
@@ -287,8 +314,6 @@ extension HomeMainViewController: UICollectionViewDataSource, UICollectionViewDe
         let labelText = cell.keywordLabel.text
         let challengeListVC = ChallengeListViewController()
         challengeListVC.categoryLabelText = labelText
-        
-        // ChallengeListViewController를 푸시합니다.
         navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }
