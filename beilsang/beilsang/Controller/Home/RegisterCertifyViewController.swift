@@ -297,7 +297,7 @@ class RegisterCertifyViewController: UIViewController {
         print("인증하기")
         
         guard let image = certifyPhotoImage.image else { return }
-        let imageData = image.jpegData(compressionQuality: 0.8)
+        let imageData = image.jpegData(compressionQuality: 0.5)
         ChallengeCertifySingleton.shared.image = imageData
         ChallengeCertifySingleton.shared.review = reviewTextView.text
         
@@ -581,9 +581,9 @@ extension RegisterCertifyViewController: UITextViewDelegate {
             textView.text = nil
         }
         
-        textView.textColor = UIColor.beRed500
-        textView.layer.borderColor = UIColor.beRed500.cgColor
-        textView.backgroundColor = .beRed100
+        textView.textColor = UIColor.bePsBlue500
+        textView.layer.borderColor = UIColor.bePsBlue500.cgColor
+        textView.backgroundColor = .bePsBlue100
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
