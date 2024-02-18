@@ -145,44 +145,64 @@ class ChallengeService {
     
     // 챌린지 등록화면
     func challengePost(completionHandler : @escaping (_ data: ChallengePost) -> Void) {
-        DispatchQueue.main.async {
-            let url = "https://beilsang.com/api/challenges"
-            
-            // HTTP Headers : 요청 헤더
-            let header : HTTPHeaders = [
-                "accept": "*/*",
-                "Content-Type": "multipart/form-data",
-                "Authorization": "Bearer \(self.accessToken)"
-            ]
-            
-            let parameters: [String: Any] = [
-                "mainImage": ChallengeDataSingleton.shared.mainImage ?? "",
-                "title": ChallengeDataSingleton.shared.title ?? "",
-                // "category": ChallengeDataSingleton.shared.category ?? "",
-                "category": "TUMBLER",
-                //"startDate": (ChallengeDataSingleton.shared.startDate) ?? "",
-                "startDate": 2024-04-13,
-                // "period": ChallengeDataSingleton.shared.period ?? "",
-                "period": "WEEK",
-                "totalGoalDay": ChallengeDataSingleton.shared.totalGoalDay ?? "",
-                "details": ChallengeDataSingleton.shared.details ?? "",
-                "notes": ChallengeDataSingleton.shared.notes,
-                "certImage": ChallengeDataSingleton.shared.certImage ?? "",
-                "joinPoint": ChallengeDataSingleton.shared.joinPoint ?? ""
-            ]
-            
-            AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: ChallengePost.self, completionHandler: { response in
-                switch response.result {
-                case .success:
-                    guard let result = response.value else {return}
-                    completionHandler(result)
-                    print("post 요청 성공")
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
-                    print(error)
-                    print("post 요청 실패")
+        let url = "https://beilsang.com/api/challenges"
+        
+        // HTTP Headers : 요청 헤더
+        let header : HTTPHeaders = [
+            "accept": "*/*",
+            "Content-Type": "multipart/form-data",
+            "Authorization": "Bearer \(self.accessToken)"
+        ]
+        
+        var parameters: [String: Any] = [
+            "title": ChallengeDataSingleton.shared.title ?? "",
+            "category": ChallengeDataSingleton.shared.category ?? "",
+            "startDate": (ChallengeDataSingleton.shared.startDate) ?? "",
+            "period": ChallengeDataSingleton.shared.period ?? "",
+            "totalGoalDay": ChallengeDataSingleton.shared.totalGoalDay ?? "",
+            "details": ChallengeDataSingleton.shared.details ?? "",
+            "notes": ChallengeDataSingleton.shared.notes,
+            "joinPoint": ChallengeDataSingleton.shared.joinPoint ?? ""
+        ]
+        if let mainImageData = ChallengeDataSingleton.shared.mainImage {
+            parameters["mainImage"] = mainImageData
+        }
+        if let certImageData = ChallengeDataSingleton.shared.certImage {
+            parameters["certImage"] = certImageData
+        }
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            for (key, value) in parameters {
+                if let string = value as? String {
+                    if let stringData = string.data(using: .utf8) {
+                        multipartFormData.append(stringData, withName: key)
+                    }
+                } else if let stringArray = value as? [String] {
+                    for (index, string) in stringArray.enumerated() {
+                        if let stringData = string.data(using: .utf8) {
+                            multipartFormData.append(stringData, withName: "\(key)[\(index)]")
+                        }
+                    }
+                } else if let number = value as? Int {
+                    let numberData = "\(number)".data(using: .utf8)!
+                    multipartFormData.append(numberData, withName: key)
+                } else if let data = value as? Data {
+                    multipartFormData.append(data, withName: key, fileName: "image.jpg", mimeType: "image/jpeg")
                 }
-            })
+            }
+        }, to: url, method: .post, headers: header)
+        .validate()
+        .responseDecodable(of: ChallengePost.self) { response in
+            debugPrint(response)
+            switch response.result {
+            case .success:
+                guard let result = response.value else { return }
+                completionHandler(result)
+                print("챌린지 post 요청 성공")
+            case .failure(let error):
+                print(error)
+                print("챌린지 post 요청 실패")
+            }
         }
     }
     
@@ -255,7 +275,6 @@ class ChallengeService {
         }
         
         AF.upload(multipartFormData: { multipartFormData in
-            
             for (key, value) in parameters {
                 if let string = value as? String {
                     if let stringData = string.data(using: .utf8) {

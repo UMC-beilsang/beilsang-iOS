@@ -676,9 +676,7 @@ extension RegisterCertifyViewController {
 
 // MARK: - network
 extension RegisterCertifyViewController {
-    func reviewPost() {
-        let parameters = ChallengeCertifyData(feedImage: ChallengeCertifySingleton.shared.image?.base64EncodedString() ?? "", review: ChallengeCertifySingleton.shared.review ?? "")
-        
+    func reviewPost() {        
         ChallengeService.shared.reviewPost(challengId: challengeId) { response in
             self.challengeCertify = response
             print(response)

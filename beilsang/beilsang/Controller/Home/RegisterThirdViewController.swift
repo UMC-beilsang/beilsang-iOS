@@ -356,6 +356,8 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     
     var challengePostData : ChallengePostData? = nil
     
+    var challengeId : Int? = nil
+    
     // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -442,21 +444,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     @objc func addChallengeButtonClicked(){
         print("챌린지 등록하기")
         
-        print(ChallengeDataSingleton.shared.category)
-        print(ChallengeDataSingleton.shared.certImage)
-        print(ChallengeDataSingleton.shared.details)
-        print(ChallengeDataSingleton.shared.joinPoint)
-        print(ChallengeDataSingleton.shared.mainImage)
-        print(ChallengeDataSingleton.shared.notes)
-        print(ChallengeDataSingleton.shared.period)
-        print(ChallengeDataSingleton.shared.startDate)
-        print(ChallengeDataSingleton.shared.title)
-        print(ChallengeDataSingleton.shared.totalGoalDay)
-        
         postChallenges()
-        
-        let registerCompleteVC = RegisterCompleteViewController()
-        navigationController?.pushViewController(registerCompleteVC, animated: true)
         
         ChallengeDataSingleton.shared.resetData()
         registerAlertViewResponder?.close()
@@ -469,6 +457,11 @@ extension RegisterThirdViewController {
         ChallengeService.shared.challengePost() { response in
             self.challengePostData = response.data
             print(response)
+            self.challengeId = response.data.challengeId
+            
+            let registerCompleteVC = RegisterCompleteViewController()
+            registerCompleteVC.challengeId = self.challengeId
+            self.navigationController?.pushViewController(registerCompleteVC, animated: true)
         }
     }
 }

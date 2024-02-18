@@ -421,7 +421,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         point = Int(pointIntLabel.text!)!
         checkPointButtonState()
         
-        isNext = [detailTextView.text != nil, !noticeLabels.isEmpty, examplePhotoImage.image != nil, point > 0]
+        isNext = [detailTextView.text != nil, !noticeLabels.isEmpty, examplePhotoImage.image != nil, point >= 0]
         updateNextButtonState()
     }
     
@@ -432,7 +432,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
         ChallengeDataSingleton.shared.notes = noticeLabels
         
         guard let image = examplePhotoImage.image else { return }
-        let imageData = image.jpegData(compressionQuality: 1.0)
+        let imageData = image.jpegData(compressionQuality: 0.3)
         ChallengeDataSingleton.shared.certImage = imageData
         
         ChallengeDataSingleton.shared.joinPoint = Int(pointIntLabel.text!)
@@ -565,7 +565,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
             pointPlusButton.backgroundColor = .beScPurple400
         }
         
-        if Int(pointIntLabel.text!)! > 0 {
+        if Int(pointIntLabel.text!)! >= 0 {
             isNext[3] = true
             updateNextButtonState()
         }

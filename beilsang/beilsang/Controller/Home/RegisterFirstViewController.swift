@@ -345,9 +345,9 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         }
         
         challengeTitleField.text = ChallengeDataSingleton.shared.title
-        categoryField.text = ChallengeDataSingleton.shared.category
-        startField.text = ChallengeDataSingleton.shared.startDate
-        dayField.text = ChallengeDataSingleton.shared.period
+        categoryField.text = CategoryConverter.shared.convertToKorean(ChallengeDataSingleton.shared.category ?? "")
+        startField.text = DateConverter.shared.convertToFrontFormat(from: ChallengeDataSingleton.shared.startDate ?? "")
+        dayField.text = PeriodConverter.shared.convertToKorean(ChallengeDataSingleton.shared.period ?? "")
         countIntLabel.text = String(ChallengeDataSingleton.shared.totalGoalDay ?? 0)
         
         count = Int(countIntLabel.text!)!
@@ -361,13 +361,16 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         super.viewWillDisappear(animated)
         
         guard let image = representativePhotoImage.image else { return }
-        let imageData = image.jpegData(compressionQuality: 1.0)
+        let imageData = image.jpegData(compressionQuality: 0.3)
         ChallengeDataSingleton.shared.mainImage = imageData
         
         ChallengeDataSingleton.shared.title = challengeTitleField.text
-        ChallengeDataSingleton.shared.category = categoryField.text
-        ChallengeDataSingleton.shared.startDate = startField.text
-        ChallengeDataSingleton.shared.period = dayField.text
+        let category = CategoryConverter.shared.convertToEnglish(categoryField.text ?? "")
+        ChallengeDataSingleton.shared.category = category
+        let startDate = DateConverter.shared.convertToServerFormat(from: startField.text ?? "")
+        ChallengeDataSingleton.shared.startDate = startDate
+        let period = PeriodConverter.shared.convertToEnglish(dayField.text ?? "")
+        ChallengeDataSingleton.shared.period = period
         ChallengeDataSingleton.shared.totalGoalDay = Int(countIntLabel.text!)
     }
     
