@@ -70,7 +70,7 @@ class DateConverter {
         return nil
     }
     
-    func converJoin(from serverDate: String) -> String? {
+    func convertJoin(from serverDate: String) -> String? {
         if let date = serverFormatter.date(from: serverDate) {
             return joinFormatter.string(from: date)
         }
