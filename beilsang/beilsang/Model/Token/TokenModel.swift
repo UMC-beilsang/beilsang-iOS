@@ -1,22 +1,20 @@
 //
-//  LoginModel.swift
+//  TokenModel.swift
 //  beilsang
 //
-//  Created by Seyoung on 2/10/24.
+//  Created by Seyoung on 2/17/24.
 //
 
 import Foundation
 
-struct LoginResponse: Codable {
+struct TokenResponse: Codable {
     let code : String
     let message : String
-    let data : LoginData
+    let data : TokenData?
     let success : Bool
 }
 
-struct LoginData : Codable {
+struct TokenData : Codable {
     let accessToken : String
     let refreshToken : String
-    let existMember : Bool
 }
-

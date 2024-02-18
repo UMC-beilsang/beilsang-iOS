@@ -16,8 +16,9 @@ class LoginViewController: UIViewController {
     
     //MARK: - Properties
     
-    var accessToken : String? = nil
-    var name : String? = nil
+    var kakaoAccessToken : String? = ""
+    var kakaoName : String? = ""
+    var kakaoEmail : String? = ""
     
     lazy var logoColorImage: UIImageView = {
         let view = UIImageView()
@@ -180,22 +181,26 @@ extension LoginViewController {
                         print("loginWithKakaoApp() success.")
                         
                         guard let token = oauthToken?.accessToken,
-                              let name = user?.kakaoAccount?.profile?.nickname else{
+                              let name = user?.kakaoAccount?.profile?.nickname,
+                              let email = user?.kakaoAccount?.email
+                        else{
                             print("token/email/name is nil")
                             return
                         }
                         
-                        //self.email = email
-                        self.accessToken = token
-                        self.name = name
-                        
-                        // ✅ 사용자 정보 넘기기
-                        
+                        self.kakaoAccessToken = token
+                        self.kakaoName = name
+                        self.kakaoEmail = email
                         
                         self.kakaologinToServer(with: token)
                         //서버에 보내주기
                         
-                        self.presentToMain()
+                        if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                            self.presentTo(name: "main")
+                        }
+                        else {
+                            self.presentTo(name: "keyword")
+                        }
                     }
                 }
             }
@@ -217,25 +222,35 @@ extension LoginViewController {
                         print("loginWithKakaoWeb() success.")
                         
                         guard let token = oauthToken?.accessToken,
-                              let name = user?.kakaoAccount?.profile?.nickname else{
+                              let name = user?.kakaoAccount?.profile?.nickname,
+                              let email = user?.kakaoAccount?.email
+                        else{
                             print("token/email/name is nil")
                             return
                         }
                         
-                        self.accessToken = token
-                        self.name = name
+                        self.kakaoAccessToken = token
+                        self.kakaoName = name
+                        self.kakaoEmail = email
+                        
                         print(token)
                         
                         self.kakaologinToServer(with: token)
-                        //서버에 보내주기
-                        
-                        self.presentToMain()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
+                            if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                                self.presentTo(name: "main")
+                            } else {
+                                self.presentTo(name: "keyword")
+                            }
+                            
+                        }
                     }
                 }
             }
         }
     }
 }
+
 //MARK: - 애플 로그인
 extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
@@ -260,18 +275,15 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
                 
                 print("accessToken: \(accessToken)")
                 print("identityToken: \(identityToken)")
-                UserDefaults.standard.set(userIdentifier, forKey: UserDefaultsKey.memberId)
                 
-                self.appleloginToServer(with: accessToken)
+                self.appleloginToServer(with: identityToken)
             }
             
             print("useridentifier: \(userIdentifier)")
             print("fullName: \(fullName?.description ?? "")")
             print("email: \(email?.description ?? "")")
             
-            // accessToken을 사용하여 서버에 로그인 요청 보냄
-            //Move to MainPage
-            self.presentToMain()
+            self.presentTo(name: "keyword")
             
             
         default:
@@ -288,69 +300,92 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
 
 //MARK: - others
 extension LoginViewController {
-    // 서버에 로그인 요청을 보내는 함수
-    private func kakaologinToServer(with kakaoAccessToken: String) {
+    // 카카오
+    private func kakaologinToServer(with kakaoAccessToken: String?) {
         // LoginService를 사용하여 서버에 Post
-        LoginService.shared.kakaoLogin(accessToken: kakaoAccessToken) { result in
+        LoginService.shared.kakaoLogin(accesstoken: kakaoAccessToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
                 guard let data = data as? LoginResponse else { return }
                 
-                print("Login to server success with data: \(data)")
+                print("Kakao login to server success with data: \(data)")
+                
+                //서버에서 보내준 accessToken,refreshToken, existMember 저장
+                UserDefaults.standard.set(data.data.accessToken, forKey: "serverToken")
+                UserDefaults.standard.set(data.data.refreshToken, forKey: "refreshToken")
+                UserDefaults.standard.set(data.data.existMember, forKey: "existMember")
+                
+            case .tokenExpired:
+                print("카카오 토큰 만료")
             case .networkFail:
-                // 서버 통신 실패 처리
-                print("네트워크 페일")
+                print("카카오 로그인: 네트워크 페일")
             case .requestErr(let error):
-                print("요청 페일 \(error)")
+                print("카카오 로그인: 요청 페일 \(error)")
             case .pathErr:
-                print("경로 오류")
+                print("카카오 로그인: 경로 오류")
             case .serverErr:
-                print("서버 오류")
+                print("카카오 로그인: 서버 오류")
             }
         }
     }
     
-    private func appleloginToServer(with appleAccessToken: String) {
-        // LoginService를 사용하여 서버에 Post
-        LoginService.shared.appleLogin(accessToken: appleAccessToken){ result in
+    private func appleloginToServer(with appleIdToken: String?) {
+        LoginService.shared.appleLogin(idToken: appleIdToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
                 guard let data = data as? LoginResponse else { return }
                 
-                print("Login to server success with data: \(data)")
+                print("Apple login to server success with data: \(data)")
                 
-                let defaults = UserDefaults.standard
-                defaults.set(data.data?.existMember, forKey: UserDefaultsKey.existMember)
+                UserDefaults.standard.set(data.data.accessToken, forKey: "serverToken")
+                UserDefaults.standard.set(data.data.refreshToken, forKey: "appleRefreshToken")
+                UserDefaults.standard.set(data.data.existMember, forKey: "existMember")
                 
-                
+            case .tokenExpired:
+                print("애플 토큰 만료")
             case .networkFail:
-                // 서버 통신 실패 처리
-                print("네트워크 페일")
+                print("애플 로그인: 네트워크 페일")
             case .requestErr(let error):
-                print("요청 페일 \(error)")
+                print("애플 로그인: 요청 페일 \(error)")
             case .pathErr:
-                print("경로 오류")
+                print("애플 로그인: 경로 오류")
             case .serverErr:
-                print("서버 오류")
+                print("애플 로그인: 서버 오류")
             }
         }
     }
     
     // 화면 전환 함수
-    func presentToMain() {
-        let joinVC = KeywordViewController()
-        let navigationController = UINavigationController(rootViewController: joinVC)
-        
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            UIView.transition(with: sceneDelegate.window!,
-                              duration: 1.5,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                sceneDelegate.window?.rootViewController = navigationController
-            },
-                              completion: nil)
+    func presentTo(name : String) {
+        if name == "keyword" {
+            let joinVC = KeywordViewController()
+            let navigationController = UINavigationController(rootViewController: joinVC)
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                UIView.transition(with: sceneDelegate.window!,
+                                  duration: 1.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                    sceneDelegate.window?.rootViewController = navigationController
+                },
+                                  completion: nil)
+            }
+        }
+        else if name == "main" {
+            let joinVC = HomeMainViewController()
+            let navigationController = UINavigationController(rootViewController: joinVC)
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                UIView.transition(with: sceneDelegate.window!,
+                                  duration: 1.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                    sceneDelegate.window?.rootViewController = navigationController
+                },
+                                  completion: nil)
+            }
         }
     }
 }

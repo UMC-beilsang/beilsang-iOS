@@ -24,7 +24,6 @@ class UserInfoViewController: UIViewController {
     var textFieldValid = true
     var nameDuplicate = true
     var isNext = [false, false, false, false]
-    var birthFieldTextServer : String?
     
     let agreeImage = UIImage(named: "agree")
     let disagreeImage = UIImage(named: "disagree")
@@ -920,7 +919,7 @@ class UserInfoViewController: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko-KR")
-        datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(dateChange), for: .allEvents)
         datePicker.maximumDate = Date()
         birthField.inputView = datePicker
     }
@@ -928,13 +927,6 @@ class UserInfoViewController: UIViewController {
     private func dateFormat(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일"
-        
-        return formatter.string(from: date)
-    }
-    
-    private func dateFormatServer(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
         
         return formatter.string(from: date)
     }
@@ -1026,9 +1018,7 @@ class UserInfoViewController: UIViewController {
     // MARK: - nameDuplicateCheck
     
     func nameDuplicateCheck() {
-        
-        let userInput = nameField.text ?? ""
-        let serverInput = Bool.random()
+        let serverInput = requestDuplicateCheck()
         
         if serverInput  {
             nameInfoViewChanged(state: "avaliable")
@@ -1045,11 +1035,16 @@ class UserInfoViewController: UIViewController {
             nameDuplicate = false
             
             updateNextButtonState()
-            
         }
-        
     }
     
+    private func requestDuplicateCheck() -> Bool{
+        var dupCheck = true
+        SignUpService.shared.nameCheck(name: nameField.text) { response in
+            dupCheck = response.data
+        }
+        return dupCheck
+    }
     
     // MARK: - next Button
     
@@ -1062,35 +1057,6 @@ class UserInfoViewController: UIViewController {
           nextButton.backgroundColor = .beScPurple400
         }
       }
-    /*
-     private func nextButtonDisabled() {
-         
-         guard nameDuplicate else {
-             nextButtonActive = false
-             return
-         }
-          
-         // birthField의 선택 여부 확인
-         guard let birthDate = birthField.text, !birthDate.isEmpty else {
-             nextButtonActive = false
-             return
-         }
-         
-         // genderField의 선택 여부 확인
-         guard let gender = genderField.text, !gender.isEmpty else {
-             nextButtonActive = false
-             return
-         }
-         
-         guard agreeAllButton.isSelected else {
-             nextButtonActive = false
-             return
-         }
-         
-         nextButtonActive = true
-         
-     }
-     */
     
     private func updateAgreeAllButton() {
         if isAgree.allSatisfy({ $0 }) {
@@ -1120,27 +1086,53 @@ class UserInfoViewController: UIViewController {
         }
     }
     
-    // MARK: - Actions
-    
-    @objc private func nextAction() {
+    func formatDate(dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yy년 MM월 dd일" // 입력된 날짜 형식
+        guard let date = dateFormatter.date(from: dateString) else {
+            return nil // 날짜 변환이 실패할 경우 nil 반환
+        }
         
-        if selectedGender == "남자" {
-            SignUpData.shared.gender = "M"
-        }
-        else if selectedGender == "여자" {
-            SignUpData.shared.gender = "F"
-        }
-        else{
-            print("기타 아직 구현 안됨")
-        }
+        dateFormatter.dateFormat = "yyyy-MM-dd" // 원하는 날짜 형식
+        let formattedDate = dateFormatter.string(from: date)
+        return formattedDate
+    }
     
+    //MARK: - SignUpData parsing
+    func SignUpDataParse() {
         SignUpData.shared.nickName = nameField.text ?? ""
-        SignUpData.shared.birth = birthFieldTextServer ?? ""
+        
+        if let formattedBirth = formatDate(dateString: birthField.text ?? ""){
+            SignUpData.shared.birth = formattedBirth
+        }else {
+            print("formattting error!")
+        }
+        
+        if genderField.text == "남자" {
+            SignUpData.shared.gender = "MAN"
+        }
+        else if genderField.text == "여자" {
+            SignUpData.shared.gender = "WOMAN"
+        }
+        else {
+            SignUpData.shared.gender = "OTHER"
+        }
         
         if let address = addressField.text, let detailAddress = addressDetailField.text {
             let fullAddress = address + " " + detailAddress
             SignUpData.shared.address = fullAddress
         }
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func nextAction() {
+        SignUpDataParse()
+        
+        print("Gender : \(SignUpData.shared.gender)")
+        print("birth : \(SignUpData.shared.birth)")
+        print("nickName : \(SignUpData.shared.nickName)")
+        print("address : \(SignUpData.shared.address ?? "")")
         
         let routeViewController = RouteViewController()
         self.navigationController?.pushViewController(routeViewController, animated: true)
@@ -1167,8 +1159,6 @@ class UserInfoViewController: UIViewController {
     }
     
     @objc func dateChange(_ sender: UIDatePicker) {
-        let birthFieldTextServer = dateFormatServer(date: sender.date)
-        
         birthField.text = dateFormat(date: sender.date)
         birthField.font = UIFont(name: "NotoSansKR-Regular", size: 14)
         birthField.textColor = .bePsBlue500
@@ -1416,5 +1406,3 @@ extension String {
         }
     }
 }
-
-
