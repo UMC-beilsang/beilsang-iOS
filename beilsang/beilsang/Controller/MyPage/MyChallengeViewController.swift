@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 import SnapKit
-
+import Kingfisher
 
 class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -16,8 +16,16 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
     // 전체 화면 scrollview
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
-    var medalSectionHeight :CGFloat = 0.1
     let menuList = ["참여중", "등록한", "완료됨"]
+    var cellList : [ChallengeModel] = []
+    var medalCount: Int = 0
+    
+    var selectedMenu : String = "참여중" // 0: 참여중, 1: 등록한, 2: 완료됨
+    var selectedCategory = "전체" //0:전체, ..., 10: 재활용
+    
+    var joinList = [[ChallengeModel]](repeating: Array(), count: 10)
+    var enrollList = [[ChallengeModel]](repeating: Array(), count: 10)
+    var finishList = [[ChallengeModel]](repeating: Array(), count: 10)
     
     lazy var menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -55,9 +63,32 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .beBgSub
         return view
     }()
-    
+    lazy var medalCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: view.frame.width-32, height:148)
+        
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.isHidden = true
+        return view
+    }()
+    lazy var challengeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "참여 챌린지"
+        label.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        label.textColor = .black
+        return label
+    }()
     lazy var challengeBoxCollectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: self.makeFlowLayout())
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 358, height: 140)
+        layout.sectionInset = UIEdgeInsets(top: 35, left: 16, bottom: 0, right: 16)
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         return view
     }()
     lazy var toastLabel : UILabel = {
@@ -74,6 +105,7 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setChallengeList()
         setupAttribute()
         setCollectionView()
         setNavigationBar()
@@ -92,9 +124,11 @@ extension MyChallengeViewController {
     func setFullScrollView() {
         fullScrollView.delegate = self
         //스크롤 안움직이게 설정
-        fullScrollView.isScrollEnabled = false
+        fullScrollView.isScrollEnabled = true
+        medalCollectionView.isScrollEnabled = false
         //스크롤 안보이게 설정
         fullScrollView.showsVerticalScrollIndicator = false
+        medalCollectionView.showsVerticalScrollIndicator = false
     }
     
     func setLayout() {
@@ -119,8 +153,9 @@ extension MyChallengeViewController {
         [menuCollectionView, menuUnderLine, categoryCollectionView, categoryUnderLine,].forEach { view in
             self.view.addSubview(view)
         }
-        [ challengeBoxCollectionView, toastLabel].forEach{ view in fullContentView.addSubview(view)}
+        [medalCollectionView, challengeBoxCollectionView, toastLabel].forEach{ view in fullContentView.addSubview(view)}
         
+        challengeBoxCollectionView.addSubview(challengeLabel)
     }
     
     //snp 설정
@@ -149,8 +184,18 @@ extension MyChallengeViewController {
             make.top.equalTo(categoryCollectionView.snp.bottom).offset(24)
             make.leading.equalToSuperview()
         }
+        medalCollectionView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.height.equalTo(148)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        challengeLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+        }
         challengeBoxCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(categoryUnderLine.snp.bottom)
+            make.top.equalToSuperview().offset(24)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -160,7 +205,6 @@ extension MyChallengeViewController {
             make.height.equalTo(43)
             make.centerX.equalToSuperview()
             make.top.equalTo(challengeBoxCollectionView.snp.top).offset(330)
-//            make.bottom.equalTo(UIScreen.main.bounds.height).offset(-20)
         }
     }
 }
@@ -201,7 +245,7 @@ extension MyChallengeViewController{
 extension MyChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate, CustomMedalCellDelegate {
     // collectionView, delegate, datasorce 설정
     func setCollectionView() {
-        [menuCollectionView, categoryCollectionView, challengeBoxCollectionView].forEach { view in
+        [menuCollectionView, categoryCollectionView, medalCollectionView, challengeBoxCollectionView,].forEach { view in
             view.delegate = self
             view.dataSource = self
         }
@@ -209,8 +253,8 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         //Cell 등록
         menuCollectionView.register(ChallengeMenuCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeMenuCollectionViewCell.identifier)
         categoryCollectionView.register(MyPageCategoryCollectionViewCell.self, forCellWithReuseIdentifier: MyPageCategoryCollectionViewCell.identifier)
-        challengeBoxCollectionView.register(MedalCollectionViewCell.self, forCellWithReuseIdentifier: MedalCollectionViewCell.identifier)
-        challengeBoxCollectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
+        medalCollectionView.register(MedalCollectionViewCell.self, forCellWithReuseIdentifier: MedalCollectionViewCell.identifier)
+        challengeBoxCollectionView.register(ChallengeListCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeListCollectionViewCell.identifier)
         
         // 컬렉션 뷰 첫 화면 선택
         setFirstIndexIsSelected()
@@ -219,9 +263,6 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
     }
     // section 개수 설정
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if collectionView == challengeBoxCollectionView{
-            return 2
-        }
         return 1
     }
     // cell 개수 설정
@@ -231,8 +272,10 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             return menuList.count
         case categoryCollectionView:
             return categoryDataList.count
-        case challengeBoxCollectionView:
+        case medalCollectionView:
             return 1
+        case challengeBoxCollectionView:
+            return cellList.count
         default:
             return 0
         }
@@ -261,22 +304,58 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             cell.keywordLabel.text = target.title
             
             return cell
+        case medalCollectionView:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MedalCollectionViewCell.identifier, for: indexPath) as?
+                    MedalCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            let medal : [UIButton] = [cell.medal1, cell.medal2, cell.medal3, cell.medal4, cell.medal5]
+            
+            medal.forEach { view in
+                switch medalCount/10 {
+                case 0: view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
+                case 1: if view == medal[0]{
+                    view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                } else {
+                    view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
+                }
+                case 2: if medal[0...1].contains(view){
+                    view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                } else {
+                    view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
+                }
+                case 3: if medal[0...2].contains(view){
+                    view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                } else {
+                    view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
+                }
+                case 4: if medal[0...3].contains(view){
+                    view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                } else {
+                    view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
+                }
+                case 5: view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                default:
+                    return
+                }
+            }
+            return cell
         case challengeBoxCollectionView:
-            if indexPath.section == 0{
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MedalCollectionViewCell.identifier, for: indexPath) as?
-                        MedalCollectionViewCell else {
-                    return UICollectionViewCell() }
-                cell.delegate = self
-                return cell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeListCollectionViewCell.identifier, for: indexPath) as?
+                    ChallengeListCollectionViewCell else {
+                return UICollectionViewCell()
             }
-            else if indexPath.section == 1{
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeCollectionViewCell.identifier, for: indexPath) as?
-                        ChallengeCollectionViewCell else {
-                    return UICollectionViewCell()    }
-                
-                return cell
+            if !cellList.isEmpty{
+                let target = cellList[indexPath.row]
+                cell.challengeName = target.title
+                cell.makerNickname.text = target.hostName
+                cell.buttonLabel.text = "참여인원 \(target.attendeeCount)명"
+                cell.challengeId = target.challengeId
+                let url = URL(string: target.imageUrl)
+                cell.challengeImage.kf.setImage(with: url)
             }
-            return UICollectionViewCell()
+            return cell
         default:
             return UICollectionViewCell()
         }
@@ -287,31 +366,39 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         switch collectionView{
         case menuCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeMenuCollectionViewCell
-            let challengecell = challengeBoxCollectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as! ChallengeCollectionViewCell
-            if cell.menuLabel.text == "참여중"{
-                challengecell.challengeLabel.text = "참여중인 챌린지"
-            } else if cell.menuLabel.text == "등록한"{
-                challengecell.challengeLabel.text = "등록한 챌린지"
-            } else{
-                challengecell.challengeLabel.text = "완료된 챌린지"
-            }
-            self.challengeBoxCollectionView.reloadData()
+            selectedMenu = cell.menuLabel.text!
+            let str = cell.menuLabel.text?.prefix(2)
+            challengeLabel.text = str! + " 챌린지"
+            setChallengeList()
         case categoryCollectionView:
-            let cell = challengeBoxCollectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! MedalCollectionViewCell
+            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
+            selectedCategory = cell.keywordLabel.text ?? ""
             if indexPath.row == 0{
-                if medalSectionHeight == 148{
-                    medalSectionHeight = 0.1
-                    cell.medalView.isHidden = true
-                    self.challengeBoxCollectionView.reloadData()
+                medalCollectionView.isHidden = true
+                challengeBoxCollectionView.snp.remakeConstraints { make in
+                    make.top.equalTo(categoryUnderLine.snp.bottom).offset(24)
+                    make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+                    make.leading.equalToSuperview()
+                    make.trailing.equalToSuperview()
                 }
             }
             else{
-                if medalSectionHeight != 148{
-                    cell.medalView.isHidden = false
-                    medalSectionHeight = 148
-                    self.challengeBoxCollectionView.reloadData()
+                medalCollectionView.isHidden = false
+                challengeBoxCollectionView.snp.remakeConstraints { make in
+                    make.top.equalTo(medalCollectionView.snp.bottom).offset(24)
+                    make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+                    make.leading.equalToSuperview()
+                    make.trailing.equalToSuperview()
                 }
             }
+            setChallengeList()
+        case challengeBoxCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
+            
+            let challengeDetailVC = ChallengeDetailViewController()
+            print(cell.challengeId)
+            challengeDetailVC.challengeId = cell.challengeId
+            navigationController?.pushViewController(challengeDetailVC, animated: true)
         default:
             return
         }
@@ -321,75 +408,9 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         let selectedIndexPath = IndexPath(item: 0, section: 0)
         menuCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
         categoryCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom) // 0번째 Index로
-        challengeBoxCollectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .bottom)
     }
     
-    // 섹션 별 크기 설정을 위한 함수
-    // challengeBoxCollectionView layout 커스텀
-    private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { section, ev -> NSCollectionLayoutSection? in
-            
-            // section에 따라 서로 다른 layout 구성
-            switch section {
-            case 0:
-                return makeMedalSectionLayout(height: self.medalSectionHeight)
-            case 1:
-                return makeChallengeSectionLayout()
-            default:
-                return nil
-            }
-        }
-        // 전체가 아닐 때의 medal 섹션
-        func makeMedalSectionLayout(height: CGFloat) -> NSCollectionLayoutSection? {
-            // item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            /// 아이템들이 들어갈 Group 설정
-            /// groupSize 설정
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(height))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-            
-            // section
-            let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .continuous // 섹션 내 가로 스크롤
-            section.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 16,
-                bottom: 0,
-                trailing: 16)
-            
-            return section
-        }
-        func makeChallengeSectionLayout() -> NSCollectionLayoutSection? {
-            // item
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
-            /// 아이템들이 들어갈 Group 설정
-            /// groupSize 설정
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-            // section
-            let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .continuous // 섹션 내 가로 스크롤
-            section.contentInsets = NSDirectionalEdgeInsets(
-                top: 0,
-                leading: 16,
-                bottom: 70,
-                trailing: 16)
-            
-            return section
-        }
-    }
+   
     // 델리게이트 메서드 구현
     func didTapButton(in cell: UICollectionViewCell, button : UIButton) {
         showToast(message: button.titleLabel?.text ?? "")
@@ -411,5 +432,62 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
         })
+    }
+    private func setChallengeList(){
+        let categoryIndex = changeCategoryToInt(category: selectedCategory)
+        if selectedMenu == "참여중"{
+            //api에서 data를 받아오지 않았다면
+            if joinList[categoryIndex].isEmpty{
+                joinList[categoryIndex] = requestChallengeList()
+            } else {
+                self.cellList = joinList[categoryIndex]
+                challengeBoxCollectionView.reloadData()
+            }
+        } else if selectedMenu == "등록한"{
+            if enrollList[categoryIndex].isEmpty{
+                enrollList[categoryIndex] = requestChallengeList()
+            } else{
+                self.cellList = enrollList[categoryIndex]
+                challengeBoxCollectionView.reloadData()
+            }
+        } else {
+            if finishList[categoryIndex].isEmpty{
+                finishList[categoryIndex] = requestChallengeList()
+            } else{
+                self.cellList = finishList[categoryIndex]
+                challengeBoxCollectionView.reloadData()
+            }
+        }
+    }
+    private func requestChallengeList() -> [ChallengeModel]{
+        var requestList : [ChallengeModel] = []
+        MyPageService.shared.getMyPageChallengeList(baseEndPoint: .challenges, addPath: "/\(selectedMenu)/\(selectedCategory)"){response in
+            requestList = self.reloadChallengeList(response.data)
+        }
+        return requestList
+    }
+    @MainActor
+    private func reloadChallengeList(_ list: MyPageChallengeListModel) -> [ChallengeModel]{
+        cellList = list.challenges.challenges ?? []
+        challengeBoxCollectionView.reloadData()
+        medalCount = list.count
+        medalCollectionView.reloadData()
+        return cellList
+    }
+    func changeCategoryToInt(category: String) -> Int{
+        switch category{
+        case CategoryKeyword.data[0].title: return 0
+        case CategoryKeyword.data[1].title: return 1
+        case CategoryKeyword.data[2].title: return 2
+        case CategoryKeyword.data[3].title: return 3
+        case CategoryKeyword.data[4].title: return 4
+        case CategoryKeyword.data[5].title: return 5
+        case CategoryKeyword.data[6].title: return 6
+        case CategoryKeyword.data[7].title: return 7
+        case CategoryKeyword.data[8].title: return 8
+        case CategoryKeyword.data[9].title: return 9
+        default:
+            return 0
+        }
     }
 }

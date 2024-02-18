@@ -615,7 +615,6 @@ class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
 
 extension AccountInfoViewController {
     func request() {
-        let memberId = UserDefaults.standard.string(forKey: "memberId")
         var gender = ""
         if genderField.text == "남자"{
             gender = "MAN"
@@ -628,7 +627,6 @@ extension AccountInfoViewController {
         print(parameters)
         MyPageService.shared.patchAccountInfo(baseEndPoint: .profile, addPath: "", parameter: parameters.toDictionary ?? [:] ) { response in
             print(response.message )
-            
         }
     }
 

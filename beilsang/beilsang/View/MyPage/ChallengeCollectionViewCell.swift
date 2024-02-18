@@ -10,6 +10,8 @@ import UIKit
 class ChallengeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "challengeCollectionViewCell"
+    
+    var challengeList : [ChallengeModel] = []
     // 달성 메달 셀 전체 뷰
     lazy var challengeView: UIView = {
         let view = UIView()
@@ -95,7 +97,7 @@ extension ChallengeCollectionViewCell: UICollectionViewDataSource, UICollectionV
                 ChallengeListCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
+//        cell.buttonLabel.text = "참여인원 \(challengeList[indexPath.row].attendeeCount)명"
         return cell
     }
     
@@ -104,5 +106,12 @@ extension ChallengeCollectionViewCell: UICollectionViewDataSource, UICollectionV
         let width = UIScreen.main.bounds.width - 32
         
         return CGSize(width: width , height: 140)
+    }
+    
+    // cell 선택시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
+//        let notificationVC = NotificationViewController()
+//        navigationController?.pushViewController(notificationVC, animated: true)
     }
 }

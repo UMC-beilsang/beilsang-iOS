@@ -13,10 +13,9 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ChallengeListViewCell"
     var challengId : Int?
-    
     // 챌린지 전체 버튼
-    lazy var challengeButton: UIButton = {
-        let view = UIButton()
+    lazy var challengeView: UIView = {
+        let view = UIView()
         
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 1
@@ -73,10 +72,9 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     }()
     
     // 챌린지 버튼 - 레이블
-    let buttonLabel: UILabel = {
+    lazy var buttonLabel: UILabel = {
         let view = UILabel()
-        
-        view.text = "달성률 \(Int.random(in: 0...100))%"
+        view.text = "참여인원 \(Int.random(in: 0...200))명"
         view.textColor = .beNavy500
         view.font = UIFont(name: "Noto Sans KR", size: 12)
         
@@ -95,33 +93,33 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
 
 extension ChallengeListCollectionViewCell {
     func setLayout() {
-        addSubview(challengeButton)
+        addSubview(challengeView)
         
-        challengeButton.snp.makeConstraints { make in
+        challengeView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        challengeButton.addSubview(challengeImage)
-        challengeButton.addSubview(bottomView)
+        challengeView.addSubview(challengeImage)
+        challengeView.addSubview(bottomView)
         
         challengeImage.snp.makeConstraints { make in
-            make.top.equalTo(challengeButton.snp.top)
-            make.leading.equalTo(challengeButton.snp.leading)
-            make.trailing.equalTo(challengeButton.snp.trailing)
+            make.top.equalTo(challengeView.snp.top)
+            make.leading.equalTo(challengeView.snp.leading)
+            make.trailing.equalTo(challengeView.snp.trailing)
             make.height.equalTo(100)
         }
         
         bottomView.snp.makeConstraints { make in
             make.top.equalTo(challengeImage.snp.bottom)
-            make.bottom.equalTo(challengeButton.snp.bottom)
-            make.width.equalTo(challengeButton.snp.width)
+            make.bottom.equalTo(challengeView.snp.bottom)
+            make.width.equalTo(challengeView.snp.width)
         }
         
         challengeImage.addSubview(challengeNameLabel)
         
         challengeNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(challengeButton.snp.top).offset(68)
-            make.leading.equalTo(challengeButton.snp.leading).offset(16)
+            make.top.equalTo(challengeView.snp.top).offset(68)
+            make.leading.equalTo(challengeView.snp.leading).offset(16)
             make.height.equalTo(20)
         }
         
