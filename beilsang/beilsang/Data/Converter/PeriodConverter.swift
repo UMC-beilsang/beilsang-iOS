@@ -12,8 +12,8 @@ import Foundation
 class PeriodConverter {
     static let shared = PeriodConverter()
 
-    private let periodMap = ["일주일": "WEEK", "한달": "MONTH"]
-    private let periodEngMap = ["WEEK": "일주일", "MONTH": "한달"]
+    private let periodMap = ["일주일": "WEEK", "한 달": "MONTH"]
+    private let periodEngMap = ["WEEK": "일주일", "MONTH": "한 달"]
 
     private init() {}
 
