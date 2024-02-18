@@ -270,8 +270,6 @@ extension HomeMainViewController {
     
     func setChallengeParticipate(isEnrolled: Bool) {
         if isEnrolled {
-            print(fullScrollView.isScrollEnabled)
-            print(fullScrollView.isUserInteractionEnabled)
             mainAfterVC.view.isHidden = false
         } else {
             mainBeforeVC.view.isHidden = false
