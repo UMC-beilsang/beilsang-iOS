@@ -7,14 +7,16 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
     
     //MARK: - Properties
     
-    let dataList = SearchFeed.data
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
+    
+    var feedList : [Feed] = []
     
     lazy var fullScrollView: UIScrollView = {
             let scrollView = UIScrollView()
@@ -34,10 +36,14 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        super.viewDidLoad()
+        request()
     
-        setupUI()
-        setupLayout()
-       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
+            self.setupUI()
+            self.setupLayout()
+            
+        }
     }
     
     // MARK: - UI Setup
@@ -56,7 +62,7 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
     
     private func setupLayout() {
         
-        let collectionViewHeight = (Int(ceil(Double(dataList.count) / 2.0))) * 140 + (Int(ceil(Double(dataList.count) / 2.0))) * 12 + 30
+        let collectionViewHeight = (Int(ceil(Double(feedList.count) / 2.0))) * 140 + (Int(ceil(Double(feedList.count) / 2.0))) * 12 + 30
         let contentHeight = collectionViewHeight + 120 // 8은 간격, 64는 top safe area
         
         fullScrollView.snp.makeConstraints{ make in
@@ -93,7 +99,7 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
     
     // 셀 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataList.count
+        return feedList.count
     }
     
     // 셀 설정
@@ -103,9 +109,12 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
             return UICollectionViewCell()
         }
         
-        let target = dataList[indexPath.row]
+        let target = feedList[indexPath.row]
         
-        cell.galleryImage.image = UIImage(named: target.image)
+        if let url = URL(string: target.feedUrl) {
+            cell.galleryImage.kf.setImage(with: url)
+        }
+        cell.FeedId = target.feedId
         
         return cell
     }
@@ -115,5 +124,21 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
         let width = (UIScreen.main.bounds.width)/2 - 16 - 6
         
         return CGSize(width: width , height: 140)
+    }
+}
+
+extension SearchFeedViewController {
+    func request() {
+        let searchText = SearchGlobalData.shared.searchText
+        SearchService.shared.SearchResult(name: "\(searchText ?? "")") { response in
+            self.setChallenge(response.data.feeds)
+        }
+    }
+    
+    @MainActor
+    func setChallenge(_ response: [Feed]) {
+        self.feedList = response
+        self.feedCollectionView.reloadData()
+        
     }
 }

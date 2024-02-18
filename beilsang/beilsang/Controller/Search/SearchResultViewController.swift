@@ -14,13 +14,23 @@ class SearchResultViewController: UIViewController, UIScrollViewDelegate {
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
     
+    var challengeList : [Challenge] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        goToChildView()
-        setupUI()
+        request()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
+            self.goToChildView()
+            
+            if self.challengeList.isEmpty {
+                self.setupNewUI()
+            }
+            else{
+                self.setupUI()
+            }
+        }
     }
     
     // MARK: - UI Setup
@@ -29,16 +39,27 @@ class SearchResultViewController: UIViewController, UIScrollViewDelegate {
         view.backgroundColor = .white
         view.addSubview(fullContentView)
 
-        let searchChallengeVC = SearchChallengeViewController()
-        let collectionViewHeight = searchChallengeVC.challengeList.count * 140 + searchChallengeVC.challengeList.count * 8 + 30
+        let collectionViewHeight = challengeList.count * 140 + challengeList.count * 8 + 30
         let tipViewHeight = 100
-        let contentHeight = collectionViewHeight + tipViewHeight + 8 + 64
+        let contentHeight = collectionViewHeight + tipViewHeight + 8 + 160
         
         fullContentView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(100)
             make.leading.equalToSuperview()
             make.width.equalTo(width)
             make.height.equalTo(contentHeight)
+        }
+    }
+    
+    private func setupNewUI() {
+        view.backgroundColor = .white
+        view.addSubview(fullContentView)
+        
+        fullContentView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(100)
+            make.leading.equalToSuperview()
+            make.width.equalTo(width)
+            make.height.equalTo(1000)
         }
     }
     
@@ -56,7 +77,17 @@ class SearchResultViewController: UIViewController, UIScrollViewDelegate {
     
 }
 
-extension SearchResultViewController: UISearchBarDelegate {
-    // 서버한테 결과 받아서
+extension SearchResultViewController {
+    func request() {
+        let searchText = SearchGlobalData.shared.searchText
+        SearchService.shared.SearchResult(name: "\(searchText ?? "")") { response in
+            self.setChallenge(response.data.challenges)
+        }
+    }
+    
+    @MainActor
+    func setChallenge(_ response: [Challenge]) {
+        self.challengeList = response
+        
+    }
 }
-

@@ -31,10 +31,9 @@
 		2F7A66932B81BB47008010C6 /* SearchChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A66922B81BB47008010C6 /* SearchChallengeViewController.swift */; };
 		2F7A66952B81BB60008010C6 /* SearchFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A66942B81BB60008010C6 /* SearchFeedViewController.swift */; };
 		2F7A66972B81BBAF008010C6 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A66962B81BBAF008010C6 /* SearchModel.swift */; };
-		2F7A669A2B81BBD2008010C6 /* RecentSearchTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A66992B81BBD2008010C6 /* RecentSearchTerms.swift */; };
-		2F7A669C2B81BBE0008010C6 /* SearchFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A669B2B81BBE0008010C6 /* SearchFeed.swift */; };
 		2F7A669E2B81BBFC008010C6 /* RecentSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A669D2B81BBFC008010C6 /* RecentSearchCollectionViewCell.swift */; };
 		2F7A66A12B81BC80008010C6 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A66A02B81BC80008010C6 /* SearchService.swift */; };
+		2F7A66A42B825B1B008010C6 /* SearchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A66A32B825B1B008010C6 /* SearchData.swift */; };
 		2F8C57A32B76884B002B4862 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C57A22B76884B002B4862 /* APIConstants.swift */; };
 		2F8C57A92B7693C6002B4862 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C57A82B7693C6002B4862 /* NetworkResult.swift */; };
 		2F8C57AC2B7696C5002B4862 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C57AB2B7696C5002B4862 /* LoginService.swift */; };
@@ -172,10 +171,9 @@
 		2F7A66922B81BB47008010C6 /* SearchChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChallengeViewController.swift; sourceTree = "<group>"; };
 		2F7A66942B81BB60008010C6 /* SearchFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFeedViewController.swift; sourceTree = "<group>"; };
 		2F7A66962B81BBAF008010C6 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
-		2F7A66992B81BBD2008010C6 /* RecentSearchTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTerms.swift; sourceTree = "<group>"; };
-		2F7A669B2B81BBE0008010C6 /* SearchFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFeed.swift; sourceTree = "<group>"; };
 		2F7A669D2B81BBFC008010C6 /* RecentSearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F7A66A02B81BC80008010C6 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
+		2F7A66A32B825B1B008010C6 /* SearchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchData.swift; sourceTree = "<group>"; };
 		2F8C57A22B76884B002B4862 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		2F8C57A82B7693C6002B4862 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		2F8C57AB2B7696C5002B4862 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
@@ -380,8 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				2F7A66962B81BBAF008010C6 /* SearchModel.swift */,
-				2F7A66992B81BBD2008010C6 /* RecentSearchTerms.swift */,
-				2F7A669B2B81BBE0008010C6 /* SearchFeed.swift */,
+				2F7A66A32B825B1B008010C6 /* SearchData.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -874,13 +871,11 @@
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
 				AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */,
-				2F7A669A2B81BBD2008010C6 /* RecentSearchTerms.swift in Sources */,
 				AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,
 				2FC4CA4F2B5E518500C0DB84 /* MotoViewController.swift in Sources */,
 				2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */,
 				2F7A666D2B809D7E008010C6 /* TokenModel.swift in Sources */,
-				2F7A669C2B81BBE0008010C6 /* SearchFeed.swift in Sources */,
 				896335BB2B77C07D006434AC /* GetPoint.swift in Sources */,
 				89608DC02B7A475B00B93421 /* GetMyPageFeedDetail.swift in Sources */,
 				8957B1482B7B755E00F99928 /* TabBarViewController.swift in Sources */,
@@ -926,6 +921,7 @@
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,
 				2FAB99F72B72C97C00853BF7 /* RecommendCollectionViewCell.swift in Sources */,
 				2F7A66722B80A312008010C6 /* TokenManager.swift in Sources */,
+				2F7A66A42B825B1B008010C6 /* SearchData.swift in Sources */,
 				AF4403452B66B11E006B68FE /* RegisterFirstViewController.swift in Sources */,
 				AF4403412B63EA3F006B68FE /* ChallengeListViewController.swift in Sources */,
 				2F8C57A92B7693C6002B4862 /* NetworkResult.swift in Sources */,

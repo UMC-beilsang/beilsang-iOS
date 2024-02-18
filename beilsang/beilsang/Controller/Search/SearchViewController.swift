@@ -11,8 +11,8 @@ import Kingfisher
 
 class SearchViewController: UIViewController {
     
-    var dataList = RecentSearchTerms.data
     var searchBar: UISearchBar!
+    var dataList = UserDefaults.standard.array(forKey: "recentSearchTerms") as? [String] ?? []
     
     lazy var backButton: UIButton = {
         let button = UIButton()
@@ -59,6 +59,8 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var dataList = UserDefaults.standard.array(forKey: "recentSearchTerms") as? [String] ?? []
         setSearchBar()
         setupUI()
         setupLayout()
@@ -98,10 +100,30 @@ class SearchViewController: UIViewController {
     // MARK: - Actions
     
     @objc func backButtonTapped() {
+        // SearchResultViewController를 찾아서 제거
+        for child in self.children {
+            if child is SearchResultViewController {
+                child.removeFromParent()
+                child.view.removeFromSuperview()
+                
+                if let recentSearchTerms = UserDefaults.standard.array(forKey: "recentSearchTerms") as? [String] {
+                    // 데이터 소스 업데이트
+                    // 예를 들어, recentSearchTermsArray라는 배열이 있다면, 이 배열에 recentSearchTerms를 할당
+                    dataList = recentSearchTerms
+                }
+                recentTermCollectionView.reloadData()
+
+                return
+            }
+        }
+        
+
+        // SearchResultViewController가 없으면 이전 뷰 컨트롤러로 돌아감
         navigationController?.popViewController(animated: true)
     }
     
     @objc func allClear() {
+        UserDefaults.standard.set([], forKey: "recentSearchTerms")
         dataList.removeAll()
         recentTermCollectionView.reloadData()
     }
@@ -148,7 +170,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             return UICollectionViewCell()
         }
         let target = dataList[indexPath.row]
-        cell.termLabel.text = target.label
+        cell.termLabel.text = target
         cell.deleteHandler = { [weak self] in
             guard let self = self else { return }
             guard let indexPath = self.recentTermCollectionView.indexPath(for: cell) else { return }
@@ -165,19 +187,30 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             return CGSize.zero
         }
         
-        let text = dataList[indexPath.item].label
+        let text = dataList[indexPath.item]
         
         let estimatedWidth = text.size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]).width
         
         return CGSize(width: estimatedWidth + 48, height: 28)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 4  // 원하는 간격으로 설정
+        }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let searchText = searchBar.text {
+            var recentSearchTerms = UserDefaults.standard.array(forKey: "recentSearchTerms") as? [String] ?? []
+            recentSearchTerms.append(searchText)
+            UserDefaults.standard.set(recentSearchTerms, forKey: "recentSearchTerms")
+        }
+
         searchBar.resignFirstResponder()
         
         let searchResultViewController = SearchResultViewController()
+        SearchGlobalData.shared.searchText = searchBar.text
         
         // 현재 자식 뷰 컨트롤러 제거
         self.children.forEach { $0.removeFromParent() }
