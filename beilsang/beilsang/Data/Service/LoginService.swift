@@ -7,24 +7,28 @@
 
 import Foundation
 import Alamofire
-//(1) 라이브러리 추가
 
 class LoginService {
     
     static let shared = LoginService()
-//(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
+    
     private init() {}
     
-    func kakaoLogin(accessToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
-        let url = APIConstants.loginURL(for: .KAKAO)
-        let header: HTTPHeaders = ["Content-Type": "application/json"]
-        let body: Parameters = ["accesstoken": accessToken]
+    func kakaoLogin(accesstoken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
+        let url = APIConstants.loginKakaoURL
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "accept": "*/*"
+        ]
+        let body: Parameters = ["accesstoken": accesstoken]
+        
+        print("access Token : \(accesstoken)")
         
         let dataRequest = AF.request(url,
                                      method: .post,
                                      parameters: body,
                                      encoding: JSONEncoding.default,
-                                     headers: header)
+                                     headers: headers)
         
         dataRequest.responseData { response in
             switch response.result {
@@ -36,22 +40,26 @@ class LoginService {
                 
                 let networkResult = self.judgeStatus(by: statusCode, value)
                 completion(networkResult)
+                
             case .failure:
                 completion(.networkFail)
             }
         }
     }
     
-    func appleLogin(accessToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
-        let url = APIConstants.loginURL(for: .APPLE)
-        let header: HTTPHeaders = ["Content-Type": "application/json"]
-        let body: Parameters = ["accesstoken": accessToken]
+    func appleLogin(idToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
+        let url = APIConstants.loginAppleURL
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json",
+            "accept": "*/*"
+        ]
+        let body: Parameters = ["idToken": idToken]
         
         let dataRequest = AF.request(url,
                                      method: .post,
                                      parameters: body,
                                      encoding: JSONEncoding.default,
-                                     headers: header)
+                                     headers: headers)
         
         dataRequest.responseData { response in
             switch response.result {
@@ -80,7 +88,7 @@ class LoginService {
     private func isVaildData(data: Data) -> NetworkResult<Any> {
         let decoder = JSONDecoder() //서버에서 준 데이터를 Codable을 채택
         guard let decodedData = try? decoder.decode(LoginResponse.self, from: data)
-        //데이터가 변환이 되게끔 Response 모델 구조체로 데이터를 변환해서 넣고, 그 데이터를 NetworkResult Success 파라미터로 전달
+                
         else { return .networkFail }
         
         return .success(decodedData as Any)

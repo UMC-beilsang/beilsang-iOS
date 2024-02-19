@@ -9,6 +9,7 @@ import UIKit
 class MyChallengeFeedCollectionViewCell: UICollectionViewCell{
     
     static let identifier = "myChallengeFeedCollectionViewCell"
+    var feedId : Int? = nil
     
     lazy var challengeFeed: UIImageView = {
         let feed = UIImageView()

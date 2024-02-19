@@ -17,6 +17,7 @@ class ChallengeDetailViewController: UIViewController {
     
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
+    var challengeId : Int = 1
     
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     
