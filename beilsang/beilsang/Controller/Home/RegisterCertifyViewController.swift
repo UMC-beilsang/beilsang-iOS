@@ -248,6 +248,9 @@ class RegisterCertifyViewController: UIViewController {
         
         return view
     }()
+    
+    var challengeId : Int? = 14
+    var challengeCertify : ChallengeCertify? = nil
 
     // MARK: - lifeCycle
     override func viewDidLoad() {
@@ -293,6 +296,15 @@ class RegisterCertifyViewController: UIViewController {
     @objc func certifyButtonClicked() {
         print("인증하기")
         
+        guard let image = certifyPhotoImage.image else { return }
+        let imageData = image.jpegData(compressionQuality: 0.5)
+        ChallengeCertifySingleton.shared.image = imageData
+        ChallengeCertifySingleton.shared.review = reviewTextView.text
+        
+        reviewPost()
+        
+        ChallengeCertifySingleton.shared.resetData()
+        
         // 인증하기 눌렀던 챌린지 세부화면으로(popnavigation)
         let nextVC = HomeMainViewController()
         navigationController?.pushViewController(nextVC, animated: true)
@@ -304,6 +316,7 @@ extension RegisterCertifyViewController {
     
     func setModal() {
         let modalVC = RegisterCertifyModalViewController()
+        modalVC.challengeId = challengeId
         modalVC.modalPresentationStyle = .overCurrentContext
         present(modalVC, animated: true, completion: nil)
     }
@@ -568,9 +581,9 @@ extension RegisterCertifyViewController: UITextViewDelegate {
             textView.text = nil
         }
         
-        textView.textColor = UIColor.beRed500
-        textView.layer.borderColor = UIColor.beRed500.cgColor
-        textView.backgroundColor = .beRed100
+        textView.textColor = UIColor.bePsBlue500
+        textView.layer.borderColor = UIColor.bePsBlue500.cgColor
+        textView.backgroundColor = .bePsBlue100
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -658,5 +671,15 @@ extension RegisterCertifyViewController {
         }
         
         return customView
+    }
+}
+
+// MARK: - network
+extension RegisterCertifyViewController {
+    func reviewPost() {        
+        ChallengeService.shared.reviewPost(challengId: challengeId) { response in
+            self.challengeCertify = response
+            print(response)
+        }
     }
 }

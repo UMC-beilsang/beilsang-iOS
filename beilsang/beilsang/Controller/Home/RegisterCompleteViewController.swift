@@ -71,6 +71,8 @@ class RegisterCompleteViewController: UIViewController {
         
         return view
     }()
+    
+    var challengeId : Int? = nil
 
     // MARK: - lifecycle
     override func viewDidLoad() {
@@ -85,7 +87,9 @@ class RegisterCompleteViewController: UIViewController {
     // 게시물 확인하기 버튼이 눌렸을 때 - 챌린지 세부화면(DetailVC)으로 이동
     @objc func toDetailButtonClicked() {
         print("게시물 확인하기")
-        // 만든 챌린지 화면으로 이동
+        let nextVC = JoinChallengeViewController()
+        nextVC.challengeId = challengeId
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
     // 홈으로 버튼이 눌렸을 때 - 홈(HomeMainVC)으로 이동

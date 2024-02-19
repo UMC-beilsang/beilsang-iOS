@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import Kingfisher
 
 // [홈] 챌린지 리스트
 // 홈 메인 화면에서 카테고리를 누른 경우
@@ -76,37 +77,12 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    // 챌린지 진행 view
-    lazy var challengeProgress: UIView = {
-        let view = UIView()
+    // 챌린지 진행 팁
+    lazy var challengeTipButton: UIButton = {
+        let view = UIButton()
         
-        view.backgroundColor = .beScPurple400
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.bePrPurple500.cgColor
-        view.layer.cornerRadius = 10
-        
-        return view
-    }()
-    
-    // 챌린지 진행 view - label
-    lazy var progressTitleLabel: UILabel = {
-        let view = UILabel()
-        
-        view.text = "\(categoryLabelText ?? "전체") 챌린지는\n이렇게 진행돼요"
-        view.numberOfLines = 2
-        view.textAlignment = .left
-        view.textColor = .beTextDef
-        view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        
-        return view
-    }()
-    
-    // 챌린지 진행 view - image
-    lazy var progressCharacterImage: UIImageView = {
-        let view = UIImageView()
-        
-        view.image = UIImage(named: "bHalf")
-        view.contentMode = .scaleAspectFit
+        view.setImage(UIImage(named: "challengeListBanner"), for: .normal)
+        view.addTarget(self, action: #selector(challengeTipButtonClicked), for: .touchUpInside)
         
         return view
     }()
@@ -114,12 +90,15 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     // 챌린지 리스트 콜렉션 뷰
     lazy var challengeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    var challengeData : [ChallengeCategoryData] = []
+    
     // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
+        setChallenges()
         setupAttribute()
         setCollectionView()
     }
@@ -128,8 +107,7 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     // 네비게이션 아이템 누르면 뒤(홈 메인화면)으로 가기
     @objc func tabBarButtonTapped() {
         print("뒤로 가기")
-        let homeVC = HomeMainViewController()
-        navigationController?.pushViewController(homeVC, animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func plusButtonClicked() {
@@ -140,6 +118,11 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     
     @objc func searchButtonClicked() {
         print("검색")
+    }
+    
+    @objc func challengeTipButtonClicked() {
+        let challengeTipVC = ChallengeTipViewController()
+        navigationController?.pushViewController(challengeTipVC, animated: true)
     }
 }
 
@@ -174,12 +157,8 @@ extension ChallengeListViewController {
         
         fullScrollView.addSubview(fullContentView)
         
-        [topViewBorder, challengeProgress, challengeCollectionView].forEach { view in
+        [topViewBorder, challengeTipButton, challengeCollectionView].forEach { view in
             fullContentView.addSubview(view)
-        }
-        
-        [progressTitleLabel, progressCharacterImage].forEach { view in
-            challengeProgress.addSubview(view)
         }
     }
     
@@ -218,7 +197,7 @@ extension ChallengeListViewController {
             make.height.equalTo(1)
         }
         
-        challengeProgress.snp.makeConstraints { make in
+        challengeTipButton.snp.makeConstraints { make in
             make.top.equalTo(topViewBorder.snp.bottom).offset(17)
             make.leading.equalTo(fullScrollView.snp.leading).offset(16)
             make.trailing.equalTo(fullScrollView.snp.trailing).offset(-16)
@@ -226,21 +205,40 @@ extension ChallengeListViewController {
         }
         
         challengeCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(challengeProgress.snp.bottom).offset(24)
+            make.top.equalTo(challengeTipButton.snp.bottom).offset(24)
             make.leading.equalTo(fullScrollView.snp.leading)
             make.trailing.equalTo(fullScrollView.snp.trailing)
             make.bottom.equalTo(fullScrollView.snp.bottom)
         }
-        
-        progressTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(challengeProgress.snp.top).offset(12)
-            make.leading.equalTo(challengeProgress.snp.leading).offset(16)
+    }
+}
+
+// MARK: - 카테고리별 챌린지 리스트 api 세팅
+extension ChallengeListViewController {
+    func setChallenges() {
+        if categoryLabelText == "전체" {
+            print("전체")
+            ChallengeService.shared.challengeCategoriesAll { response in
+                self.setChallengesList(response.data!.challenges)
+            }
+        } else if categoryLabelText == "참여중" {
+            print("참여중")
+            ChallengeService.shared.challengeCategoriesEnrolled { response in
+                self.setChallengesList(response.data!.challenges.challenges)
+            }
+        } else {
+            print("카테고리")
+            let category = CategoryConverter.shared.convertToEnglish(categoryLabelText ?? "")
+            ChallengeService.shared.challengeCategories(categoryName: category ?? "") { response in
+                self.setChallengesList(response.data!.challenges)
+            }
         }
-        
-        progressCharacterImage.snp.makeConstraints { make in
-            make.top.equalTo(challengeProgress.snp.top).offset(28)
-            make.trailing.equalTo(challengeProgress.snp.trailing).offset(-17)
-        }
+    }
+    
+    @MainActor
+    private func setChallengesList(_ response: [ChallengeCategoryData]) {
+        self.challengeData = response
+        self.challengeCollectionView.reloadData()
     }
 }
 
@@ -255,7 +253,7 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
     
     // 셀 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return challengeData.count
     }
     
     // 셀 설정
@@ -265,6 +263,14 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
             return UICollectionViewCell()
         }
         
+        cell.challengeId = challengeData[indexPath.row].challengeId
+        
+        let url = URL(string: challengeData[indexPath.row].imageUrl!)
+        cell.challengeImage.kf.setImage(with: url)
+        cell.challengeNameLabel.text = challengeData[indexPath.row].title
+        cell.makerNickname.text = challengeData[indexPath.row].hostName
+        cell.buttonLabel.text = "참여 인원 \(challengeData[indexPath.row].attendeeCount)명"
+        
         return cell
     }
     
@@ -273,5 +279,25 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
         let width = UIScreen.main.bounds.width - 32
         
         return CGSize(width: width , height: 140)
+    }
+    
+    // 셀 선택시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
+        let challengeId = cell.challengeId
+        
+        ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+            let isEnrolled = response.data.isEnrolled
+            
+            if isEnrolled {
+                let nextVC = JoinChallengeViewController()
+                nextVC.challengeId = challengeId
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            } else {
+                let nextVC = ChallengeDetailViewController()
+                nextVC.challengeId = challengeId
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            }
+        }
     }
 }

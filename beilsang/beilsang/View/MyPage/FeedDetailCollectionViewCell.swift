@@ -233,8 +233,8 @@ extension FeedDetailCollectionViewCell {
     }
     // 찜 취소
     private func requestCancelLikeButtonTapped() {
-        MyPageService.shared.postLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
-            print("post 요청 완료 - like button tapped")
+        MyPageService.shared.deleteLikeButton(baseEndPoint: .feeds, addPath: "/\(feedId)/likes", completionHandler: { response in
+            print("delete 요청 완료 - cancel like button tapped")
         })
     }
 }
@@ -242,4 +242,5 @@ extension FeedDetailCollectionViewCell {
 protocol CustomFeedCellDelegate: AnyObject {
     func didTapButton()
     func didTapReportButton()
+    func didTapRecommendButton(id: Int)
 }

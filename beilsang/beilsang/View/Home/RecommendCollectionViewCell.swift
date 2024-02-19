@@ -12,6 +12,8 @@ class RecommendCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "recommendCell"
     
+    var challengeId : Int? = nil
+    
     lazy var recommendCellView: UIView = {
         let view = UIView()
         view.backgroundColor = .beBgSub

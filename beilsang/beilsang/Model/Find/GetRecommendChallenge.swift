@@ -8,15 +8,15 @@
 import Foundation
 
 struct GetRecommendChallenge: Codable {
-    let isSuccess: Bool
-    let status: String
+    let success: Bool
+    let code: String
     let message: String
     let data: RecommendChallengeListData
 }
 struct RecommendChallengeListData: Codable {
-    let recommendChallengeDTOList : [RecommendChallengeData]?
+    let recommendChallengeDTOList : [RecommendChallengeModel]?
 }
-struct RecommendChallengeData: Codable {
+struct RecommendChallengeModel: Codable {
     let challengeId : Int
     let imageUrl : String
     let title : String

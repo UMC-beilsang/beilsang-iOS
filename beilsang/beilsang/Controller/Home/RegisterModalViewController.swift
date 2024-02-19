@@ -183,13 +183,33 @@ extension RegisterModalViewController: UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
         // 텍스트필드의 텍스트 개수에 따른 동작
-        if updatedText.count < 1 || updatedText.count > 30 {
+        if updatedText.count < 1  {
             noticeRegisterButton.backgroundColor = .beScPurple400
             noticeRegisterButton.isEnabled = false
-            return updatedText.count <= 30
+            
+            textField.textColor = UIColor.beRed500
+            textField.layer.borderColor = UIColor.beRed500.cgColor
+            textField.backgroundColor = .beRed100
+            
+            return true
+        } else 
+        if updatedText.count > 30 {
+            noticeRegisterButton.backgroundColor = .beScPurple400
+            noticeRegisterButton.isEnabled = false
+            
+            textField.textColor = UIColor.beRed500
+            textField.layer.borderColor = UIColor.beRed500.cgColor
+            textField.backgroundColor = .beRed100
+            
+            return false
         } else {
             noticeRegisterButton.backgroundColor = .beScPurple600
             noticeRegisterButton.isEnabled = true
+            
+            textField.textColor = UIColor.bePsBlue500
+            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+            textField.backgroundColor = .bePsBlue100
+            
             return true
         }
     }
@@ -201,7 +221,9 @@ extension RegisterModalViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        noticeRegisterField.textColor = UIColor.bePsBlue500
+        noticeRegisterField.textColor = UIColor.beTextDef
+        noticeRegisterField.layer.borderColor = UIColor.beBorderDis.cgColor
+        noticeRegisterField.backgroundColor = .beBgCard
     }
     
     // MARK: - 툴바 설정
