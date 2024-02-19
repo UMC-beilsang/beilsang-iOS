@@ -34,23 +34,21 @@ class MyPageService {
             AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetMyPage.self, completionHandler:{ response in
                 switch response.result{
                 case .success:
-                    guard let statusCode = response.response?.statusCode else { return }
-                    switch statusCode{
-                    case ..<300 :
-                        guard let result = response.value else {return}
-                        completionHandler(result)
-                        print("get 요청 성공")
-                    case 401 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
                         print("토큰 만료")
-                        TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                             self.getMyPage(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                                 completionHandler(reResponse)
                             }
                         }
                     default : print("네트워크 fail")
                     }
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
                     print(error)
                     print("get 요청 실패")
                 }
@@ -74,23 +72,21 @@ class MyPageService {
         AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetPoint.self, completionHandler:{ response in
             switch response.result{
             case .success:
-                guard let statusCode = response.response?.statusCode else { return }
-                switch statusCode{
-                case ..<300 :
-                    guard let result = response.value else {return}
-                    completionHandler(result)
-                    print("get 요청 성공")
-                case 401 :
+                guard let result = response.value else {return}
+                completionHandler(result)
+                print("get 요청 성공")
+                // 호출 실패 시 처리 위함
+            case .failure(let error):
+                switch error.responseCode{
+                case 401:
                     print("토큰 만료")
-                    TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                    TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                         self.getPoint(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                             completionHandler(reResponse)
                         }
                     }
                 default : print("네트워크 fail")
                 }
-                // 호출 실패 시 처리 위함
-            case .failure(let error):
                 print(error)
                 print("get 요청 실패")
             }
@@ -112,23 +108,21 @@ class MyPageService {
             AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetFeedModel.self, completionHandler:{ response in
                 switch response.result{
                 case .success:
-                    guard let statusCode = response.response?.statusCode else { return }
-                    switch statusCode{
-                    case ..<300 :
-                        guard let result = response.value else {return}
-                        completionHandler(result)
-                        print("get 요청 성공")
-                    case 401 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
                         print("토큰 만료")
-                        TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                             self.getFeedList(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                                 completionHandler(reResponse)
                             }
                         }
                     default : print("네트워크 fail")
                     }
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
                     print(error)
                     print("get 요청 실패")
                 }
@@ -152,23 +146,21 @@ class MyPageService {
             AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetChallenge.self, completionHandler:{ response in
                 switch response.result{
                 case .success:
-                    guard let statusCode = response.response?.statusCode else { return }
-                    switch statusCode{
-                    case ..<300 :
-                        guard let result = response.value else {return}
-                        completionHandler(result)
-                        print("get 요청 성공")
-                    case 401 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
                         print("토큰 만료")
-                        TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                             self.getChallengeList(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                                 completionHandler(reResponse)
                             }
                         }
                     default : print("네트워크 fail")
                     }
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
                     print(error)
                     print("get 요청 실패")
                 }
@@ -193,23 +185,21 @@ class MyPageService {
                 debugPrint(response)
                 switch response.result{
                 case .success:
-                    guard let statusCode = response.response?.statusCode else { return }
-                    switch statusCode{
-                    case ..<300 :
-                        guard let result = response.value else {return}
-                        completionHandler(result)
-                        print("get 요청 성공")
-                    case 401 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
                         print("토큰 만료")
-                        TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                             self.getMyPageChallengeList(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                                 completionHandler(reResponse)
                             }
                         }
                     default : print("네트워크 fail")
                     }
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
                     print(error)
                     print("get 요청 실패")
                 }
@@ -232,23 +222,21 @@ class MyPageService {
             AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: GetDuplicateCheck.self, completionHandler:{ response in
                 switch response.result{
                 case .success:
-                    guard let statusCode = response.response?.statusCode else { return }
-                    switch statusCode{
-                    case ..<300 :
-                        guard let result = response.value else {return}
-                        completionHandler(result)
-                        print("get 요청 성공")
-                    case 401 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
                         print("토큰 만료")
-                        TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                             self.getDuplicateCheck(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                                 completionHandler(reResponse)
                             }
                         }
                     default : print("네트워크 fail")
                     }
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
                     print(error)
                     print("get 요청 실패")
                 }
@@ -276,6 +264,16 @@ class MyPageService {
                     print("get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
+                        print("토큰 만료")
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
+                            self.getMyPageFeedDetail(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
+                                completionHandler(reResponse)
+                            }
+                        }
+                    default : print("네트워크 fail")
+                    }
                     print(error)
                     print("get 요청 실패")
                 }
@@ -307,6 +305,16 @@ class MyPageService {
                 print("post 요청 성공")
                 // 호출 실패 시 처리 위함
             case .failure(let error):
+                switch error.responseCode{
+                case 401:
+                    print("토큰 만료")
+                    TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
+                        self.postLikeButton(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
+                            completionHandler(reResponse)
+                        }
+                    }
+                default : print("네트워크 fail")
+                }
                 print(error)
                 print("post 요청 실패")
             }
@@ -337,6 +345,16 @@ class MyPageService {
                 print("patch 요청 성공")
                 // 호출 실패 시 처리 위함
             case .failure(let error):
+                switch error.responseCode{
+                case 401:
+                    print("토큰 만료")
+                    TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
+                        self.patchAccountInfo(baseEndPoint: baseEndPoint, addPath: addPath, parameter: parameter) { reResponse in
+                            completionHandler(reResponse)
+                        }
+                    }
+                default : print("네트워크 fail")
+                }
                 print(error)
                 print("patch 요청 실패")
             }
@@ -366,6 +384,16 @@ class MyPageService {
                 print("post 요청 성공")
                 // 호출 실패 시 처리 위함
             case .failure(let error):
+                switch error.responseCode{
+                case 401:
+                    print("토큰 만료")
+                    TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
+                        self.deleteLikeButton(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
+                            completionHandler(reResponse)
+                        }
+                    }
+                default : print("네트워크 fail")
+                }
                 print(error)
                 print("post 요청 실패")
             }

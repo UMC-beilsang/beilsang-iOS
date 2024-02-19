@@ -31,23 +31,21 @@ class FindService {
                 debugPrint(response)
                 switch response.result{
                 case .success:
-                    guard let statusCode = response.response?.statusCode else { return }
-                    switch statusCode{
-                    case ..<300 :
-                        guard let result = response.value else {return}
-                        completionHandler(result)
-                        print("get 요청 성공")
-                    case 401 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("get 요청 성공")
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    switch error.responseCode{
+                    case 401:
                         print("토큰 만료")
-                        TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                             self.getRecommendChallenge(baseEndPoint: baseEndPoint, addPath: addPath) { reResponse in
                                 completionHandler(reResponse)
                             }
                         }
                     default : print("네트워크 fail")
-                }
-                    // 호출 실패 시 처리 위함
-                case .failure(let error):
+                    }
                     print(error)
                     print("get 요청 실패")
                 }

@@ -60,6 +60,7 @@ class SignUpService {
                                      headers: headers)
         
         dataRequest.responseData { response in
+            debugPrint(response)
             switch response.result {
             case .success:
                 guard let statusCode = response.response?.statusCode else { return }
