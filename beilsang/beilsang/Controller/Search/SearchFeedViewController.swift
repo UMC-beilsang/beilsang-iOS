@@ -81,7 +81,6 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
             make.top.equalToSuperview().offset(64)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.width.equalTo(width)
             make.height.equalTo(collectionViewHeight)
         }
     }
