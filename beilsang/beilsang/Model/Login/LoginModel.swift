@@ -23,5 +23,6 @@ struct LoginData : Codable {
 struct WithDrawResponse: Codable {
     let code : String
     let message : String
+    let data : Empty
     let success : Bool
 }

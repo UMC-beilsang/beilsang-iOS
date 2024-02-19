@@ -168,7 +168,7 @@ extension StartViewController {
                 print("signup to server success with data: \(data)")
                 UserDefaults.standard.set(true, forKey: UserDefaultsKey.existMember)
                 
-                let homeVC = HomeMainViewController()
+                let homeVC = TabBarViewController()
                 if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                     sceneDelegate.changeRootViewController(homeVC)
                 }

@@ -1121,7 +1121,9 @@ extension AccountInfoViewController{
         MyPageService.shared.DeleteWithDraw { response in
             print(response.message)
         }
+        
         kakaoLogout()
+        
         alertViewResponder?.close()
         
         let loginVC = LoginViewController()
