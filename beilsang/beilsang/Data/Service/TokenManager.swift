@@ -10,8 +10,8 @@ class TokenManager {
     
     static let shared = TokenManager()
   
-    func refreshToken(accessToken: String, refreshToken: String, completion: @escaping (NetworkResult<Any>) -> Void, callback: (() -> Void)? = nil) {
-        TokenService.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken) { result in
+    func refreshToken(refreshToken: String, completion: @escaping (NetworkResult<Any>) -> Void, callback: (() -> Void)? = nil) {
+        TokenService.shared.refreshToken(refreshToken: refreshToken) { result in
             switch result {
             case .success(let data):
                 guard let data = data as? TokenResponse else { return }
@@ -21,7 +21,6 @@ class TokenManager {
                 UserDefaults.standard.set(data.data?.refreshToken, forKey: UserDefaultsKey.refreshToken)
                 
                 completion(.success(data))
-                
                 callback?()
                 
             case .networkFail:

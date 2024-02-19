@@ -20,17 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window?.rootViewController = mainVC
                 self.window?.makeKeyAndVisible()
                 print(accessToken)
+                let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
+                print(refreshToken)
                 print("found access Token")
+                
             } else {
                 // 가입 절차 거치지 않은 유저
-                let keywordVC = UINavigationController(rootViewController: KeywordViewController())
+                let keywordVC = KeywordViewController()
                 self.window?.rootViewController = keywordVC
                 self.window?.makeKeyAndVisible()
                 print("No exist member")
             }
         } else {
             // 액세스 토큰이 없으면 로그인 화면으로 이동
-            let loginVC = UINavigationController(rootViewController: LoginViewController())
+            let loginVC = LoginViewController()
             self.window?.rootViewController = loginVC
             self.window?.makeKeyAndVisible()
             print("Not found access Token")

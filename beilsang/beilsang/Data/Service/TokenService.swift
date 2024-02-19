@@ -14,14 +14,13 @@ class TokenService {
     
     private init() {}
     
-    func refreshToken(accessToken: String, refreshToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
+    func refreshToken(refreshToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.refreshTokenURL
         let headers: HTTPHeaders = [
             "accept": "*/*",
             "Content-Type": "application/json"
         ]
-        let body: Parameters = ["accessToken" : accessToken,
-                                "refreshToekn": refreshToken]
+        let body: Parameters = ["refreshToken": refreshToken]
         
         let dataRequest = AF.request(url,
                                      method: .post,
