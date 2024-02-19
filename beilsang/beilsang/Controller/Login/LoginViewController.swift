@@ -193,7 +193,8 @@ extension LoginViewController {
                         self.kakaoEmail = email
                         //서버에 보내주기
                         self.kakaologinToServer(with: token)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // 1초 딜레이
                             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
                                 self.presentTo(name: "main")
                             } else {
@@ -236,7 +237,8 @@ extension LoginViewController {
                         print(token)
                         
                         self.kakaologinToServer(with: token)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // 1초 딜레이
                             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
                                 self.presentTo(name: "main")
                             } else {
@@ -374,7 +376,7 @@ extension LoginViewController {
             }
         }
         else if name == "main" {
-            let joinVC = HomeMainViewController()
+            let joinVC = TabBarViewController()
             let navigationController = UINavigationController(rootViewController: joinVC)
             
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {

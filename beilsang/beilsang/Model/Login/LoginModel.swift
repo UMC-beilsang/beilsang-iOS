@@ -20,3 +20,8 @@ struct LoginData : Codable {
     let existMember : Bool
 }
 
+struct WithDrawResponse: Codable {
+    let code : String
+    let message : String
+    let success : Bool
+}

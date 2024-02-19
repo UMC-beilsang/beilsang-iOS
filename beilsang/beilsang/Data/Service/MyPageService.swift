@@ -399,4 +399,44 @@ class MyPageService {
             }
         })
     }
+    
+    // 회원탈퇴
+    func DeleteWithDraw(completionHandler: @escaping (_ data: WithDrawResponse) -> Void) {
+        let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
+        let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
+        
+        let headers: HTTPHeaders = [
+            "accept": "/",
+            "Content-Type": "application/json"
+        ]
+        let body: Parameters = ["accessToken": accessToken]
+        
+        let url = APIConstants.withDrawURL
+        print(url)
+        
+        AF.request(url, method: .delete, parameters: body, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: WithDrawResponse.self, completionHandler:{ response in
+            switch response.result{
+            case .success:
+                guard let statusCode = response.response?.statusCode else { return }
+                switch statusCode{
+                case ..<300 :
+                    guard let result = response.value else {return}
+                    completionHandler(result)
+                    print("delete 요청 성공")
+                case 401 :
+                    print("토큰 만료")
+                    TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                        self.DeleteWithDraw { reResponse in
+                            completionHandler(reResponse)
+                        }
+                    }
+                default : print("네트워크 fail")
+                }
+                // 호출 실패 시 처리 위함
+            case .failure(let error):
+                print(error)
+                print("delete 요청 실패")
+            }
+        })
+    }
 }

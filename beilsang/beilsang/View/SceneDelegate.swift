@@ -16,9 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken) {
             // existmember 확인
             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
-                let mainVC = TabBarViewController() 
+                let mainVC = TabBarViewController()
                 self.window?.rootViewController = mainVC
                 self.window?.makeKeyAndVisible()
+                print(accessToken)
                 print("found access Token")
             } else {
                 // 가입 절차 거치지 않은 유저

@@ -30,4 +30,7 @@ struct APIConstants {
     
     //MARK: - Feature: Search
     static let searchURL = baseURL + "/api/search"
+    
+    //회원탈퇴
+    static let withDrawURL = baseURL + "/auth/kakao/revoke"
 }
