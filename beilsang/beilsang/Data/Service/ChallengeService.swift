@@ -18,7 +18,7 @@ class ChallengeService {
     func challengeRecommend(completionHandler : @escaping (_ data: ChallengeRecommends) -> Void) {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
-        
+      
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/challenges/recommends"
             
@@ -65,7 +65,7 @@ class ChallengeService {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
         let enrollChallengeId = EnrollChallengeId
-        
+       
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/check/\(EnrollChallengeId)"
             
@@ -156,6 +156,7 @@ class ChallengeService {
     func challengeCategoriesAll(completionHandler : @escaping (_ data: ChallengeCategory) -> Void) {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
+
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/challenges"
             
@@ -485,7 +486,9 @@ class ChallengeService {
     func challengeParticipatePost(joinChallengeId: Int, completionHandler : @escaping (_ data: ChallengeParticipate) -> Void) {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
+
         let joinChallengeId = joinChallengeId
+
         
         let url = "https://beilsang.com/api/challenges/\(joinChallengeId)"
         
