@@ -145,7 +145,7 @@ extension HomeMainViewController {
     
     func setAddViews() {
         view.addSubview(fullScrollView)
-        view.addSubview(topView)
+//        view.addSubview(topView)
         
         fullScrollView.addSubview(fullContentView)
         
@@ -160,8 +160,8 @@ extension HomeMainViewController {
     
     func setLayout() {
         fullScrollView.snp.makeConstraints { make in
-            make.top.equalTo(topView.snp.bottom)
-            make.bottom.leading.trailing.equalToSuperview()
+//            make.top.equalTo(topView.snp.bottom)
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
         
         fullContentView.snp.makeConstraints { make in
