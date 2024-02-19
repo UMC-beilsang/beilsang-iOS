@@ -15,7 +15,7 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
     
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
-    let recommendDataList = RecommendChallenge.data
+    var challengeRecommendData : [ChallengeRecommendsData] = []
     
     var feedList : [Feed] = []
     
@@ -149,6 +149,7 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         super.viewDidLoad()
         request()
+        challengeRecommend()
     
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // 1초 딜레이
             self.changeVC()
@@ -290,7 +291,7 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
             make.leading.equalToSuperview().offset(24)
         }
         
-        let collectionViewHeight = recommendDataList.count * 90 + (recommendDataList.count - 1) * 12 + 30
+        let collectionViewHeight = challengeRecommendData.count * 90 + (challengeRecommendData.count - 1) * 12 + 30
         
         recommendCollectionView.snp.makeConstraints{ make in
             make.top.equalTo(recommendTitleLabel.snp.bottom).offset(16)
@@ -317,7 +318,7 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
             return feedList.count
         }
         else if collectionView == recommendCollectionView {
-            return recommendDataList.count
+            return challengeRecommendData.count
         }
         return 0
     }
@@ -341,14 +342,17 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
         }
         else if collectionView == recommendCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendCollectionViewCell.identifier, for: indexPath) as?
-                    RecommendCollectionViewCell else {
+            RecommendCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let target = recommendDataList[indexPath.row]
             
-            cell.recommendImageView.image = UIImage(named: target.image)
-            cell.categoryLabel.text = target.category
-            cell.titleLabel.text = target.title
+            cell.challengeId = challengeRecommendData[indexPath.row].challengeId
+            
+            let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
+            cell.recommendImageView.kf.setImage(with: url)
+            let category = CategoryConverter.shared.convertToKorean(challengeRecommendData[indexPath.row].category)
+            cell.categoryLabel.text = category
+            cell.titleLabel.text = challengeRecommendData[indexPath.row].title
             
             return cell
         }
@@ -357,12 +361,14 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
     
     // 셀 크기 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let recommendWidth = UIScreen.main.bounds.width - 48
+        
         if collectionView == feedCollectionView {
             let width = (UIScreen.main.bounds.width)/2 - 16 - 6
             return CGSize(width: width , height: 140)
         }
         else if collectionView == recommendCollectionView {
-            return CGSize(width: 342, height: 90)
+            return CGSize(width: recommendWidth, height: 90)
         }
         return CGSize()
     }
@@ -374,7 +380,23 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
             
         }
         else if collectionView == recommendCollectionView {
-            print("selected")
+            let cell = collectionView.cellForItem(at: indexPath) as! RecommendCollectionViewCell
+            let challengeId = cell.challengeId
+            var isEnrolled = false
+            
+            ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+                isEnrolled = response.data.isEnrolled
+            }
+            
+            if isEnrolled {
+                let nextVC = JoinChallengeViewController()
+                nextVC.challengeId = challengeId
+                navigationController?.pushViewController(nextVC, animated: true)
+            } else {
+                let nextVC = ChallengeDetailViewController()
+                nextVC.challengeId = challengeId
+                navigationController?.pushViewController(nextVC, animated: true)
+            }
         }
     }
 }
@@ -393,5 +415,17 @@ extension SearchFeedViewController {
         self.feedList = response
         self.feedCollectionView.reloadData()
         
+    }
+    
+    // 추천 챌린지 2개 정보 가져오는 함수
+    func challengeRecommend() {
+        ChallengeService.shared.challengeRecommend() { response in
+            self.setRecommendData(response.data!.recommendChallengeDTOList)
+        }
+    }
+    @MainActor
+    private func setRecommendData(_ response: [ChallengeRecommendsData]) {
+        self.challengeRecommendData = response
+        self.recommendCollectionView.reloadData()
     }
 }
