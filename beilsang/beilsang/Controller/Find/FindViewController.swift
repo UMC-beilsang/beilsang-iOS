@@ -31,18 +31,15 @@ class FindViewController: UIViewController, UIScrollViewDelegate {
     // 더보기 버튼용
     var pageNumber = [Int](repeating: 0, count: 10)
     //검색창
-    lazy var searchBar: UITextField = {
-        let view = UITextField()
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: "NotoSansKR-Medium", size: 14) as Any,
-            .foregroundColor : UIColor.beTextSub
-        ]
-        view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-        view.textColor = .beTextSub
+    lazy var searchBar: UIButton = {
+        let view = UIButton()
+        view.titleLabel?.font = UIFont(name: "NotoSansKR-Medium", size: 14)
+        view.setTitleColor(.beTextSub, for: .normal)
+        view.setTitle("누구나 즐길 수 있는 대중교통 챌린지! 🚌", for: .normal)
+//        view.textColor = .beTextSub
         view.backgroundColor = .beBgSub
         view.layer.cornerRadius = 24
-        view.attributedPlaceholder = NSAttributedString(string: "누구나 즐길 수 있는 대중교통 챌린지! 🚌", attributes: attributes)
-        view.leftSearchPadding()
+        view.addTarget(self, action: #selector(searchBarTapped), for: .touchUpInside)
         return view
     }()
     lazy var searchIcon: UIImageView = {
@@ -827,8 +824,10 @@ extension FindViewController: CustomFeedCellDelegate {
             feedCell.titleTag.text = "#\(response.data.challengeTitle)"
             feedCell.categoryTag.text = "#\(response.data.category)"
             feedCell.nicknameLabel.text = response.data.nickName
-            let url = URL(string: response.data.profileImage)
-            feedCell.profileImage.kf.setImage(with: url)
+            if let imageUrl = response.data.profileImage {
+                let url = URL(string: imageUrl)
+                feedCell.profileImage.kf.setImage(with: url)
+            }
             if response.data.like {
                 feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
             }
@@ -873,6 +872,12 @@ extension FindViewController: CustomFeedCellDelegate {
         default:
             return 0
         }
+    }
+    // 사이드 버튼 액션 - 검색
+    @objc func searchBarTapped() {
+        print("검색버튼")
+        let searchVC = SearchViewController()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 

@@ -39,6 +39,16 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    // 챌린지 이미지 위에 그림자
+    lazy var imageCoverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        view.layer.cornerRadius = 10
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
     // 챌린지 제목
     lazy var challengeNameLabel: UILabel = {
         let view = UILabel()
@@ -97,13 +107,21 @@ extension ChallengeListCollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        challengeView.addSubview(challengeImage)
-        challengeView.addSubview(bottomView)
-        
+        challengeButton.addSubview(challengeImage)
+        challengeButton.addSubview(imageCoverView)
+        challengeButton.addSubview(bottomView)
+
         challengeImage.snp.makeConstraints { make in
             make.top.equalTo(challengeView.snp.top)
             make.leading.equalTo(challengeView.snp.leading)
             make.trailing.equalTo(challengeView.snp.trailing)
+            make.height.equalTo(100)
+        }
+        
+        imageCoverView.snp.makeConstraints { make in
+            make.top.equalTo(challengeButton.snp.top)
+            make.leading.equalTo(challengeButton.snp.leading)
+            make.trailing.equalTo(challengeButton.snp.trailing)
             make.height.equalTo(100)
         }
         
@@ -113,7 +131,7 @@ extension ChallengeListCollectionViewCell {
             make.width.equalTo(challengeView.snp.width)
         }
         
-        challengeImage.addSubview(challengeNameLabel)
+        imageCoverView.addSubview(challengeNameLabel)
         
         challengeNameLabel.snp.makeConstraints { make in
             make.top.equalTo(challengeView.snp.top).offset(68)

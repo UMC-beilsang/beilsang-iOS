@@ -11,7 +11,7 @@ import SnapKit
 class GalleryCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "galleryCell"
-    var FeedId : Int?
+    var feedId : Int?
     
     lazy var galleryImage: UIImageView = {
         let view = UIImageView()

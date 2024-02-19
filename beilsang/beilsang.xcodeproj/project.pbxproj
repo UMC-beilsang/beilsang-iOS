@@ -98,7 +98,6 @@
 		896DC0F52B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */; };
 		896DC0F72B669426002767B3 /* MyPageCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */; };
 		896DC0F92B66A072002767B3 /* MedalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */; };
-		896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */; };
 		897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */; };
 		89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */; };
 		89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89854F872B7351E100CB6E4E /* NotificationViewController.swift */; };
@@ -252,7 +251,6 @@
 		896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedalCollectionViewCell.swift; sourceTree = "<group>"; };
-		896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		897653E22B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HofChallengeCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		89854F872B7351E100CB6E4E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -590,7 +588,6 @@
 				896DC0F42B66701A002767B3 /* ChallengeMenuCollectionViewCell.swift */,
 				896DC0F62B669426002767B3 /* MyPageCategoryCollectionViewCell.swift */,
 				896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */,
-				896DC0FA2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift */,
 				8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */,
 				89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */,
 			);
@@ -1020,7 +1017,6 @@
 				AFDE65EB2B7249C30041D2D0 /* RegisterCertifyViewController.swift in Sources */,
 				2F69039C2B60429700A7716D /* Color+.swift in Sources */,
 				895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */,
-				896DC0FB2B66A4B5002767B3 /* ChallengeCollectionViewCell.swift in Sources */,
 				2F7A66912B81BB30008010C6 /* TabManViewController.swift in Sources */,
 				2F7A669E2B81BBFC008010C6 /* RecentSearchCollectionViewCell.swift in Sources */,
 				2FC4CA512B5E528F00C0DB84 /* JoinMoto.swift in Sources */,
