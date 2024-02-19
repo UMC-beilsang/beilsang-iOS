@@ -17,9 +17,7 @@ class JoinChallengeViewController: UIViewController {
     
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
-    let galleryDataList = GalleryData.data
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
-    let galleryDetailView = UIView()
 
     var alertViewResponder: SCLAlertViewResponder? = nil
     
@@ -343,115 +341,6 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
-    // 인증갤러리 세부화면
-    lazy var selectedCellImageView : UIImageView = {
-        let view = UIImageView()
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 10
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.beBorderDis.cgColor
-        
-        return view
-    }()
-    
-    lazy var profileImageView : UIImageView = {
-        let view = UIImageView()
-        view.layer.shadowColor = UIColor.beTextDef.cgColor
-        view.layer.masksToBounds = false
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 4
-        view.layer.shadowOpacity = 0.12
-        
-        return view
-    }()
-    
-    lazy var nickNameLabel: UILabel = {
-        let view = UILabel()
-        view.font = UIFont(name:"NotoSansKR-Medium", size: 16)
-        view.numberOfLines = 0
-        view.textColor = .beTextDef
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .left
-        
-        return view
-    }()
-    
-    lazy var dayBeforeLabel: UILabel = {
-        let view = UILabel()
-        view.font = UIFont(name:"NotoSansKR-Medium", size: 12)
-        view.numberOfLines = 0
-        view.textColor = .beTextSub
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .left
-        
-        return view
-    }()
-    
-    lazy var heartButton: UIButton = {
-        let view = UIButton()
-        let image = UIImage(named:"heart")
-        view.setImage(image, for: .normal)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
-        return view
-    }()
-    
-    lazy var categoryTagLabel: UILabel = {
-        //카테고리 받아와서 text로 설정
-        let view = UILabel()
-        view.font = UIFont(name:"NotoSansKR-Medium", size: 12)
-        view.numberOfLines = 0
-        view.textColor = .beTextSub
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .left
-        
-        return view
-    }()
-    
-    lazy var titleTagLabel: UILabel = {
-        let view = UILabel()
-        view.font = UIFont(name:"NotoSansKR-Medium", size: 12)
-        view.numberOfLines = 0
-        view.textColor = .beTextSub
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .left
-        
-        return view
-    }()
-    
-    lazy var reviewTitleLabel: UILabel = {
-        let view = UILabel()
-        view.font = UIFont(name:"NotoSansKR-Medium", size: 14)
-        view.numberOfLines = 0
-        view.text = "챌린지 후기"
-        view.textColor = .beTextSub
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .left
-        
-        return view
-    }()
-    
-    lazy var reviewView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 10
-        view.layer.masksToBounds = true
-        view.backgroundColor = .beBgSub
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    lazy var reviewLabel: UILabel = {
-        let view = UILabel()
-        view.font = UIFont(name:"NotoSansKR-Medium", size: 14)
-        view.numberOfLines = 0
-        view.textColor = .beTextSub
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .left
-        
-        return view
-    }()
-    
     lazy var reportLabelButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
@@ -465,20 +354,7 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
-    lazy var exitButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.setImage(UIImage(named: "xicon"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.isEnabled = true
-        button.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    
     //bottom View
-    
     lazy var bottomView: UIView = {
         let view = UIView()
         view.layer.shadowColor = UIColor.beTextDef.cgColor
@@ -536,16 +412,21 @@ class JoinChallengeViewController: UIViewController {
     var challengeDetailData : ChallengeDetailData? = nil
     var challengeFeedData : [ChallengeJoinFeedData] = []
     
+    var collectionViewHeight : Constraint?
+    var viewHeight : Constraint?
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setFeedData()
+        setChallengeData()
+        
         setUI()
         setNavigationBar()
         setupUI()
         setupLayout()
-        // setGalleryView()
-        setFeedData()
-        setChallengeData()
+        setCollectionView()
     }
     
     //MARK: - UI Setup
@@ -566,6 +447,7 @@ class JoinChallengeViewController: UIViewController {
         galleryCollectionView.isHidden = true
         // 인증 피드 중 하나 선택했을 때
         feedDetailCollectionView.isHidden = true
+        reportLabelButton.isHidden = true
     }
     
     private func setupUI() {
@@ -600,7 +482,7 @@ class JoinChallengeViewController: UIViewController {
         verticalContentView.snp.makeConstraints { make in
             make.edges.equalTo(verticalScrollView.contentLayoutGuide)
             make.width.equalTo(verticalScrollView.frameLayoutGuide)
-            make.height.equalTo(1500)
+            viewHeight = make.height.equalTo(0).constraint
         }
         
         representImageView.snp.makeConstraints{ make in
@@ -613,6 +495,7 @@ class JoinChallengeViewController: UIViewController {
         titleLabel.snp.makeConstraints{ make in
             make.top.equalTo(representImageView.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(29)
         }
         
         peopleNumLabel.snp.makeConstraints{ make in
@@ -625,6 +508,7 @@ class JoinChallengeViewController: UIViewController {
         writerLabel.snp.makeConstraints{ make in
             make.top.equalTo(titleLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(21)
         }
         
         lineView.snp.makeConstraints{ make in
@@ -637,6 +521,7 @@ class JoinChallengeViewController: UIViewController {
         writeDateLabel.snp.makeConstraints{ make in
             make.top.equalTo(titleLabel.snp.bottom).offset(12)
             make.leading.equalTo(lineView.snp.trailing).offset(8)
+            make.height.equalTo(21)
         }
         
         categoryView.snp.makeConstraints{ make in
@@ -659,6 +544,7 @@ class JoinChallengeViewController: UIViewController {
         progressTitleLabel.snp.makeConstraints{ make in
             make.top.equalTo(categoryView.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(21)
         }
         
         progressView.snp.makeConstraints{ make in
@@ -700,16 +586,19 @@ class JoinChallengeViewController: UIViewController {
         galleryTitleLabel.snp.makeConstraints{ make in
             make.top.equalTo(divider1.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(26)
         }
         
         gallerySubTitleLabel.snp.makeConstraints{ make in
             make.top.equalTo(galleryTitleLabel.snp.bottom).offset(4)
             make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(17)
         }
         
         notStartedLabel.snp.makeConstraints{ make in
             make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(48)
             make.centerX.equalToSuperview()
+            make.height.equalTo(17)
         }
         
         homeButton.snp.makeConstraints{ make in
@@ -718,25 +607,25 @@ class JoinChallengeViewController: UIViewController {
             make.leading.equalToSuperview().offset(75)
             make.trailing.equalToSuperview().offset(-75)
             make.height.equalTo(40)
+            make.bottom.equalTo(verticalContentView.snp.bottom).offset(-84)
         }
-        
-        let cellHeight: CGFloat = 140
         
         galleryCollectionView.snp.makeConstraints{ make in
             make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.height.equalTo(cellHeight * CGFloat(galleryDataList.count / 2) + 12 * (CGFloat(galleryDataList.count / 2) - 1))
+            collectionViewHeight = make.height.equalTo(0).constraint
         }
         
         feedDetailCollectionView.snp.makeConstraints { make in
             make.top.equalTo(galleryCollectionView.snp.top)
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(647)
         }
         
         reportLabelButton.snp.makeConstraints{ make in
-            make.trailing.equalTo(verticalContentView.snp.trailing).offset(-16)
             make.top.equalTo(feedDetailCollectionView.snp.bottom).offset(12)
+            make.trailing.equalTo(verticalContentView.snp.trailing).offset(-16)
         }
         
         bottomView.snp.makeConstraints{ make in
@@ -764,7 +653,6 @@ class JoinChallengeViewController: UIViewController {
         }
         
         //신고하기 팝업
-        
         reportSubView.snp.makeConstraints{ make in
             make.width.equalTo(318)
             make.height.equalTo(120)
@@ -842,19 +730,6 @@ class JoinChallengeViewController: UIViewController {
         alertViewResponder = reportAlert.showInfo("챌린지 인증 신고하기")
     }
     
-    @objc func heartButtonTapped() {
-        heartButton.isSelected = !heartButton.isSelected
-        
-        let image = UIImage(named:"heart")
-        let selectedImage = UIImage(named: "heartfill")
-        
-        if heartButton.isSelected {
-            heartButton.setImage(selectedImage, for: .selected)
-        } else {
-            heartButton.setImage(image, for: .normal)
-        }
-    }
-    
     @objc func bookMarkButtonTapped() {
         if bookMarkButton.isSelected {
             deleteBookmark()
@@ -876,7 +751,6 @@ class JoinChallengeViewController: UIViewController {
     
     @objc func exitButtonTapped(_ sender: UIButton) {
         print("exitButton Tapped")
-        // setGalleryView()
         setFeedData()
     }
     
@@ -889,114 +763,8 @@ class JoinChallengeViewController: UIViewController {
         }
     }
 }
-
-//MARK: - Gallery View Changed
-
-extension JoinChallengeViewController {
-//    func setGalleryView() {
-//        galleryCollectionView.isHidden = false
-//        galleryDetailView.isHidden = true
-//
-//        if galleryDataList.count == 0 {
-//
-//
-//
-//
-//        }
-//        else {
-//
-//
-//
-//        }
-//    }
-    
-    func setGalleryDetail(at index: IndexPath) {
-        galleryDetailView.isHidden = false
-        galleryCollectionView.isHidden = true
-        
-        verticalContentView.addSubview(galleryDetailView)
-        
-        // 다른 뷰에 추가
-        [selectedCellImageView, exitButton, profileImageView, nickNameLabel, dayBeforeLabel, heartButton, categoryTagLabel,titleTagLabel, reviewTitleLabel, reviewView, reportLabelButton].forEach{view in galleryDetailView.addSubview(view)}
-        
-        reviewView.addSubview(reviewLabel)
-        
-        galleryDetailView.snp.makeConstraints{ make in
-            make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(20)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        selectedCellImageView.snp.makeConstraints{ make in
-            make.height.width.equalTo(358)
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
-        }
-        
-        exitButton.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-26)
-            make.height.width.equalTo(32)
-        }
-        
-        profileImageView.snp.makeConstraints{ make in
-            make.top.equalTo(selectedCellImageView.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(26)
-            make.height.width.equalTo(48)
-        }
-        
-        nickNameLabel.snp.makeConstraints{ make in
-            make.top.equalTo(profileImageView.snp.top).offset(2)
-            make.leading.equalTo(profileImageView.snp.trailing).offset(16)
-        }
-        
-        dayBeforeLabel.snp.makeConstraints{ make in
-            make.top.equalTo(nickNameLabel.snp.bottom).offset(4)
-            make.leading.equalTo(nickNameLabel)
-        }
-        
-        heartButton.snp.makeConstraints{ make in
-            make.trailing.equalToSuperview().offset(-26)
-            make.centerY.equalTo(profileImageView)
-            make.height.width.equalTo(40)
-        }
-        
-        categoryTagLabel.snp.makeConstraints{ make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(16)
-            make.leading.equalToSuperview().offset(26)
-        }
-        
-        titleTagLabel.snp.makeConstraints{ make in
-            make.top.equalTo(profileImageView.snp.bottom).offset(16)
-            make.leading.equalTo(categoryTagLabel.snp.trailing).offset(8)
-        }
-        
-        reviewTitleLabel.snp.makeConstraints{ make in
-            make.top.equalTo(categoryTagLabel.snp.bottom).offset(24)
-            make.leading.equalToSuperview().offset(16)
-        }
-        
-        reviewView.snp.makeConstraints { make in
-            make.top.equalTo(reviewTitleLabel.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
-            make.height.greaterThanOrEqualTo(140)
-        }
-        
-        reviewLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(19)
-            make.trailing.equalToSuperview().offset(-19)
-            make.top.equalToSuperview().offset(14)
-        }
-        
-        reportLabelButton.snp.makeConstraints{ make in
-            make.trailing.equalToSuperview().offset(-16)
-            make.top.equalTo(reviewView.snp.bottom).offset(12)
-        }
-    }
-}
     
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-
 extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func setCollectionView() {
         [galleryCollectionView, feedDetailCollectionView].forEach { view in
@@ -1047,10 +815,9 @@ extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case galleryCollectionView:
-            let collectionViewWidth = collectionView.bounds.width
-            let cellWidth = (collectionViewWidth - 16) / 2
+            let width = (UIScreen.main.bounds.width - 48) / 2
             
-            return CGSize(width: cellWidth, height: 140)
+            return CGSize(width: width, height: 140)
         case feedDetailCollectionView:
             let detailWidth = UIScreen.main.bounds.width - 32
             
@@ -1061,20 +828,20 @@ extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        let cell = collectionView.cellForItem(at: indexPath) as? GalleryCollectionViewCell
-        //
-        //        let url = URL(string: challengeFeedData[indexPath.row].feedUrl)
-        //        selectedCellImageView.kf.setImage(with: url)
-        //        // selectedCellImageView.image = cell?.galleryImage.image
-        //        setFeedDetailData()
-        //        // setGalleryDetail(at: indexPath)
-        
         if collectionView == galleryCollectionView {
-            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+            let cell = collectionView.cellForItem(at: indexPath) as! GalleryCollectionViewCell
             feedDetailCollectionView.isHidden = false
+            reportLabelButton.isHidden = false
             
-            self.showFeedDetail(feedId: cell.feedId!, feedImage: cell.challengeFeed.image!)
+            self.showFeedDetail(feedId: cell.feedId ?? 0, feedImage: cell.galleryImage.image!)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == galleryCollectionView {
+            return 16 // 행 혹은 열 사이의 최소 간격
+        }
+        return 0
     }
 }
 
@@ -1109,9 +876,10 @@ extension JoinChallengeViewController {
             if response.data?.feeds.count == 0 {
                 self.notStartedLabel.isHidden = false
                 self.homeButton.isHidden = false
+                self.viewHeight!.update(offset: 875)
             } else {
-                self.galleryCollectionView.isHidden = false
                 self.setChallengesFeedList(response.data!.feeds)
+                self.galleryCollectionView.isHidden = false
             }
         }
     }
@@ -1120,6 +888,16 @@ extension JoinChallengeViewController {
     private func setChallengesFeedList(_ response: [ChallengeJoinFeedData]) {
         self.challengeFeedData = response
         self.galleryCollectionView.reloadData()
+        
+        if challengeFeedData.count < 3 {
+            let height = 140
+            self.collectionViewHeight!.update(offset: height)
+            self.viewHeight!.update(offset: 694 + height)
+        } else {
+            let height = 292
+            self.collectionViewHeight!.update(offset: height)
+            self.viewHeight!.update(offset: 694 + height)
+        }
     }
     
     func showFeedDetail(feedId: Int, feedImage: UIImage){
@@ -1144,6 +922,9 @@ extension JoinChallengeViewController {
                 feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
             }
         }
+        
+        let height = 647
+        self.viewHeight!.update(offset: 694 + height)
     }
     
     // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
