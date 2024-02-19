@@ -1105,17 +1105,10 @@ extension AccountInfoViewController{
         alertViewResponder?.close()
         
         let loginVC = LoginViewController()
-        let navigationController = UINavigationController(rootViewController: loginVC)
-        
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            UIView.transition(with: sceneDelegate.window!,
-                              duration: 1.5,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                sceneDelegate.window?.rootViewController = navigationController
-            },
-                              completion: nil)
+            sceneDelegate.changeRootViewController(loginVC)
         }
+        
     }
     @objc func withdraw(){
         MyPageService.shared.DeleteWithDraw { response in
@@ -1127,17 +1120,10 @@ extension AccountInfoViewController{
         alertViewResponder?.close()
         
         let loginVC = LoginViewController()
-        let navigationController = UINavigationController(rootViewController: loginVC)
-        
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            UIView.transition(with: sceneDelegate.window!,
-                              duration: 1.5,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                sceneDelegate.window?.rootViewController = navigationController
-            },
-                              completion: nil)
+            sceneDelegate.changeRootViewController(loginVC)
         }
+        
     }
     @objc func close(){
         alertViewResponder?.close()
