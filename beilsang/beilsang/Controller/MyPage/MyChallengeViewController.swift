@@ -353,7 +353,7 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             }
             if !cellList.isEmpty{
                 let target = cellList[indexPath.row]
-                cell.challengeName = target.title
+                cell.challengeNameLabel.text = target.title
                 cell.makerNickname.text = target.hostName
                 cell.buttonLabel.text = "참여인원 \(target.attendeeCount)명"
                 cell.challengeId = target.challengeId

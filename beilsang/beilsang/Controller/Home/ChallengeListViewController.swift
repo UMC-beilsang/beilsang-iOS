@@ -284,18 +284,18 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
     // 셀 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
-        let challengeId = cell.challengeId
+        let challengeID = cell.challengeId
         
-        ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+        ChallengeService.shared.challengeEnrolled(challengId: challengeID!) { response in
             let isEnrolled = response.data.isEnrolled
             
             if isEnrolled {
                 let nextVC = JoinChallengeViewController()
-                nextVC.challengeId = challengeId
+                nextVC.challengeId = challengeID
                 self.navigationController?.pushViewController(nextVC, animated: true)
             } else {
                 let nextVC = ChallengeDetailViewController()
-                nextVC.challengeId = challengeId
+                nextVC.challengeId = challengeID
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }

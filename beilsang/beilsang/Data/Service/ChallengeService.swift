@@ -14,7 +14,7 @@ class ChallengeService {
     
     private init() {}
     
-    let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.accessToken) ?? ""
+    let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken) ?? ""
     
     // 홈 메인화면 추천 챌린지
     func challengeRecommend(completionHandler : @escaping (_ data: ChallengeRecommends) -> Void) {

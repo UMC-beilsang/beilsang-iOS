@@ -238,7 +238,7 @@ extension LikeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 return UICollectionViewCell() }
             let target = cellList[indexPath.row]
             cell.makerNickname.text = target.hostName
-            cell.challengeName = target.title
+            cell.challengeNameLabel.text = target.title
             cell.buttonLabel.text = "참여인원 \(target.attendeeCount)명"
             cell.challengeId = target.challengeId
             let url = URL(string: target.imageUrl)

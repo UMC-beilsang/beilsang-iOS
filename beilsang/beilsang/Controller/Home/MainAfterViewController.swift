@@ -206,15 +206,15 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
     // 셀 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! MainAfterCollectionViewCell
-        let challengeId = cell.challengeId
+        let challengeID = cell.challengeId
         
         if collectionView == challengeParticipatingCollectionView {
             let nextVC = JoinChallengeViewController()
-            nextVC.challengeId = challengeId
+            nextVC.challengeId = challengeID
             navigationController?.pushViewController(nextVC, animated: true)
         } else {
             let nextVC = ChallengeDetailViewController()
-            nextVC.challengeId = challengeId
+            nextVC.challengeId = challengeID
             navigationController?.pushViewController(nextVC, animated: true)
         }
     }
