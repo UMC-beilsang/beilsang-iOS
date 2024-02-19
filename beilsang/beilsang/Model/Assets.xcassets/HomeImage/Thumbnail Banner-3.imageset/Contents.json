@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bHalf.png",
+      "filename" : "Thumbnail Banner-3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "bHalf-2.png",
+      "filename" : "Thumbnail Banner-3-3.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "bHalf-3.png",
+      "filename" : "Thumbnail Banner-3-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

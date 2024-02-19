@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import Kingfisher
 
 class RegisterCertifyModalViewController: UIViewController {
     
@@ -43,17 +44,6 @@ class RegisterCertifyModalViewController: UIViewController {
     // 챌린지 인증 유의사항 콜렉션뷰
     lazy var cautionCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    // 챌린지 인증 유의사항 리스트
-    let cautionDataList = CautionChallenge.data
-    
-    // 유의사항 셀 높이 조정
-    private func calculateNewCollectionViewHeight() -> CGFloat {
-        let cellHeight: CGFloat = 18
-        let numberOfCells = cautionDataList.count
-        let newHeight = (CGFloat(numberOfCells) * cellHeight) + (8 * CGFloat(numberOfCells))
-        return newHeight
-    }
-    
     // 챌린지 인증 유의사항 예시 이미지
     lazy var cautionImageView: UIImageView = {
         let view = UIImageView()
@@ -77,6 +67,14 @@ class RegisterCertifyModalViewController: UIViewController {
         return view
     }()
     
+    // 챌린지 인증 유의사항 리스트
+    var challengeGuideData : [String] = []
+    
+    var challengeId : Int?
+    
+    var collectionViewHeight : Constraint?
+    var modalViewHeight : Constraint?
+    
     // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +83,7 @@ class RegisterCertifyModalViewController: UIViewController {
         
         setAttribute()
         setCollectionView()
+        setChallengeGuide()
     }
     
     // MARK: - Actions
@@ -110,7 +109,7 @@ extension RegisterCertifyModalViewController {
         modalView.snp.makeConstraints { (make) in
             make.bottom.equalTo(self.view)
             make.left.right.equalTo(self.view)
-            make.height.equalTo(458)
+            modalViewHeight = make.height.equalTo(0).constraint
         }
         
         [cautionTitleLabel, cautionImageView, cautionCollectionView, checkNoticeButton].forEach { view in
@@ -129,12 +128,11 @@ extension RegisterCertifyModalViewController {
             make.height.equalTo(180)
         }
         
-        let collectionViewHeight = (cautionDataList.count * 18) + ((cautionDataList.count) * 8)
         cautionCollectionView.snp.makeConstraints { make in
             make.top.equalTo(cautionImageView.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
-            make.height.equalTo(collectionViewHeight)
+            collectionViewHeight = make.height.equalTo(0).constraint
         }
         
         checkNoticeButton.snp.makeConstraints { make in
@@ -142,6 +140,22 @@ extension RegisterCertifyModalViewController {
             make.height.equalTo(56)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
+        }
+    }
+}
+
+// MARK: - 챌린지 유의사항 api 세팅
+extension RegisterCertifyModalViewController {
+    func setChallengeGuide() {
+        ChallengeService.shared.challengeGuide(challengId: challengeId) { response in
+            let url = URL(string: response.data.certImage)
+            self.cautionImageView.kf.setImage(with: url)
+            self.challengeGuideData = response.data.challengeNoteList
+            self.cautionCollectionView.reloadData()
+            
+            let height = (self.challengeGuideData.count * 18) + ((self.challengeGuideData.count) * 8)
+            self.collectionViewHeight!.update(offset: height)
+            self.modalViewHeight!.update(offset: 388 + height)
         }
     }
 }
@@ -158,7 +172,7 @@ extension RegisterCertifyModalViewController: UICollectionViewDataSource, UIColl
     
     // 셀 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cautionDataList.count
+        return challengeGuideData.count
     }
     
     // 셀 설정
@@ -167,9 +181,7 @@ extension RegisterCertifyModalViewController: UICollectionViewDataSource, UIColl
                 CautionCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let target = cautionDataList[indexPath.row]
-        
-        cell.cautionLabel.text = target.label
+        cell.cautionLabel.text = challengeGuideData[indexPath.row]
         cell.cautionCellView.backgroundColor = .clear
         
         return cell

@@ -63,8 +63,8 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // pageView - title, image setting
-    let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!"]
-    let pageImages = [UIImage(named: "Thumbnail Banner-1"), UIImage(named: "Thumbnail Banner-2")]
+    let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!", "비일상 챌린지\n참여방법 알아보기!"]
+    let pageImages = [UIImage(named: "Thumbnail Banner-1"), UIImage(named: "Thumbnail Banner-2"), UIImage(named: "Thumbnail Banner-3")]
     var pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     
     // pageView - sliding button
@@ -115,6 +115,7 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         self.navigationItem.hidesBackButton = true
         
         setupAttribute()
+        setChallengeStatus()
         setCollectionView()
     }
 }
@@ -126,6 +127,7 @@ extension HomeMainViewController {
         setFullScrollView()
         setAddViews()
         setLayout()
+        setUI()
         
         setupPageView()
         setAddChild()
@@ -148,6 +150,11 @@ extension HomeMainViewController {
         pageViewController.didMove(toParent: self)
         mainBeforeVC.didMove(toParent: self)
         mainAfterVC.didMove(toParent: self)
+    }
+    
+    func setUI() {
+        mainBeforeVC.view.isHidden = true
+        mainAfterVC.view.isHidden = true
     }
     
     func setFullScrollView() {
@@ -244,10 +251,28 @@ extension HomeMainViewController {
         }
         
         mainAfterVC.view.snp.makeConstraints { make in
-            make.top.equalTo(mainBeforeVC.view.snp.bottom)
+            make.top.equalTo(borderline.snp.bottom)
             make.width.equalTo(fullScrollView.snp.width)
             make.height.equalTo(456)
             make.bottom.equalToSuperview()
+        }
+    }
+}
+
+// MARK: - network
+extension HomeMainViewController {
+    func setChallengeStatus() {
+        ChallengeService.shared.challengeCategoriesEnrolled { response in
+            let isEnrolled = !(response.data?.challenges.challenges.isEmpty ?? true)
+            self.setChallengeParticipate(isEnrolled: isEnrolled)
+        }
+    }
+    
+    func setChallengeParticipate(isEnrolled: Bool) {
+        if isEnrolled {
+            mainAfterVC.view.isHidden = false
+        } else {
+            mainBeforeVC.view.isHidden = false
         }
     }
 }
@@ -287,8 +312,6 @@ extension HomeMainViewController: UICollectionViewDataSource, UICollectionViewDe
         let labelText = cell.keywordLabel.text
         let challengeListVC = ChallengeListViewController()
         challengeListVC.categoryLabelText = labelText
-        
-        // ChallengeListViewController를 푸시합니다.
         navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }
@@ -302,7 +325,7 @@ extension HomeMainViewController: UIPageViewControllerDataSource, UIPageViewCont
            index > 0 {
             return PageViewController(pageTitle: pageTitles[index - 1], pageImage: pageImages[index - 1]!)
         } else {
-            return PageViewController(pageTitle: pageTitles[1], pageImage: pageImages[1]!)
+            return PageViewController(pageTitle: pageTitles[2], pageImage: pageImages[2]!)
         }
     }
     

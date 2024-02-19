@@ -245,6 +245,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         view.text = "챌린지를 등록하면 자동으로 해당 챌린지에 참여\n하게 됩니다."
         view.textColor = .beTextDef
         view.textAlignment = .left
+        view.numberOfLines = 2
         view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.tag = 4
         
@@ -353,6 +354,10 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     
+    var challengePostData : ChallengePostData? = nil
+    
+    var challengeId : Int? = nil
+    
     // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -376,6 +381,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
         challengeListVC.categoryLabelText = labelText
         navigationController?.pushViewController(challengeListVC, animated: true)
         
+        ChallengeDataSingleton.shared.resetData()
         cancleAlertViewResponder?.close()
     }
     
@@ -438,9 +444,25 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     @objc func addChallengeButtonClicked(){
         print("챌린지 등록하기")
         
-        let registerCompleteVC = RegisterCompleteViewController()
-        navigationController?.pushViewController(registerCompleteVC, animated: true)
+        postChallenges()
+        
+        ChallengeDataSingleton.shared.resetData()
         registerAlertViewResponder?.close()
+    }
+}
+
+// MARK: - network
+extension RegisterThirdViewController {
+    func postChallenges() {
+        ChallengeService.shared.challengePost() { response in
+            self.challengePostData = response.data
+            print(response)
+            self.challengeId = response.data.challengeId
+            
+            let registerCompleteVC = RegisterCompleteViewController()
+            registerCompleteVC.challengeId = self.challengeId
+            self.navigationController?.pushViewController(registerCompleteVC, animated: true)
+        }
     }
 }
 
@@ -556,14 +578,14 @@ extension RegisterThirdViewController {
         }
         
         agree5Button.snp.makeConstraints { make in
-            make.top.equalTo(agree4Button.snp.bottom).offset(24)
+            make.top.equalTo(agree4Label.snp.bottom).offset(24)
             make.leading.equalTo(fullScrollView.snp.leading).offset(24)
             make.width.height.equalTo(28)
         }
         
         agree5Label.snp.makeConstraints { make in
             make.top.equalTo(agree5Button.snp.top)
-            make.leading.equalTo(agree4Button.snp.trailing).offset(12)
+            make.leading.equalTo(agree5Button.snp.trailing).offset(12)
         }
         
         bottomView.snp.makeConstraints { make in

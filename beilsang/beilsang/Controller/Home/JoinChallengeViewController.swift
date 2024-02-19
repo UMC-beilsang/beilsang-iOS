@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import SCLAlertView
 import SafariServices
+import Kingfisher
 
 class JoinChallengeViewController: UIViewController {
     
@@ -84,14 +85,12 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var representImageView : UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "representImage")
         
         return view
     }()
     
     lazy var titleLabel: UILabel = {
         let view = UILabel()
-        view.text = "우리 가치 플로깅하자  👀👟"
         view.font = UIFont(name: "NotoSansKR-SemiBold", size: 20)
         view.numberOfLines = 0
         view.textColor = .beTextDef
@@ -106,7 +105,6 @@ class JoinChallengeViewController: UIViewController {
         view.backgroundColor = .beBgSub
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 10
-        view.text = "62명 참여중"
         view.font = UIFont(name: "NotoSansKR-Medium", size: 12)
         view.numberOfLines = 0
         view.textColor = .beNavy500
@@ -118,7 +116,6 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var writerLabel: UILabel = {
         let view = UILabel()
-        view.text = "작성자명"
         view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         view.numberOfLines = 0
         view.textColor = .beTextEx
@@ -130,7 +127,6 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var writeDateLabel: UILabel = {
         let view = UILabel()
-        view.text = "작성일"
         view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         view.numberOfLines = 0
         view.textColor = .beTextEx
@@ -160,7 +156,6 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var categoryIcon: UILabel = {
         let view = UILabel()
-        view.text = "👟"
         view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.numberOfLines = 0
         view.textColor = .beTextDef
@@ -172,7 +167,6 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var categoryLabel: UILabel = {
         let view = UILabel()
-        view.text = "플로깅"
         view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
         view.numberOfLines = 0
         view.textColor = .beTextDef
@@ -334,7 +328,6 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var profileImageView : UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "profileImage")
         view.layer.shadowColor = UIColor.beTextDef.cgColor
         view.layer.masksToBounds = false
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -348,7 +341,6 @@ class JoinChallengeViewController: UIViewController {
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Medium", size: 16)
         view.numberOfLines = 0
-        view.text = "춤추는 텀블러"
         view.textColor = .beTextDef
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
@@ -360,7 +352,6 @@ class JoinChallengeViewController: UIViewController {
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Medium", size: 12)
         view.numberOfLines = 0
-        view.text = "1일 전"
         view.textColor = .beTextSub
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
@@ -382,7 +373,6 @@ class JoinChallengeViewController: UIViewController {
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Medium", size: 12)
         view.numberOfLines = 0
-        view.text = "#\(categoryLabel.text ?? "")"
         view.textColor = .beTextSub
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
@@ -391,12 +381,9 @@ class JoinChallengeViewController: UIViewController {
     }()
     
     lazy var titleTagLabel: UILabel = {
-        // 이모지 뺀 챌린지 제목 받아와서 text로 설정
-        let titleWithoutSpecialCharacters = titleLabel.text?.textWithoutSpecialCharacters ?? ""
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Medium", size: 12)
         view.numberOfLines = 0
-        view.text = "#\(titleWithoutSpecialCharacters)"
         view.textColor = .beTextSub
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
@@ -430,7 +417,6 @@ class JoinChallengeViewController: UIViewController {
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Medium", size: 14)
         view.numberOfLines = 0
-        view.text = "플로깅을 하면서 즐거운 경험을 할 수 있었습니다! 친환경을 위해 앞장설 수 있어서 좋았어요!"
         view.textColor = .beTextSub
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
@@ -481,18 +467,20 @@ class JoinChallengeViewController: UIViewController {
     lazy var bookMarkButton: UIButton = {
         let view = UIButton()
         let image = UIImage(systemName: "star", withConfiguration: imageConfig)
+        let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
+        
         view.setImage(image, for: .normal)
+        view.setImage(selectedImage, for: .selected)
         view.tintColor = .beScPurple600
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchUpInside)
-    
+        
+        view.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchDown)
         return view
     }()
     
     lazy var bookMarkLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: "NotoSansKR-Regular", size: 14)
-        view.text = "121"
         view.numberOfLines = 0
         view.textColor = .beTextDef
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -515,14 +503,18 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
+    var challengeId : Int? = nil
+    
+    var challengeDetailData : ChallengeDetailData? = nil
+    
     //MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupLayout()
-        updateChallengeLabelText()
         setGalleryView()
+        setChallengeData()
     }
     
     //MARK: - UI Setup
@@ -603,7 +595,6 @@ class JoinChallengeViewController: UIViewController {
         categoryView.snp.makeConstraints{ make in
             make.top.equalTo(writerLabel.snp.bottom).offset(28)
             make.leading.equalToSuperview().offset(16)
-            make.width.equalTo(108)
             make.height.equalTo(40)
         }
         
@@ -614,6 +605,7 @@ class JoinChallengeViewController: UIViewController {
         
         categoryLabel.snp.makeConstraints{ make in
             make.centerY.equalToSuperview()
+            make.leading.equalTo(categoryIcon.snp.trailing).offset(8)
             make.trailing.equalToSuperview().offset(-20)
         }
         
@@ -718,31 +710,7 @@ class JoinChallengeViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
-  
-    //MARK: - UpdateLabel
-    
-    private func updateChallengeLabelText() {
-        let weekCountText = "일주일"//"\(challengeModel.weekCount) weeks"
-        let sessionCountText = "5"//"\(challengeModel.sessionCount) sessions"
-        let startDateText = "1/11"
-        
-        let fullText = "시작일(\(startDateText))로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
-        
-        let attributedText = NSMutableAttributedString(string: fullText)
-        
-        let weekCountRange = (fullText as NSString).range(of: "\(weekCountText) 동안")
-        let sessionCountRange = (fullText as NSString).range(of: "\(sessionCountText)회")
 
-        attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: weekCountRange)
-        attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: sessionCountRange)
-        
-        let font = UIFont(name: "NotoSansKR-Medium", size: 12)
-        attributedText.addAttribute(.font, value: font!, range: weekCountRange)
-        attributedText.addAttribute(.font, value: font!, range: sessionCountRange)
-        
-        challengePeriodLabel.attributedText = attributedText
-    }
-    
     //MARK: - Toast Popup
     
     private func showToast() {
@@ -773,25 +741,15 @@ class JoinChallengeViewController: UIViewController {
         })
     }
     
-    // MARK: - Button Disabled
-    
-    private func challengeStartDateCheck() {
-        // challengeStartDate가 현재 날짜이거나, 지남
-        let check = false
-        
-        if check {
-            proofButton.isEnabled = true
-            proofButton.backgroundColor = .beScPurple600
-        } else {
-            proofButton.isEnabled = false
-            proofButton.backgroundColor = .beScPurple400
-        }
-    }
-    
     //MARK: - Actions
     
     @objc func proofButtonTapped(_ sender: UIButton) {
         print("인증인증")
+        
+        let challengeId = challengeId
+        let certifyVC = RegisterCertifyViewController()
+        certifyVC.challengeId = challengeId
+        navigationController?.pushViewController(certifyVC, animated: true)
     }
     
     @objc func reportLabelButtonTapped(_ sender: UIButton) {
@@ -813,15 +771,10 @@ class JoinChallengeViewController: UIViewController {
     }
     
     @objc func bookMarkButtonTapped() {
-        bookMarkButton.isSelected = !bookMarkButton.isSelected
-        
-        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
-        let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
-        
         if bookMarkButton.isSelected {
-            bookMarkButton.setImage(selectedImage, for: .selected)
+            deleteBookmark()
         } else {
-            bookMarkButton.setImage(image, for: .normal)
+            postBookmark()
         }
     }
     
@@ -1015,5 +968,103 @@ extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionV
         selectedCellImageView.image = cell?.galleryImage.image
         setGalleryDetail(at: indexPath)
 
+    }
+}
+
+// MARK: - 참여 중 챌린지 세팅
+extension JoinChallengeViewController {
+    // 챌린지의 모든 데이터를 가져오는 함수
+    func setChallengeData() {
+        ChallengeService.shared.challengeDetail(challengId: challengeId ?? 0) { response in
+            self.challengeDetailData = response.data
+            
+            let representURL = URL(string: (response.data.imageUrl!))
+            self.representImageView.kf.setImage(with: representURL) // 대표 사진 이미지
+            self.titleLabel.text = response.data.title // 챌린지 제목
+            self.peopleNumLabel.text = "\(response.data.attendeeCount)명 참여중" // 참여 중인 유저 수
+            self.writerLabel.text = response.data.hostName // 작성자
+            self.writeDateLabel.text = response.data.createdDate // 작성일: yyyy-MM-dd
+            let categoryIcon = CategoryConverter.shared.convertToIcon(response.data.category)
+            self.categoryIcon.text = categoryIcon // 카테고리 아이콘
+            let categoryText = CategoryConverter.shared.convertToKorean(response.data.category)
+            self.categoryLabel.text = categoryText // 카테고리 한글
+            let startDate = DateConverter.shared.convertJoin(from: response.data.startDate) // 시작일
+            self.challengeStartDateCheck(date: response.data.startDate)
+            let period = PeriodConverter.shared.convertToKorean(response.data.period) // 실천 기간
+            self.updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay, startDateText: startDate!)
+            self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+            self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+        }
+    }
+    
+    // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
+    func updatePeriodLabel(weekCountText: String, sessionCountText: Int, startDateText: String) {
+        let fullText = "시작일(\(startDateText))로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
+        
+        let attributedText = NSMutableAttributedString(string: fullText)
+        
+        let range = (fullText as NSString).range(of: "\(weekCountText) 동안 \(sessionCountText)회")
+        
+        attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: range)
+        
+        let font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        attributedText.addAttribute(.font, value: font!, range: range)
+        
+        challengePeriodLabel.attributedText = attributedText
+    }
+    
+    func challengeStartDateCheck(date: String) {
+        let check = checkDate(with: date)
+        
+        if check {
+            proofButton.isEnabled = true
+            proofButton.backgroundColor = .beScPurple600
+        } else {
+            proofButton.isEnabled = false
+            proofButton.backgroundColor = .beScPurple400
+        }
+    }
+    
+    func checkDate(with dateString: String) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            let today = Date()
+            let result = date.compare(today)
+            return result == .orderedSame || result == .orderedAscending
+        } else {
+            print("날짜 변환에 실패했습니다.")
+            return false
+        }
+    }
+}
+
+// MARK: - 챌린지 북마크 post, delete
+extension JoinChallengeViewController {
+    func postBookmark() {
+        ChallengeService.shared.challengeBookmarkPost(challengId: challengeId) { response in
+            print(response)
+            
+            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+                self.challengeDetailData = response.data
+                
+                self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+                self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            }
+        }
+    }
+    
+    func deleteBookmark() {
+        ChallengeService.shared.challengeBookmarkDelete(challengId: challengeId) { response in
+            print(response)
+            
+            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+                self.challengeDetailData = response.data
+                
+                self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+                self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            }
+        }
     }
 }

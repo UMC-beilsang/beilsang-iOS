@@ -12,7 +12,8 @@ import UIKit
 class ChallengeListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ChallengeListViewCell"
-    var challengeId : Int = 0
+    
+    var challengeId : Int? = nil
     // 챌린지 전체 버튼
     lazy var challengeView: UIView = {
         let view = UIView()
@@ -38,11 +39,9 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     }()
     
     // 챌린지 제목
-    var challengeName = "다회용기 픽업하기"
     lazy var challengeNameLabel: UILabel = {
         let view = UILabel()
         
-        view.text = challengeName
         view.textColor = .beTextWhite
         view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
         
@@ -64,7 +63,6 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     lazy var makerNickname: UILabel = {
         let view = UILabel()
         
-        view.text = "작성자명"
         view.textColor = .beTextInfo
         view.font = UIFont(name: "Noto Sans KR", size: 12)
         
@@ -74,7 +72,6 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     // 챌린지 버튼 - 레이블
     lazy var buttonLabel: UILabel = {
         let view = UILabel()
-        view.text = "참여인원 \(Int.random(in: 0...200))명"
         view.textColor = .beNavy500
         view.font = UIFont(name: "Noto Sans KR", size: 12)
         

@@ -25,21 +25,6 @@ class MainBeforeViewController: UIViewController {
         return view
     }()
     
-    // "전체 보기" 버튼
-    lazy var viewAllButton: UIButton = {
-        let view = UIButton()
-        
-        view.backgroundColor = .beBgSub
-        view.setTitle("전체 보기", for: .normal)
-        view.setTitleColor(.beNavy500, for: .normal)
-        view.titleLabel?.font = UIFont(name: "Noto Sans KR", size: 12)
-        view.contentHorizontalAlignment = .center
-        view.layer.cornerRadius = 10
-        view.addTarget(self, action: #selector(challengeButtonClicked), for: .touchUpInside)
-        
-        return view
-    }()
-    
     // "참여중인 챌린지가 없어요" 레이블
     lazy var notParticipating: UILabel = {
         let view = UILabel()
@@ -92,20 +77,12 @@ extension MainBeforeViewController {
     
     func setLayout() {
         view.addSubview(participatingChallenge)
-        view.addSubview(viewAllButton)
         view.addSubview(notParticipating)
         view.addSubview(participateChallengeButton)
         
         participatingChallenge.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top).offset(24)
             make.leading.equalTo(view.snp.leading).offset(16)
-        }
-        
-        viewAllButton.snp.makeConstraints { make in
-            make.centerY.equalTo(participatingChallenge.snp.centerY)
-            make.trailing.equalTo(view.snp.trailing).offset(-16)
-            make.width.equalTo(70)
-            make.height.equalTo(21)
         }
         
         notParticipating.snp.makeConstraints { make in

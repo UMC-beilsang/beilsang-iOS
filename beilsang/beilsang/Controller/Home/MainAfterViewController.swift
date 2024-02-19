@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import Kingfisher
 
 // [홈] 메인화면
 // 카테고리 하단의 서비스 이용 후 화면(참여 중인 챌린지, 앤님을 위해 준비한 챌린지)
@@ -40,17 +41,13 @@ class MainAfterViewController: UIViewController {
         return view
     }()
     
-    // 챌린지 버튼
-    let achivement = Int.random(in: 0...100)
-    // 챌린지 버튼 - 왼쪽
-    lazy var challengeButtonLeft = customChallengeButton(labelText: "달성률 \(achivement)%")
-    // 챌린지 버튼 - 오른쪽
-    lazy var challengeButtonRight = customChallengeButton(labelText: "달성률 \(achivement)%")
-    
+    // 참여 중 챌린지 콜렉션 뷰
+    lazy var challengeParticipatingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+  
     // oo님을 위해 준비한 챌린지 - oo
     var username = "앤"
     // oo님을 위해 준비한 챌린지 - 레이블
-    lazy var readyChallenge: UILabel = {
+    lazy var recommendChallenge: UILabel = {
         let view = UILabel()
         
         view.text = "\(username)님을 위해 준비한 챌린지✨"
@@ -61,18 +58,20 @@ class MainAfterViewController: UIViewController {
         return view
     }()
     
-    // oo님을 위해 준비한 챌린지 - 챌린지 버튼
-    let numOfPeople = Int.random(in: 0...200)
-    // oo님을 위해 준비한 챌린지 - 챌린지 버튼 왼쪽
-    lazy var readyButtonLeft = customChallengeButton(labelText: "참여인원 \(numOfPeople)명")
-    // oo님을 위해 준비한 챌린지 - 챌린지 버튼 오른쪽
-    lazy var readyButtonRight = customChallengeButton(labelText: "참여인원 \(numOfPeople)명")
+    // 추천 챌린지 리스트 콜렉션 뷰
+    lazy var challengeRecommendCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    // var challengeParticipateData
+    var challengeRecommendData : [ChallengeRecommendsData] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        challengeRecommend()
+        setAddViews()
         setLayout()
+        setCollectionView()
     }
     
     // MARK: - actions
@@ -80,7 +79,7 @@ class MainAfterViewController: UIViewController {
     @objc func viewAllButtonClicked() {
         print("전체 보기")
         
-        let labelText = "전체"
+        let labelText = "참여중"
         let challengeListVC = ChallengeListViewController()
         challengeListVC.categoryLabelText = labelText
         navigationController?.pushViewController(challengeListVC, animated: true)
@@ -89,16 +88,13 @@ class MainAfterViewController: UIViewController {
 
 // MARK: - Layout setting
 extension MainAfterViewController {
+    func setAddViews() {
+        [participatingChallenge, viewAllButton, challengeParticipatingCollectionView, recommendChallenge, challengeRecommendCollectionView].forEach { view in
+            self.view.addSubview(view)
+        }
+    }
     
     func setLayout() {
-        view.addSubview(participatingChallenge)
-        view.addSubview(viewAllButton)
-        view.addSubview(challengeButtonLeft)
-        view.addSubview(challengeButtonRight)
-        view.addSubview(readyChallenge)
-        view.addSubview(readyButtonLeft)
-        view.addSubview(readyButtonRight)
-        
         participatingChallenge.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top).offset(24)
             make.leading.equalTo(view.snp.leading).offset(16)
@@ -111,134 +107,115 @@ extension MainAfterViewController {
             make.height.equalTo(21)
         }
         
-        let width = (UIScreen.main.bounds.width - 44) * 1 / 2
-        
-        challengeButtonLeft.snp.makeConstraints { make in
-            make.top.equalTo(participatingChallenge.snp.bottom).offset(14)
+        challengeParticipatingCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(participatingChallenge.snp.bottom).offset(12)
             make.leading.equalTo(view.snp.leading).offset(16)
-            make.width.equalTo(width)
+            make.trailing.equalTo(view.snp.trailing).offset(-16)
             make.height.equalTo(140)
         }
         
-        challengeButtonRight.snp.makeConstraints { make in
-            make.centerY.equalTo(challengeButtonLeft.snp.centerY)
-            make.leading.equalTo(challengeButtonLeft.snp.trailing).offset(12)
-            make.width.equalTo(width)
-            make.height.equalTo(140)
-        }
-        
-        readyChallenge.snp.makeConstraints { make in
-            make.top.equalTo(challengeButtonLeft.snp.bottom).offset(28)
+        recommendChallenge.snp.makeConstraints { make in
+            make.top.equalTo(challengeParticipatingCollectionView.snp.bottom).offset(28)
             make.leading.equalTo(view.snp.leading).offset(16)
         }
         
-        readyButtonLeft.snp.makeConstraints { make in
-            make.top.equalTo(readyChallenge.snp.bottom).offset(14)
+        challengeRecommendCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(recommendChallenge.snp.bottom).offset(12)
             make.leading.equalTo(view.snp.leading).offset(16)
-            make.width.equalTo(width)
-            make.height.equalTo(140)
-        }
-        
-        readyButtonRight.snp.makeConstraints { make in
-            make.centerY.equalTo(readyButtonLeft.snp.centerY)
-            make.leading.equalTo(readyButtonLeft.snp.trailing).offset(12)
-            make.width.equalTo(width)
+            make.trailing.equalTo(view.snp.trailing).offset(-16)
             make.height.equalTo(140)
         }
     }
 }
 
-// MARK: - 챌린지 버튼을 커스텀 함수
+// MARK: - 참여중 챌린지, 추천 챌린지 api 세팅
 extension MainAfterViewController {
-    func customChallengeButton(labelText: String) -> UIButton {
-        // 챌린지 버튼 - 버튼
-        let custombutton: UIButton = {
-            let view = UIButton()
-            
-            view.layer.cornerRadius = 10
-            view.layer.borderWidth = 1
-            view.layer.borderColor = UIColor.beBgDiv.cgColor
-            
-            return view
-        }()
-        
-        // 챌린지 버튼 - 이미지
-        let challengeImage: UIImageView = {
-            let view = UIImageView()
-            
-            view.image = UIImage(named: "testChallengeImage")
-            view.contentMode = .scaleAspectFill
-            view.clipsToBounds = true
-            view.layer.cornerRadius = 10
-            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            
-            return view
-        }()
-        
-        // 챌린지 버튼 - 제목
-        let challengeName = "다회용기 픽업하기"
-        let challengeNameLabel: UILabel = {
-            let view = UILabel()
-            
-            view.text = challengeName
-            view.textColor = .beTextWhite
-            view.font = UIFont(name: "NotoSansKR-Medium", size: 14)
-            
-            return view
-        }()
-        
-        // 챌린지 버튼 - 하단 뷰
-        let bottomView: UIView = {
-            let view = UIView()
-            
-            view.backgroundColor = .beBgSub
-            view.layer.cornerRadius = 10
-            view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            
-            return view
-        }()
-        
-        // 챌린지 버튼 - 레이블
-        let buttonLabel: UILabel = {
-            let view = UILabel()
-            
-            view.text = labelText
-            view.textColor = .beNavy500
-            view.font = UIFont(name: "Noto Sans KR", size: 12)
-            
-            return view
-        }()
-        
-        custombutton.addSubview(challengeImage)
-        custombutton.addSubview(bottomView)
-        
-        challengeImage.addSubview(challengeNameLabel)
-        bottomView.addSubview(buttonLabel)
-        
-        challengeImage.snp.makeConstraints { make in
-            make.top.equalTo(custombutton.snp.top)
-            make.leading.equalTo(custombutton.snp.leading)
-            make.trailing.equalTo(custombutton.snp.trailing)
-            make.height.equalTo(100)
+    func challengeRecommend() {
+        ChallengeService.shared.challengeRecommend() { response in
+            self.setRecommendData(response.data!.recommendChallengeDTOList)
         }
+    }
+    @MainActor
+    private func setRecommendData(_ response: [ChallengeRecommendsData]) {
+        self.challengeRecommendData = response
+        self.challengeRecommendCollectionView.reloadData()
+    }
+}
+
+// MARK: - collectionView setting(챌린지 리스트)
+extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    // 콜렉션뷰 세팅
+    func setCollectionView() {
+        challengeParticipatingCollectionView.delegate = self
+        challengeParticipatingCollectionView.dataSource = self
+        challengeParticipatingCollectionView.register(MainAfterCollectionViewCell.self, forCellWithReuseIdentifier: MainAfterCollectionViewCell.identifier)
         
-        challengeNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(custombutton.snp.top).offset(72)
-            make.leading.equalTo(custombutton.snp.leading).offset(16)
-            make.height.equalTo(20)
+        challengeRecommendCollectionView.delegate = self
+        challengeRecommendCollectionView.dataSource = self
+        challengeRecommendCollectionView.register(MainAfterCollectionViewCell.self, forCellWithReuseIdentifier: MainAfterCollectionViewCell.identifier)
+    }
+    
+    // 셀 개수 설정
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch collectionView {
+        case challengeParticipatingCollectionView :
+            return 2
+        case challengeRecommendCollectionView :
+            return challengeRecommendData.count
+        default:
+            return 2
         }
-        
-        bottomView.snp.makeConstraints { make in
-            make.bottom.equalTo(custombutton.snp.bottom)
-            make.height.equalTo(40)
-            make.width.equalTo(custombutton.snp.width)
+    }
+    
+    // 셀 설정
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch collectionView {
+        case challengeParticipatingCollectionView :
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainAfterCollectionViewCell.identifier, for: indexPath) as?
+                    MainAfterCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            return cell
+        case challengeRecommendCollectionView :
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainAfterCollectionViewCell.identifier, for: indexPath) as?
+                    MainAfterCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.challengeId = challengeRecommendData[indexPath.row].challengeId
+            
+            let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
+            cell.challengeImage.kf.setImage(with: url)
+            cell.challengeNameLabel.text = challengeRecommendData[indexPath.row].title
+            cell.buttonLabel.text = challengeRecommendData[indexPath.row].category
+            
+            return cell
+        default:
+            return UICollectionViewCell()
         }
+    }
+    
+    // 셀 크기 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (UIScreen.main.bounds.width - 44) / 2
         
-        buttonLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(bottomView.snp.trailing).offset(-10)
-            make.centerY.equalTo(bottomView.snp.centerY)
+        return CGSize(width: width , height: 140)
+    }
+    
+    // 셀 선택시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! MainAfterCollectionViewCell
+        let challengeId = cell.challengeId
+        
+        if collectionView == challengeParticipatingCollectionView {
+            let nextVC = JoinChallengeViewController()
+            nextVC.challengeId = challengeId
+            navigationController?.pushViewController(nextVC, animated: true)
+        } else {
+            let nextVC = ChallengeDetailViewController()
+            nextVC.challengeId = challengeId
+            navigationController?.pushViewController(nextVC, animated: true)
         }
-        
-        return custombutton
     }
 }

@@ -103,7 +103,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     // 다음으로 버튼 활성화를 위한 변수
-    var isNext = [false, false, false, false, false, false]
+    var isNext : [Bool] = [false, false, false, false, false, false]
     
     // 대표 사진 등록 레이블
     lazy var representativePhotoLabel = customLabelView(labelText: "대표 사진")
@@ -333,6 +333,47 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         createPickerView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Singleton에서 데이터 가져오기
+        if let imageData = ChallengeDataSingleton.shared.mainImage {
+            let image = UIImage(data: imageData)
+            representativePhotoImage.image = image
+            representativePhotoButtonLabel.text = "사진 등록하기\n1/1"
+            representativePhotoImage.isHidden = false
+        }
+        
+        challengeTitleField.text = ChallengeDataSingleton.shared.title
+        categoryField.text = CategoryConverter.shared.convertToKorean(ChallengeDataSingleton.shared.category ?? "")
+        startField.text = DateConverter.shared.convertToFrontFormat(from: ChallengeDataSingleton.shared.startDate ?? "")
+        dayField.text = PeriodConverter.shared.convertToKorean(ChallengeDataSingleton.shared.period ?? "")
+        countIntLabel.text = String(ChallengeDataSingleton.shared.totalGoalDay ?? 0)
+        
+        count = Int(countIntLabel.text!)!
+        checkCountButtonState()
+        
+        isNext = [representativePhotoImage.image != nil, challengeTitleField.text != nil, categoryField.text != nil, startField.text != nil, dayField.text != nil, count > 0]
+        updateNextButtonState()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let image = representativePhotoImage.image else { return }
+        let imageData = image.jpegData(compressionQuality: 0.3)
+        ChallengeDataSingleton.shared.mainImage = imageData
+        
+        ChallengeDataSingleton.shared.title = challengeTitleField.text
+        let category = CategoryConverter.shared.convertToEnglish(categoryField.text ?? "")
+        ChallengeDataSingleton.shared.category = category
+        let startDate = DateConverter.shared.convertToServerFormat(from: startField.text ?? "")
+        ChallengeDataSingleton.shared.startDate = startDate
+        let period = PeriodConverter.shared.convertToEnglish(dayField.text ?? "")
+        ChallengeDataSingleton.shared.period = period
+        ChallengeDataSingleton.shared.totalGoalDay = Int(countIntLabel.text!)
+    }
+    
     // MARK: - actions
     // 네비게이션 아이템 누르면 alert 띄움
     @objc func navigationButtonClicked() {
@@ -347,6 +388,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         challengeListVC.categoryLabelText = labelText
         navigationController?.pushViewController(challengeListVC, animated: true)
         
+        ChallengeDataSingleton.shared.resetData()
         cancleAlertViewResponder?.close()
     }
     
@@ -390,11 +432,6 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
             challengeTitleCheckImage.image = UIImage(named: "icon-check")
             challengeTitleCheckLabel.text = "사용 가능한 챌린지 제목입니다"
             challengeTitleCheckLabel.textColor = .bePsBlue500
-            
-            // 챌린지 제목이 존재한다면
-//            challengeTitleCheckImage.image = UIImage(named: "icon_information-circle")
-//            challengeTitleCheckLabel.text = "이미 존재하는 챌린지 제목입니다"
-//            challengeTitleCheckLabel.textColor = .beWnRed500
         }
     }
     
@@ -774,8 +811,10 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
                 textField.backgroundColor = .beRed100
                 
                 challengeTitleCheckImage.isHidden = false
+                challengeTitleCheckImage.image = UIImage(named: "icon_information-circle")
                 challengeTitleCheckLabel.isHidden = false
                 challengeTitleCheckLabel.text = "제목은 4자 이상이어야 합니다."
+                challengeTitleCheckLabel.textColor = .beRed500
                 
                 isNext[1] = false
             } else if updatedText.count > 15 {
@@ -815,17 +854,12 @@ extension RegisterFirstViewController: UIImagePickerControllerDelegate, UINaviga
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == challengeTitleField {
-            textField.textColor = UIColor.beRed500
-            textField.layer.borderColor = UIColor.beRed500.cgColor
-            textField.backgroundColor = .beRed100
-            
             challengeTitleCheckImage.isHidden = false
             challengeTitleCheckLabel.isHidden = false
-        } else {
-            textField.textColor = UIColor.bePsBlue500
-            textField.layer.borderColor = UIColor.bePsBlue500.cgColor
-            textField.backgroundColor = .bePsBlue100
         }
+        textField.textColor = UIColor.bePsBlue500
+        textField.layer.borderColor = UIColor.bePsBlue500.cgColor
+        textField.backgroundColor = .bePsBlue100
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
