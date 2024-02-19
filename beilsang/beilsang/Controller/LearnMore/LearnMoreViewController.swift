@@ -232,6 +232,8 @@ extension LearnMoreViewController{
     // 사이드 버튼 액션 - 검색
     @objc func tabBarSearchButtonTapped() {
         print("검색버튼")
+        let searchVC = SearchViewController()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 
@@ -274,12 +276,4 @@ extension LearnMoreViewController: UICollectionViewDataSource, UICollectionViewD
             return UICollectionViewCell()
         }
     }
-//    // cell 선택시 액션
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        switch collectionView{
-//        case eventCollectionView:
-//        default:
-//            return
-//        }
-//    }
 }

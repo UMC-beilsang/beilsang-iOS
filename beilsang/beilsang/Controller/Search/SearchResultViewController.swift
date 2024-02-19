@@ -41,7 +41,7 @@ class SearchResultViewController: UIViewController, UIScrollViewDelegate {
 
         let collectionViewHeight = challengeList.count * 140 + challengeList.count * 8 + 30
         let tipViewHeight = 100
-        let contentHeight = collectionViewHeight + tipViewHeight + 8 + 160
+        let contentHeight = 1500// collectionViewHeight + tipViewHeight + 8 + 160
         
         fullContentView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(100)

@@ -24,5 +24,5 @@ struct MyPageFeedDetailData: Codable {
     let like: Bool
     let day: Int
     let nickName: String
-    let profileImage: String
+    let profileImage: String?
 }

@@ -23,5 +23,5 @@ struct MyPageData: Codable {
     let points: Int
     let feedDTOs: FeedListModel
     let nickName: String
-    let profileImage: String
+    let profileImage: String?
 }
