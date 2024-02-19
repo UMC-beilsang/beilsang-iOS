@@ -317,25 +317,30 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
                 case 0: view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
                 case 1: if view == medal[0]{
                     view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                    view.isUserInteractionEnabled = false
                 } else {
                     view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
                 }
                 case 2: if medal[0...1].contains(view){
                     view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                    view.isUserInteractionEnabled = false
                 } else {
                     view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
                 }
                 case 3: if medal[0...2].contains(view){
                     view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                    view.isUserInteractionEnabled = false
                 } else {
                     view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
                 }
                 case 4: if medal[0...3].contains(view){
                     view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                    view.isUserInteractionEnabled = false
                 } else {
                     view.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
                 }
                 case 5: view.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+                    view.isUserInteractionEnabled = false
                 default:
                     return
                 }
