@@ -26,7 +26,7 @@ class TabBarViewController: UITabBarController {
         findTab.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         findTab.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         
-        let moreTab = UINavigationController(rootViewController: HomeMainViewController())
+        let moreTab = UINavigationController(rootViewController: LearnMoreViewController())
         moreAttribute(moreTab)
         moreTab.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
         moreTab.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)

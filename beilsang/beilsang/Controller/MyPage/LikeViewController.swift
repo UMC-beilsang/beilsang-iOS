@@ -81,7 +81,7 @@ extension LikeViewController {
     }
     @MainActor
     private func setFirstFeedList(_ response: [ChallengeModel]){
-        self.likeList[changeCategoryToInt(category: selectedCategory)] = response
+        self.likeList[changeCategoryToInt(category: selectedCategory)-1] = response
         self.cellList = response
         challengeBoxCollectionView.reloadData()
     }
