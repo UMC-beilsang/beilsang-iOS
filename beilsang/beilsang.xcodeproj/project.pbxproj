@@ -81,6 +81,7 @@
 		8957B14C2B7B75FB00F99928 /* FindService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8957B14A2B7B75FB00F99928 /* FindService.swift */; };
 		895A22D12B750BB900A5230D /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 895A22D02B750BB900A5230D /* SwiftyJSON */; };
 		895A22D62B751A6700A5230D /* GetMyPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A22D52B751A6700A5230D /* GetMyPage.swift */; };
+		895ACC3C2B7FC67400A0578C /* LearnMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895ACC3B2B7FC67400A0578C /* LearnMoreViewController.swift */; };
 		895AE87A2B7B15A6008F9125 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 895AE8792B7B15A6008F9125 /* Kingfisher */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
 		895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D88792B6D45B8003E5688 /* FindViewController.swift */; };
@@ -106,6 +107,7 @@
 		89A08A312B655E5D009263F5 /* AccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */; };
 		89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A322B656156009263F5 /* MyChallengeViewController.swift */; };
 		89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */; };
+		89CC16E62B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CC16E52B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift */; };
 		AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */; };
 		AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */; };
 		AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403362B63E06F006B68FE /* HomeMainViewController.swift */; };
@@ -217,6 +219,7 @@
 		8957B1492B7B75FB00F99928 /* MyPageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
 		8957B14A2B7B75FB00F99928 /* FindService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindService.swift; sourceTree = "<group>"; };
 		895A22D52B751A6700A5230D /* GetMyPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPage.swift; sourceTree = "<group>"; };
+		895ACC3B2B7FC67400A0578C /* LearnMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreViewController.swift; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
 		895D88792B6D45B8003E5688 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
 		89608DBB2B7A36A200B93421 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
@@ -241,6 +244,7 @@
 		89A08A302B655E5C009263F5 /* AccountInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountInfoViewController.swift; sourceTree = "<group>"; };
 		89A08A322B656156009263F5 /* MyChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeViewController.swift; sourceTree = "<group>"; };
 		89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		89CC16E52B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreEventCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
 		AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403362B63E06F006B68FE /* HomeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainViewController.swift; sourceTree = "<group>"; };
@@ -455,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				2F7A669F2B81BC03008010C6 /* Search */,
+				89CC16E42B80A28400C73B97 /* LearnMore */,
 				896706872B738B2700A1295A /* Notification */,
 				897653E12B6F5095004CA008 /* Find */,
 				2FF55CAF2B684D59004EDB39 /* Login */,
@@ -470,6 +475,7 @@
 		2FC63CD72B5BB39C0050139A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				895ACC3A2B7FC65F00A0578C /* LearnMore */,
 				8957B1472B7B755E00F99928 /* TabBarViewController.swift */,
 				89854F862B7351D100CB6E4E /* Notification */,
 				895D88782B6D45B1003E5688 /* Find */,
@@ -599,6 +605,14 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		895ACC3A2B7FC65F00A0578C /* LearnMore */ = {
+			isa = PBXGroup;
+			children = (
+				895ACC3B2B7FC67400A0578C /* LearnMoreViewController.swift */,
+			);
+			path = LearnMore;
+			sourceTree = "<group>";
+		};
 		895D88782B6D45B1003E5688 /* Find */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,6 +646,14 @@
 				89854F872B7351E100CB6E4E /* NotificationViewController.swift */,
 			);
 			path = Notification;
+			sourceTree = "<group>";
+		};
+		89CC16E42B80A28400C73B97 /* LearnMore */ = {
+			isa = PBXGroup;
+			children = (
+				89CC16E52B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift */,
+			);
+			path = LearnMore;
 			sourceTree = "<group>";
 		};
 		AF44032E2B63DDBE006B68FE /* Home */ = {
@@ -884,6 +906,7 @@
 				89608DC02B7A475B00B93421 /* GetMyPageFeedDetail.swift in Sources */,
 				8957B1482B7B755E00F99928 /* TabBarViewController.swift in Sources */,
 				895A22D62B751A6700A5230D /* GetMyPage.swift in Sources */,
+				89CC16E62B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */,
 				2F8C57AC2B7696C5002B4862 /* LoginService.swift in Sources */,
@@ -907,6 +930,7 @@
 				8961A14F2B6FC24B00404444 /* HofChallengeCollectionViewCell.swift in Sources */,
 				2F8C57AE2B769C17002B4862 /* LoginModel.swift in Sources */,
 				897653E32B6F50B6004CA008 /* HofChallengeCategoryCollectionViewCell.swift in Sources */,
+				895ACC3C2B7FC67400A0578C /* LearnMoreViewController.swift in Sources */,
 				89608DBC2B7A36A200B93421 /* FeedModel.swift in Sources */,
 				AFDE65EB2B7249C30041D2D0 /* RegisterCertifyViewController.swift in Sources */,
 				8964DFD22B792E07002E4574 /* BaseModel.swift in Sources */,

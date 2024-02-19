@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  beilsang
-//
-//  Created by Seyoung on 1/16/24.
-//
-
 import UIKit
 import KakaoSDKCommon
 import KakaoSDKAuth

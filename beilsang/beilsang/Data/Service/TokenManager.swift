@@ -9,7 +9,7 @@ import Foundation
 class TokenManager {
     
     static let shared = TokenManager()
-    
+  
     func refreshToken(accessToken: String, refreshToken: String, completion: @escaping (NetworkResult<Any>) -> Void, callback: (() -> Void)? = nil) {
         TokenService.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken) { result in
             switch result {
