@@ -1237,10 +1237,12 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
             if isEnrolled {
                 let nextVC = JoinChallengeViewController()
                 nextVC.joinChallengeId = challengeId
+                nextVC.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(nextVC, animated: true)
             } else {
                 let nextVC = ChallengeDetailViewController()
                 nextVC.detailChallengeId = challengeId
+                nextVC.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(nextVC, animated: true)
             }
         }
@@ -1344,6 +1346,7 @@ extension ChallengeDetailViewController {
             let challengeId = response.data.challengePreviewDTO.challengeId
             let joinVC = JoinChallengeViewController()
             joinVC.joinChallengeId = challengeId
+            joinVC.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(joinVC, animated: true)
         }
     }

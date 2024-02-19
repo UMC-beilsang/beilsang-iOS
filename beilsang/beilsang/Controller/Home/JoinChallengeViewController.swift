@@ -109,7 +109,6 @@ class JoinChallengeViewController: UIViewController {
     }()
     
     //view
-    
     lazy var representImageView : UIImageView = {
         let view = UIImageView()
         
@@ -305,14 +304,17 @@ class JoinChallengeViewController: UIViewController {
     
     lazy var galleryCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: GalleryCollectionViewCell.identifier)
+    
+        return collectionView
+    }()
+    
+    lazy var feedDetailCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
         return collectionView
     }()
     
     //인증 갤러리 데이터 존재 X
-    
     lazy var notStartedLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Regular", size: 12)
@@ -342,7 +344,6 @@ class JoinChallengeViewController: UIViewController {
     }()
     
     // 인증갤러리 세부화면
-    
     lazy var selectedCellImageView : UIImageView = {
         let view = UIImageView()
         view.clipsToBounds = true
@@ -533,15 +534,17 @@ class JoinChallengeViewController: UIViewController {
     var joinChallengeId : Int? = nil
     
     var challengeDetailData : ChallengeDetailData? = nil
+    var challengeFeedData : [ChallengeJoinFeedData] = []
     
     //MARK: - Life Cycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUI()
         setNavigationBar()
         setupUI()
         setupLayout()
-        setGalleryView()
+        // setGalleryView()
+        setFeedData()
         setChallengeData()
     }
     
@@ -553,6 +556,16 @@ class JoinChallengeViewController: UIViewController {
         navigationItem.titleView = challengeLabel
         navigationItem.leftBarButtonItem = navigationButton
         navigationItem.rightBarButtonItem = menuButton
+    }
+    
+    private func setUI() {
+        // 인증 피드 없을 때
+        notStartedLabel.isHidden = true
+        homeButton.isHidden = true
+        // 인증 피드 있을 때
+        galleryCollectionView.isHidden = true
+        // 인증 피드 중 하나 선택했을 때
+        feedDetailCollectionView.isHidden = true
     }
     
     private func setupUI() {
@@ -567,15 +580,13 @@ class JoinChallengeViewController: UIViewController {
         reportSubView.addSubview(reportCancelButton)
         reportSubView.addSubview(reportButton)
         
-        [representImageView, titleLabel,peopleNumLabel,writerLabel,writeDateLabel, lineView, categoryView, progressTitleLabel,progressView,challengePeriodView, divider1, galleryTitleLabel,gallerySubTitleLabel].forEach{view in verticalContentView.addSubview(view)}
+        [representImageView, titleLabel,peopleNumLabel,writerLabel,writeDateLabel, lineView, categoryView, progressTitleLabel,progressView,challengePeriodView, divider1, galleryTitleLabel,gallerySubTitleLabel, notStartedLabel, homeButton, galleryCollectionView, feedDetailCollectionView, reportLabelButton].forEach{view in verticalContentView.addSubview(view)}
         
         [bookMarkButton, bookMarkLabel, proofButton].forEach{ view in bottomView.addSubview(view)}
         
         [categoryIcon, categoryLabel].forEach({view in categoryView.addSubview(view)})
         
         [challengePeriodTitleLabel,challengePeriodLabel,challengPeriodImageView].forEach({view in challengePeriodView.addSubview(view)})
-        
-
     }
     
     private func setupLayout() {
@@ -696,6 +707,38 @@ class JoinChallengeViewController: UIViewController {
             make.leading.equalToSuperview().offset(16)
         }
         
+        notStartedLabel.snp.makeConstraints{ make in
+            make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(48)
+            make.centerX.equalToSuperview()
+        }
+        
+        homeButton.snp.makeConstraints{ make in
+            make.top.equalTo(notStartedLabel.snp.bottom).offset(12)
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview().offset(75)
+            make.trailing.equalToSuperview().offset(-75)
+            make.height.equalTo(40)
+        }
+        
+        let cellHeight: CGFloat = 140
+        
+        galleryCollectionView.snp.makeConstraints{ make in
+            make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(cellHeight * CGFloat(galleryDataList.count / 2) + 12 * (CGFloat(galleryDataList.count / 2) - 1))
+        }
+        
+        feedDetailCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(galleryCollectionView.snp.top)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        reportLabelButton.snp.makeConstraints{ make in
+            make.trailing.equalTo(verticalContentView.snp.trailing).offset(-16)
+            make.top.equalTo(feedDetailCollectionView.snp.bottom).offset(12)
+        }
+        
         bottomView.snp.makeConstraints{ make in
             make.bottom.equalToSuperview()
             make.height.equalTo(96)
@@ -790,6 +833,7 @@ class JoinChallengeViewController: UIViewController {
         let challengeId = joinChallengeId
         let certifyVC = RegisterCertifyViewController()
         certifyVC.reviewChallengeId = challengeId
+        certifyVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(certifyVC, animated: true)
     }
     
@@ -832,7 +876,8 @@ class JoinChallengeViewController: UIViewController {
     
     @objc func exitButtonTapped(_ sender: UIButton) {
         print("exitButton Tapped")
-        setGalleryView()
+        // setGalleryView()
+        setFeedData()
     }
     
     @objc func homeButtonTapped(_ sender: UIButton) {
@@ -848,41 +893,22 @@ class JoinChallengeViewController: UIViewController {
 //MARK: - Gallery View Changed
 
 extension JoinChallengeViewController {
-    func setGalleryView() {
-        galleryCollectionView.isHidden = false
-        galleryDetailView.isHidden = true
-        
-        if galleryDataList.count == 0 {
-            
-            verticalContentView.addSubview(notStartedLabel)
-            verticalContentView.addSubview(homeButton)
-            
-            notStartedLabel.snp.makeConstraints{ make in
-                make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(48)
-                make.centerX.equalToSuperview()
-            }
-            
-            homeButton.snp.makeConstraints{ make in
-                make.top.equalTo(notStartedLabel.snp.bottom).offset(12)
-                make.centerX.equalToSuperview()
-                make.leading.equalToSuperview().offset(75)
-                make.trailing.equalToSuperview().offset(-75)
-                make.height.equalTo(40)
-            }
-        }
-        else {
-            verticalContentView.addSubview(galleryCollectionView)
-            
-            let cellHeight: CGFloat = 140
-            
-            galleryCollectionView.snp.makeConstraints{ make in
-                make.top.equalTo(gallerySubTitleLabel.snp.bottom).offset(20)
-                make.leading.equalToSuperview().offset(16)
-                make.trailing.equalToSuperview().offset(-16)
-                make.height.equalTo(cellHeight * CGFloat(galleryDataList.count / 2) + 12 * (CGFloat(galleryDataList.count / 2) - 1))
-            }
-        }
-    }
+//    func setGalleryView() {
+//        galleryCollectionView.isHidden = false
+//        galleryDetailView.isHidden = true
+//
+//        if galleryDataList.count == 0 {
+//
+//
+//
+//
+//        }
+//        else {
+//
+//
+//
+//        }
+//    }
     
     func setGalleryDetail(at index: IndexPath) {
         galleryDetailView.isHidden = false
@@ -961,54 +987,94 @@ extension JoinChallengeViewController {
             make.trailing.equalToSuperview().offset(-19)
             make.top.equalToSuperview().offset(14)
         }
-
-    
         
         reportLabelButton.snp.makeConstraints{ make in
             make.trailing.equalToSuperview().offset(-16)
             make.top.equalTo(reviewView.snp.bottom).offset(12)
         }
-        
     }
 }
-    
-    
     
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 
 extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func setCollectionView() {
+        [galleryCollectionView, feedDetailCollectionView].forEach { view in
+            view.delegate = self
+            view.dataSource = self
+        }
+        
+        //Cell 등록
+        galleryCollectionView.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: GalleryCollectionViewCell.identifier)
+        feedDetailCollectionView.register(FeedDetailCollectionViewCell.self, forCellWithReuseIdentifier: FeedDetailCollectionViewCell.identifier)
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return galleryDataList.count
-        
+        switch collectionView {
+        case galleryCollectionView:
+            return challengeFeedData.count
+        case feedDetailCollectionView:
+            return 1
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCollectionViewCell.identifier, for: indexPath) as?
-                GalleryCollectionViewCell else {
+        switch collectionView {
+        case galleryCollectionView:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryCollectionViewCell.identifier, for: indexPath) as?
+                    GalleryCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            let url = URL(string: challengeFeedData[indexPath.row].feedUrl)
+            cell.galleryImage.kf.setImage(with: url)
+            
+            return cell
+        case feedDetailCollectionView:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedDetailCollectionViewCell.identifier, for: indexPath) as?
+                    FeedDetailCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            return cell
+        default:
             return UICollectionViewCell()
         }
-        let target = galleryDataList[indexPath.row]
-        
-        cell.galleryImage.image = UIImage(named: target.image)
-        
-        return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        let cellWidth = (collectionViewWidth - 16) / 2
-        
-        return CGSize(width: cellWidth, height: 140)
+        switch collectionView {
+        case galleryCollectionView:
+            let collectionViewWidth = collectionView.bounds.width
+            let cellWidth = (collectionViewWidth - 16) / 2
+            
+            return CGSize(width: cellWidth, height: 140)
+        case feedDetailCollectionView:
+            let detailWidth = UIScreen.main.bounds.width - 32
+            
+            return CGSize(width: detailWidth, height: 647)
+        default:
+            return CGSize(width: 0, height: 0)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? GalleryCollectionViewCell
+        //        let cell = collectionView.cellForItem(at: indexPath) as? GalleryCollectionViewCell
+        //
+        //        let url = URL(string: challengeFeedData[indexPath.row].feedUrl)
+        //        selectedCellImageView.kf.setImage(with: url)
+        //        // selectedCellImageView.image = cell?.galleryImage.image
+        //        setFeedDetailData()
+        //        // setGalleryDetail(at: indexPath)
         
-        selectedCellImageView.image = cell?.galleryImage.image
-        setGalleryDetail(at: indexPath)
-
+        if collectionView == galleryCollectionView {
+            let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
+            feedDetailCollectionView.isHidden = false
+            
+            self.showFeedDetail(feedId: cell.feedId!, feedImage: cell.challengeFeed.image!)
+        }
     }
 }
 
@@ -1035,6 +1101,48 @@ extension JoinChallengeViewController {
             self.updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay, startDateText: startDate!)
             self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
             self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+        }
+    }
+    
+    func setFeedData() {
+        ChallengeService.shared.challengeFeed(joinFeedChallengeId: joinChallengeId ?? 0) { response in
+            if response.data?.feeds.count == 0 {
+                self.notStartedLabel.isHidden = false
+                self.homeButton.isHidden = false
+            } else {
+                self.galleryCollectionView.isHidden = false
+                self.setChallengesFeedList(response.data!.feeds)
+            }
+        }
+    }
+    
+    @MainActor
+    private func setChallengesFeedList(_ response: [ChallengeJoinFeedData]) {
+        self.challengeFeedData = response
+        self.galleryCollectionView.reloadData()
+    }
+    
+    func showFeedDetail(feedId: Int, feedImage: UIImage){
+        let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeedDetailCollectionViewCell
+        
+        MyPageService.shared.getMyPageFeedDetail(baseEndPoint: .feeds, addPath: "/\(String(describing: feedId))") { response in
+            feedCell.reviewContent.text = response.data.review
+            if response.data.day > 3{
+                feedCell.dateLabel.text = response.data.uploadDate
+            } else {
+                feedCell.dateLabel.text = "\(response.data.day)일 전"
+            }
+            feedCell.feedImage.image = feedImage
+            feedCell.titleTag.text = "#\(response.data.challengeTitle)"
+            feedCell.categoryTag.text = "#\(response.data.category)"
+            feedCell.nicknameLabel.text = response.data.nickName
+            if let imageUrl = response.data.profileImage {
+                let url = URL(string: response.data.profileImage!)
+                feedCell.profileImage.kf.setImage(with: url)
+            }
+            if response.data.like {
+                feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+            }
         }
     }
     
@@ -1107,5 +1215,15 @@ extension JoinChallengeViewController {
                 self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
             }
         }
+    }
+}
+
+extension JoinChallengeViewController: CustomFeedCellDelegate {
+    func didTapRecommendButton(id: Int) {} // 다른 컨트롤러에서 이용하는 것
+    
+    func didTapReportButton() {} // 다른 컨트롤러에서 이용하는 것
+    
+    func didTapButton() {
+        feedDetailCollectionView.isHidden = true
     }
 }

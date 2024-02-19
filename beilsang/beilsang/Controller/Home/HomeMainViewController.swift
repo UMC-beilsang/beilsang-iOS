@@ -92,7 +92,6 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        self.navigationItem.hidesBackButton = true
         
         setupAttribute()
         setNavigationBar()
@@ -254,6 +253,7 @@ extension HomeMainViewController{
     @objc func tabBarSearchButtonTapped() {
         print("검색버튼")
         let searchVC = SearchViewController()
+        searchVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(searchVC, animated: true)
     }
 }
@@ -263,6 +263,7 @@ extension HomeMainViewController {
     func setChallengeStatus() {
         ChallengeService.shared.challengeCategoriesEnrolled { response in
             let isEnrolled = !(response.data?.challenges.challenges.isEmpty ?? true)
+            print(isEnrolled)
             self.setChallengeParticipate(isEnrolled: isEnrolled)
         }
     }
@@ -311,6 +312,7 @@ extension HomeMainViewController: UICollectionViewDataSource, UICollectionViewDe
         let labelText = cell.keywordLabel.text
         let challengeListVC = ChallengeListViewController()
         challengeListVC.categoryLabelText = labelText
+        challengeListVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }

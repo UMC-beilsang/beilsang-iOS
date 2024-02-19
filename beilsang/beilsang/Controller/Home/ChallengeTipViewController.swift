@@ -232,6 +232,7 @@ class ChallengeTipViewController: UIViewController {
     @objc func toChallengeButtonClicked() {
         print("챌린지 만들러 가기")
         let registerVC = RegisterFirstViewController()
+        registerVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(registerVC, animated: true)
     }
 }

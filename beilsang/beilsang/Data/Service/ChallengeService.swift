@@ -18,7 +18,7 @@ class ChallengeService {
     func challengeRecommend(completionHandler : @escaping (_ data: ChallengeRecommends) -> Void) {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
-      
+        
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/challenges/recommends"
             
@@ -65,7 +65,7 @@ class ChallengeService {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
         let enrollChallengeId = EnrollChallengeId
-       
+        
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/check/\(EnrollChallengeId)"
             
@@ -156,7 +156,7 @@ class ChallengeService {
     func challengeCategoriesAll(completionHandler : @escaping (_ data: ChallengeCategory) -> Void) {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
-
+        
         DispatchQueue.main.async {
             let url = "https://beilsang.com/api/challenges"
             
@@ -486,9 +486,9 @@ class ChallengeService {
     func challengeParticipatePost(joinChallengeId: Int, completionHandler : @escaping (_ data: ChallengeParticipate) -> Void) {
         let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
         let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
-
+        
         let joinChallengeId = joinChallengeId
-
+        
         
         let url = "https://beilsang.com/api/challenges/\(joinChallengeId)"
         
@@ -529,7 +529,7 @@ class ChallengeService {
                 print(error)
                 print("챌린지 참여하기 post 요청 실패")
             }
-
+            
         })
     }
     
@@ -620,5 +620,92 @@ class ChallengeService {
                 print("챌린지 북마크 delete 요청 실패")
             }
         })
+    }
+    
+    // 참여중 챌린지 화면 피드 정보
+    func challengeFeed(joinFeedChallengeId: Int, completionHandler : @escaping (_ data: ChallengeJoinFeed) -> Void) {
+        let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
+        let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
+        
+        DispatchQueue.main.async {
+            let url = "https://beilsang.com/api/feeds/gallery/\(joinFeedChallengeId)"
+            
+            // HTTP Headers : 요청 헤더
+            let header: HTTPHeaders = [
+                "accept": "application/json",
+                "Authorization": "Bearer \(accessToken)"
+            ]
+            
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeJoinFeed.self, completionHandler: { response in
+                switch response.result {
+                case .success:
+                    guard let statusCode = response.response?.statusCode else { return }
+                    switch statusCode {
+                    case ..<300 :
+                        guard let result = response.value else {return}
+                        completionHandler(result)
+                        print("참여중 챌린지 피드 get 요청 성공")
+                    default : print("네트워크 fail")
+                    }
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    guard let statusCode = response.response?.statusCode else { return }
+                    switch statusCode {
+                    case 401 :
+                        print("토큰 만료")
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
+                            self.challengeFeed(joinFeedChallengeId: joinFeedChallengeId) { reResponse in
+                                completionHandler(reResponse)
+                            }
+                        }
+                    default : print("네트워크 fail")
+                    }
+                    print(error)
+                    print("참여중 챌린지 피드 get 요청 실패")
+                }
+            })
+        }
+    }
+    
+    // 참여중 챌린지 두 개만 get
+    func challengeJoinTwo(completionHandler : @escaping (_ data: ChallengeJoinTwo) -> Void) {
+        let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken)!
+        let refreshToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken)!
+        DispatchQueue.main.async {
+            let url = "https://beilsang.com/api/challenges/ongoing"
+            // HTTP Headers : 요청 헤더
+            let header: HTTPHeaders = [
+                "accept": "application/json",
+                "Authorization": "Bearer \(accessToken)"
+            ]
+            AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeJoinTwo.self, completionHandler: { response in
+                switch response.result{
+                case .success:
+                    guard let statusCode = response.response?.statusCode else { return }
+                    switch statusCode{
+                    case ..<300 :
+                        guard let result = response.value else {return}
+                        completionHandler(result)
+                        print("참여중 챌린지 2개 get 요청 성공")
+                    default : print("네트워크 fail")
+                    }
+                    // 호출 실패 시 처리 위함
+                case .failure(let error):
+                    guard let statusCode = response.response?.statusCode else { return }
+                    switch statusCode{
+                    case 401 :
+                        print("토큰 만료")
+                        TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
+                            self.challengeJoinTwo { reResponse in
+                                completionHandler(reResponse)
+                            }
+                        }
+                    default : print("네트워크 fail")
+                    }
+                    print(error)
+                    print("참여중 챌린지 2개 get 요청 실패")
+                }
+            })
+        }
     }
 }

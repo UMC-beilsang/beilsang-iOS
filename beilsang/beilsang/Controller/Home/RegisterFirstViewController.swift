@@ -383,10 +383,8 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     
     // 알림창 나가기 버튼에 action 연결해서 alert 닫음
     @objc func cancleAlartClose(){
-        let labelText = "전체"
-        let challengeListVC = ChallengeListViewController()
-        challengeListVC.categoryLabelText = labelText
-        navigationController?.pushViewController(challengeListVC, animated: true)
+        let homeVC = HomeMainViewController()
+        navigationController?.pushViewController(homeVC, animated: true)
         
         ChallengeDataSingleton.shared.resetData()
         cancleAlertViewResponder?.close()
@@ -475,6 +473,7 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
         print("다음으로")
         
         let nextVC = RegisterSecondViewController()
+        nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
     }
 }

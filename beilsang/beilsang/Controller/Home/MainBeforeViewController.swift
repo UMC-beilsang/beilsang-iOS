@@ -68,6 +68,7 @@ class MainBeforeViewController: UIViewController {
         let labelText = "전체"
         let challengeListVC = ChallengeListViewController()
         challengeListVC.categoryLabelText = labelText
+        challengeListVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }
