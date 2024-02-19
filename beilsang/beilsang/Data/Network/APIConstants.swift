@@ -28,4 +28,6 @@ struct APIConstants {
     //닉네임 중복 체크
     static let duplicateCheck = baseURL + "/api/join/check/nickname"
     
+    //MARK: - Feature: Search
+    static let searchURL = baseURL + "/api/search"
 }
