@@ -23,5 +23,5 @@ struct ChallengeJoinTwoData : Codable {
     let challengeId : Int
     let title : String
     let imageUrl : String?
-    let achieveRate : Int
+    let achieveRate : Float
 }

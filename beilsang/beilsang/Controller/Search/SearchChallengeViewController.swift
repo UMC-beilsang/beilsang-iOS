@@ -442,7 +442,7 @@ extension SearchChallengeViewController: UICollectionViewDataSource, UICollectio
         if collectionView == challengeCollectionView {
             let challengeId = challengeList[indexPath.row].challengeId
             let challengeDetailVC = ChallengeDetailViewController()
-            //challengeDetailVC.challengeId = challengeId
+            challengeDetailVC.detailChallengeId = challengeId
             self.navigationController?.pushViewController(challengeDetailVC, animated: true)
         }
         else if collectionView == recommendCollectionView {
