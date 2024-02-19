@@ -502,11 +502,13 @@ extension SearchFeedViewController {
             self.setRecommendData(response.data!.recommendChallengeDTOList)
         }
     }
+    
     @MainActor
     private func setRecommendData(_ response: [ChallengeRecommendsData]) {
         self.challengeRecommendData = response
         self.recommendCollectionView.reloadData()
-
+    }
+    
     // 피드 상세정보 보기 request
     private func showFeedDetail(feedId: Int, feedImage: UIImage){
         feedDetailBackground.isHidden = false
@@ -532,6 +534,7 @@ extension SearchFeedViewController {
         }
     }
 }
+
 extension SearchFeedViewController: CustomFeedCellDelegate {
     func didTapRecommendButton(id: Int) {} // 다른 컨트롤러에서 이용하는 것
     

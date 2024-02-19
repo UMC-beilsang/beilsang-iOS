@@ -107,9 +107,9 @@ extension ChallengeListCollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        challengeButton.addSubview(challengeImage)
-        challengeButton.addSubview(imageCoverView)
-        challengeButton.addSubview(bottomView)
+        challengeView.addSubview(challengeImage)
+        challengeView.addSubview(imageCoverView)
+        challengeView.addSubview(bottomView)
 
         challengeImage.snp.makeConstraints { make in
             make.top.equalTo(challengeView.snp.top)
@@ -119,9 +119,9 @@ extension ChallengeListCollectionViewCell {
         }
         
         imageCoverView.snp.makeConstraints { make in
-            make.top.equalTo(challengeButton.snp.top)
-            make.leading.equalTo(challengeButton.snp.leading)
-            make.trailing.equalTo(challengeButton.snp.trailing)
+            make.top.equalTo(challengeView.snp.top)
+            make.leading.equalTo(challengeView.snp.leading)
+            make.trailing.equalTo(challengeView.snp.trailing)
             make.height.equalTo(100)
         }
         
