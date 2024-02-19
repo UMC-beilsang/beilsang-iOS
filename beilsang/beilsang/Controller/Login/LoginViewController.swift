@@ -195,8 +195,6 @@ extension LoginViewController {
                         self.kakaologinToServer(with: token)
                         //서버에 보내주기
                         
-                        self.kakaologinToServer(with: token)
-                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // 1초 딜레이
                             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
                                 self.presentTo(name: "main")
