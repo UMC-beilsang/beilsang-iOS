@@ -1101,6 +1101,7 @@ extension AccountInfoViewController{
         
         UserDefaults.standard.setValue(nil, forKey: UserDefaultsKey.serverToken)
         UserDefaults.standard.setValue(nil, forKey: UserDefaultsKey.refreshToken)
+        UserDefaults.standard.synchronize()
         
         alertViewResponder?.close()
         
@@ -1119,11 +1120,11 @@ extension AccountInfoViewController{
         
         alertViewResponder?.close()
         
-        let loginVC = LoginViewController()
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.changeRootViewController(loginVC)
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let sceneDelegate = scene.delegate as? SceneDelegate {
+            sceneDelegate.window?.rootViewController = LoginViewController()
+            sceneDelegate.window?.makeKeyAndVisible()
         }
-        
     }
     @objc func close(){
         alertViewResponder?.close()

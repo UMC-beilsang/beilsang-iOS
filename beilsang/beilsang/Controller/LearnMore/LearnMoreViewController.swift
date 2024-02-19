@@ -233,6 +233,7 @@ extension LearnMoreViewController{
     @objc func tabBarSearchButtonTapped() {
         print("검색버튼")
         let searchVC = SearchViewController()
+        searchVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(searchVC, animated: true)
     }
 }
