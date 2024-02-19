@@ -387,8 +387,10 @@ extension MyChallengeFeedViewController {
             feedCell.titleTag.text = "#\(response.data.challengeTitle)"
             feedCell.categoryTag.text = "#\(response.data.category)"
             feedCell.nicknameLabel.text = response.data.nickName
-            let url = URL(string: response.data.profileImage)
-            feedCell.profileImage.kf.setImage(with: url)
+            if let imageUrl = response.data.profileImage {
+                let url = URL(string: response.data.profileImage!)
+                feedCell.profileImage.kf.setImage(with: url)
+            }
             if response.data.like {
                 feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
             }

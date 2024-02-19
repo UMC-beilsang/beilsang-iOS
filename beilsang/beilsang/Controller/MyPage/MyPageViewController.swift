@@ -307,7 +307,6 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
 extension MyPageViewController {
     
     func request() {
-        let memberId = UserDefaults.standard.string(forKey: "memberId")
         MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/1") { response in
             self.feedCount.text = String(response.data.feedNum)
             self.achivementCount.text = String(response.data.achieve)
@@ -317,9 +316,10 @@ extension MyPageViewController {
             self.likeCount.text = String(response.data.likes)
             self.pointCount.text = String(response.data.points)
             self.nameLabel.text = response.data.nickName
-            let url = URL(string: response.data.profileImage)
-            self.profileImage.kf.setImage(with: url)
-            
+            if let imageUrl = response.data.profileImage {
+                let url = URL(string: imageUrl)
+                self.profileImage.kf.setImage(with: url)
+            }
             self.setFeedList(response.data.feedDTOs.feeds ?? [])
         }
     }

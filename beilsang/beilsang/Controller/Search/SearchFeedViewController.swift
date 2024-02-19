@@ -143,6 +143,21 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     
+    lazy var feedDetailCollectionView: UICollectionView = {
+        let layout = self.makeFlowLayout()
+        layout.configuration.scrollDirection = .vertical
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.isHidden = true
+        return view
+    }()
+    
+    lazy var feedDetailBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.isHidden = true
+        return view
+    }()
+    
     //MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -161,12 +176,16 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
         feedCollectionView.isScrollEnabled = false
         self.feedCollectionView.delegate = self
         self.feedCollectionView.dataSource = self
+        feedDetailCollectionView.delegate = self
+        feedDetailCollectionView.dataSource = self
         self.feedCollectionView.register(GalleryCollectionViewCell.self, forCellWithReuseIdentifier: GalleryCollectionViewCell.identifier)
-        
+        self.feedDetailCollectionView.register(FeedDetailCollectionViewCell.self, forCellWithReuseIdentifier: FeedDetailCollectionViewCell.identifier)
         view.addSubview(fullScrollView)
     
         fullScrollView.addSubview(fullContentView)
         fullContentView.addSubview(feedCollectionView)
+        self.view.addSubview(feedDetailBackground)
+        self.view.addSubview(feedDetailCollectionView)
     }
     
     private func setupLayout() {
@@ -191,6 +210,13 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(collectionViewHeight)
+        }
+        feedDetailCollectionView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(50)
+            make.leading.bottom.trailing.equalToSuperview()
+        }
+        feedDetailBackground.snp.makeConstraints { make in
+            make.size.edges.equalToSuperview()
         }
     }
     
@@ -310,7 +336,10 @@ class SearchFeedViewController: UIViewController, UIScrollViewDelegate {
 
 // MARK: - collectionView setting(챌린지 리스트)
 extension SearchFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+    // section 개수 설정
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
     // 셀 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == feedCollectionView {
@@ -318,6 +347,9 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
         }
         else if collectionView == recommendCollectionView {
             return recommendDataList.count
+        }
+        else if collectionView == feedDetailCollectionView {
+            return 1
         }
         return 0
     }
@@ -335,7 +367,7 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
             if let url = URL(string: target.feedUrl) {
                 cell.galleryImage.kf.setImage(with: url)
             }
-            cell.FeedId = target.feedId
+            cell.feedId = target.feedId
             
             return cell
         }
@@ -352,6 +384,15 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
             
             return cell
         }
+        else if collectionView == feedDetailCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedDetailCollectionViewCell.identifier, for: indexPath) as?
+                    FeedDetailCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            return cell
+        }
+        
         return UICollectionViewCell()
     }
     
@@ -366,15 +407,53 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
         }
         return CGSize()
     }
-    
+    // cell 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == feedCollectionView {
-            print("feedcollectionviewseleected")
-            //let challengeId = feedList[indexPath.row].feedId
+            
+            let cell = collectionView.cellForItem(at: indexPath) as! GalleryCollectionViewCell
+            feedDetailCollectionView.isHidden = false
+            
+            self.showFeedDetail(feedId: cell.feedId!, feedImage: cell.galleryImage.image!)
             
         }
         else if collectionView == recommendCollectionView {
             print("selected")
+        }
+    }
+
+
+    
+    // 섹션 별 크기 설정을 위한 함수
+    // challengeBoxCollectionView layout 커스텀
+    private func makeFlowLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { section, ev -> NSCollectionLayoutSection? in
+            
+            return makeChallengeFeedDetailSectionLayout()
+        }
+        // 전체가 아닐 때의 medal 섹션
+        func makeChallengeFeedDetailSectionLayout() -> NSCollectionLayoutSection? {
+            // item
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            /// 아이템들이 들어갈 Group 설정
+            /// groupSize 설정
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            // section
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 0,
+                leading: 16,
+                bottom: 0,
+                trailing: 16)
+            
+            return section
         }
     }
 }
@@ -393,5 +472,39 @@ extension SearchFeedViewController {
         self.feedList = response
         self.feedCollectionView.reloadData()
         
+    }
+    // 피드 상세정보 보기 request
+    private func showFeedDetail(feedId: Int, feedImage: UIImage){
+        feedDetailBackground.isHidden = false
+        let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeedDetailCollectionViewCell
+        MyPageService.shared.getMyPageFeedDetail(baseEndPoint: .feeds, addPath: "/\(String(describing: feedId))") {response in
+            feedCell.reviewContent.text = response.data.review
+            if response.data.day > 3{
+                feedCell.dateLabel.text = response.data.uploadDate
+            } else {
+                feedCell.dateLabel.text = "\(response.data.day)일 전"
+            }
+            feedCell.feedImage.image = feedImage
+            feedCell.titleTag.text = "#\(response.data.challengeTitle)"
+            feedCell.categoryTag.text = "#\(response.data.category)"
+            feedCell.nicknameLabel.text = response.data.nickName
+            if let imageUrl = response.data.profileImage {
+                let url = URL(string: imageUrl)
+                feedCell.profileImage.kf.setImage(with: url)
+            }
+            if response.data.like {
+                feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+            }
+        }
+    }
+}
+extension SearchFeedViewController: CustomFeedCellDelegate {
+    func didTapRecommendButton(id: Int) {} // 다른 컨트롤러에서 이용하는 것
+    
+    func didTapReportButton() {} // 다른 컨트롤러에서 이용하는 것
+    
+    func didTapButton() {
+        feedDetailCollectionView.isHidden = true
+        feedDetailBackground.isHidden = true
     }
 }
