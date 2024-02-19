@@ -307,7 +307,7 @@ class MyPageViewController: UIViewController, UIScrollViewDelegate {
 extension MyPageViewController {
     
     func request() {
-        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "/1") { response in
+        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "") { response in
             self.feedCount.text = String(response.data.feedNum)
             self.achivementCount.text = String(response.data.achieve)
             self.failCount.text = String(response.data.fail)
