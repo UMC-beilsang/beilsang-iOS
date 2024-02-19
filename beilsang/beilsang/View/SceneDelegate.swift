@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.serverToken) {
             // existmember 확인
             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
-                let mainVC = UINavigationController(rootViewController: HomeMainViewController())
+                let mainVC = TabBarViewController() 
                 self.window?.rootViewController = mainVC
                 self.window?.makeKeyAndVisible()
                 print("found access Token")
@@ -78,6 +78,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }

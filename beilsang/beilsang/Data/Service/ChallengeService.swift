@@ -188,6 +188,7 @@ class ChallengeService {
             ]
             
             AF.request(url, method: .get, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: ChallengeStatus.self, completionHandler: { response in
+                debugPrint(response)
                 switch response.result {
                 case .success:
                     guard let statusCode = response.response?.statusCode else { return }

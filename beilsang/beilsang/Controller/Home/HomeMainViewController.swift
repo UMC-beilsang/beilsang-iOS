@@ -42,26 +42,6 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         return view
     }()
     
-    // topview - alarm
-    lazy var alarmButton: UIButton = {
-        let view = UIButton()
-        
-        view.setImage(UIImage(named: "icon-notification"), for: .normal)
-        view.tintColor = .beIconDef
-        
-        return view
-    }()
-    
-    // topview - search
-    lazy var searchButton: UIButton = {
-        let view = UIButton()
-        
-        view.setImage(UIImage(named: "icon-search"), for: .normal)
-        view.tintColor = .beIconDef
-        
-        return view
-    }()
-    
     // pageView - title, image setting
     let pageTitles = ["나만의 챌린지\n바로 만들어 보기!", "챌린저들과\n친환경 챌린지 참여하기!", "비일상 챌린지\n참여방법 알아보기!"]
     let pageImages = [UIImage(named: "Thumbnail Banner-1"), UIImage(named: "Thumbnail Banner-2"), UIImage(named: "Thumbnail Banner-3")]
@@ -115,6 +95,7 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         self.navigationItem.hidesBackButton = true
         
         setupAttribute()
+        setNavigationBar()
         setChallengeStatus()
         setCollectionView()
     }
@@ -172,7 +153,7 @@ extension HomeMainViewController {
             fullContentView.addSubview(view)
         }
         
-        [logoImage, logoTextImage, alarmButton, searchButton].forEach { view in
+        [logoImage, logoTextImage].forEach { view in
             topView.addSubview(view)
         }
     }
@@ -189,12 +170,6 @@ extension HomeMainViewController {
             make.bottom.equalTo(fullScrollView.snp.bottom)
         }
         
-        topView.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(46)
-            make.width.equalTo(fullScrollView.snp.width)
-            make.height.equalTo(48)
-        }
-        
         logoImage.snp.makeConstraints { make in
             make.leading.equalTo(topView.snp.leading).offset(16)
             make.centerY.equalTo(topView.snp.centerY)
@@ -206,18 +181,6 @@ extension HomeMainViewController {
             make.centerY.equalTo(logoImage.snp.centerY)
             make.height.equalTo(17)
             make.width.equalTo(45)
-        }
-        
-        alarmButton.snp.makeConstraints { make in
-            make.trailing.equalTo(topView.snp.trailing).offset(-68)
-            make.centerY.equalTo(logoImage.snp.centerY)
-            make.height.width.equalTo(24)
-        }
-        
-        searchButton.snp.makeConstraints { make in
-            make.trailing.equalTo(topView.snp.trailing).offset(-20)
-            make.centerY.equalTo(logoImage.snp.centerY)
-            make.height.width.equalTo(24)
         }
         
         pageViewController.view.snp.makeConstraints { make in
@@ -256,6 +219,42 @@ extension HomeMainViewController {
             make.height.equalTo(456)
             make.bottom.equalToSuperview()
         }
+    }
+}
+
+// MARK: - 네비게이션 바 커스텀
+extension HomeMainViewController{
+    private func setNavigationBar() {
+        self.navigationItem.titleView = attributeTitleView()
+        setBackButton()
+    }
+    private func attributeTitleView() -> UIView {
+        // 네비게이션 바에 타이틀을 왼쪽으로 옮기기 위해 커스텀 뷰 생성
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44))
+        // 네비게이션 바에 타이틀을 왼쪽으로 옮기기 위해 커스텀 뷰 생성
+        topView.frame = CGRect(x: 0, y: 0, width: 80, height: 44)
+        view.addSubview(topView)
+        return view
+    }
+    // 백버튼 커스텀
+    func setBackButton() {
+        let notiButton = UIBarButtonItem(image: UIImage(named: "iconamoon_notification-bold")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarNotiButtonTapped))
+        notiButton.tintColor = .black
+        let searchButton = UIBarButtonItem(image: UIImage(named: "icon-search")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(tabBarSearchButtonTapped))
+        searchButton.tintColor = .black
+        self.navigationItem.rightBarButtonItems = [searchButton, notiButton]
+    }
+    // 사이드 버튼 액션 - 알림
+    @objc func tabBarNotiButtonTapped() {
+        print("알림버튼")
+        let notificationVC = NotificationViewController()
+        navigationController?.pushViewController(notificationVC, animated: true)
+    }
+    // 사이드 버튼 액션 - 검색
+    @objc func tabBarSearchButtonTapped() {
+        print("검색버튼")
+        let searchVC = SearchViewController()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 
