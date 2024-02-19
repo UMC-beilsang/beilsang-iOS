@@ -241,16 +241,11 @@ class ChallengeDetailViewController: UIViewController {
     }()
     
     lazy var menu: UIMenu = {
-        let notiOff = UIAction(
-            title: "신고하기",
-            image: nil,
-            identifier: nil,
-            discoverabilityTitle: nil,
-            attributes: [],
-            state: .off,
-            handler: { _ in  })
+        let menuAction = UIAction(title: "신고하기", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { action in
+            self.alertViewResponder = self.reportAlert.showInfo("챌린지 인증 신고하기")
+        }
         
-        return UIMenu(title: "", options: [], children: [notiOff])
+        return UIMenu(title: "", options: [], children: [menuAction])
     }()
     
     // 네비게이션 바 - 레이블
@@ -1137,7 +1132,7 @@ class ChallengeDetailViewController: UIViewController {
         alertViewResponder = joinAlert.showInfo("챌린지 참여하기")
     }
     
-    @objc func testButtonTapped(_ sender: UIButton){
+    @objc func testButtonTapped(){
         alertViewResponder = reportAlert.showInfo("챌린지 신고하기")
     }
     

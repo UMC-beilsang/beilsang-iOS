@@ -80,6 +80,34 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
+    // 네비게이션 바 - 네비게이션 버튼
+    lazy var navigationButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(navigationButtonClicked))
+        view.tintColor = .beIconDef
+        
+        return view
+    }()
+    
+    lazy var menu: UIMenu = {
+        let menuAction = UIAction(title: "신고하기", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { action in
+            self.alertViewResponder = self.reportAlert.showInfo("챌린지 인증 신고하기")
+        }
+        
+        return UIMenu(title: "", options: [], children: [menuAction])
+    }()
+    
+    // 네비게이션 바 - 레이블
+    lazy var challengeLabel: UILabel = {
+        let view = UILabel()
+        
+        view.text = "챌린지"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 20)
+        view.textColor = .beTextDef
+        view.textAlignment = .center
+        
+        return view
+    }()
+    
     //view
     
     lazy var representImageView : UIImageView = {
@@ -510,6 +538,7 @@ class JoinChallengeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBar()
         setupUI()
         setupLayout()
         setGalleryView()
@@ -517,6 +546,13 @@ class JoinChallengeViewController: UIViewController {
     }
     
     //MARK: - UI Setup
+    private func setNavigationBar() {
+        let menuButton: UIBarButtonItem = UIBarButtonItem(title: nil, image: UIImage(named: "icon-navigation"), target: self, action: nil, menu: menu)
+        
+        navigationItem.titleView = challengeLabel
+        navigationItem.leftBarButtonItem = navigationButton
+        navigationItem.rightBarButtonItem = menuButton
+    }
     
     private func setupUI() {
         view.backgroundColor = .beBgDef
@@ -741,6 +777,11 @@ class JoinChallengeViewController: UIViewController {
     }
     
     //MARK: - Actions
+    // 네비게이션 아이템 누르면 alert 띄움
+    @objc func navigationButtonClicked() {
+        print("챌린지 작성 취소")
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc func proofButtonTapped(_ sender: UIButton) {
         print("인증인증")
@@ -751,7 +792,7 @@ class JoinChallengeViewController: UIViewController {
         navigationController?.pushViewController(certifyVC, animated: true)
     }
     
-    @objc func reportLabelButtonTapped(_ sender: UIButton) {
+    @objc func reportLabelButtonTapped() {
         print("버튼클릭")
         alertViewResponder = reportAlert.showInfo("챌린지 인증 신고하기")
     }
