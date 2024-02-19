@@ -113,15 +113,20 @@ class ChallengeListViewController: UIViewController, UIScrollViewDelegate {
     @objc func plusButtonClicked() {
         print("플러스 버튼")
         let registerChallengeVC = RegisterFirstViewController()
+        registerChallengeVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(registerChallengeVC, animated: true)
     }
     
     @objc func searchButtonClicked() {
         print("검색")
+        let searchVC = SearchViewController()
+        searchVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(searchVC, animated: true)
     }
     
     @objc func challengeTipButtonClicked() {
         let challengeTipVC = ChallengeTipViewController()
+        challengeTipVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(challengeTipVC, animated: true)
     }
 }
@@ -292,10 +297,12 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
             if isEnrolled {
                 let nextVC = JoinChallengeViewController()
                 nextVC.joinChallengeId = challengeId
+                nextVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(nextVC, animated: true)
             } else {
                 let nextVC = ChallengeDetailViewController()
                 nextVC.detailChallengeId = challengeId
+                nextVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }

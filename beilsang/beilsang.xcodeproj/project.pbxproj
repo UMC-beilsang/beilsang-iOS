@@ -103,6 +103,8 @@
 		89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A08A322B656156009263F5 /* MyChallengeViewController.swift */; };
 		89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */; };
 		89CC16E62B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CC16E52B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift */; };
+		AF4351472B83DE4300A77166 /* ChallengeJoinFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4351462B83DE4300A77166 /* ChallengeJoinFeedModel.swift */; };
+		AF4351492B83DE5000A77166 /* ChallengeJoinTwoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4351482B83DE5000A77166 /* ChallengeJoinTwoModel.swift */; };
 		AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */; };
 		AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */; };
 		AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4403362B63E06F006B68FE /* HomeMainViewController.swift */; };
@@ -255,6 +257,8 @@
 		89A08A322B656156009263F5 /* MyChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeViewController.swift; sourceTree = "<group>"; };
 		89ABFE682B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		89CC16E52B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreEventCollectionViewCell.swift; sourceTree = "<group>"; };
+		AF4351462B83DE4300A77166 /* ChallengeJoinFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeJoinFeedModel.swift; sourceTree = "<group>"; };
+		AF4351482B83DE5000A77166 /* ChallengeJoinTwoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeJoinTwoModel.swift; sourceTree = "<group>"; };
 		AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryKeyword.swift; sourceTree = "<group>"; };
 		AF4403332B63DF73006B68FE /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		AF4403362B63E06F006B68FE /* HomeMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMainViewController.swift; sourceTree = "<group>"; };
@@ -755,6 +759,8 @@
 				AF64A43C2B8111BF0055D5B9 /* ChallengeEnrolledModel.swift */,
 				AF64A4402B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift */,
 				AF64A4422B828F630055D5B9 /* ChallengeParticipateModel.swift */,
+				AF4351462B83DE4300A77166 /* ChallengeJoinFeedModel.swift */,
+				AF4351482B83DE5000A77166 /* ChallengeJoinTwoModel.swift */,
 			);
 			path = HomeNetwork;
 			sourceTree = "<group>";
@@ -940,6 +946,7 @@
 				2FF55CA82B684CAF004EDB39 /* InfoCircle+.swift in Sources */,
 				AF64A4332B7E677E0055D5B9 /* PeriodConverter.swift in Sources */,
 				89791E022B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift in Sources */,
+				AF4351472B83DE4300A77166 /* ChallengeJoinFeedModel.swift in Sources */,
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
 				AF64A4352B7E67920055D5B9 /* DateConverter.swift in Sources */,
 				893DF7DA2B7BA16200B09573 /* GetChallenge.swift in Sources */,
@@ -1017,6 +1024,7 @@
 				2FF55CAB2B684D0B004EDB39 /* UserInfoViewController.swift in Sources */,
 				AF64A42E2B7E2E960055D5B9 /* ChallengeGuideModel.swift in Sources */,
 				2FAB99F32B72C8EF00853BF7 /* GalleryData.swift in Sources */,
+				AF4351492B83DE5000A77166 /* ChallengeJoinTwoModel.swift in Sources */,
 				AF4403372B63E06F006B68FE /* HomeMainViewController.swift in Sources */,
 				AF64A4312B7E67720055D5B9 /* CategoryConverter.swift in Sources */,
 				AF44033D2B63E13C006B68FE /* MainAfterViewController.swift in Sources */,

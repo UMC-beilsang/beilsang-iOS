@@ -89,6 +89,7 @@ class RegisterCompleteViewController: UIViewController {
         print("게시물 확인하기")
         let nextVC = JoinChallengeViewController()
         nextVC.joinChallengeId = completeChallengeId
+        nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
     }
     

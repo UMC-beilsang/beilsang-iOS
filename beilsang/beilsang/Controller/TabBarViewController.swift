@@ -37,6 +37,8 @@ class TabBarViewController: UITabBarController {
         mypageTab.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
 
         viewControllers = [homeTab, findTab, moreTab, mypageTab]
+        
+        self.delegate = self
     }
 }
 
@@ -58,5 +60,15 @@ extension TabBarViewController {
         let mypageTabItem = UITabBarItem(title: "마이페이지", image: UIImage(named: "icon-my-page"), tag: 3)
         tab.tabBarItem = mypageTabItem
     }
-    
+}
+
+extension TabBarViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is ChallengeDetailViewController {
+            self.tabBar.isHidden = true
+        } else {
+            self.tabBar.isHidden = false
+        }
+        return true
+    }
 }

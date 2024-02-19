@@ -52,11 +52,13 @@ class PageViewController: UIViewController {
         switch pageTitle {
         case "나만의 챌린지\n바로 만들어 보기!":
             let registerChallengeVC = RegisterFirstViewController()
+            registerChallengeVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(registerChallengeVC, animated: true)
         case "챌린저들과\n친환경 챌린지 참여하기!":
             let labelText = "전체"
             let challengeListVC = ChallengeListViewController()
             challengeListVC.categoryLabelText = labelText
+            challengeListVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(challengeListVC, animated: true)
         case "비일상 챌린지\n참여방법 알아보기!":
             let challengeTipVC = ChallengeTipViewController()

@@ -45,7 +45,7 @@ class MainAfterViewController: UIViewController {
     lazy var challengeParticipatingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
   
     // oo님을 위해 준비한 챌린지 - oo
-    var username = "앤"
+    var username = UserDefaults.standard.string(forKey: UserDefaultsKey.memberId)!
     // oo님을 위해 준비한 챌린지 - 레이블
     lazy var recommendChallenge: UILabel = {
         let view = UILabel()
@@ -63,12 +63,14 @@ class MainAfterViewController: UIViewController {
     
     // var challengeParticipateData
     var challengeRecommendData : [ChallengeRecommendsData] = []
+    var challengeJoinData : [ChallengeJoinTwoData] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         challengeRecommend()
+        challengeJoin()
         setAddViews()
         setLayout()
         setCollectionView()
@@ -82,6 +84,7 @@ class MainAfterViewController: UIViewController {
         let labelText = "참여중"
         let challengeListVC = ChallengeListViewController()
         challengeListVC.categoryLabelText = labelText
+        challengeListVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(challengeListVC, animated: true)
     }
 }
@@ -140,6 +143,18 @@ extension MainAfterViewController {
         self.challengeRecommendData = response
         self.challengeRecommendCollectionView.reloadData()
     }
+    
+    func challengeJoin() {
+        ChallengeService.shared.challengeJoinTwo() { response in
+            self.setJoinData(response.data!.challenges)
+            print(response)
+        }
+    }
+    @MainActor
+    private func setJoinData(_ response: [ChallengeJoinTwoData]) {
+        self.challengeJoinData = response
+        self.challengeParticipatingCollectionView.reloadData()
+    }
 }
 
 // MARK: - collectionView setting(챌린지 리스트)
@@ -159,7 +174,7 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case challengeParticipatingCollectionView :
-            return 2
+            return challengeJoinData.count
         case challengeRecommendCollectionView :
             return challengeRecommendData.count
         default:
@@ -176,6 +191,14 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
                 return UICollectionViewCell()
             }
             
+            cell.mainAfterChallengeId = challengeJoinData[indexPath.row].challengeId
+            
+            let url = URL(string: challengeJoinData[indexPath.row].imageUrl!)
+            cell.challengeImage.kf.setImage(with: url)
+            cell.challengeNameLabel.text = challengeJoinData[indexPath.row].title
+            let achieve = challengeJoinData[indexPath.row].achieveRate
+            cell.buttonLabel.text = "달성률 \(achieve)%"
+            
             return cell
         case challengeRecommendCollectionView :
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainAfterCollectionViewCell.identifier, for: indexPath) as?
@@ -188,7 +211,8 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
             let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
             cell.challengeImage.kf.setImage(with: url)
             cell.challengeNameLabel.text = challengeRecommendData[indexPath.row].title
-            cell.buttonLabel.text = challengeRecommendData[indexPath.row].category
+            let categoryName = CategoryConverter.shared.convertToKorean(challengeRecommendData[indexPath.row].category)
+            cell.buttonLabel.text = "참여인원 \(categoryName!)명"
             
             return cell
         default:
@@ -211,10 +235,12 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
         if collectionView == challengeParticipatingCollectionView {
             let nextVC = JoinChallengeViewController()
             nextVC.joinChallengeId = challengeId
+            nextVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(nextVC, animated: true)
         } else {
             let nextVC = ChallengeDetailViewController()
             nextVC.detailChallengeId = challengeId
+            nextVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(nextVC, animated: true)
         }
     }

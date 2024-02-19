@@ -447,9 +447,7 @@ class RegisterSecondViewController: UIViewController, UIScrollViewDelegate, UIVi
     
     // 알림창 나가기 버튼에 action 연결해서 alert 닫음
     @objc func cancleAlartClose(){
-        let labelText = "전체"
-        let challengeListVC = ChallengeListViewController()
-        challengeListVC.categoryLabelText = labelText
+        let challengeListVC = HomeMainViewController()
         navigationController?.pushViewController(challengeListVC, animated: true)
         
         ChallengeDataSingleton.shared.resetData()
