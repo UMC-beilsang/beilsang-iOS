@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import SnapKit
+import Kingfisher
 
 
 class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
@@ -17,7 +18,17 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     let fullScrollView = UIScrollView()
     let fullContentView = UIView()
     let menuList = ["참여중", "등록한", "완료됨"]
-    var imageList = ["image 8", "image 9"]
+    
+    var selectedMenu : String = "참여중" // 0: 참여중, 1: 등록한, 2: 완료됨
+    var selectedCategory = "다회용컵" //0:다회용컵, ..., 8: 재활용
+    
+    var cellList : [FeedModel] = []
+    
+    var joinList = [[FeedModel]](repeating: Array(), count: 9)
+    var enrollList = [[FeedModel]](repeating: Array(), count: 9)
+    var finishList = [[FeedModel]](repeating: Array(), count: 9)
+    
+    
     
     lazy var menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -87,6 +98,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setFeedList()
         setupAttribute()
         setCollectionView()
         setNavigationBar()
@@ -239,7 +251,7 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
         case categoryCollectionView:
             return categoryDataList.count
         case challengeFeedBoxCollectionView:
-            return 2
+            return cellList.count
         case feedDetailCollectionView:
             return 1
         default:
@@ -275,7 +287,10 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
                     MyChallengeFeedCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.challengeFeed.image = UIImage(named: imageList[indexPath.row])
+            cell.feedId = cellList[indexPath.row].feedId
+            
+            let url = URL(string: self.cellList[indexPath.row].feedUrl)
+            cell.challengeFeed.kf.setImage(with: url)
             return cell
         case feedDetailCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedDetailCollectionViewCell.identifier, for: indexPath) as?
@@ -294,17 +309,22 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
         switch collectionView{
         case menuCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeMenuCollectionViewCell
-            let labelText = cell.menuLabel.text
+            selectedMenu = cell.menuLabel.text ?? ""
+            print(cell.menuLabel.text ?? "")
             let challengeListVC = ChallengeListViewController()
-            challengeListVC.categoryLabelText = labelText
+            challengeListVC.categoryLabelText = selectedMenu
             didTapButton()
+            setFeedList() // request 요청
         case categoryCollectionView:
+            let cell = collectionView.cellForItem(at: indexPath) as! MyPageCategoryCollectionViewCell
             didTapButton()
+            selectedCategory = cell.keywordLabel.text ?? ""
+            setFeedList() // request 요청
         case challengeFeedBoxCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! MyChallengeFeedCollectionViewCell
             feedDetailCollectionView.isHidden = false
-            let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeedDetailCollectionViewCell
-            feedCell.feedImage.image = cell.challengeFeed.image
+            
+            self.showFeedDetail(feedId: cell.feedId!, feedImage: cell.challengeFeed.image!)
         default:
             return
         }
@@ -351,9 +371,91 @@ extension MyChallengeFeedViewController: UICollectionViewDataSource, UICollectio
     }
 }
 // MARK: - function
-extension MyChallengeFeedViewController: CustomFeedCellDelegate {
-    func didTapReportButton() {
+extension MyChallengeFeedViewController {
+    // 피드 상세정보 보기 request
+    private func showFeedDetail(feedId: Int, feedImage: UIImage){
+        let feedCell = feedDetailCollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as! FeedDetailCollectionViewCell
+        
+        MyPageService.shared.getMyPageFeedDetail(baseEndPoint: .feeds, addPath: "/\(String(describing: feedId))") {response in
+            feedCell.reviewContent.text = response.data.review
+            if response.data.day > 3{
+                feedCell.dateLabel.text = response.data.uploadDate
+            } else {
+                feedCell.dateLabel.text = "\(response.data.day)일 전"
+            }
+            feedCell.feedImage.image = feedImage
+            feedCell.titleTag.text = "#\(response.data.challengeTitle)"
+            feedCell.categoryTag.text = "#\(response.data.category)"
+            feedCell.nicknameLabel.text = response.data.nickName
+            let url = URL(string: response.data.profileImage)
+            feedCell.profileImage.kf.setImage(with: url)
+            if response.data.like {
+                feedCell.heartButton.setImage(UIImage(named: "iconamoon_fullheart-bold"), for: .normal)
+            }
+        }
     }
+    private func setFeedList(){
+        let categoryIndex = changeCategoryToInt(category: selectedCategory)-1
+        if selectedMenu == "참여중"{
+            //api에서 data를 받아오지 않았다면
+            if joinList[categoryIndex].isEmpty{
+                joinList[categoryIndex] = requestFeedList()
+            } else {
+                self.cellList = joinList[categoryIndex]
+                challengeFeedBoxCollectionView.reloadData()
+            }
+        } else if selectedMenu == "등록한"{
+            if enrollList[categoryIndex].isEmpty{
+                enrollList[categoryIndex] = requestFeedList()
+            } else{
+                self.cellList = enrollList[categoryIndex]
+                challengeFeedBoxCollectionView.reloadData()
+            }
+        } else {
+            if finishList[categoryIndex].isEmpty{
+                finishList[categoryIndex] = requestFeedList()
+            } else{
+                self.cellList = finishList[categoryIndex]
+                challengeFeedBoxCollectionView.reloadData()
+            }
+        }
+    }
+    private func requestFeedList() -> [FeedModel]{
+        var requestList : [FeedModel] = []
+        MyPageService.shared.getFeedList(baseEndPoint: .feeds, addPath: "/\(selectedMenu)/\(selectedCategory)"){response in
+            requestList = self.reloadFeedList(response.data.feeds ?? [])
+        }
+        return requestList
+    }
+    @MainActor
+    private func reloadFeedList(_ list: [FeedModel]) -> [FeedModel]{
+        cellList = list
+        challengeFeedBoxCollectionView.reloadData()
+        return list
+    }
+    func changeCategoryToInt(category: String) -> Int{
+        switch category{
+        case CategoryKeyword.data[0].title: return 0
+        case CategoryKeyword.data[1].title: return 1
+        case CategoryKeyword.data[2].title: return 2
+        case CategoryKeyword.data[3].title: return 3
+        case CategoryKeyword.data[4].title: return 4
+        case CategoryKeyword.data[5].title: return 5
+        case CategoryKeyword.data[6].title: return 6
+        case CategoryKeyword.data[7].title: return 7
+        case CategoryKeyword.data[8].title: return 8
+        case CategoryKeyword.data[9].title: return 9
+        default:
+            return 0
+        }
+    }
+}
+
+
+extension MyChallengeFeedViewController: CustomFeedCellDelegate {
+    func didTapRecommendButton(id: Int) {} // 다른 컨트롤러에서 이용하는 것
+    
+    func didTapReportButton() {} // 다른 컨트롤러에서 이용하는 것
     
     func didTapButton() {
         feedDetailCollectionView.isHidden = true

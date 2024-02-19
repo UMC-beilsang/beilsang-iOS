@@ -20,6 +20,7 @@ class JoinChallengeViewController: UIViewController {
     let galleryDataList = GalleryData.data
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     let galleryDetailView = UIView()
+    var challengeId : Int?
 
     var alertViewResponder: SCLAlertViewResponder? = nil
     

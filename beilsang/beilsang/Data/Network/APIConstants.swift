@@ -12,15 +12,12 @@ struct APIConstants {
     static let baseURL = "https://beilsang.com"
     
     //MARK: - Feature
-    //로그인
-    static func loginURL(for provider: LoginProvider) -> String {
-           switch provider {
-           case .APPLE:
-               return baseURL + "/auth/apple/login"
-           case .KAKAO:
-               return baseURL + "/auth/kakao/login"
-           }
-       }
+    // 카카오 로그인
+    static let loginKakaoURL = baseURL + "/auth/kakao/login"
+    
+    // 애플 로그인
+    static let loginAppleURL = baseURL + "/auth/apple/login"
+     
     
     //토큰 재발급
     static let refreshTokenURL = baseURL + "/auth/token/refresh"
@@ -28,4 +25,9 @@ struct APIConstants {
     //자체 회원가입
     static let signUpURL = baseURL + "/auth/signup"
     
+    //닉네임 중복 체크
+    static let duplicateCheck = baseURL + "/api/join/check/nickname"
+    
+    //MARK: - Feature: Search
+    static let searchURL = baseURL + "/api/search"
 }

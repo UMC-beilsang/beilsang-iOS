@@ -17,7 +17,6 @@ class MedalCollectionViewCell: UICollectionViewCell {
     lazy var medalView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.isHidden = true
         return view
     }()
     
@@ -45,9 +44,8 @@ class MedalCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("10", for: .normal)
         button.setTitleColor(.clear, for: .normal)
-        button.setImage(UIImage(named: "Group 1000002757"), for: .normal)
+        button.setImage(UIImage(named: "Ellipse 1674"), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.isUserInteractionEnabled = false
         return button
     }()
     lazy var medal2: UIButton = {
@@ -106,8 +104,7 @@ extension MedalCollectionViewCell {
         }
         
         medalView.snp.makeConstraints { make in
-            make.size.equalToSuperview()
-            make.edges.equalToSuperview()
+            make.size.edges.equalToSuperview()
         }
         medalLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(28)

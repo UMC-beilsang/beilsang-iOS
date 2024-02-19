@@ -172,7 +172,7 @@ extension MotoViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
         
         SignUpData.shared.resolution = moto
-        print(moto)
+        print("Moto : \(moto)")
     
     }
 }
