@@ -396,7 +396,7 @@ extension SearchChallengeViewController: UICollectionViewDataSource, UICollectio
             if let url = URL(string: target.imageUrl) {
                 cell.challengeImage.kf.setImage(with: url)
             }
-            cell.challengId = target.challengeId
+            cell.challengeId = target.challengeId
             cell.makerNickname.text = target.hostName
             cell.buttonLabel.text = "참여인원 \(target.attendeeCount)명"
             
