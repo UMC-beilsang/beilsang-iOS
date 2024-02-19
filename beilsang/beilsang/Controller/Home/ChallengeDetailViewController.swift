@@ -17,7 +17,6 @@ class ChallengeDetailViewController: UIViewController {
     
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
-    var challengeId : Int = 1
     
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     
@@ -693,7 +692,8 @@ class ChallengeDetailViewController: UIViewController {
     
     // MARK: - UI Setup
     private func setNavigationBar() {
-        let menuButton: UIBarButtonItem = UIBarButtonItem(title: nil, image: UIImage(named: "icon-navigation"), target: self, action: nil, menu: menu)
+        let menuButton: UIBarButtonItem = UIBarButtonItem(title: nil, image: UIImage(named: "icon-meatballs"), target: self, action: nil, menu: menu)
+        menuButton.tintColor = .beIconDef
         
         navigationItem.titleView = challengeLabel
         navigationItem.leftBarButtonItem = navigationButton
