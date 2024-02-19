@@ -102,6 +102,12 @@
 		AF64A4312B7E67720055D5B9 /* CategoryConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4302B7E67720055D5B9 /* CategoryConverter.swift */; };
 		AF64A4332B7E677E0055D5B9 /* PeriodConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4322B7E677E0055D5B9 /* PeriodConverter.swift */; };
 		AF64A4352B7E67920055D5B9 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4342B7E67920055D5B9 /* DateConverter.swift */; };
+		AF64A4372B7E83910055D5B9 /* ChallengeCertifyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4362B7E83910055D5B9 /* ChallengeCertifyModel.swift */; };
+		AF64A4392B7E89060055D5B9 /* ChallengeCertifySingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4382B7E89060055D5B9 /* ChallengeCertifySingleton.swift */; };
+		AF64A43D2B8111BF0055D5B9 /* ChallengeEnrolledModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A43C2B8111BF0055D5B9 /* ChallengeEnrolledModel.swift */; };
+		AF64A43F2B8133150055D5B9 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A43E2B8133150055D5B9 /* BaseModel.swift */; };
+		AF64A4412B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4402B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift */; };
+		AF64A4432B828F630055D5B9 /* ChallengeParticipateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64A4422B828F630055D5B9 /* ChallengeParticipateModel.swift */; };
 		AF7E946E2B7A402600338DA3 /* ChallengeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E946D2B7A402600338DA3 /* ChallengeService.swift */; };
 		AF7E94722B7A852500338DA3 /* ChallengeTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */; };
 		AF7E94742B7A906500338DA3 /* MainAfterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7E94732B7A906500338DA3 /* MainAfterCollectionViewCell.swift */; };
@@ -221,6 +227,12 @@
 		AF64A4302B7E67720055D5B9 /* CategoryConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryConverter.swift; sourceTree = "<group>"; };
 		AF64A4322B7E677E0055D5B9 /* PeriodConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodConverter.swift; sourceTree = "<group>"; };
 		AF64A4342B7E67920055D5B9 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
+		AF64A4362B7E83910055D5B9 /* ChallengeCertifyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCertifyModel.swift; sourceTree = "<group>"; };
+		AF64A4382B7E89060055D5B9 /* ChallengeCertifySingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCertifySingleton.swift; sourceTree = "<group>"; };
+		AF64A43C2B8111BF0055D5B9 /* ChallengeEnrolledModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeEnrolledModel.swift; sourceTree = "<group>"; };
+		AF64A43E2B8133150055D5B9 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		AF64A4402B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStatusCategoryModel.swift; sourceTree = "<group>"; };
+		AF64A4422B828F630055D5B9 /* ChallengeParticipateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeParticipateModel.swift; sourceTree = "<group>"; };
 		AF7E946D2B7A402600338DA3 /* ChallengeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeService.swift; sourceTree = "<group>"; };
 		AF7E94712B7A852500338DA3 /* ChallengeTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeTipViewController.swift; sourceTree = "<group>"; };
 		AF7E94732B7A906500338DA3 /* MainAfterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAfterCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -422,6 +434,7 @@
 				2FF55CAE2B684D4A004EDB39 /* Login */,
 				2F69039A2B60427100A7716D /* Utility */,
 				2F48E0852B5BB3D5002F3D4A /* Font */,
+				AF64A43E2B8133150055D5B9 /* BaseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -536,6 +549,7 @@
 				AF64A4242B7C97910055D5B9 /* ChallengeDataSingleton.swift */,
 				AF44032F2B63DDE0006B68FE /* CategoryKeyword.swift */,
 				2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */,
+				AF64A4382B7E89060055D5B9 /* ChallengeCertifySingleton.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -594,6 +608,10 @@
 				AF64A4262B7CD2770055D5B9 /* ChallengePostModel.swift */,
 				AF64A4282B7D1FF90055D5B9 /* ChallengeDetailModel.swift */,
 				AF64A42D2B7E2E960055D5B9 /* ChallengeGuideModel.swift */,
+				AF64A4362B7E83910055D5B9 /* ChallengeCertifyModel.swift */,
+				AF64A43C2B8111BF0055D5B9 /* ChallengeEnrolledModel.swift */,
+				AF64A4402B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift */,
+				AF64A4422B828F630055D5B9 /* ChallengeParticipateModel.swift */,
 			);
 			path = HomeNetwork;
 			sourceTree = "<group>";
@@ -769,6 +787,7 @@
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
 				AF4403472B6A2E34006B68FE /* RegisterSecondViewController.swift in Sources */,
 				2F8C57B52B77B448002B4862 /* UserDefaults.swift in Sources */,
+				AF64A4392B7E89060055D5B9 /* ChallengeCertifySingleton.swift in Sources */,
 				2F8C57B02B777643002B4862 /* String+.swift in Sources */,
 				2FF55CA82B684CAF004EDB39 /* InfoCircle+.swift in Sources */,
 				AF64A4332B7E677E0055D5B9 /* PeriodConverter.swift in Sources */,
@@ -777,16 +796,21 @@
 				AF44033F2B63E4CD006B68FE /* ChallengeListCollectionViewCell.swift in Sources */,
 				AF64A4352B7E67920055D5B9 /* DateConverter.swift in Sources */,
 				8963CD1A2B6BA0CC0072440E /* PointCollectionViewCell.swift in Sources */,
+				AF64A4412B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift in Sources */,
+				AF64A4372B7E83910055D5B9 /* ChallengeCertifyModel.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
 				8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */,
 				89A08A332B656156009263F5 /* MyChallengeViewController.swift in Sources */,
 				2FAB99FF2B72CA1400853BF7 /* JoinChallengeViewController.swift in Sources */,
 				AF7E946E2B7A402600338DA3 /* ChallengeService.swift in Sources */,
+				AF64A43F2B8133150055D5B9 /* BaseModel.swift in Sources */,
+				AF64A4432B828F630055D5B9 /* ChallengeParticipateModel.swift in Sources */,
 				89ABFE692B70F77D00F86A9D /* FindFeedDetailCollectionViewCell.swift in Sources */,
 				2FC53B0E2B5BBB59007FD879 /* LoginViewController.swift in Sources */,
 				2F0838842B564085002E2551 /* ViewController.swift in Sources */,
 				2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */,
+				AF64A43D2B8111BF0055D5B9 /* ChallengeEnrolledModel.swift in Sources */,
 				AF44033B2B63E116006B68FE /* MainBeforeViewController.swift in Sources */,
 				AF4403492B6ABA5E006B68FE /* RegisterThirdViewController.swift in Sources */,
 				2F0838802B564085002E2551 /* AppDelegate.swift in Sources */,

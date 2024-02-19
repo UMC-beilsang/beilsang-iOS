@@ -466,11 +466,14 @@ class JoinChallengeViewController: UIViewController {
     lazy var bookMarkButton: UIButton = {
         let view = UIButton()
         let image = UIImage(systemName: "star", withConfiguration: imageConfig)
+        let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
+        
         view.setImage(image, for: .normal)
+        view.setImage(selectedImage, for: .selected)
         view.tintColor = .beScPurple600
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchUpInside)
-    
+        
+        view.addTarget(self, action: #selector(bookMarkButtonTapped), for: .touchDown)
         return view
     }()
     
@@ -737,25 +740,15 @@ class JoinChallengeViewController: UIViewController {
         })
     }
     
-    // MARK: - Button Disabled
-    
-    private func challengeStartDateCheck() {
-        // challengeStartDate가 현재 날짜이거나, 지남
-        let check = false
-        
-        if check {
-            proofButton.isEnabled = true
-            proofButton.backgroundColor = .beScPurple600
-        } else {
-            proofButton.isEnabled = false
-            proofButton.backgroundColor = .beScPurple400
-        }
-    }
-    
     //MARK: - Actions
     
     @objc func proofButtonTapped(_ sender: UIButton) {
         print("인증인증")
+        
+        let challengeId = challengeId
+        let certifyVC = RegisterCertifyViewController()
+        certifyVC.challengeId = challengeId
+        navigationController?.pushViewController(certifyVC, animated: true)
     }
     
     @objc func reportLabelButtonTapped(_ sender: UIButton) {
@@ -777,15 +770,10 @@ class JoinChallengeViewController: UIViewController {
     }
     
     @objc func bookMarkButtonTapped() {
-        bookMarkButton.isSelected = !bookMarkButton.isSelected
-        
-        let image = UIImage(systemName: "star", withConfiguration: imageConfig)
-        let selectedImage = UIImage(systemName: "star.fill", withConfiguration: imageConfig)
-        
         if bookMarkButton.isSelected {
-            bookMarkButton.setImage(selectedImage, for: .selected)
+            deleteBookmark()
         } else {
-            bookMarkButton.setImage(image, for: .normal)
+            postBookmark()
         }
     }
     
@@ -999,28 +987,83 @@ extension JoinChallengeViewController {
             self.categoryIcon.text = categoryIcon // 카테고리 아이콘
             let categoryText = CategoryConverter.shared.convertToKorean(response.data.category)
             self.categoryLabel.text = categoryText // 카테고리 한글
-            let startDate = DateConverter.shared.converJoin(from: response.data.startDate) // 시작일
+            let startDate = DateConverter.shared.convertJoin(from: response.data.startDate) // 시작일
+            self.challengeStartDateCheck(date: response.data.startDate)
             let period = PeriodConverter.shared.convertToKorean(response.data.period) // 실천 기간
-            updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay, startDateText: startDate!)
+            self.updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay, startDateText: startDate!)
             self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
             self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
         }
+    }
+    
+    // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
+    func updatePeriodLabel(weekCountText: String, sessionCountText: Int, startDateText: String) {
+        let fullText = "시작일(\(startDateText))로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
         
-        // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
-        func updatePeriodLabel(weekCountText: String, sessionCountText: Int, startDateText: String) {
-            let fullText = "시작일(\(startDateText))로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
-            
-            let attributedText = NSMutableAttributedString(string: fullText)
-            
-            let range = (fullText as NSString).range(of: "\(weekCountText) 동안 \(sessionCountText)회")
-
-            attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: range)
-            
-            let font = UIFont(name: "NotoSansKR-Medium", size: 12)
-            attributedText.addAttribute(.font, value: font!, range: range)
-            
-            challengePeriodLabel.attributedText = attributedText
+        let attributedText = NSMutableAttributedString(string: fullText)
+        
+        let range = (fullText as NSString).range(of: "\(weekCountText) 동안 \(sessionCountText)회")
+        
+        attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: range)
+        
+        let font = UIFont(name: "NotoSansKR-Medium", size: 12)
+        attributedText.addAttribute(.font, value: font!, range: range)
+        
+        challengePeriodLabel.attributedText = attributedText
+    }
+    
+    func challengeStartDateCheck(date: String) {
+        let check = checkDate(with: date)
+        
+        if check {
+            proofButton.isEnabled = true
+            proofButton.backgroundColor = .beScPurple600
+        } else {
+            proofButton.isEnabled = false
+            proofButton.backgroundColor = .beScPurple400
+        }
+    }
+    
+    func checkDate(with dateString: String) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            let today = Date()
+            let result = date.compare(today)
+            return result == .orderedSame || result == .orderedAscending
+        } else {
+            print("날짜 변환에 실패했습니다.")
+            return false
         }
     }
 }
 
+// MARK: - 챌린지 북마크 post, delete
+extension JoinChallengeViewController {
+    func postBookmark() {
+        ChallengeService.shared.challengeBookmarkPost(challengId: challengeId) { response in
+            print(response)
+            
+            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+                self.challengeDetailData = response.data
+                
+                self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+                self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            }
+        }
+    }
+    
+    func deleteBookmark() {
+        ChallengeService.shared.challengeBookmarkDelete(challengId: challengeId) { response in
+            print(response)
+            
+            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+                self.challengeDetailData = response.data
+                
+                self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+                self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            }
+        }
+    }
+}

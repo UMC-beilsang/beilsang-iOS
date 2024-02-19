@@ -13,7 +13,7 @@ import Kingfisher
 
 class ChallengeDetailViewController: UIViewController {
     
-    //MARK: - Properties
+    // MARK: - Properties
     
     let verticalScrollView = UIScrollView()
     let verticalContentView = UIView()
@@ -212,8 +212,8 @@ class ChallengeDetailViewController: UIViewController {
         return view
     }()
     
-    //컬렉션뷰
-    
+    // 컬렉션뷰
+    // 추천 챌린지 컬렉션뷰
     lazy var recommendCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.delegate = self
@@ -222,6 +222,7 @@ class ChallengeDetailViewController: UIViewController {
         return collectionView
     }()
     
+    // 챌린지 유의사항 컬렉션뷰
     lazy var cautionCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.delegate = self
@@ -229,6 +230,39 @@ class ChallengeDetailViewController: UIViewController {
         collectionView.register(CautionCollectionViewCell.self, forCellWithReuseIdentifier: CautionCollectionViewCell.identifier)
         collectionView.backgroundColor = .beBgSub
         return collectionView
+    }()
+    
+    // 네비게이션 바 - 네비게이션 버튼
+    lazy var navigationButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(navigationButtonClicked))
+        view.tintColor = .beIconDef
+        
+        return view
+    }()
+    
+    lazy var menu: UIMenu = {
+        let notiOff = UIAction(
+            title: "신고하기",
+            image: nil,
+            identifier: nil,
+            discoverabilityTitle: nil,
+            attributes: [],
+            state: .off,
+            handler: { _ in  })
+        
+        return UIMenu(title: "", options: [], children: [notiOff])
+    }()
+    
+    // 네비게이션 바 - 레이블
+    lazy var challengeLabel: UILabel = {
+        let view = UILabel()
+        
+        view.text = "챌린지"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 20)
+        view.textColor = .beTextDef
+        view.textAlignment = .center
+        
+        return view
     }()
     
     lazy var representImageView : UIImageView = {
@@ -635,7 +669,7 @@ class ChallengeDetailViewController: UIViewController {
         return button
     }()
     
-    var challengeId : Int? = 14
+    var challengeId : Int? = nil
     
     var challengeDetailData : ChallengeDetailData? = nil
     var challengeRecommendData : [ChallengeRecommendsData] = []
@@ -644,9 +678,14 @@ class ChallengeDetailViewController: UIViewController {
     var collectionViewHeight : Constraint?
     var viewHeight : Constraint?
     
+    var challengeParticipateData : ChallengeParticipatePreview? = nil
+    var challenegeParticipateMember : ChallengeParticipateMember? = nil
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setNavigationBar()
         setupUI()
         setupLayout()
         showPromoToast()
@@ -656,10 +695,16 @@ class ChallengeDetailViewController: UIViewController {
         challengeRecommend()
     }
     
-    //MARK: - UI Setup
+    // MARK: - UI Setup
+    private func setNavigationBar() {
+        let menuButton: UIBarButtonItem = UIBarButtonItem(title: nil, image: UIImage(named: "icon-navigation"), target: self, action: nil, menu: menu)
+        
+        navigationItem.titleView = challengeLabel
+        navigationItem.leftBarButtonItem = navigationButton
+        navigationItem.rightBarButtonItem = menuButton
+    }
     
     private func setupUI() {
-        
         view.backgroundColor = .beBgDef
         
         [verticalScrollView, bottomView, toastLabel].forEach { view in
@@ -708,7 +753,6 @@ class ChallengeDetailViewController: UIViewController {
     }
     
     private func setupLayout() {
-        
         let width = UIScreen.main.bounds.width
         
         verticalScrollView.snp.makeConstraints { make in
@@ -750,7 +794,6 @@ class ChallengeDetailViewController: UIViewController {
             make.leading.equalTo(writerLabel.snp.trailing).offset(8)
             make.height.equalTo(18)
             make.width.equalTo(0.75)
-            
         }
         
         writeDateLabel.snp.makeConstraints{ make in
@@ -989,7 +1032,6 @@ class ChallengeDetailViewController: UIViewController {
         }
         
         // 참여하기 팝업
-        
         joinSubView.snp.makeConstraints{ make in
             make.width.equalTo(318)
             make.height.equalTo(240)
@@ -1049,8 +1091,7 @@ class ChallengeDetailViewController: UIViewController {
         }
     }
     
-    //MARK: - showToast
-    
+    // MARK: - showToast
     private func showPromoToast() {
         UIView.animate(withDuration: 2, delay: 1, options: .curveEaseOut, animations: {
             self.toastLabel.alpha = 0.0
@@ -1085,7 +1126,12 @@ class ChallengeDetailViewController: UIViewController {
         })
     }
     
-    //MARK: - Actions
+    // MARK: - Actions
+    // 네비게이션 아이템 누르면 alert 띄움
+    @objc func navigationButtonClicked() {
+        print("챌린지 작성 취소")
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc func joinButtonTapped(_ sender: UIButton) {
         alertViewResponder = joinAlert.showInfo("챌린지 참여하기")
@@ -1096,7 +1142,11 @@ class ChallengeDetailViewController: UIViewController {
     }
     
     @objc func bookMarkTapped(_ sender: UIButton) {
-        //서버에게 이거..이거됐어요 하고보내기
+        if bookMarkButton.isSelected {
+            deleteBookmark()
+        } else {
+            postBookmark()
+        }
     }
     
     @objc func reportButtonTapped() {
@@ -1108,6 +1158,9 @@ class ChallengeDetailViewController: UIViewController {
     
     @objc func popJoinButtonTapped() {
         print("참여해벌임")
+        
+        participatePost()
+        
         alertViewResponder?.close()
         showChallengeJoinToast()
     }
@@ -1115,14 +1168,10 @@ class ChallengeDetailViewController: UIViewController {
     @objc func close(){
         alertViewResponder?.close()
     }
-    
 }
 
-
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-
 extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case recommendCollectionView :
@@ -1165,7 +1214,6 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cautionWidth = UIScreen.main.bounds.width - 70
         let recommendWidth = UIScreen.main.bounds.width - 48
@@ -1179,9 +1227,31 @@ extension ChallengeDetailViewController: UICollectionViewDataSource, UICollectio
             return CGSize()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == recommendCollectionView {
+            let cell = collectionView.cellForItem(at: indexPath) as! RecommendCollectionViewCell
+            let challengeId = cell.challengeId
+            var isEnrolled = false
+            
+            ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+                isEnrolled = response.data.isEnrolled
+            }
+            
+            if isEnrolled {
+                let nextVC = JoinChallengeViewController()
+                nextVC.challengeId = challengeId
+                navigationController?.pushViewController(nextVC, animated: true)
+            } else {
+                let nextVC = ChallengeDetailViewController()
+                nextVC.challengeId = challengeId
+                navigationController?.pushViewController(nextVC, animated: true)
+            }
+        }
+    }
 }
 
-// MARK: - 참여중 챌린지, 챌린지 유의사항, 추천 챌린지 api 세팅
+// MARK: - 챌린지 세부사항, 챌린지 유의사항, 추천 챌린지 api 세팅
 extension ChallengeDetailViewController {
     // 챌린지의 모든 데이터를 가져오는 함수
     func setChallengeData() {
@@ -1205,39 +1275,39 @@ extension ChallengeDetailViewController {
             self.startDateLabel.text =  "\(startDate ?? "") \(startDay ?? "")"// 시작일
             self.joinPointLabel.text = "\(response.data.joinPoint)P" // 참여 포인트: 0P
             let period = PeriodConverter.shared.convertToKorean(response.data.period) // 실천 기간
-            updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay)
+            self.updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay)
             self.detailLabel.text = response.data.details // 챌린지 인증 유의사항
             let cautionURL = URL(string: (response.data.certImageUrl!))
             self.cautionImageView.kf.setImage(with: cautionURL) // 챌린지 인증 예시 사진
             self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
             self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
         }
+    }
+    
+    // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
+    func updatePeriodLabel(weekCountText: String, sessionCountText: Int) {
+        let fullText = "시작일로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
         
-        // 실천 기간과 횟수만 빨간색 글자로 바꾸기 위한 함수
-        func updatePeriodLabel(weekCountText: String, sessionCountText: Int) {
-            let fullText = "시작일로부터 \(weekCountText) 동안 \(sessionCountText)회 진행"
-            
-            let attributedText = NSMutableAttributedString(string: fullText)
-            
-            let weekCountRange = (fullText as NSString).range(of: "\(weekCountText) 동안")
-            let sessionCountRange = (fullText as NSString).range(of: "\(sessionCountText)회")
-            
-            [weekCountRange, sessionCountRange].forEach { range in
-                attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: range)
-            }
-            
-            let challengeFont = UIFont(name: "NotoSansKR-Medium", size: 12)
-            [weekCountRange, sessionCountRange].forEach { range in
-                attributedText.addAttribute(.font, value: challengeFont!, range: range)
-            }
-            challengePeriodLabel.attributedText = attributedText
-            
-            let popFont = UIFont(name: "NotoSansKR-Medium", size: 14)
-            [weekCountRange, sessionCountRange].forEach { range in
-                attributedText.addAttribute(.font, value: popFont!, range: range)
-            }
-            popPeriodLabel.attributedText = attributedText
+        let attributedText = NSMutableAttributedString(string: fullText)
+        
+        let weekCountRange = (fullText as NSString).range(of: "\(weekCountText) 동안")
+        let sessionCountRange = (fullText as NSString).range(of: "\(sessionCountText)회")
+        
+        [weekCountRange, sessionCountRange].forEach { range in
+            attributedText.addAttribute(.foregroundColor, value: UIColor.beCta, range: range)
         }
+        
+        let challengeFont = UIFont(name: "NotoSansKR-Medium", size: 12)
+        [weekCountRange, sessionCountRange].forEach { range in
+            attributedText.addAttribute(.font, value: challengeFont!, range: range)
+        }
+        challengePeriodLabel.attributedText = attributedText
+        
+        let popFont = UIFont(name: "NotoSansKR-Medium", size: 14)
+        [weekCountRange, sessionCountRange].forEach { range in
+            attributedText.addAttribute(.font, value: popFont!, range: range)
+        }
+        popPeriodLabel.attributedText = attributedText
     }
     
     // 챌린지 등록 유의사항 가져오는 함수
@@ -1264,5 +1334,50 @@ extension ChallengeDetailViewController {
     private func setRecommendData(_ response: [ChallengeRecommendsData]) {
         self.challengeRecommendData = response
         self.recommendCollectionView.reloadData()
+    }
+}
+
+// MARK: - 챌린지 참여하기 post
+extension ChallengeDetailViewController {
+    func participatePost() {
+        ChallengeService.shared.challengeParticipatePost(challengId: challengeId) { response in
+            self.challengeParticipateData = response.data.challengePreviewDTO
+            self.challenegeParticipateMember = response.data.memberDTO
+            print(response)
+            
+            let challengeId = response.data.challengePreviewDTO.challengeId
+            let joinVC = JoinChallengeViewController()
+            joinVC.challengeId = challengeId
+            self.navigationController?.pushViewController(joinVC, animated: true)
+        }
+    }
+}
+
+// MARK: - 챌린지 북마크 post, delete
+extension ChallengeDetailViewController {
+    func postBookmark() {
+        ChallengeService.shared.challengeBookmarkPost(challengId: challengeId) { response in
+            print(response)
+            
+            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+                self.challengeDetailData = response.data
+                
+                self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+                self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            }
+        }
+    }
+    
+    func deleteBookmark() {
+        ChallengeService.shared.challengeBookmarkDelete(challengId: challengeId) { response in
+            print(response)
+            
+            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+                self.challengeDetailData = response.data
+                
+                self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
+                self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            }
+        }
     }
 }
