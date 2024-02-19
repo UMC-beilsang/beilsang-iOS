@@ -400,8 +400,7 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
         case challengeBoxCollectionView:
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
             
-            let challengeDetailVC = ChallengeDetailViewController()
-            print(cell.challengeId)
+            let challengeDetailVC = JoinChallengeViewController()
             challengeDetailVC.challengeId = cell.challengeId
             navigationController?.pushViewController(challengeDetailVC, animated: true)
         default:
