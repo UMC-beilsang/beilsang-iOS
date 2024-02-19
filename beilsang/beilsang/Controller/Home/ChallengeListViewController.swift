@@ -263,7 +263,7 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
             return UICollectionViewCell()
         }
         
-        cell.challengeId = challengeData[indexPath.row].challengeId
+        cell.challengeListChallengeId = challengeData[indexPath.row].challengeId
         
         let url = URL(string: challengeData[indexPath.row].imageUrl!)
         cell.challengeImage.kf.setImage(with: url)
@@ -284,18 +284,18 @@ extension ChallengeListViewController: UICollectionViewDataSource, UICollectionV
     // 셀 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
-        let challengeId = cell.challengeId
+        let challengeId = cell.challengeListChallengeId!
         
-        ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+        ChallengeService.shared.challengeEnrolled(EnrollChallengeId: challengeId) { response in
             let isEnrolled = response.data.isEnrolled
             
             if isEnrolled {
                 let nextVC = JoinChallengeViewController()
-                nextVC.challengeId = challengeId
+                nextVC.joinChallengeId = challengeId
                 self.navigationController?.pushViewController(nextVC, animated: true)
             } else {
                 let nextVC = ChallengeDetailViewController()
-                nextVC.challengeId = challengeId
+                nextVC.detailChallengeId = challengeId
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
         }

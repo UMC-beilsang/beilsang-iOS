@@ -14,7 +14,7 @@ class ChallengeService {
     
     private init() {}
     
-    let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.accessToken) ?? ""
+    let accessToken = UserDefaults.standard.string(forKey: UserDefaultsKey.refreshToken) ?? ""
     
     // 홈 메인화면 추천 챌린지
     func challengeRecommend(completionHandler : @escaping (_ data: ChallengeRecommends) -> Void) {
@@ -43,9 +43,9 @@ class ChallengeService {
     }
     
     // 챌린지 참여 중인지 여부
-    func challengeEnrolled(challengId: Int, completionHandler : @escaping (_ data: ChallengeEnrolled) -> Void) {
+    func challengeEnrolled(EnrollChallengeId: Int, completionHandler : @escaping (_ data: ChallengeEnrolled) -> Void) {
         DispatchQueue.main.async {
-            let url = "https://beilsang.com/api/check/\(challengId)"
+            let url = "https://beilsang.com/api/check/\(EnrollChallengeId)"
             
             // HTTP Headers : 요청 헤더
             let header : HTTPHeaders = [
@@ -207,9 +207,9 @@ class ChallengeService {
     }
     
     // 챌린지 세부 화면
-    func challengeDetail(challengId: Int, completionHandler : @escaping (_ data: ChallengeDetail) -> Void) {
+    func challengeDetail(detailChallengeId: Int, completionHandler : @escaping (_ data: ChallengeDetail) -> Void) {
         DispatchQueue.main.async {
-            let url = "https://beilsang.com/api/challenges/\(challengId)"
+            let url = "https://beilsang.com/api/challenges/\(detailChallengeId)"
             
             // HTTP Headers : 요청 헤더
             let header : HTTPHeaders = [
@@ -233,9 +233,9 @@ class ChallengeService {
     }
     
     // 챌린지 인증 가이드(유의사항)
-    func challengeGuide(challengId: Int?, completionHandler : @escaping (_ data: ChallengeGuide) -> Void) {
+    func challengeGuide(guideChallengeId: Int, completionHandler : @escaping (_ data: ChallengeGuide) -> Void) {
         DispatchQueue.main.async {
-            let url = "https://beilsang.com/api/feeds/guide/\(challengId ?? 0)"
+            let url = "https://beilsang.com/api/feeds/guide/\(guideChallengeId)"
             
             // HTTP Headers : 요청 헤더
             let header : HTTPHeaders = [
@@ -258,8 +258,8 @@ class ChallengeService {
     }
     
     // 챌린지 인증하기(등록)
-    func reviewPost(challengId: Int?, completionHandler : @escaping (_ data: ChallengeCertify) -> Void) {
-        let url = "https://beilsang.com/api/feeds/\(challengId ?? 0)"
+    func reviewPost(reviewChallengeId: Int, completionHandler : @escaping (_ data: ChallengeCertify) -> Void) {
+        let url = "https://beilsang.com/api/feeds/\(reviewChallengeId)"
         
         // HTTP Headers : 요청 헤더
         let header : HTTPHeaders = [
@@ -301,8 +301,8 @@ class ChallengeService {
     }
     
     // 챌린지 참여하기 등록
-    func challengeParticipatePost(challengId: Int?, completionHandler : @escaping (_ data: ChallengeParticipate) -> Void) {
-        let url = "https://beilsang.com/api/challenges/\(challengId ?? 0)"
+    func challengeParticipatePost(joinChallengeId: Int, completionHandler : @escaping (_ data: ChallengeParticipate) -> Void) {
+        let url = "https://beilsang.com/api/challenges/\(joinChallengeId)"
         
         // HTTP Headers : 요청 헤더
         let header : HTTPHeaders = [
@@ -310,7 +310,7 @@ class ChallengeService {
         ]
         
         let parameters: [String: Any] = [
-            "challengId": challengId ?? 0
+            "challengId": joinChallengeId
         ]
         
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: ChallengeParticipate.self, completionHandler: { response in
@@ -328,14 +328,14 @@ class ChallengeService {
     }
     
     // 챌린지 북마크(like) 등록: post
-    func challengeBookmarkPost(challengId: Int?, completionHandler : @escaping (_ data: BaseModel) -> Void) {
-        let url = "https://beilsang.com/api/challenges/\(challengId ?? 0)/likes"
+    func challengeBookmarkPost(likeChallengeId: Int, completionHandler : @escaping (_ data: BaseModel) -> Void) {
+        let url = "https://beilsang.com/api/challenges/\(likeChallengeId)/likes"
         
         // HTTP Headers : 요청 헤더
         let header : HTTPHeaders = ["accept": "*/*"]
         
         
-        let parameters: Parameters = ["challengId": challengId ?? 0]
+        let parameters: Parameters = ["challengId": likeChallengeId]
         
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: BaseModel.self, completionHandler: { response in
             switch response.result {
@@ -352,8 +352,8 @@ class ChallengeService {
     }
     
     // 챌린지 북마크(like) 취소: delete
-    func challengeBookmarkDelete(challengId: Int?, completionHandler : @escaping (_ data: BaseModel) -> Void) {
-        let url = "https://beilsang.com/api/challenges/\(challengId ?? 0)/likes"
+    func challengeBookmarkDelete(dislikeChallengeId: Int, completionHandler : @escaping (_ data: BaseModel) -> Void) {
+        let url = "https://beilsang.com/api/challenges/\(dislikeChallengeId)/likes"
         
         // HTTP Headers : 요청 헤더
         // let header : HTTPHeaders = ["accept": "*/*"]

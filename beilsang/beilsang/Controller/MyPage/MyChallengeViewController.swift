@@ -353,10 +353,10 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             }
             if !cellList.isEmpty{
                 let target = cellList[indexPath.row]
-                cell.challengeName = target.title
+                cell.challengeNameLabel.text = target.title
                 cell.makerNickname.text = target.hostName
                 cell.buttonLabel.text = "참여인원 \(target.attendeeCount)명"
-                cell.challengeId = target.challengeId
+                cell.challengeListChallengeId = target.challengeId
                 let url = URL(string: target.imageUrl)
                 cell.challengeImage.kf.setImage(with: url)
             }
@@ -401,7 +401,7 @@ extension MyChallengeViewController: UICollectionViewDataSource, UICollectionVie
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
             
             let challengeDetailVC = JoinChallengeViewController()
-            challengeDetailVC.challengeId = cell.challengeId
+            challengeDetailVC.joinChallengeId = cell.challengeListChallengeId
             navigationController?.pushViewController(challengeDetailVC, animated: true)
         default:
             return

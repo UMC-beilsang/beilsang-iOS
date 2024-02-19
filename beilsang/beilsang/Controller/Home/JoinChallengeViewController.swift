@@ -20,7 +20,6 @@ class JoinChallengeViewController: UIViewController {
     let galleryDataList = GalleryData.data
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
     let galleryDetailView = UIView()
-    var challengeId : Int?
 
     var alertViewResponder: SCLAlertViewResponder? = nil
     
@@ -79,6 +78,34 @@ class JoinChallengeViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         return button
+    }()
+    
+    // 네비게이션 바 - 네비게이션 버튼
+    lazy var navigationButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(image: UIImage(named: "icon-navigation"), style: .plain, target: self, action: #selector(navigationButtonClicked))
+        view.tintColor = .beIconDef
+        
+        return view
+    }()
+    
+    lazy var menu: UIMenu = {
+        let menuAction = UIAction(title: "신고하기", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off) { action in
+            self.alertViewResponder = self.reportAlert.showInfo("챌린지 인증 신고하기")
+        }
+        
+        return UIMenu(title: "", options: [], children: [menuAction])
+    }()
+    
+    // 네비게이션 바 - 레이블
+    lazy var challengeLabel: UILabel = {
+        let view = UILabel()
+        
+        view.text = "챌린지"
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 20)
+        view.textColor = .beTextDef
+        view.textAlignment = .center
+        
+        return view
     }()
     
     //view
@@ -503,7 +530,7 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
-    var challengeId : Int? = nil
+    var joinChallengeId : Int? = nil
     
     var challengeDetailData : ChallengeDetailData? = nil
     
@@ -511,6 +538,7 @@ class JoinChallengeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationBar()
         setupUI()
         setupLayout()
         setGalleryView()
@@ -518,6 +546,14 @@ class JoinChallengeViewController: UIViewController {
     }
     
     //MARK: - UI Setup
+    private func setNavigationBar() {
+        let menuButton: UIBarButtonItem = UIBarButtonItem(title: nil, image: UIImage(named: "icon-meatballs"), target: self, action: nil, menu: menu)
+        menuButton.tintColor = .beIconDef
+        
+        navigationItem.titleView = challengeLabel
+        navigationItem.leftBarButtonItem = navigationButton
+        navigationItem.rightBarButtonItem = menuButton
+    }
     
     private func setupUI() {
         view.backgroundColor = .beBgDef
@@ -742,17 +778,22 @@ class JoinChallengeViewController: UIViewController {
     }
     
     //MARK: - Actions
+    // 네비게이션 아이템 누르면 alert 띄움
+    @objc func navigationButtonClicked() {
+        print("챌린지 작성 취소")
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc func proofButtonTapped(_ sender: UIButton) {
         print("인증인증")
         
-        let challengeId = challengeId
+        let challengeId = joinChallengeId
         let certifyVC = RegisterCertifyViewController()
-        certifyVC.challengeId = challengeId
+        certifyVC.reviewChallengeId = challengeId
         navigationController?.pushViewController(certifyVC, animated: true)
     }
     
-    @objc func reportLabelButtonTapped(_ sender: UIButton) {
+    @objc func reportLabelButtonTapped() {
         print("버튼클릭")
         alertViewResponder = reportAlert.showInfo("챌린지 인증 신고하기")
     }
@@ -975,7 +1016,7 @@ extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionV
 extension JoinChallengeViewController {
     // 챌린지의 모든 데이터를 가져오는 함수
     func setChallengeData() {
-        ChallengeService.shared.challengeDetail(challengId: challengeId ?? 0) { response in
+        ChallengeService.shared.challengeDetail(detailChallengeId: joinChallengeId ?? 0) { response in
             self.challengeDetailData = response.data
             
             let representURL = URL(string: (response.data.imageUrl!))
@@ -1043,10 +1084,10 @@ extension JoinChallengeViewController {
 // MARK: - 챌린지 북마크 post, delete
 extension JoinChallengeViewController {
     func postBookmark() {
-        ChallengeService.shared.challengeBookmarkPost(challengId: challengeId) { response in
+        ChallengeService.shared.challengeBookmarkPost(likeChallengeId: joinChallengeId ?? 0) { response in
             print(response)
             
-            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+            ChallengeService.shared.challengeDetail(detailChallengeId: self.joinChallengeId ?? 0) { response in
                 self.challengeDetailData = response.data
                 
                 self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
@@ -1056,10 +1097,10 @@ extension JoinChallengeViewController {
     }
     
     func deleteBookmark() {
-        ChallengeService.shared.challengeBookmarkDelete(challengId: challengeId) { response in
+        ChallengeService.shared.challengeBookmarkDelete(dislikeChallengeId: joinChallengeId ?? 0) { response in
             print(response)
             
-            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+            ChallengeService.shared.challengeDetail(detailChallengeId: self.joinChallengeId ?? 0) { response in
                 self.challengeDetailData = response.data
                 
                 self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부

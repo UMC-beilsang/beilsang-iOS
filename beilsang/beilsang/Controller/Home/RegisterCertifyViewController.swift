@@ -249,7 +249,7 @@ class RegisterCertifyViewController: UIViewController {
         return view
     }()
     
-    var challengeId : Int? = 14
+    var reviewChallengeId : Int? = nil
     var challengeCertify : ChallengeCertify? = nil
 
     // MARK: - lifeCycle
@@ -316,7 +316,7 @@ extension RegisterCertifyViewController {
     
     func setModal() {
         let modalVC = RegisterCertifyModalViewController()
-        modalVC.challengeId = challengeId
+        modalVC.reviewModalChallengeId = reviewChallengeId
         modalVC.modalPresentationStyle = .overCurrentContext
         present(modalVC, animated: true, completion: nil)
     }
@@ -677,7 +677,7 @@ extension RegisterCertifyViewController {
 // MARK: - network
 extension RegisterCertifyViewController {
     func reviewPost() {        
-        ChallengeService.shared.reviewPost(challengId: challengeId) { response in
+        ChallengeService.shared.reviewPost(reviewChallengeId: reviewChallengeId ?? 0) { response in
             self.challengeCertify = response
             print(response)
         }
