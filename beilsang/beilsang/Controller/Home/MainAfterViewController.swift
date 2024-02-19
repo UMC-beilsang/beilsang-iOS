@@ -183,7 +183,7 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
                 return UICollectionViewCell()
             }
             
-            cell.challengeId = challengeRecommendData[indexPath.row].challengeId
+            cell.mainAfterChallengeId = challengeRecommendData[indexPath.row].challengeId
             
             let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
             cell.challengeImage.kf.setImage(with: url)
@@ -206,15 +206,15 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
     // 셀 선택시 액션
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! MainAfterCollectionViewCell
-        let challengeID = cell.challengeId
+        let challengeId = cell.mainAfterChallengeId
         
         if collectionView == challengeParticipatingCollectionView {
             let nextVC = JoinChallengeViewController()
-            nextVC.challengeId = challengeID
+            nextVC.joinChallengeId = challengeId
             navigationController?.pushViewController(nextVC, animated: true)
         } else {
             let nextVC = ChallengeDetailViewController()
-            nextVC.challengeId = challengeID
+            nextVC.detailChallengeId = challengeId
             navigationController?.pushViewController(nextVC, animated: true)
         }
     }

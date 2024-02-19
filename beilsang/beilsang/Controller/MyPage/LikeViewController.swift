@@ -240,7 +240,7 @@ extension LikeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.makerNickname.text = target.hostName
             cell.challengeNameLabel.text = target.title
             cell.buttonLabel.text = "참여인원 \(target.attendeeCount)명"
-            cell.challengeId = target.challengeId
+            cell.challengeListChallengeId = target.challengeId
             let url = URL(string: target.imageUrl)
             cell.challengeImage.kf.setImage(with: url)
             return cell
@@ -262,7 +262,7 @@ extension LikeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let cell = collectionView.cellForItem(at: indexPath) as! ChallengeListCollectionViewCell
             
             let challengeDetailVC = ChallengeDetailViewController()
-            challengeDetailVC.challengeId = cell.challengeId
+            challengeDetailVC.detailChallengeId = cell.challengeListChallengeId
             navigationController?.pushViewController(challengeDetailVC, animated: true)
         default:
             return

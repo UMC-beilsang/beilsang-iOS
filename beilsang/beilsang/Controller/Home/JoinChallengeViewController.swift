@@ -530,7 +530,7 @@ class JoinChallengeViewController: UIViewController {
         return button
     }()
     
-    var challengeId : Int? = nil
+    var joinChallengeId : Int? = nil
     
     var challengeDetailData : ChallengeDetailData? = nil
     
@@ -787,9 +787,9 @@ class JoinChallengeViewController: UIViewController {
     @objc func proofButtonTapped(_ sender: UIButton) {
         print("인증인증")
         
-        let challengeId = challengeId
+        let challengeId = joinChallengeId
         let certifyVC = RegisterCertifyViewController()
-        certifyVC.challengeId = challengeId
+        certifyVC.reviewChallengeId = challengeId
         navigationController?.pushViewController(certifyVC, animated: true)
     }
     
@@ -1016,7 +1016,7 @@ extension JoinChallengeViewController: UICollectionViewDataSource, UICollectionV
 extension JoinChallengeViewController {
     // 챌린지의 모든 데이터를 가져오는 함수
     func setChallengeData() {
-        ChallengeService.shared.challengeDetail(challengId: challengeId ?? 0) { response in
+        ChallengeService.shared.challengeDetail(detailChallengeId: joinChallengeId ?? 0) { response in
             self.challengeDetailData = response.data
             
             let representURL = URL(string: (response.data.imageUrl!))
@@ -1084,10 +1084,10 @@ extension JoinChallengeViewController {
 // MARK: - 챌린지 북마크 post, delete
 extension JoinChallengeViewController {
     func postBookmark() {
-        ChallengeService.shared.challengeBookmarkPost(challengId: challengeId) { response in
+        ChallengeService.shared.challengeBookmarkPost(likeChallengeId: joinChallengeId ?? 0) { response in
             print(response)
             
-            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+            ChallengeService.shared.challengeDetail(detailChallengeId: self.joinChallengeId ?? 0) { response in
                 self.challengeDetailData = response.data
                 
                 self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
@@ -1097,10 +1097,10 @@ extension JoinChallengeViewController {
     }
     
     func deleteBookmark() {
-        ChallengeService.shared.challengeBookmarkDelete(challengId: challengeId) { response in
+        ChallengeService.shared.challengeBookmarkDelete(dislikeChallengeId: joinChallengeId ?? 0) { response in
             print(response)
             
-            ChallengeService.shared.challengeDetail(challengId: self.challengeId!) { response in
+            ChallengeService.shared.challengeDetail(detailChallengeId: self.joinChallengeId ?? 0) { response in
                 self.challengeDetailData = response.data
                 
                 self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부

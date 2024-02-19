@@ -356,7 +356,7 @@ class RegisterThirdViewController: UIViewController, UIScrollViewDelegate {
     
     var challengePostData : ChallengePostData? = nil
     
-    var challengeId : Int? = nil
+    var registerChallengeId : Int? = nil
     
     // MARK: - lifecycle
     override func viewDidLoad() {
@@ -457,10 +457,10 @@ extension RegisterThirdViewController {
         ChallengeService.shared.challengePost() { response in
             self.challengePostData = response.data
             print(response)
-            self.challengeId = response.data.challengeId
+            self.registerChallengeId = response.data.challengeId
             
             let registerCompleteVC = RegisterCompleteViewController()
-            registerCompleteVC.challengeId = self.challengeId
+            registerCompleteVC.completeChallengeId = self.registerChallengeId
             self.navigationController?.pushViewController(registerCompleteVC, animated: true)
         }
     }

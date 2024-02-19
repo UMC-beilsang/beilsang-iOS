@@ -70,7 +70,7 @@ class RegisterCertifyModalViewController: UIViewController {
     // 챌린지 인증 유의사항 리스트
     var challengeGuideData : [String] = []
     
-    var challengeId : Int?
+    var reviewModalChallengeId : Int?
     
     var collectionViewHeight : Constraint?
     var modalViewHeight : Constraint?
@@ -147,7 +147,7 @@ extension RegisterCertifyModalViewController {
 // MARK: - 챌린지 유의사항 api 세팅
 extension RegisterCertifyModalViewController {
     func setChallengeGuide() {
-        ChallengeService.shared.challengeGuide(challengId: challengeId) { response in
+        ChallengeService.shared.challengeGuide(guideChallengeId: reviewModalChallengeId ?? 0) { response in
             let url = URL(string: response.data.certImage)
             self.cautionImageView.kf.setImage(with: url)
             self.challengeGuideData = response.data.challengeNoteList

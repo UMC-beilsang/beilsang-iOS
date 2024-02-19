@@ -12,7 +12,7 @@ class RecommendCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "recommendCell"
     
-    var challengeId : Int? = nil
+    var recommendChallengeId : Int? = nil
     
     lazy var recommendCellView: UIView = {
         let view = UIView()

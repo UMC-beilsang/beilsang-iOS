@@ -640,7 +640,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
             let cell = collectionView.cellForItem(at: indexPath) as! HofChallengeCollectionViewCell
             
             let challengeDetailVC = ChallengeDetailViewController()
-            challengeDetailVC.challengeId = cell.challengeId
+            challengeDetailVC.detailChallengeId = cell.challengeId
             navigationController?.pushViewController(challengeDetailVC, animated: true)
         case challengeFeedBoxCollectionView:
             // 챌린지 피드 선택
@@ -809,7 +809,7 @@ extension FindViewController: CustomFeedCellDelegate {
     }
     func didTapRecommendButton(id: Int) {
         let challengeDetailVC = ChallengeDetailViewController()
-        challengeDetailVC.challengeId = id
+        challengeDetailVC.detailChallengeId = id
         navigationController?.pushViewController(challengeDetailVC, animated: true)
     }
     // 피드 상세정보 보기 request

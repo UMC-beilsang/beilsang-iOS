@@ -346,7 +346,7 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
                 return UICollectionViewCell()
             }
             
-            cell.challengeId = challengeRecommendData[indexPath.row].challengeId
+            cell.recommendChallengeId = challengeRecommendData[indexPath.row].challengeId
             
             let url = URL(string: challengeRecommendData[indexPath.row].imageUrl!)
             cell.recommendImageView.kf.setImage(with: url)
@@ -381,20 +381,20 @@ extension SearchFeedViewController: UICollectionViewDataSource, UICollectionView
         }
         else if collectionView == recommendCollectionView {
             let cell = collectionView.cellForItem(at: indexPath) as! RecommendCollectionViewCell
-            let challengeId = cell.challengeId
+            let challengeId = cell.recommendChallengeId
             var isEnrolled = false
             
-            ChallengeService.shared.challengeEnrolled(challengId: challengeId!) { response in
+            ChallengeService.shared.challengeEnrolled(EnrollChallengeId: challengeId ?? 0) { response in
                 isEnrolled = response.data.isEnrolled
             }
             
             if isEnrolled {
                 let nextVC = JoinChallengeViewController()
-                nextVC.challengeId = challengeId
+                nextVC.joinChallengeId = challengeId
                 navigationController?.pushViewController(nextVC, animated: true)
             } else {
                 let nextVC = ChallengeDetailViewController()
-                nextVC.challengeId = challengeId
+                nextVC.detailChallengeId = challengeId
                 navigationController?.pushViewController(nextVC, animated: true)
             }
         }

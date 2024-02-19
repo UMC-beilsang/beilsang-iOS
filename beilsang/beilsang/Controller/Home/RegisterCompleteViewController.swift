@@ -72,7 +72,7 @@ class RegisterCompleteViewController: UIViewController {
         return view
     }()
     
-    var challengeId : Int? = nil
+    var completeChallengeId : Int? = nil
 
     // MARK: - lifecycle
     override func viewDidLoad() {
@@ -88,7 +88,7 @@ class RegisterCompleteViewController: UIViewController {
     @objc func toDetailButtonClicked() {
         print("게시물 확인하기")
         let nextVC = JoinChallengeViewController()
-        nextVC.challengeId = challengeId
+        nextVC.joinChallengeId = completeChallengeId
         navigationController?.pushViewController(nextVC, animated: true)
     }
     

@@ -13,7 +13,8 @@ class ChallengeListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ChallengeListViewCell"
     
-    var challengeId : Int? = nil
+    var challengeListChallengeId : Int? = nil
+    
     // 챌린지 전체 버튼
     lazy var challengeView: UIView = {
         let view = UIView()
