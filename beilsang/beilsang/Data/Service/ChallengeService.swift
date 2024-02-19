@@ -32,11 +32,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("추천 챌린지 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("추천 챌린지 get 요청 실패")
                 }
             })
         }
@@ -58,11 +58,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("참여 중 여부 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("참여 중 여부 get 요청 실패")
                 }
             })
         }
@@ -83,11 +83,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("챌린지 리스트 카테고리 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("챌린지 리스트 카테고리 get 요청 실패")
                 }
             })
         }
@@ -108,11 +108,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("챌린지 리스트 전체 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("챌린지 리스트 전체 get 요청 실패")
                 }
             })
         }
@@ -133,11 +133,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("챌린지 리스트 참여중 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("챌린지 리스트 참여중 get 요청 실패")
                 }
             })
         }
@@ -222,11 +222,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("챌린지 세부화면 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("탤린지 세부화면 get 요청 실패")
                 }
             })
         }
@@ -247,11 +247,11 @@ class ChallengeService {
                 case .success:
                     guard let result = response.value else {return}
                     completionHandler(result)
-                    print("get 요청 성공")
+                    print("인증 가이드 get 요청 성공")
                     // 호출 실패 시 처리 위함
                 case .failure(let error):
                     print(error)
-                    print("get 요청 실패")
+                    print("인증 가이드 get 요청 실패")
                 }
             })
         }
@@ -298,5 +298,82 @@ class ChallengeService {
                 print("리뷰 post 요청 실패")
             }
         }
+    }
+    
+    // 챌린지 참여하기 등록
+    func challengeParticipatePost(challengId: Int?, completionHandler : @escaping (_ data: ChallengeParticipate) -> Void) {
+        let url = "https://beilsang.com/api/challenges/\(challengId ?? 0)"
+        
+        // HTTP Headers : 요청 헤더
+        let header : HTTPHeaders = [
+            "accept": "*/*"
+        ]
+        
+        let parameters: [String: Any] = [
+            "challengId": challengId ?? 0
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: ChallengeParticipate.self, completionHandler: { response in
+            switch response.result {
+            case .success:
+                guard let result = response.value else {return}
+                completionHandler(result)
+                print("참여하기 post 요청 성공")
+                // 호출 실패 시 처리 위함
+            case .failure(let error):
+                print(error)
+                print("참여하기 post 요청 실패")
+            }
+        })
+    }
+    
+    // 챌린지 북마크(like) 등록: post
+    func challengeBookmarkPost(challengId: Int?, completionHandler : @escaping (_ data: BaseModel) -> Void) {
+        let url = "https://beilsang.com/api/challenges/\(challengId ?? 0)/likes"
+        
+        // HTTP Headers : 요청 헤더
+        let header : HTTPHeaders = ["accept": "*/*"]
+        
+        
+        let parameters: Parameters = ["challengId": challengId ?? 0]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).validate().responseDecodable(of: BaseModel.self, completionHandler: { response in
+            switch response.result {
+            case .success:
+                guard let result = response.value else {return}
+                completionHandler(result)
+                print("챌린지 북마크 post 요청 성공")
+                // 호출 실패 시 처리 위함
+            case .failure(let error):
+                print(error)
+                print("챌린지 북마크 post 요청 실패")
+            }
+        })
+    }
+    
+    // 챌린지 북마크(like) 취소: delete
+    func challengeBookmarkDelete(challengId: Int?, completionHandler : @escaping (_ data: BaseModel) -> Void) {
+        let url = "https://beilsang.com/api/challenges/\(challengId ?? 0)/likes"
+        
+        // HTTP Headers : 요청 헤더
+        // let header : HTTPHeaders = ["accept": "*/*"]
+        let header : HTTPHeaders = [
+            "accept": "application/json",
+            "Authorization": "Bearer \(self.accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .delete, encoding: URLEncoding.queryString, headers: header).validate().responseDecodable(of: BaseModel.self, completionHandler: { response in
+            switch response.result {
+            case .success:
+                guard let result = response.value else {return}
+                completionHandler(result)
+                print("챌린지 북마크 delete 요청 성공")
+                // 호출 실패 시 처리 위함
+            case .failure(let error):
+                print(error)
+                print("챌린지 북마크 delete 요청 실패")
+            }
+        })
     }
 }
