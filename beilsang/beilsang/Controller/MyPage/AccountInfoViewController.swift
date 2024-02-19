@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 import SCLAlertView
+import KakaoSDKCommon
+import KakaoSDKAuth
+import KakaoSDKUser
 
 class AccountInfoViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -1094,10 +1097,45 @@ extension AccountInfoViewController{
         alertViewResponder = withDrawAlert.showInfo("회원 탈퇴")
     }
     @objc func logout(){
+        kakaoLogout()
+        
+        UserDefaults.standard.setValue(nil, forKey: UserDefaultsKey.serverToken)
+        UserDefaults.standard.setValue(nil, forKey: UserDefaultsKey.refreshToken)
+        
         alertViewResponder?.close()
+        
+        let loginVC = LoginViewController()
+        let navigationController = UINavigationController(rootViewController: loginVC)
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            UIView.transition(with: sceneDelegate.window!,
+                              duration: 1.5,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                sceneDelegate.window?.rootViewController = navigationController
+            },
+                              completion: nil)
+        }
     }
     @objc func withdraw(){
+        MyPageService.shared.DeleteWithDraw { response in
+            print(response.message)
+        }
+        kakaoLogout()
         alertViewResponder?.close()
+        
+        let loginVC = LoginViewController()
+        let navigationController = UINavigationController(rootViewController: loginVC)
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            UIView.transition(with: sceneDelegate.window!,
+                              duration: 1.5,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                sceneDelegate.window?.rootViewController = navigationController
+            },
+                              completion: nil)
+        }
     }
     @objc func close(){
         alertViewResponder?.close()
@@ -1374,4 +1412,20 @@ extension AccountInfoViewController: UITextViewDelegate {
             textView.textColor = .beTextEx
         }
     }
+}
+
+// MARK: - Logout, Withdraw
+extension AccountInfoViewController{
+    private func kakaoLogout() {
+        // 연결 끊기 요청 성공 시 로그아웃 처리가 함께 이뤄져 토큰이 삭제됩니다.
+        UserApi.shared.logout {(error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("logout() success.")
+            }
+        }
+    }
+    
 }
