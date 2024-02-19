@@ -425,7 +425,7 @@ class MyPageService {
                     print("delete 요청 성공")
                 case 401 :
                     print("토큰 만료")
-                    TokenManager.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken, completion: { _ in }) {
+                    TokenManager.shared.refreshToken(refreshToken: refreshToken, completion: { _ in }) {
                         self.DeleteWithDraw { reResponse in
                             completionHandler(reResponse)
                         }
