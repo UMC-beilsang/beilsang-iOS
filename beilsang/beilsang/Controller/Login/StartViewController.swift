@@ -173,7 +173,9 @@ extension StartViewController {
                     sceneDelegate.changeRootViewController(homeVC)
                 }
             case .tokenExpired :
-                TokenManager.shared.refreshToken(accessToken: accessToken!, refreshToken: refreshToken!) { _ in }
+                TokenManager.shared.refreshToken(accessToken: accessToken!, refreshToken: refreshToken!) { _ in } callback: {
+                    self.SignUpToServer()
+                }
             case .networkFail:
                 // 서버 통신 실패 처리
                 print("네트워크 페일")

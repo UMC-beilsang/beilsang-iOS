@@ -9,18 +9,19 @@ import Foundation
 class TokenManager {
     
     static let shared = TokenManager()
-
     func refreshToken(accessToken: String, refreshToken: String, completion: @escaping (NetworkResult<Any>) -> Void, callback: (() -> Void)? = nil) {
         TokenService.shared.refreshToken(accessToken: accessToken, refreshToken: refreshToken) { result in
             switch result {
             case .success(let data):
                 guard let data = data as? TokenResponse else { return }
                 print("access Token refresh Success with data : \(data)")
-
+                
                 UserDefaults.standard.set(data.data?.accessToken, forKey: UserDefaultsKey.serverToken)
                 UserDefaults.standard.set(data.data?.refreshToken, forKey: UserDefaultsKey.refreshToken)
                 
                 completion(.success(data))
+                
+                callback?()
                 
             case .networkFail:
                 print("네트워크 페일")
