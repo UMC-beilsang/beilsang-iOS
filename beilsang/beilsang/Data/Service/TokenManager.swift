@@ -33,7 +33,6 @@ class TokenManager {
         print("서버 오류")
         completion(.serverErr)
       }
->>>>>>> 91a8c54 (#2 feat: token 수정)
     }
   }
 }

@@ -33,7 +33,6 @@ class TokenService {
       case .failure:
         completion(.pathErr)
       }
->>>>>>> 91a8c54 (#2 feat: token 수정)
     }
   }
   private func judgeStatus(by statusCode: Int, _ data: Data) -> NetworkResult<Any> {
