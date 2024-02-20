@@ -31,7 +31,7 @@ class MyChallengeViewController: UIViewController, UIScrollViewDelegate {
         let layout = UICollectionViewFlowLayout()
         
         layout.estimatedItemSize = .zero
-        layout.itemSize = CGSize(width: 112, height: 40)
+        layout.itemSize = CGSize(width: (self.view.frame.width-54)/3, height: 40)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return view
     }()

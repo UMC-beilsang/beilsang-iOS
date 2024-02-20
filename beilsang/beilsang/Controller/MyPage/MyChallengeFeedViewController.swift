@@ -34,7 +34,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
         let layout = UICollectionViewFlowLayout()
         
         layout.estimatedItemSize = .zero
-        layout.itemSize = CGSize(width: 112, height: 40)
+        layout.itemSize = CGSize(width: (self.view.frame.width-22-32)/3, height: 40)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return view
     }()
@@ -70,7 +70,7 @@ class MyChallengeFeedViewController: UIViewController, UIScrollViewDelegate {
     lazy var challengeFeedBoxCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: 173, height: 140)
+        layout.itemSize = CGSize(width: (self.view.frame.width-44)/2, height: 140)
         layout.minimumInteritemSpacing = 12
         layout.minimumLineSpacing = 12
         

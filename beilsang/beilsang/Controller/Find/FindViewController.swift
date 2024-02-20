@@ -545,7 +545,7 @@ extension FindViewController: UICollectionViewDataSource, UICollectionViewDelega
         case categoryCollectionView:
             return  CGSize(width: 72, height: 72)
         case challengeFeedBoxCollectionView:
-            return  CGSize(width: (self.view.frame.width-32-12)/2, height: 140)
+            return  CGSize(width: (self.view.frame.width-44)/2, height: 140)
         case feedDetailCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FindFeedDetailCollectionViewCell.identifier, for: indexPath) as?
                     FindFeedDetailCollectionViewCell else {
