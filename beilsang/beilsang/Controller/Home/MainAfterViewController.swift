@@ -45,12 +45,12 @@ class MainAfterViewController: UIViewController {
     lazy var challengeParticipatingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
   
     // oo님을 위해 준비한 챌린지 - oo
-    var username = UserDefaults.standard.string(forKey: UserDefaultsKey.memberId)
+    //var username = UserDefaults.standard.string(forKey: UserDefaultsKey.memberId)
     // oo님을 위해 준비한 챌린지 - 레이블
     lazy var recommendChallenge: UILabel = {
         let view = UILabel()
         
-        view.text = "\(String(describing: username))님을 위해 준비한 챌린지✨"
+        view.text = "당신을 위해 준비한 챌린지✨"
         view.textAlignment = .left
         view.textColor = .beTextDef
         view.font = UIFont(name: "NotoSansKR-Medium", size: 18)
