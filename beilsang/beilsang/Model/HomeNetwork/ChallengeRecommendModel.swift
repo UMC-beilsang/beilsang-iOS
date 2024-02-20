@@ -24,4 +24,5 @@ struct ChallengeRecommendsData : Codable {
     let imageUrl : String?
     let title : String
     let category : String
+    let attendeeCount : Int
 }

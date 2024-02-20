@@ -45,12 +45,11 @@ class MainAfterViewController: UIViewController {
     lazy var challengeParticipatingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
   
     // oo님을 위해 준비한 챌린지 - oo
-    //var username = UserDefaults.standard.string(forKey: UserDefaultsKey.memberId)
+    // var username = UserDefaults.standard.string(forKey: UserDefaultsKey.memberId)
     // oo님을 위해 준비한 챌린지 - 레이블
     lazy var recommendChallenge: UILabel = {
         let view = UILabel()
         
-        view.text = "당신을 위해 준비한 챌린지✨"
         view.textAlignment = .left
         view.textColor = .beTextDef
         view.font = UIFont(name: "NotoSansKR-Medium", size: 18)
@@ -71,6 +70,7 @@ class MainAfterViewController: UIViewController {
         
         challengeRecommend()
         challengeJoin()
+        request()
         setAddViews()
         setLayout()
         setCollectionView()
@@ -155,6 +155,12 @@ extension MainAfterViewController {
         self.challengeJoinData = response
         self.challengeParticipatingCollectionView.reloadData()
     }
+    
+    func request() {
+        MyPageService.shared.getMyPage(baseEndPoint: .mypage, addPath: "") { response in
+            self.recommendChallenge.text = "\(response.data.nickName)님을 위해 준비한 챌린지✨"
+        }
+    }
 }
 
 // MARK: - collectionView setting(챌린지 리스트)
@@ -212,7 +218,7 @@ extension MainAfterViewController: UICollectionViewDataSource, UICollectionViewD
             cell.challengeImage.kf.setImage(with: url)
             cell.challengeNameLabel.text = challengeRecommendData[indexPath.row].title
             let categoryName = CategoryConverter.shared.convertToKorean(challengeRecommendData[indexPath.row].category)
-            cell.buttonLabel.text = "참여인원 \(categoryName!)명"
+            cell.buttonLabel.text = "참여인원 \(challengeRecommendData[indexPath.row].attendeeCount)명"
             
             return cell
         default:

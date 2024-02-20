@@ -306,7 +306,7 @@ class RegisterCertifyViewController: UIViewController {
         ChallengeCertifySingleton.shared.resetData()
         
         // 인증하기 눌렀던 챌린지 세부화면으로(popnavigation)
-        let nextVC = HomeMainViewController()
+        let nextVC = TabBarViewController()
         navigationController?.pushViewController(nextVC, animated: true)
     }
 }
