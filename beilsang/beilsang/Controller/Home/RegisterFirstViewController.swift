@@ -383,8 +383,17 @@ class RegisterFirstViewController: UIViewController, UIScrollViewDelegate {
     
     // 알림창 나가기 버튼에 action 연결해서 alert 닫음
     @objc func cancleAlartClose(){
-        let homeVC = HomeMainViewController()
-        navigationController?.pushViewController(homeVC, animated: true)
+        let joinVC = TabBarViewController()
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            UIView.transition(with: sceneDelegate.window!,
+                              duration: 1.5,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                sceneDelegate.window?.rootViewController = joinVC
+            },
+                              completion: nil)
+        }
         
         ChallengeDataSingleton.shared.resetData()
         cancleAlertViewResponder?.close()

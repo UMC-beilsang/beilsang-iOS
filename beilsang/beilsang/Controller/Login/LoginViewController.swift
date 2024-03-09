@@ -289,6 +289,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
             self.presentTo(name: "keyword")
             
             
+            
         default:
             break
         }
@@ -364,31 +365,31 @@ extension LoginViewController {
     func presentTo(name : String) {
         if name == "keyword" {
             let joinVC = KeywordViewController()
-            
+            let navigationController = UINavigationController(rootViewController: joinVC)
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 UIView.transition(with: sceneDelegate.window!,
                                   duration: 1.5,
                                   options: .transitionCrossDissolve,
                                   animations: {
-                    sceneDelegate.window?.rootViewController = joinVC
+                    sceneDelegate.window?.rootViewController = navigationController
                 },
                                   completion: nil)
             }
         }
         else if name == "main" {
             let joinVC = TabBarViewController()
-            
+            let navigationController = UINavigationController(rootViewController: joinVC)
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 UIView.transition(with: sceneDelegate.window!,
                                   duration: 1.5,
                                   options: .transitionCrossDissolve,
                                   animations: {
-                    sceneDelegate.window?.rootViewController = joinVC
+                    sceneDelegate.window?.rootViewController = navigationController
                 },
                                   completion: nil)
             }
         }
     }
 }
-
-
+    
+    

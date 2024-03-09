@@ -317,7 +317,6 @@ class JoinChallengeViewController: UIViewController {
         let view = UILabel()
         view.font = UIFont(name:"NotoSansKR-Regular", size: 12)
         view.numberOfLines = 0
-        view.text = "아직 챌린지가 시작되지 않았어요 👀"
         view.textColor = .beTextInfo
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .left
@@ -679,19 +678,22 @@ class JoinChallengeViewController: UIViewController {
     }
 
     //MARK: - Toast Popup
+    lazy var toastLabel: UILabel = {
+        let view = UILabel()
+        
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        view.textColor = .white
+        view.font = UIFont(name: "NotoSansKR-Medium", size: 16)
+        view.textAlignment = .center
+        //other text = "🌳 현재 진행도는 70%입니다!"
+        view.alpha = 1.0
+        view.layer.cornerRadius = 20
+        view.clipsToBounds  =  true
+        
+        return view
+    }()
     
     private func showToast() {
-        let toastLabel = UILabel()
-        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        toastLabel.textColor = .white
-        toastLabel.font = UIFont(name: "NotoSansKR-Medium", size: 16)
-        toastLabel.textAlignment = .center
-        toastLabel.text = "📆 챌린지가 1일 뒤 시작됩니다!"
-        //other text = "🌳 현재 진행도는 70%입니다!"
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 20
-        toastLabel.clipsToBounds  =  true
-        
         self.view.addSubview(toastLabel)
         
         toastLabel.snp.makeConstraints { make in
@@ -702,9 +704,9 @@ class JoinChallengeViewController: UIViewController {
         }
         
         UIView.animate(withDuration: 2, delay: 1, options: .curveEaseOut, animations: {
-            toastLabel.alpha = 0.0
+            self.toastLabel.alpha = 0.0
         }, completion: {(isCompleted) in
-            toastLabel.removeFromSuperview()
+            self.toastLabel.removeFromSuperview()
         })
     }
     
@@ -868,6 +870,22 @@ extension JoinChallengeViewController {
             self.updatePeriodLabel(weekCountText: period ?? "", sessionCountText: response.data.totalGoalDay, startDateText: startDate!)
             self.bookMarkButton.isSelected = response.data.like // 북마크 했는지 여부
             self.bookMarkLabel.text = String(response.data.likes) // 북마크 수
+            
+            self.toastLabel.text = "📆 챌린지가 \(response.data.dday)일 뒤 시작됩니다!"
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            if let date = dateFormatter.date(from: response.data.startDate) {
+                // 서버에서 넘겨준 startDate를 오늘 날짜와 비교
+                let today = Date()
+                let result = date.compare(today)
+                if result == .orderedAscending {
+                    self.notStartedLabel.text = "아직 챌린지가 시작되지 않았어요👀"
+                } else {
+                    self.notStartedLabel.text = "아직 인증 갤러리 피드가 없어요👀"
+                }
+            }
         }
     }
     

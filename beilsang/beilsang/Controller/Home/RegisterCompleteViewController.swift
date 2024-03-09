@@ -96,7 +96,7 @@ class RegisterCompleteViewController: UIViewController {
     // 홈으로 버튼이 눌렸을 때 - 홈(HomeMainVC)으로 이동
     @objc func toHomeButtonClicked() {
         print("홈으로")
-        let homeVC = HomeMainViewController()
+        let homeVC = TabBarViewController()
         navigationController?.pushViewController(homeVC, animated: true)
     }
 }

@@ -18,7 +18,6 @@ struct APIConstants {
     // 애플 로그인
     static let loginAppleURL = baseURL + "/auth/apple/login"
      
-    
     //토큰 재발급
     static let refreshTokenURL = baseURL + "/auth/token/refresh"
     
