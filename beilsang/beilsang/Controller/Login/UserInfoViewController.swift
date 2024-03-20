@@ -23,7 +23,7 @@ class UserInfoViewController: UIViewController {
     var isFirstInput = true
     var textFieldValid = true
     var nameDuplicate = true
-    var isNext = [false, false, false, false]
+    var isNext = [false, false]
     
     let agreeImage = UIImage(named: "agree")
     let disagreeImage = UIImage(named: "disagree")
@@ -150,8 +150,6 @@ class UserInfoViewController: UIViewController {
         return view
     }()
     
-    let birthCircle = CircleView()
-    
     lazy var birthField: UITextField = {
         let view = UITextField()
         view.layer.cornerRadius = 8
@@ -189,8 +187,6 @@ class UserInfoViewController: UIViewController {
         
         return view
     }()
-    
-    let genderCircle = CircleView()
     
     lazy var genderField: UITextField = {
         let view = UITextField()
@@ -564,11 +560,9 @@ class UserInfoViewController: UIViewController {
         verticalContentView.addSubview(nameDuplicateButton)
         
         verticalContentView.addSubview(birthLabel)
-        verticalContentView.addSubview(birthCircle)
         verticalContentView.addSubview(birthField)
         
         verticalContentView.addSubview(genderLabel)
-        verticalContentView.addSubview(genderCircle)
         verticalContentView.addSubview(genderField)
         
         verticalContentView.addSubview(addressLabel)
@@ -682,12 +676,6 @@ class UserInfoViewController: UIViewController {
             make.leading.equalToSuperview().offset(16)
         }
         
-        birthCircle.snp.makeConstraints{ make in
-            make.top.equalTo(birthLabel)
-            make.leading.equalTo(birthLabel.snp.trailing).offset(2)
-            make.width.height.equalTo(4)
-        }
-        
         birthField.snp.makeConstraints{ make in
             make.top.equalTo(birthLabel.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
@@ -698,12 +686,6 @@ class UserInfoViewController: UIViewController {
         genderLabel.snp.makeConstraints{ make in
             make.top.equalTo(birthField.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(16)
-        }
-        
-        genderCircle.snp.makeConstraints{ make in
-            make.top.equalTo(genderLabel)
-            make.leading.equalTo(genderLabel.snp.trailing).offset(2)
-            make.width.height.equalTo(4)
         }
         
         genderField.snp.makeConstraints{ make in
@@ -1062,12 +1044,12 @@ class UserInfoViewController: UIViewController {
         if isAgree.allSatisfy({ $0 }) {
             agreeAllButton.isSelected = true
             agreeAllButton.setImage(agreeImage, for: .normal)
-            isNext[3] = true
+            isNext[1] = true
             updateNextButtonState()
         } else {
             agreeAllButton.isSelected = false
             agreeAllButton.setImage(disagreeImage, for: .normal)
-            isNext[3] = false
+            isNext[1] = false
             updateNextButtonState()
         }
     }
@@ -1181,7 +1163,7 @@ class UserInfoViewController: UIViewController {
             privacyAgreeButton.isSelected = true
             privacyAgreeButton.setImage(agreeImage, for: .normal)
             
-            isNext[3] = true
+            isNext[1] = true
             
         } else {
             agreeAllButton.setImage(disagreeImage, for: .normal)
@@ -1190,7 +1172,7 @@ class UserInfoViewController: UIViewController {
             privacyAgreeButton.setImage(disagreeImage, for: .normal)
             privacyAgreeButton.isSelected = false
             
-            isNext[3] = false
+            isNext[1] = false
         }
         
         updateNextButtonState()
@@ -1322,28 +1304,12 @@ extension UserInfoViewController: UITextFieldDelegate {
         
         else if textField == birthField {
             textFieldChanged(textField: birthField, state: "basic")
-            
-            if let birthDate = birthField.text, !birthDate.isEmpty {
-                isNext[1] = true
-            }
-            
-            updateNextButtonState()
-            
         }
         else if textField == genderField {
             textFieldChanged(textField: genderField, state: "basic")
-            if let gender = genderField.text, !gender.isEmpty {
-                isNext[2] = true
-            }
-            
-            updateNextButtonState()
-            
-
         }
         else if textField == addressDetailField {
             textFieldChanged(textField: addressDetailField, state: "basic")
-            
-
         }
     }
     

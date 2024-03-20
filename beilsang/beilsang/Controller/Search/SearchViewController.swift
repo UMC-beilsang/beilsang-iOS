@@ -116,7 +116,6 @@ class SearchViewController: UIViewController {
                 return
             }
         }
-        
 
         // SearchResultViewController가 없으면 이전 뷰 컨트롤러로 돌아감
         navigationController?.popViewController(animated: true)

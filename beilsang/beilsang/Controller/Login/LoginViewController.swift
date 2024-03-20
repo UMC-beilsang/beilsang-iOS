@@ -245,7 +245,6 @@ extension LoginViewController {
                             } else {
                                 self.presentTo(name: "keyword")
                             }
-                            
                         }
                     }
                 }
@@ -286,9 +285,13 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
             print("fullName: \(fullName?.description ?? "")")
             print("email: \(email?.description ?? "")")
             
-            self.presentTo(name: "keyword")
-            
-            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // 1초 딜레이
+                if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
+                    self.presentTo(name: "main")
+                } else {
+                    self.presentTo(name: "keyword")
+                }
+            }
             
         default:
             break

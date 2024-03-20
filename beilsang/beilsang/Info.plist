@@ -53,5 +53,9 @@
 		<string>bluetooth-central</string>
 		<string>remote-notification</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라 접근 권한</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>앨범 접근 권한</string>
 </dict>
 </plist>
