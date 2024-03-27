@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import NMapsMap
 
 class LearnMoreViewController: UIViewController, UIScrollViewDelegate {
     let fullScrollView = UIScrollView()

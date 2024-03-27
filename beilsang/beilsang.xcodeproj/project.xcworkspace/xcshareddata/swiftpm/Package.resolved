@@ -1,5 +1,5 @@
 {
-  "originHash" : "04ce33d9b31b8645e2dc925518d1ef17d838bcf003b3af3b9c922a4eaf0ddf44",
+  "originHash" : "c91d2397affb46ebb408c5a94a7d3cf80a774501178a52003b59136407b482c0",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -26,15 +26,6 @@
       "state" : {
         "revision" : "5b92f029fab2cce44386d28588098b5be0824ef5",
         "version" : "7.11.0"
-      }
-    },
-    {
-      "identity" : "nmapsmap-swiftpm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/stleamist/NMapsMap-SwiftPM",
-      "state" : {
-        "branch" : "main",
-        "revision" : "a4cb12773bb559ed880bc7ce0c13067ee06269fa"
       }
     },
     {

@@ -57,7 +57,6 @@
 		2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */; };
 		2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */; };
 		2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */; };
-		2FD6FA862BAD2B8A0010E778 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD6FA852BAD2B8A0010E778 /* NMapsMap */; };
 		2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C252B5EC56C0022C4F3 /* SnapKit */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
 		2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */; };
@@ -305,7 +304,6 @@
 				895A22D12B750BB900A5230D /* SwiftyJSON in Frameworks */,
 				8948F86A2B69D99500393D35 /* SCLAlertView in Frameworks */,
 				2F8C57C32B78D162002B4862 /* Tabman in Frameworks */,
-				2FD6FA862BAD2B8A0010E778 /* NMapsMap in Frameworks */,
 				2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */,
 				895AE87A2B7B15A6008F9125 /* Kingfisher in Frameworks */,
 				2FF55CB22B684E42004EDB39 /* WebKit.framework in Frameworks */,
@@ -791,7 +789,6 @@
 				895A22D02B750BB900A5230D /* SwiftyJSON */,
 				895AE8792B7B15A6008F9125 /* Kingfisher */,
 				2F8C57C22B78D162002B4862 /* Tabman */,
-				2FD6FA852BAD2B8A0010E778 /* NMapsMap */,
 			);
 			productName = beilsang;
 			productReference = 2F08387C2B564085002E2551 /* beilsang.app */;
@@ -873,7 +870,6 @@
 				895A22CF2B750BB900A5230D /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				895AE8782B7B15A6008F9125 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				2F8C57C12B78D162002B4862 /* XCRemoteSwiftPackageReference "Tabman" */,
-				2FD6FA842BAD2B8A0010E778 /* XCRemoteSwiftPackageReference "NMapsMap-SwiftPM" */,
 			);
 			productRefGroup = 2F08387D2B564085002E2551 /* Products */;
 			projectDirPath = "";
@@ -1398,14 +1394,6 @@
 				minimumVersion = 3.0.2;
 			};
 		};
-		2FD6FA842BAD2B8A0010E778 /* XCRemoteSwiftPackageReference "NMapsMap-SwiftPM" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stleamist/NMapsMap-SwiftPM";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		2FE57C242B5EC56C0022C4F3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -1461,11 +1449,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2F8C57C12B78D162002B4862 /* XCRemoteSwiftPackageReference "Tabman" */;
 			productName = Tabman;
-		};
-		2FD6FA852BAD2B8A0010E778 /* NMapsMap */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2FD6FA842BAD2B8A0010E778 /* XCRemoteSwiftPackageReference "NMapsMap-SwiftPM" */;
-			productName = NMapsMap;
 		};
 		2FE57C252B5EC56C0022C4F3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
