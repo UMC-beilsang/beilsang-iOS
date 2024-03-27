@@ -99,18 +99,6 @@ class HomeMainViewController: UIViewController, UIScrollViewDelegate {
         setCollectionView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("리로드됨")
-        loadView()
-        setupAttribute()
-        setNavigationBar()
-        setChallengeStatus()
-        setCollectionView()
-        view.backgroundColor = .white
-    }
-    
 }
 
 // MARK: - Layout

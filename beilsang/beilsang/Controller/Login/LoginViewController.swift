@@ -285,7 +285,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
             print("fullName: \(fullName?.description ?? "")")
             print("email: \(email?.description ?? "")")
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // 1초 딜레이
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // 1초 딜레이
                 if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
                     self.presentTo(name: "main")
                 } else {
@@ -368,26 +368,26 @@ extension LoginViewController {
     func presentTo(name : String) {
         if name == "keyword" {
             let joinVC = KeywordViewController()
-            let navigationController = UINavigationController(rootViewController: joinVC)
+            // 네비게이션 컨트롤러 대신 직접 뷰 컨트롤러를 설정
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 UIView.transition(with: sceneDelegate.window!,
                                   duration: 1.5,
                                   options: .transitionCrossDissolve,
                                   animations: {
-                    sceneDelegate.window?.rootViewController = navigationController
+                    sceneDelegate.window?.rootViewController = joinVC
                 },
                                   completion: nil)
             }
         }
         else if name == "main" {
-            let joinVC = TabBarViewController()
-            let navigationController = UINavigationController(rootViewController: joinVC)
+            let mainVC = TabBarViewController()
+            // 네비게이션 컨트롤러 대신 직접 뷰 컨트롤러를 설정
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 UIView.transition(with: sceneDelegate.window!,
                                   duration: 1.5,
                                   options: .transitionCrossDissolve,
                                   animations: {
-                    sceneDelegate.window?.rootViewController = navigationController
+                    sceneDelegate.window?.rootViewController = mainVC
                 },
                                   completion: nil)
             }

@@ -76,6 +76,14 @@ class MainAfterViewController: UIViewController {
         setCollectionView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("MainAfterVC Reloaded")
+        
+        self.challengeParticipatingCollectionView.reloadData()
+        self.challengeRecommendCollectionView.reloadData()
+    }
+    
     // MARK: - actions
     // 챌린지 리스트 화면 - 전체
     @objc func viewAllButtonClicked() {
