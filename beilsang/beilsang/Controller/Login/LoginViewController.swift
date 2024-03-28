@@ -193,7 +193,7 @@ extension LoginViewController {
                         self.kakaoEmail = email
                         //서버에 보내주기
 
-                        self.kakaologinToServer(with: token)
+                        self.kakaologinToServer(with: token, deviceToken: UserDefaultsKey.deviceToken)
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // 1초 딜레이
                             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
@@ -223,21 +223,14 @@ extension LoginViewController {
                     } else {
                         print("loginWithKakaoWeb() success.")
                         
-                        guard let token = oauthToken?.accessToken,
-                              let name = user?.kakaoAccount?.profile?.nickname,
-                              let email = user?.kakaoAccount?.email
+                        guard let token = oauthToken?.accessToken
                         else{
                             print("token/email/name is nil")
                             return
                         }
                         
                         self.kakaoAccessToken = token
-                        self.kakaoName = name
-                        self.kakaoEmail = email
-                        
-                        print(token)
-                        
-                        self.kakaologinToServer(with: token)
+                        self.kakaologinToServer(with: token, deviceToken: UserDefaultsKey.deviceToken)
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // 1초 딜레이
                             if UserDefaults.standard.bool(forKey: UserDefaultsKey.existMember) {
@@ -278,7 +271,7 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
                 print("accessToken: \(accessToken)")
                 print("identityToken: \(identityToken)")
                 
-                self.appleloginToServer(with: identityToken)
+                self.appleloginToServer(with: identityToken, deviceToken: UserDefaultsKey.deviceToken)
             }
             
             print("useridentifier: \(userIdentifier)")
@@ -308,9 +301,9 @@ extension LoginViewController : ASAuthorizationControllerDelegate, ASAuthorizati
 //MARK: - others
 extension LoginViewController {
     // 카카오
-    private func kakaologinToServer(with kakaoAccessToken: String?) {
+    private func kakaologinToServer(with kakaoAccessToken: String?, deviceToken : String?) {
         // LoginService를 사용하여 서버에 Post
-        LoginService.shared.kakaoLogin(accesstoken: kakaoAccessToken ?? "") { result in
+        LoginService.shared.kakaoLogin(accesstoken: kakaoAccessToken ?? "", deviceToken: deviceToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리
@@ -337,8 +330,8 @@ extension LoginViewController {
         }
     }
     
-    private func appleloginToServer(with appleIdToken: String?) {
-        LoginService.shared.appleLogin(idToken: appleIdToken ?? "") { result in
+    private func appleloginToServer(with appleIdToken: String?, deviceToken : String?) {
+        LoginService.shared.appleLogin(idToken: appleIdToken ?? "", deviceToken: deviceToken ?? "") { result in
             switch result {
             case .success(let data):
                 // 서버에서 받은 데이터 처리

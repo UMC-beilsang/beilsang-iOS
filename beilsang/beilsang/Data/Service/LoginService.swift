@@ -14,15 +14,13 @@ class LoginService {
     
     private init() {}
     
-    func kakaoLogin(accesstoken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
+    func kakaoLogin(accesstoken: String, deviceToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.loginKakaoURL
         let headers: HTTPHeaders = [
             "Content-Type": "application/json",
             "accept": "*/*"
         ]
-        let body: Parameters = ["accesstoken": accesstoken]
-        
-        print("access Token : \(accesstoken)")
+        let body: Parameters = ["accesstoken": accesstoken, "deviceToken" : deviceToken]
         
         let dataRequest = AF.request(url,
                                      method: .post,
@@ -47,13 +45,13 @@ class LoginService {
         }
     }
     
-    func appleLogin(idToken: String, completion: @escaping (NetworkResult<Any>) -> Void) {
+    func appleLogin(idToken: String, deviceToken : String, completion: @escaping (NetworkResult<Any>) -> Void) {
         let url = APIConstants.loginAppleURL
         let headers: HTTPHeaders = [
             "Content-Type": "application/json",
             "accept": "*/*"
         ]
-        let body: Parameters = ["idToken": idToken]
+        let body: Parameters = ["idToken": idToken, "devicetToken": deviceToken]
         
         let dataRequest = AF.request(url,
                                      method: .post,

@@ -17,4 +17,5 @@ struct UserDefaultsKey {
     static let updatedAt = "updatedAt"
     static let existMember = "existMember" 
     static let recentSearchTerms = "recentSearchTerms"
+    static let deviceToken = "deviceToken"
 }

@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 디바이스 토큰 발급 성공 시 처리
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("디바이스 토큰: \(token)")
-        // 디바이스 토큰을 서버에 전송하거나 앱 내부에 저장하는 등의 작업을 수행합니다.
+        UserDefaults.standard.set(token, forKey: "deviceToken")
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
