@@ -66,6 +66,18 @@ class SearchViewController: UIViewController {
         setNavigationBar()
     }
     
+    // MARK: - Actions
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func allClear() {
+        UserDefaults.standard.set([], forKey: Const.UserDefaultsKey.recentSearchTerms)
+        dataList.removeAll()
+        recentTermCollectionView.reloadData()
+    }
+    
     // MARK: - UI Setup
     
     private func setupUI() {
@@ -95,19 +107,6 @@ class SearchViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
-    
-    // MARK: - Actions
-    
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func allClear() {
-        UserDefaults.standard.set([], forKey: Const.UserDefaultsKey.recentSearchTerms)
-        dataList.removeAll()
-        recentTermCollectionView.reloadData()
-    }
-    
 }
 
 // MARK: - setNavigationBar, search Bar

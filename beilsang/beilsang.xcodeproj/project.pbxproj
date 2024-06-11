@@ -49,6 +49,7 @@
 		2F8C57BD2B780C61002B4862 /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C57BC2B780C61002B4862 /* SignUpModel.swift */; };
 		2F8C57C32B78D162002B4862 /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 2F8C57C22B78D162002B4862 /* Tabman */; };
 		2F8F28AC2C11FC8A009AE563 /* MainChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8F28AB2C11FC8A009AE563 /* MainChallengeViewController.swift */; };
+		2F922D012C16ECBF007D3684 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F922D002C16ECBF007D3684 /* FindViewController.swift */; };
 		2F9D0EC82C0DCE8900C9C859 /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9D0EC72C0DCE8900C9C859 /* KeyChain.swift */; };
 		2F9D0ECC2C0DD21300C9C859 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9D0ECB2C0DD21300C9C859 /* Const.swift */; };
 		2FAB99F32B72C8EF00853BF7 /* GalleryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */; };
@@ -65,6 +66,7 @@
 		2FC53B122B5BBCBA007FD879 /* JoinKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */; };
 		2FC53B162B5BBCF7007FD879 /* KeywordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */; };
 		2FC53B182B5BBD14007FD879 /* JoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */; };
+		2FD4BEBE2C170FD4008836E5 /* FeedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4BEBD2C170FD4008836E5 /* FeedDetailView.swift */; };
 		2FE57C262B5EC56C0022C4F3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C252B5EC56C0022C4F3 /* SnapKit */; };
 		2FE57C2B2B5EC5890022C4F3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE57C2A2B5EC5890022C4F3 /* Alamofire */; };
 		2FE57C2D2B5F8F190022C4F3 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */; };
@@ -88,7 +90,7 @@
 		895ACC3C2B7FC67400A0578C /* LearnMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895ACC3B2B7FC67400A0578C /* LearnMoreViewController.swift */; };
 		895AE87A2B7B15A6008F9125 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 895AE8792B7B15A6008F9125 /* Kingfisher */; };
 		895BA6182B6B341300FB514F /* MyChallengeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */; };
-		895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D88792B6D45B8003E5688 /* FindViewController.swift */; };
+		895D887A2B6D45B8003E5688 /* FindOldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895D88792B6D45B8003E5688 /* FindOldViewController.swift */; };
 		89608DBC2B7A36A200B93421 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89608DBB2B7A36A200B93421 /* FeedModel.swift */; };
 		89608DBE2B7A440200B93421 /* GetDuplicateCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89608DBD2B7A440200B93421 /* GetDuplicateCheck.swift */; };
 		89608DC02B7A475B00B93421 /* GetMyPageFeedDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89608DBF2B7A475B00B93421 /* GetMyPageFeedDetail.swift */; };
@@ -207,6 +209,7 @@
 		2F8C57BA2B780C29002B4862 /* SignUpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpService.swift; sourceTree = "<group>"; };
 		2F8C57BC2B780C61002B4862 /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
 		2F8F28AB2C11FC8A009AE563 /* MainChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainChallengeViewController.swift; sourceTree = "<group>"; };
+		2F922D002C16ECBF007D3684 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
 		2F9D0EC72C0DCE8900C9C859 /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
 		2F9D0ECB2C0DD21300C9C859 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		2FAB99F22B72C8EF00853BF7 /* GalleryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryData.swift; sourceTree = "<group>"; };
@@ -223,6 +226,7 @@
 		2FC53B112B5BBCBA007FD879 /* JoinKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinKeyword.swift; sourceTree = "<group>"; };
 		2FC53B152B5BBCF7007FD879 /* KeywordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordViewController.swift; sourceTree = "<group>"; };
 		2FC53B172B5BBD14007FD879 /* JoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinCollectionViewCell.swift; sourceTree = "<group>"; };
+		2FD4BEBD2C170FD4008836E5 /* FeedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailView.swift; sourceTree = "<group>"; };
 		2FE57C2C2B5F8F190022C4F3 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2FF55CA32B684C92004EDB39 /* PlaceHolder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceHolder+.swift"; sourceTree = "<group>"; };
 		2FF55CA72B684CAF004EDB39 /* InfoCircle+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InfoCircle+.swift"; sourceTree = "<group>"; };
@@ -243,7 +247,7 @@
 		895A22D52B751A6700A5230D /* GetMyPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPage.swift; sourceTree = "<group>"; };
 		895ACC3B2B7FC67400A0578C /* LearnMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreViewController.swift; sourceTree = "<group>"; };
 		895BA6172B6B341300FB514F /* MyChallengeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeFeedViewController.swift; sourceTree = "<group>"; };
-		895D88792B6D45B8003E5688 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
+		895D88792B6D45B8003E5688 /* FindOldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindOldViewController.swift; sourceTree = "<group>"; };
 		89608DBB2B7A36A200B93421 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		89608DBD2B7A440200B93421 /* GetDuplicateCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDuplicateCheck.swift; sourceTree = "<group>"; };
 		89608DBF2B7A475B00B93421 /* GetMyPageFeedDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyPageFeedDetail.swift; sourceTree = "<group>"; };
@@ -598,6 +602,7 @@
 				896DC0F82B66A072002767B3 /* MedalCollectionViewCell.swift */,
 				8963CD192B6BA0CC0072440E /* PointCollectionViewCell.swift */,
 				89791E012B6C9A7700B1DF75 /* FeedDetailCollectionViewCell.swift */,
+				2FD4BEBD2C170FD4008836E5 /* FeedDetailView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -659,7 +664,8 @@
 		895D88782B6D45B1003E5688 /* Find */ = {
 			isa = PBXGroup;
 			children = (
-				895D88792B6D45B8003E5688 /* FindViewController.swift */,
+				895D88792B6D45B8003E5688 /* FindOldViewController.swift */,
+				2F922D002C16ECBF007D3684 /* FindViewController.swift */,
 			);
 			path = Find;
 			sourceTree = "<group>";
@@ -944,7 +950,7 @@
 				AFDE65ED2B728FAF0041D2D0 /* RegisterCertifyModalViewController.swift in Sources */,
 				AF7E94742B7A906500338DA3 /* MainAfterCollectionViewCell.swift in Sources */,
 				893DF7D82B7B979700B09573 /* URLSetting.swift in Sources */,
-				895D887A2B6D45B8003E5688 /* FindViewController.swift in Sources */,
+				895D887A2B6D45B8003E5688 /* FindOldViewController.swift in Sources */,
 				AF4403342B63DF73006B68FE /* CategoryCollectionViewCell.swift in Sources */,
 				8957B14C2B7B75FB00F99928 /* FindService.swift in Sources */,
 				AF44034E2B6D3A76006B68FE /* RegisterModalViewController.swift in Sources */,
@@ -964,6 +970,7 @@
 				AF64A4412B8136DC0055D5B9 /* ChallengeStatusCategoryModel.swift in Sources */,
 				AF64A4372B7E83910055D5B9 /* ChallengeCertifyModel.swift in Sources */,
 				AF4403302B63DDE0006B68FE /* CategoryKeyword.swift in Sources */,
+				2F922D012C16ECBF007D3684 /* FindViewController.swift in Sources */,
 				8963CD182B6B918B0072440E /* PointViewController.swift in Sources */,
 				8963CD162B6B7CDA0072440E /* LikeViewController.swift in Sources */,
 				2F9D0EC82C0DCE8900C9C859 /* KeyChain.swift in Sources */,
@@ -993,6 +1000,7 @@
 				89CC16E62B80A3F300C73B97 /* LearnMoreEventCollectionViewCell.swift in Sources */,
 				894A11492B60A68C002A9A32 /* MyPageViewController.swift in Sources */,
 				89854F882B7351E100CB6E4E /* NotificationViewController.swift in Sources */,
+				2FD4BEBE2C170FD4008836E5 /* FeedDetailView.swift in Sources */,
 				AF64A4212B7BCC680055D5B9 /* ChallengeRecommendModel.swift in Sources */,
 				2F8C57AC2B7696C5002B4862 /* LoginService.swift in Sources */,
 				894A113F2B609AF5002A9A32 /* MyChallengeFeedCollectionViewCell.swift in Sources */,
